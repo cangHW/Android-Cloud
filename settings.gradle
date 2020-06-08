@@ -1,0 +1,13 @@
+include ':app'
+include ':Service-NetWork:Service-NetWork-Base'
+include ':Service-NetWork:Service-NetWork-OkHttp'
+include ':Service-Utils:Service-Utils-Base'
+include ':Service-Utils:Service-Utils-Info'
+include ':Cloud-Base'
+include ':Cloud-Api'
+include ':Cloud-Annotations'
+include ':Cloud-Compiler'
+rootProject.name = 'Android Cloud'
+
+
+
