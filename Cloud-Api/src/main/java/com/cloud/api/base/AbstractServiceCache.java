@@ -1,6 +1,6 @@
-package com.cloud.base.base;
+package com.cloud.api.base;
 
-import com.cloud.base.node.ServiceNode;
+import com.cloud.api.node.ServiceNode;
 
 import java.util.List;
 

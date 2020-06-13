@@ -9,7 +9,7 @@ import com.cloud.api.context.ContextManager;
 import com.cloud.api.service.ServiceManager;
 import com.cloud.api.service.cache.ConverterCache;
 import com.cloud.api.service.cache.ServiceCache;
-import com.cloud.base.base.BaseService;
+import com.cloud.api.base.BaseService;
 import com.cloud.api.service.listener.Converter;
 import com.cloud.api.service.node.Node;
 

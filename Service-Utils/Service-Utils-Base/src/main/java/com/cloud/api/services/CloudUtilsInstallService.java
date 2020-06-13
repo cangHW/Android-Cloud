@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
 
-import com.cloud.base.base.BaseService;
+import com.cloud.api.base.BaseService;
 
 import java.util.List;
 

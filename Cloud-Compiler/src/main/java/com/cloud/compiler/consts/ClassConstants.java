@@ -1,16 +1,15 @@
-package com.cloud.base.consts;
-
-import com.cloud.base.base.AbstractServiceCache;
-import com.cloud.base.base.BaseService;
-import com.cloud.base.node.ServiceNode;
+package com.cloud.compiler.consts;
 
 /**
  * @author: cangHX
- * on 2020/06/04  18:36
- * <p>
- * 辅助类信息
+ * on 2020/06/13  19:13
  */
 public class ClassConstants {
+
+    /**
+     * 用于生成辅助文件，进行自动注册
+     */
+    public static final String CLOUD_MODULE_NAME = "CLOUD_MODULE_NAME";
 
     /**
      * 编译器生成的辅助文件所在包的路径
@@ -24,7 +23,7 @@ public class ClassConstants {
     /**
      * 编译器生成的辅助文件父类路径
      */
-    public static final String SUPPER_CLASS_PATH = AbstractServiceCache.class.getCanonicalName();
+    public static final String SUPPER_CLASS_PATH = "com.cloud.api.base.AbstractServiceCache";
 
     /**
      * 编译器生成的辅助文件所需实现方法
@@ -34,5 +33,6 @@ public class ClassConstants {
     /**
      * 编译器生成的辅助文件所需参数路径
      */
-    public static final String PARAM_SERVICE_NODE_CLASS_PATH = ServiceNode.class.getCanonicalName();
+    public static final String PARAM_SERVICE_NODE_CLASS_PATH = "com.cloud.api.node.ServiceNode";
+
 }

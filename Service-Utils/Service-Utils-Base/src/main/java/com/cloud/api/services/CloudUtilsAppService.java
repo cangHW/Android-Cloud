@@ -1,6 +1,6 @@
 package com.cloud.api.services;
 
-import com.cloud.base.base.BaseService;
+import com.cloud.api.base.BaseService;
 
 /**
  * @author: cangHX

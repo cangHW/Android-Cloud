@@ -6,3 +6,27 @@ dependencies {
 
 sourceCompatibility = "7"
 targetCompatibility = "7"
+
+ext {
+    bintrayName = 'Cloud-Annotations'
+    artifact = bintrayName
+    libraryName = 'Android cloud sdk'
+    libraryDescription = 'The perfect framework for Android'
+    libraryVersion = cloud_annotations_version
+}
+
+apply from: '../install.gradle'
+apply from: '../bintray.gradle'
+
+
+
+Task bintrayUpload =tasks.getByName("bintrayUpload")
+Task clean =tasks.getByName("clean")
+Task upload =tasks.create("upload")
+upload.setGroup("upload")
+upload.doLast {
+    println("上传成功")
+}
+
+bintrayUpload.dependsOn(clean)
+upload.dependsOn(bintrayUpload)

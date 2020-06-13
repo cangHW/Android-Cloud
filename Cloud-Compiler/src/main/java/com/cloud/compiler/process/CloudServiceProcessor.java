@@ -1,7 +1,7 @@
 package com.cloud.compiler.process;
 
 import com.cloud.annotations.CloudService;
-import com.cloud.base.consts.ParamsConstants;
+import com.cloud.compiler.consts.ClassConstants;
 import com.cloud.compiler.handler.CloudServiceHandlerImpl;
 import com.cloud.compiler.handler.AbstractHandler;
 
@@ -36,7 +36,7 @@ public class CloudServiceProcessor extends AbstractProcessor {
         mMessager = processingEnvironment.getMessager();
         Map<String, String> options = processingEnvironment.getOptions();
         if (options != null) {
-            mModuleName = options.getOrDefault(ParamsConstants.CLOUD_MODULE_NAME, DEFAULT_NAME);
+            mModuleName = options.getOrDefault(ClassConstants.CLOUD_MODULE_NAME, DEFAULT_NAME);
         }
         if (DEFAULT_NAME.equals(mModuleName)) {
             mMessager.printMessage(Diagnostic.Kind.ERROR, "Did you set the \"CLOUD_MODULE_NAME\" on gradle?");
@@ -56,7 +56,7 @@ public class CloudServiceProcessor extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedOptions() {
-        return Collections.singleton(ParamsConstants.CLOUD_MODULE_NAME);
+        return Collections.singleton(ClassConstants.CLOUD_MODULE_NAME);
     }
 
     @Override

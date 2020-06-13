@@ -2,8 +2,7 @@ package com.cloud.compiler.handler;
 
 import com.cloud.annotations.CloudNewInstance;
 import com.cloud.annotations.CloudService;
-import com.cloud.base.consts.ClassConstants;
-import com.cloud.base.node.BaseNode;
+import com.cloud.compiler.consts.ClassConstants;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -25,7 +24,15 @@ import javax.tools.Diagnostic;
  */
 public class CloudServiceHandlerImpl extends AbstractHandler {
 
-    private static class Node extends BaseNode {
+    private static class Node {
+        /**
+         * 服务的tag
+         */
+        public String serviceTag;
+        /**
+         * 是否每次使用时都新创建一个对象
+         */
+        public boolean isNewInstance;
         /**
          * 服务类地址
          */

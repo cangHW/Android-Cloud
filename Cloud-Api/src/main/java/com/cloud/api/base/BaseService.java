@@ -1,4 +1,4 @@
-package com.cloud.base.base;
+package com.cloud.api.base;
 
 /**
  * @author: cangHX

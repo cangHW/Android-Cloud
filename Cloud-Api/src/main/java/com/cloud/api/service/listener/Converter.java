@@ -2,7 +2,7 @@ package com.cloud.api.service.listener;
 
 import androidx.annotation.NonNull;
 
-import com.cloud.base.base.BaseService;
+import com.cloud.api.base.BaseService;
 
 /**
  * @author: cangHX

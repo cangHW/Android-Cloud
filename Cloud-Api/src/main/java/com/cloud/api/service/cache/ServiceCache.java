@@ -5,8 +5,8 @@ import androidx.annotation.NonNull;
 import com.cloud.annotations.CloudNewInstance;
 import com.cloud.annotations.CloudService;
 import com.cloud.api.utils.Logger;
-import com.cloud.base.base.BaseService;
-import com.cloud.base.node.ServiceNode;
+import com.cloud.api.base.BaseService;
+import com.cloud.api.node.ServiceNode;
 
 import java.util.ArrayList;
 import java.util.List;
