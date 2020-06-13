@@ -1,10 +1,10 @@
-package com.cloud.api.manager.cache;
+package com.cloud.api.service.cache;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.cloud.api.manager.listener.Converter;
-import com.cloud.api.manager.node.ListNode;
+import com.cloud.api.service.listener.Converter;
+import com.cloud.api.service.node.ListNode;
 import com.cloud.base.base.BaseService;
 
 import java.util.HashSet;
@@ -91,7 +91,7 @@ public class ConverterCache {
      * @date: 2020-06-08 18:01
      */
     @NonNull
-    public synchronized static HashSet<Class> keySet() {
+    public static HashSet<Class> keySet() {
         return new HashSet<>(CONVERTERS_MAPPER.keySet());
     }
 

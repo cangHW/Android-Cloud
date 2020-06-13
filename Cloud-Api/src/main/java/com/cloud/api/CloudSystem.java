@@ -1,15 +1,17 @@
-package com.cloud.api.manager;
+package com.cloud.api;
 
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.cloud.api.manager.cache.ConverterCache;
-import com.cloud.api.manager.cache.ServiceCache;
+import com.cloud.api.context.ContextManager;
+import com.cloud.api.service.ServiceManager;
+import com.cloud.api.service.cache.ConverterCache;
+import com.cloud.api.service.cache.ServiceCache;
 import com.cloud.base.base.BaseService;
-import com.cloud.api.manager.listener.Converter;
-import com.cloud.api.manager.node.Node;
+import com.cloud.api.service.listener.Converter;
+import com.cloud.api.service.node.Node;
 
 import java.util.List;
 
@@ -19,7 +21,21 @@ import java.util.List;
  * <p>
  * 微服务，对外管理类
  */
-public class CloudSystem {
+public final class CloudSystem {
+
+    private volatile static boolean isInit = false;
+
+    /**
+     * 判断是否初始化
+     *
+     * @return true 已经初始化，false 未初始化
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-11 12:00
+     */
+    public synchronized static boolean isInit() {
+        return isInit;
+    }
 
     /**
      * 初始化
@@ -28,8 +44,13 @@ public class CloudSystem {
      * @author: cangHX
      * @date: 2019/10/31 15:53
      */
-    public static void init(Context context) {
+    public synchronized static void init(@NonNull Context context) {
+        if (isInit) {
+            return;
+        }
+        isInit = true;
         ServiceManager.INSTANCE.registerAllServices(context);
+        ContextManager.init(context);
     }
 
     /**
@@ -199,7 +220,7 @@ public class CloudSystem {
      * @date: 2020/03/04 15:40
      */
     public static <T extends BaseService> void addConverter(@NonNull String uuid, @NonNull Class<T> tClass, @NonNull Converter<T> converter) {
-        ConverterCache.add(uuid,tClass,converter);
+        ConverterCache.add(uuid, tClass, converter);
     }
 
     /**

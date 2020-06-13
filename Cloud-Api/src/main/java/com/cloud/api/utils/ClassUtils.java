@@ -6,10 +6,8 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.util.Log;
 
 import com.cloud.api.BuildConfig;
-import com.cloud.api.thread.ThreadManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,9 +57,10 @@ public class ClassUtils {
         final CountDownLatch parserCtl = new CountDownLatch(paths.size());
 
         for (final String path : paths) {
-            ThreadManager.getInstance().runTask(new Runnable() {
+            new Thread() {
                 @Override
                 public void run() {
+                    super.run();
                     DexFile dexfile = null;
 
                     try {
@@ -80,7 +79,7 @@ public class ClassUtils {
                             }
                         }
                     } catch (Throwable ignore) {
-                        Log.e("ARouter", "Scan map file in dex files made error.", ignore);
+                        mLogger.error("Scan map file in dex files made error." + ignore);
                     } finally {
                         if (null != dexfile) {
                             try {
@@ -92,7 +91,7 @@ public class ClassUtils {
                         parserCtl.countDown();
                     }
                 }
-            });
+            }.start();
         }
 
         parserCtl.await();

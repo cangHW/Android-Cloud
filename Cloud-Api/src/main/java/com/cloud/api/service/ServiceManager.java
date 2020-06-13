@@ -1,18 +1,20 @@
-package com.cloud.api.manager;
+package com.cloud.api.service;
 
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.cloud.api.manager.cache.ConverterCache;
-import com.cloud.api.manager.cache.ServiceCache;
+import com.cloud.api.CloudSystem;
+import com.cloud.api.error.CloudApiError;
+import com.cloud.api.service.cache.ConverterCache;
+import com.cloud.api.service.cache.ServiceCache;
+import com.cloud.api.utils.Logger;
 import com.cloud.base.base.AbstractServiceCache;
 import com.cloud.base.base.BaseService;
-import com.cloud.api.manager.listener.Converter;
-import com.cloud.api.manager.node.ListNode;
-import com.cloud.api.manager.node.Node;
+import com.cloud.api.service.listener.Converter;
+import com.cloud.api.service.node.ListNode;
+import com.cloud.api.service.node.Node;
 import com.cloud.api.utils.ClassUtils;
-import com.cloud.api.utils.Logger;
 import com.cloud.base.consts.ClassConstants;
 import com.cloud.base.node.ServiceNode;
 
@@ -25,9 +27,11 @@ import java.util.Set;
 /**
  * @author: cangHX
  * on 2020/06/04  16:14
+ * <p>
+ * service管理类
  */
 @SuppressWarnings("unchecked")
-enum ServiceManager {
+public enum ServiceManager {
     /**
      * 单例对象
      */
@@ -43,11 +47,6 @@ enum ServiceManager {
     public static final String TYPE_ONLY = "only";
 
     /**
-     * 是否已经进行初始化
-     */
-    private volatile boolean isInit = false;
-
-    /**
      * 注册所有的服务
      *
      * @version: 1.0
@@ -55,10 +54,6 @@ enum ServiceManager {
      * @date: 2019/10/31 17:25
      */
     public synchronized void registerAllServices(Context context) {
-        if (isInit) {
-            return;
-        }
-        isInit = true;
         findAllServices(context);
     }
 
@@ -75,8 +70,8 @@ enum ServiceManager {
      */
     @NonNull
     public synchronized <T extends BaseService> List<T> getService(@NonNull String uuid, @NonNull String tag, @NonNull String type) {
-        if (!isInit) {
-            Logger.Error(" Do you init CloudSystem?");
+        if (!CloudSystem.isInit()) {
+            Logger.Error(CloudApiError.NO_INIT.build());
             return Collections.emptyList();
         }
         //安全性处理，防止在使用的过程中，mServices 的长度被恶意修改
@@ -107,8 +102,8 @@ enum ServiceManager {
      */
     @NonNull
     public synchronized <T extends BaseService> List<T> getService(@NonNull String uuid, @NonNull Class<T> tClass, @NonNull String type) {
-        if (!isInit) {
-            Logger.Error(" Do you init CloudSystem?");
+        if (!CloudSystem.isInit()) {
+            Logger.Error(CloudApiError.NO_INIT.build());
             return Collections.emptyList();
         }
         //安全性处理，防止在使用的过程中，mServices 的长度被恶意修改

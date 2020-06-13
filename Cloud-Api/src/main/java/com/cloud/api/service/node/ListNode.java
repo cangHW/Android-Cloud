@@ -1,6 +1,6 @@
-package com.cloud.api.manager.node;
+package com.cloud.api.service.node;
 
-import com.cloud.api.manager.listener.Converter;
+import com.cloud.api.service.listener.Converter;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class ListNode {
      * @author: cangHX
      * @date: 2020-05-22 17:45
      */
-    public boolean add(String uuid, Converter converter) {
+    public synchronized boolean add(String uuid, Converter converter) {
         if (contains(uuid)) {
             return false;
         }
@@ -53,7 +53,7 @@ public class ListNode {
      * @author: cangHX
      * @date: 2020-05-22 17:48
      */
-    public boolean remove(String uuid) {
+    public synchronized boolean remove(String uuid) {
         for (Node node : nodes) {
             if (node.getUuid().equals(uuid)) {
                 nodes.remove(node);
@@ -71,7 +71,7 @@ public class ListNode {
      * @author: cangHX
      * @date: 2020-05-22 17:48
      */
-    public void remove(Node node) {
+    public synchronized void remove(Node node) {
         nodes.remove(node);
     }
 
