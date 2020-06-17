@@ -2,8 +2,12 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api project(path: ':Cloud-Annotations')
+
+//    api project(path: ':Cloud-Annotations')
+    api 'com.proxy.service:Cloud-Annotations:0.0.1'
+
     implementation 'com.squareup:javapoet:1.12.1'
+    api project(path: ':Cloud-Base')
 }
 
 sourceCompatibility = "7"

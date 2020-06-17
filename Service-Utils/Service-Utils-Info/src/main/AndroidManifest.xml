@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cloud.service.utils.info" >
+    package="com.proxy.service.utils.info" >
 
     <application>
 
         <provider
-            android:name="com.cloud.service.utils.provider.CloudProvider"
-            android:authorities="${applicationId}.cloud_service_provider"
+            android:name="com.proxy.service.utils.provider.CloudProvider"
+            android:authorities="${applicationId}.proxy_service_provider"
             android:exported="false"
             android:grantUriPermissions="true" />
 

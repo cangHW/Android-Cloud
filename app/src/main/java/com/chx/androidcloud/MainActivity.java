@@ -5,7 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.cloud.api.CloudSystem;
+import com.proxy.service.api.CloudSystem;
+import com.proxy.service.api.services.CloudUtilsInstallService;
+import com.proxy.service.api.tag.CloudServiceTagUtils;
+import com.proxy.service.api.utils.Logger;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,5 +22,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View view){
+
+        CloudUtilsInstallService service=CloudSystem.getService(CloudServiceTagUtils.UTILS_INSTALL);
+        if (service==null){
+            return;
+        }
+        List<CloudUtilsInstallService.AppInfo> list = service.getAllInstallAppsInfo();
+        Logger.Error("list.size  :  "+list.size()+"");
+        for (CloudUtilsInstallService.AppInfo appInfo:list){
+            Logger.Debug(appInfo.name);
+            Logger.Debug(appInfo.packageName);
+            Logger.Debug(appInfo.isInstallSd+"");
+            Logger.Debug(appInfo.isSystemApp+"");
+            Logger.Debug("  ");
+        }
     }
 }
