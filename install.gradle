@@ -23,6 +23,7 @@ install {
                         url licenseUrl
                     }
                 }
+
                 developers {
                     developer {
                         id developerId
@@ -30,12 +31,28 @@ install {
                         email developerEmail
                     }
                 }
+
                 scm {
                     connection gitUrl
                     developerConnection gitUrl
                     url siteUrl
-
                 }
+
+//                dependencies{
+//                    dependency{
+//                        groupId "com.proxy.service"
+//                        artifactId "Cloud-Annotations"
+//                        version "0.0.1"
+//                        scope "api"
+//                    }
+//                    dependency{
+//                        groupId "com.proxy.service"
+//                        artifactId "Cloud-Base"
+//                        version "0.0.1"
+//                        scope "api"
+//                    }
+//                }
+
             }
         }
     }

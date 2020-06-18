@@ -4,9 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import com.cloud.annotations.CloudService;
 import com.proxy.service.api.context.ContextManager;
@@ -24,6 +27,54 @@ import java.util.List;
  */
 @CloudService(serviceTag = CloudServiceTagUtils.UTILS_APP)
 public class CloudUtilsAppServiceImpl implements CloudUtilsAppService {
+
+    /**
+     * 获取当前app的目标设备SDK版本
+     *
+     * @return uid
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-10 19:04
+     */
+    @Override
+    public int getTargetSdkVersion() {
+        int targetSdkVersion = -1;
+        Context context = ContextManager.getCurrentActivity();
+        if (context == null) {
+            Logger.Error(CloudApiError.NO_INIT.build());
+            return targetSdkVersion;
+        }
+        try {
+            PackageManager packageManager = Cache.getPackageManager(context);
+            if (packageManager == null) {
+                return targetSdkVersion;
+            }
+            PackageInfo info = packageManager.getPackageInfo(getPackageName(), 0);
+            targetSdkVersion = info.applicationInfo.targetSdkVersion;
+        } catch (Throwable e) {
+            Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build());
+        }
+        return targetSdkVersion;
+    }
+
+    /**
+     * 获取当前app的uid
+     *
+     * @return uid
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-10 19:04
+     */
+    @Override
+    public String getUid() {
+        Context context = ContextManager.getCurrentActivity();
+        if (context == null) {
+            Logger.Error(CloudApiError.NO_INIT.build());
+            return "";
+        }
+        ApplicationInfo applicationInfo = context.getApplicationInfo();
+        return String.valueOf(applicationInfo.uid);
+    }
 
     /**
      * 获取当前app包名
@@ -66,6 +117,36 @@ public class CloudUtilsAppServiceImpl implements CloudUtilsAppService {
             }
             PackageInfo info = packageManager.getPackageInfo(context.getPackageName(), 0);
             versionCode = info.versionCode;
+        } catch (Throwable e) {
+            Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build());
+        }
+        return versionCode;
+    }
+
+    /**
+     * 获取当前app版本code
+     *
+     * @return 版本code
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-11 09:52
+     */
+    @RequiresApi(api = Build.VERSION_CODES.P)
+    @Override
+    public long getLongVersionCode() {
+        long versionCode = -1;
+        Context context = ContextManager.getCurrentActivity();
+        if (context == null) {
+            Logger.Error(CloudApiError.NO_INIT.build());
+            return versionCode;
+        }
+        try {
+            PackageManager packageManager = Cache.getPackageManager(context);
+            if (packageManager == null) {
+                return versionCode;
+            }
+            PackageInfo info = packageManager.getPackageInfo(context.getPackageName(), 0);
+            versionCode = info.getLongVersionCode();
         } catch (Throwable e) {
             Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build());
         }

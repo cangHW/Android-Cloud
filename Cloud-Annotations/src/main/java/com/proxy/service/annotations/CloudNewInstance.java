@@ -8,6 +8,8 @@ import java.lang.annotation.Target;
 /**
  * @author: cangHX
  * on 2020/06/05  16:23
+ *
+ * 标示一个服务类每次使用时都会创建一个新的对象
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

@@ -115,13 +115,5 @@ public interface CloudUtilsInstallService extends BaseService {
     @WorkerThread
     List<AppInfo> getAllInstallAppsInfo();
 
-    /**
-     * 打开应用设置页面
-     *
-     * @param packageName : 包名
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-06-11 10:11
-     */
-    void openAppSetting(@NonNull String packageName);
+
 }

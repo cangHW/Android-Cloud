@@ -10,11 +10,11 @@ import android.net.Uri;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import com.cloud.annotations.CloudService;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
+import com.proxy.service.api.services.CloudUtilsAppService;
 import com.proxy.service.api.services.CloudUtilsInstallService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
 import com.proxy.service.api.utils.Logger;
@@ -87,7 +87,11 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
         String type = "application/vnd.android.package-archive";
 
         Uri uri;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+        CloudUtilsAppService service = new CloudUtilsAppServiceImpl();
+        boolean isSdkVersionReady = Build.VERSION.SDK_INT < Build.VERSION_CODES.N;
+        // 部分机型在系统版本为7.0，但使用provier形式会崩溃。所以判断如果targetV如果<=23并且系统版本为7.0时仍然使用file://形式
+        boolean isTargetReady = Build.VERSION.SDK_INT == Build.VERSION_CODES.N && service.getTargetSdkVersion() <= Build.VERSION_CODES.M;
+        if (isSdkVersionReady || isTargetReady) {
             uri = Uri.fromFile(file);
         } else {
             String provider = Utils.getProviderAuthoritiesFromManifest(CloudProvider.class.getName(), "proxy_service_provider");
@@ -101,10 +105,12 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
         }
         try {
             if (packageManager.queryIntentActivities(intent, PackageManager.GET_ACTIVITIES).size() <= 0) {
+                Logger.Debug("install failed");
                 return;
             }
             context.startActivity(intent);
-        } catch (Throwable ignored) {
+        } catch (Throwable throwable) {
+            Logger.Debug(throwable.getMessage());
         }
     }
 
@@ -214,24 +220,4 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
         return infoList;
     }
 
-    /**
-     * 打开应用设置页面
-     *
-     * @param packageName : 包名
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-06-11 10:11
-     */
-    @Override
-    public void openAppSetting(@NonNull String packageName) {
-        Context context = ContextManager.getCurrentActivity();
-        if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
-            return;
-        }
-        Intent intent = new Intent();
-        intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-        intent.setData(Uri.parse("package:" + packageName));
-        context.startActivity(intent);
-    }
 }

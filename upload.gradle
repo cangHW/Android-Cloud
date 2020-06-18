@@ -1,0 +1,17 @@
+apply from: '../install.gradle'
+apply from: '../bintray.gradle'
+
+
+
+Task bintrayUpload =tasks.getByName("bintrayUpload")
+Task clean =tasks.getByName("clean")
+Task install =tasks.getByName("install")
+Task upload =tasks.create("upload")
+upload.setGroup("upload")
+upload.doLast {
+    println("上传成功")
+}
+
+install.dependsOn(clean)
+bintrayUpload.dependsOn(install)
+upload.dependsOn(bintrayUpload)

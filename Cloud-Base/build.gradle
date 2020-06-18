@@ -6,3 +6,15 @@ dependencies {
 
 sourceCompatibility = "7"
 targetCompatibility = "7"
+
+
+ext {
+    bintrayName = 'Cloud-Base'
+    artifact = bintrayName
+    libraryName = 'Android cloud sdk'
+    libraryDescription = 'The perfect framework for Android'
+    libraryVersion = cloud_base_version
+}
+
+apply from: '../upload.gradle'
+

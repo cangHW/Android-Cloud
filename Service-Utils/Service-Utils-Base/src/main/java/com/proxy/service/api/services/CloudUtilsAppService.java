@@ -1,5 +1,9 @@
 package com.proxy.service.api.services;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.proxy.service.base.BaseService;
 
 /**
@@ -9,6 +13,26 @@ import com.proxy.service.base.BaseService;
  * app相关
  */
 public interface CloudUtilsAppService extends BaseService {
+
+    /**
+     * 获取当前app的目标设备SDK版本
+     *
+     * @return uid
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-10 19:04
+     */
+    int getTargetSdkVersion();
+
+    /**
+     * 获取当前app的uid
+     *
+     * @return uid
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-10 19:04
+     */
+    String getUid();
 
     /**
      * 获取当前app包名
@@ -22,13 +46,26 @@ public interface CloudUtilsAppService extends BaseService {
 
     /**
      * 获取当前app版本code
+     * @see #getLongVersionCode
      *
      * @return 版本code
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-06-11 09:52
      */
+    @Deprecated
     int getVersionCode();
+
+    /**
+     * 获取当前app版本code
+     *
+     * @return 版本code
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-11 09:52
+     */
+    @RequiresApi(Build.VERSION_CODES.P)
+    long getLongVersionCode();
 
     /**
      * 获取当前app版本name

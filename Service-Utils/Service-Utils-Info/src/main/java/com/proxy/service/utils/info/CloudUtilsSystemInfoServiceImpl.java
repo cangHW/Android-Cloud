@@ -1,32 +1,17 @@
-package com.proxy.service.api.services;
+package com.proxy.service.utils.info;
 
 import androidx.annotation.NonNull;
 
-import com.proxy.service.base.BaseService;
+import com.cloud.annotations.CloudService;
+import com.proxy.service.api.services.CloudUtilsSystemInfoService;
+import com.proxy.service.api.tag.CloudServiceTagUtils;
 
 /**
  * @author: cangHX
- * on 2020/06/11  10:30
- * <p>
- * 系统相关
+ * on 2020/06/11  12:45
  */
-public interface CloudUtilsSystemService extends BaseService {
-
-    /**
-     * 获取ID回调
-     */
-    interface AppIdsUpdater {
-        /**
-         * 回调获取到的数据
-         *
-         * @param id : 获取到的ID数据，有可能为空字串
-         * @throws Throwable : 可能会出现的异常
-         * @version: 1.0
-         * @author: cangHX
-         * @date: 2020-06-11 10:51
-         */
-        void OnIdsAvalId(@NonNull String id) throws Throwable;
-    }
+@CloudService(serviceTag = CloudServiceTagUtils.UTILS_SYSTEM_INFO)
+public class CloudUtilsSystemInfoServiceImpl implements CloudUtilsSystemInfoService {
 
     /**
      * 获取设备ID
@@ -36,7 +21,10 @@ public interface CloudUtilsSystemService extends BaseService {
      * @author: cangHX
      * @date: 2020-06-11 10:31
      */
-    String getDeviceId();
+    @Override
+    public String getDeviceId() {
+        return null;
+    }
 
     /**
      * GPS定位是否开启
@@ -46,7 +34,10 @@ public interface CloudUtilsSystemService extends BaseService {
      * @author: cangHX
      * @date: 2020-06-11 10:32
      */
-    boolean isGpsEnabled();
+    @Override
+    public boolean isGpsEnabled() {
+        return false;
+    }
 
     /**
      * MSA，获取aaid
@@ -56,7 +47,10 @@ public interface CloudUtilsSystemService extends BaseService {
      * @author: cangHX
      * @date: 2020-06-11 10:30
      */
-    void getAAID(@NonNull AppIdsUpdater appIdsUpdater);
+    @Override
+    public void getAAID(@NonNull AppIdsUpdater appIdsUpdater) {
+
+    }
 
     /**
      * MSA，获取oaid
@@ -66,7 +60,10 @@ public interface CloudUtilsSystemService extends BaseService {
      * @author: cangHX
      * @date: 2020-06-11 10:30
      */
-    void getOAID(@NonNull AppIdsUpdater appIdsUpdater);
+    @Override
+    public void getOAID(@NonNull AppIdsUpdater appIdsUpdater) {
+
+    }
 
     /**
      * MSA，获取vaid
@@ -76,6 +73,9 @@ public interface CloudUtilsSystemService extends BaseService {
      * @author: cangHX
      * @date: 2020-06-11 10:30
      */
-    void getVAID(@NonNull AppIdsUpdater appIdsUpdater);
+    @Override
+    public void getVAID(@NonNull AppIdsUpdater appIdsUpdater) {
+
+    }
 
 }

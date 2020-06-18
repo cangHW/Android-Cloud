@@ -3,12 +3,25 @@ apply plugin: 'java-library'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation 'com.squareup:javapoet:1.12.1'
+
 //    api project(path: ':Cloud-Annotations')
     api 'com.proxy.service:Cloud-Annotations:0.0.1'
 
-    implementation 'com.squareup:javapoet:1.12.1'
-    api project(path: ':Cloud-Base')
+//    api project(path: ':Cloud-Base')
+    implementation 'com.proxy.service:Cloud-Base:0.0.1'
 }
 
 sourceCompatibility = "7"
 targetCompatibility = "7"
+
+
+ext {
+    bintrayName = 'Cloud-Compiler'
+    artifact = bintrayName
+    libraryName = 'Android cloud sdk'
+    libraryDescription = 'The perfect framework for Android'
+    libraryVersion = cloud_compiler_version
+}
+
+apply from: '../upload.gradle'

@@ -29,8 +29,13 @@ public class CloudServiceTagUtils {
     public static final String UTILS_SHARE = "utils_share";
 
     /**
-     * 系统相关
+     * 系统信息相关
      */
-    public static final String UTILS_SYSTEM = "utils_system";
+    public static final String UTILS_SYSTEM_INFO = "utils_system_info";
+
+    /**
+     * 系统页面相关
+     */
+    public static final String UTILS_SYSTEM_PAGE = "utils_system_page";
 
 }
