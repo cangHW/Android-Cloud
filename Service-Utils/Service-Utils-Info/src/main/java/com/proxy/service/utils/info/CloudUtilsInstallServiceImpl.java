@@ -55,7 +55,8 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
         }
         try {
             return packageManager.getLaunchIntentForPackage(packageName) != null;
-        } catch (Throwable ignored) {
+        } catch (Throwable throwable) {
+            Logger.Debug(throwable.getMessage());
         }
         return false;
     }
@@ -257,6 +258,7 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
         try {
             Intent intent = packageManager.getLaunchIntentForPackage(packageName);
             if (intent == null) {
+                Logger.Debug("open failed");
                 return false;
             }
             context.startActivity(intent);

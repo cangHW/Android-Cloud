@@ -205,35 +205,43 @@ public class CloudUtilsAppServiceImpl implements CloudUtilsAppService {
         if (am == null) {
             return isInBackground;
         }
-        try {
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
+            try {
                 List<ActivityManager.RunningAppProcessInfo> runningProcesses = am.getRunningAppProcesses();
                 for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
                     //前台程序
-                    if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                        for (String activeProcess : processInfo.pkgList) {
-                            if (activeProcess.equals(context.getPackageName())) {
-                                isInBackground = false;
-                            }
+                    if (processInfo.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                        continue;
+                    }
+                    for (String activeProcess : processInfo.pkgList) {
+                        if (activeProcess.equals(context.getPackageName())) {
+                            isInBackground = false;
+                            break;
                         }
                     }
+                    break;
                 }
-            } else {
-                List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
-                if (taskInfo == null || taskInfo.size() <= 0) {
-                    return isInBackground;
-                }
-                @SuppressLint({"NewApi", "LocalSuppress"}) ComponentName componentInfo = taskInfo.get(0).topActivity;
-                if (componentInfo == null) {
-                    return isInBackground;
-                }
-                if (componentInfo.getPackageName().equals(context.getPackageName())) {
-                    isInBackground = false;
-                }
+            } catch (Throwable throwable) {
+                Logger.Debug(CloudApiError.ACTIVITY_MANAGER_ERROR.setMsg(throwable).build());
             }
-        } catch (Throwable e) {
-            Logger.Debug(CloudApiError.ACTIVITY_MANAGER_ERROR.setMsg(e).build());
             return isInBackground;
+        }
+
+        try {
+            List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+            if (taskInfo == null || taskInfo.size() <= 0) {
+                return isInBackground;
+            }
+            @SuppressLint({"NewApi", "LocalSuppress"}) ComponentName componentInfo = taskInfo.get(0).topActivity;
+            if (componentInfo == null) {
+                return isInBackground;
+            }
+            if (componentInfo.getPackageName().equals(context.getPackageName())) {
+                isInBackground = false;
+            }
+        } catch (Throwable throwable) {
+            Logger.Debug(CloudApiError.ACTIVITY_MANAGER_ERROR.setMsg(throwable).build());
         }
         return isInBackground;
     }
