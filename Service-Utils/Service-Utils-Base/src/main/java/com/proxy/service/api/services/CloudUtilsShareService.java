@@ -32,5 +32,5 @@ public interface CloudUtilsShareService extends BaseService {
      * @author: cangHX
      * @date: 2020-06-11 10:15
      */
-    void shareAppImg(@Nullable List<String> imgPaths);
+    void openSystemShareImg(@Nullable List<String> imgPaths);
 }

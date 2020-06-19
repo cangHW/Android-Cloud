@@ -27,14 +27,17 @@ public class MainActivity extends AppCompatActivity {
         if (service==null){
             return;
         }
-        List<CloudUtilsInstallService.AppInfo> list = service.getAllInstallAppsInfo();
-        Logger.Error("list.size  :  "+list.size()+"");
-        for (CloudUtilsInstallService.AppInfo appInfo:list){
-            Logger.Debug(appInfo.name);
-            Logger.Debug(appInfo.packageName);
-            Logger.Debug(appInfo.isInstallSd+"");
-            Logger.Debug(appInfo.isSystemApp+"");
+        boolean flag =service.isInstallApp("com.huawei.scenepack");
+        Logger.Debug(flag+"");
             Logger.Debug("  ");
-        }
+//        List<CloudUtilsInstallService.AppInfo> list = service.getAllInstallAppsInfo();
+//        Logger.Error("list.size  :  "+list.size()+"");
+//        for (CloudUtilsInstallService.AppInfo appInfo:list){
+//            Logger.Debug(appInfo.name);
+//            Logger.Debug(appInfo.packageName);
+//            Logger.Debug(appInfo.isInstallSd+"");
+//            Logger.Debug(appInfo.isSystemApp+"");
+//            Logger.Debug("  ");
+//        }
     }
 }

@@ -15,11 +15,13 @@ import android.text.TextUtils;
  */
 public enum CloudApiError {
 
+    /*****************  初始化问题  *********************/
     /**
      * 未初始化错误
      */
     NO_INIT(10000, "Do you init CloudSystem?"),
 
+    /****************  数据错误  ******************/
     /**
      * 数据错误
      */
@@ -38,7 +40,13 @@ public enum CloudApiError {
     /**
      * 获取ActivityManager失败
      */
-    ACTIVITY_MANAGER_ERROR(20101, "The ActivityManager is error");
+    ACTIVITY_MANAGER_ERROR(20101, "The ActivityManager is error"),
+
+    /******************  权限问题  *************************/
+    /**
+     * 获取ActivityManager失败
+     */
+    INSTALL_SECURITY_PATH_ERROR(30000, "Lack of security path");
 
     private final int errorCode;
     private final String errorMsg;

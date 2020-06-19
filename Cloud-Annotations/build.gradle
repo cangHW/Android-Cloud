@@ -16,19 +16,3 @@ ext {
 }
 
 apply from: '../upload.gradle'
-
-//apply from: '../install.gradle'
-//apply from: '../bintray.gradle'
-//
-//
-//
-//Task bintrayUpload =tasks.getByName("bintrayUpload")
-//Task clean =tasks.getByName("clean")
-//Task upload =tasks.create("upload")
-//upload.setGroup("upload")
-//upload.doLast {
-//    println("上传成功")
-//}
-//
-//bintrayUpload.dependsOn(clean)
-//upload.dependsOn(bintrayUpload)

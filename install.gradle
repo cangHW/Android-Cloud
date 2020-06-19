@@ -49,7 +49,14 @@ install {
 //                        groupId "com.proxy.service"
 //                        artifactId "Cloud-Base"
 //                        version "0.0.1"
-//                        scope "api"
+//                        scope "implementation"
+//                    }
+//
+//                    dependency{
+//                        groupId "com.squareup"
+//                        artifactId "javapoet"
+//                        version "1.12.1"
+//                        scope "implementation"
 //                    }
 //                }
 

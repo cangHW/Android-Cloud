@@ -1,10 +1,15 @@
 package com.proxy.service.utils.info;
 
+import android.os.Build;
+
 import androidx.annotation.NonNull;
 
 import com.cloud.annotations.CloudService;
 import com.proxy.service.api.services.CloudUtilsSystemInfoService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
+import com.proxy.service.api.utils.Logger;
+import com.proxy.service.utils.oaid.OaidManager;
+import com.proxy.service.utils.oaid.callback.OaidRequestCallback;
 
 /**
  * @author: cangHX
@@ -15,41 +20,44 @@ public class CloudUtilsSystemInfoServiceImpl implements CloudUtilsSystemInfoServ
 
     /**
      * 获取设备ID
+     * DeviceId
      *
      * @return 设备ID
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-06-11 10:31
      */
+    @NonNull
     @Override
-    public String getDeviceId() {
-        return null;
+    public String getImel() {
+        return "";
     }
 
     /**
-     * GPS定位是否开启
+     * 获取当前设备
      *
-     * @return true 开启，false 未开启，默认未开启
+     * @return 返回当前设备信息
      * @version: 1.0
      * @author: cangHX
-     * @date: 2020-06-11 10:32
+     * @date: 2020-06-19 18:36
      */
+    @NonNull
     @Override
-    public boolean isGpsEnabled() {
-        return false;
+    public String getBrand() {
+        return Build.BRAND;
     }
 
     /**
-     * MSA，获取aaid
+     * 获取当前设备型号
      *
-     * @param appIdsUpdater : 回调接口
+     * @return 返回当前设备型号
      * @version: 1.0
      * @author: cangHX
-     * @date: 2020-06-11 10:30
+     * @date: 2020-06-19 18:37
      */
     @Override
-    public void getAAID(@NonNull AppIdsUpdater appIdsUpdater) {
-
+    public String getModel() {
+        return Build.MODEL;
     }
 
     /**
@@ -61,21 +69,13 @@ public class CloudUtilsSystemInfoServiceImpl implements CloudUtilsSystemInfoServ
      * @date: 2020-06-11 10:30
      */
     @Override
-    public void getOAID(@NonNull AppIdsUpdater appIdsUpdater) {
-
-    }
-
-    /**
-     * MSA，获取vaid
-     *
-     * @param appIdsUpdater : 回调接口
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-06-11 10:30
-     */
-    @Override
-    public void getVAID(@NonNull AppIdsUpdater appIdsUpdater) {
-
+    public void getOaid(@NonNull AppIdsUpdater appIdsUpdater) {
+        OaidRequestCallback oaidRequestCallback = OaidManager.getOaidRequestCallback();
+        if (!oaidRequestCallback.isSupported()) {
+            Logger.Info("The current device does not support obtaining OAID");
+            return;
+        }
+        oaidRequestCallback.request(appIdsUpdater);
     }
 
 }

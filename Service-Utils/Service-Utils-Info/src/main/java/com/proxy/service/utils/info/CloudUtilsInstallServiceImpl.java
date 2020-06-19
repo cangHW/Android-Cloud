@@ -61,6 +61,20 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
     }
 
     /**
+     * 添加允许通过 provider 共享的文件路径，用于调起安装等
+     * 如果不设置，默认所有路径都是安全路径，建议设置
+     *
+     * @param filePath : 允许共享的安全路径
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-19 13:30
+     */
+    @Override
+    public void addProviderResourcePath(@NonNull String filePath) {
+        CloudProvider.addSecurityPaths(filePath);
+    }
+
+    /**
      * 安装应用
      *
      * @param apkPath : 安装包路径
@@ -218,6 +232,40 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
         }
 
         return infoList;
+    }
+
+    /**
+     * 打开对应包名的app
+     *
+     * @param packageName : 包名
+     * @return 是否打开成功，true 成功，false 失败
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-19 13:49
+     */
+    @Override
+    public boolean openApp(@NonNull String packageName) {
+        Context context = ContextManager.getCurrentActivity();
+        if (context == null) {
+            Logger.Error(CloudApiError.NO_INIT.build());
+            return false;
+        }
+        PackageManager packageManager = Cache.getPackageManager(context);
+        if (packageManager == null) {
+            return false;
+        }
+        try {
+            Intent intent = packageManager.getLaunchIntentForPackage(packageName);
+            if (intent == null) {
+                return false;
+            }
+            context.startActivity(intent);
+            return true;
+        } catch (Throwable throwable) {
+            Logger.Debug(throwable.getMessage());
+        }
+
+        return false;
     }
 
 }

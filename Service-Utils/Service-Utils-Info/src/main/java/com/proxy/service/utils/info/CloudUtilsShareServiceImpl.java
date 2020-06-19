@@ -54,7 +54,7 @@ public class CloudUtilsShareServiceImpl implements CloudUtilsShareService {
      * @date: 2020-06-11 10:15
      */
     @Override
-    public void shareAppImg(@Nullable List<String> imgPaths) {
+    public void openSystemShareImg(@Nullable List<String> imgPaths) {
         Context context = ContextManager.getCurrentActivity();
         if (context == null) {
             Logger.Error(CloudApiError.NO_INIT.build());

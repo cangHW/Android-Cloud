@@ -73,6 +73,17 @@ public interface CloudUtilsInstallService extends BaseService {
     boolean isInstallApp(@NonNull String packageName);
 
     /**
+     * 添加允许通过 provider 共享的文件路径，用于调起安装等
+     * 如果不设置，默认所有路径都是安全路径，建议设置
+     *
+     * @param filePath : 允许共享的安全路径
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-19 13:30
+     */
+    void addProviderResourcePath(@NonNull String filePath);
+
+    /**
      * 安装应用
      *
      * @param apkPath : 安装包路径
@@ -115,5 +126,14 @@ public interface CloudUtilsInstallService extends BaseService {
     @WorkerThread
     List<AppInfo> getAllInstallAppsInfo();
 
-
+    /**
+     * 打开对应包名的app
+     *
+     * @param packageName : 包名
+     * @return 是否打开成功，true 成功，false 失败
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-19 13:49
+     */
+    boolean openApp(@NonNull String packageName);
 }

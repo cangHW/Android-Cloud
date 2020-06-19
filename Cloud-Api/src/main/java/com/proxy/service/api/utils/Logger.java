@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 public class Logger {
 
     enum LogType {
-        D, I, E
+        D, I, W, E
     }
 
     private static final String TAG = "CLOUD_SERVICES";
@@ -38,6 +38,10 @@ public class Logger {
         println(LogType.I, mTag, msg);
     }
 
+    public void warn(String msg) {
+        println(LogType.W, mTag, msg);
+    }
+
     public void error(String msg) {
         println(LogType.E, mTag, msg);
     }
@@ -48,6 +52,10 @@ public class Logger {
 
     public static void Info(String msg) {
         println(LogType.I, TAG, msg);
+    }
+
+    public static void Warning(String msg) {
+        println(LogType.W, TAG, msg);
     }
 
     public static void Error(String msg) {
