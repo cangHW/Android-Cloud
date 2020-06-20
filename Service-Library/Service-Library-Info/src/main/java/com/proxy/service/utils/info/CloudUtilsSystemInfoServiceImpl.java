@@ -5,6 +5,7 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 
 import com.cloud.annotations.CloudService;
+import com.proxy.service.api.annotations.BRAND;
 import com.proxy.service.api.services.CloudUtilsSystemInfoService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
 import com.proxy.service.api.utils.Logger;
@@ -30,6 +31,7 @@ public class CloudUtilsSystemInfoServiceImpl implements CloudUtilsSystemInfoServ
     @NonNull
     @Override
     public String getImel() {
+        //TODO imel相关
         return "";
     }
 
@@ -42,9 +44,10 @@ public class CloudUtilsSystemInfoServiceImpl implements CloudUtilsSystemInfoServ
      * @date: 2020-06-19 18:36
      */
     @NonNull
+    @BRAND
     @Override
     public String getBrand() {
-        return Build.BRAND;
+        return Build.BRAND.toLowerCase();
     }
 
     /**

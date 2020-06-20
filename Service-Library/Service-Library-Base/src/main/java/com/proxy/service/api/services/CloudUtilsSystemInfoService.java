@@ -2,6 +2,7 @@ package com.proxy.service.api.services;
 
 import androidx.annotation.NonNull;
 
+import com.proxy.service.api.annotations.BRAND;
 import com.proxy.service.base.BaseService;
 
 /**
@@ -48,6 +49,7 @@ public interface CloudUtilsSystemInfoService extends BaseService {
      * @date: 2020-06-19 18:36
      */
     @NonNull
+    @BRAND
     String getBrand();
 
     /**

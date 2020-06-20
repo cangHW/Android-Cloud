@@ -1,15 +1,15 @@
-package com.proxy.service.utils.oaid.callback;
+package com.proxy.service.utils.oaid.mi;
 
 import androidx.annotation.NonNull;
 
 import com.proxy.service.api.services.CloudUtilsSystemInfoService;
+import com.proxy.service.utils.oaid.callback.OaidRequestCallback;
 
 /**
  * @author: cangHX
- * on 2020/06/19  18:00
+ * on 2020/06/20  13:23
  */
-public interface OaidRequestCallback {
-
+public class MiOaidRequestCallbackImpl implements OaidRequestCallback {
     /**
      * 功能是否兼容当前设备
      *
@@ -18,7 +18,10 @@ public interface OaidRequestCallback {
      * @author: cangHX
      * @date: 2020-06-19 18:01
      */
-    boolean isSupported();
+    @Override
+    public boolean isSupported() {
+        return false;
+    }
 
     /**
      * 请求oaid
@@ -28,6 +31,8 @@ public interface OaidRequestCallback {
      * @author: cangHX
      * @date: 2020-06-19 18:17
      */
-    void request(@NonNull CloudUtilsSystemInfoService.AppIdsUpdater appIdsUpdater);
-
+    @Override
+    public void request(@NonNull CloudUtilsSystemInfoService.AppIdsUpdater appIdsUpdater) {
+        appIdsUpdater.onIdsAvalId("");
+    }
 }

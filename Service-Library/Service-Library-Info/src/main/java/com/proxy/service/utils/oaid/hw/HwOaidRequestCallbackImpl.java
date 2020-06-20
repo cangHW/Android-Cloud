@@ -1,5 +1,7 @@
 package com.proxy.service.utils.oaid.hw;
 
+import androidx.annotation.NonNull;
+
 import com.proxy.service.api.services.CloudUtilsSystemInfoService;
 import com.proxy.service.utils.oaid.callback.OaidRequestCallback;
 
@@ -32,7 +34,7 @@ public class HwOaidRequestCallbackImpl implements OaidRequestCallback {
      * @date: 2020-06-19 18:17
      */
     @Override
-    public void request(CloudUtilsSystemInfoService.AppIdsUpdater appIdsUpdater) {
-
+    public void request(@NonNull CloudUtilsSystemInfoService.AppIdsUpdater appIdsUpdater) {
+        appIdsUpdater.onIdsAvalId("");
     }
 }
