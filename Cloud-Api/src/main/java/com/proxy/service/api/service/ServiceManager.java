@@ -12,7 +12,7 @@ import com.proxy.service.api.utils.Logger;
 import com.proxy.service.api.service.listener.Converter;
 import com.proxy.service.api.service.node.ListNode;
 import com.proxy.service.api.service.node.Node;
-import com.proxy.service.api.utils.ClassUtils;
+import com.proxy.service.api.multidex.ClassUtils;
 import com.proxy.service.base.AbstractServiceCache;
 import com.proxy.service.base.BaseService;
 import com.proxy.service.consts.ClassConstants;
@@ -205,16 +205,18 @@ public enum ServiceManager {
             for (Node node : listNode.list()) {
                 String string = node.getUuid();
 
-                if (string.equals(Node.UUID_DEFAULT) || string.equals(uuid)) {
-                    Converter converter = node.getConverter();
-                    if (converter == null) {
-                        listNode.remove(node);
-                        continue;
-                    }
-                    try {
-                        service = converter.converter(service);
-                    } catch (Throwable ignored) {
-                    }
+                if (!string.equals(Node.UUID_DEFAULT) && !string.equals(uuid)) {
+                    continue;
+                }
+
+                Converter converter = node.getConverter();
+                if (converter == null) {
+                    listNode.remove(node);
+                    continue;
+                }
+                try {
+                    service = converter.converter(service);
+                } catch (Throwable ignored) {
                 }
             }
         }

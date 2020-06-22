@@ -24,7 +24,7 @@ public class OaidManager {
         if (BrandUtils.isMi()) {
             return new MiOaidRequestCallbackImpl();
         }
-        //TODO oaid相关
+        //TODO oaid相关   MSA    小米
 
         return new OaidRequestCallbackEmpty();
     }

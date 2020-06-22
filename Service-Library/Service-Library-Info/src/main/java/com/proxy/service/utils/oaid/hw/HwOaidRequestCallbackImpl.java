@@ -1,7 +1,10 @@
 package com.proxy.service.utils.oaid.hw;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 
+import com.proxy.service.api.context.cache.ActivityStack;
 import com.proxy.service.api.services.CloudUtilsSystemInfoService;
 import com.proxy.service.utils.oaid.callback.OaidRequestCallback;
 
@@ -22,7 +25,7 @@ public class HwOaidRequestCallbackImpl implements OaidRequestCallback {
      */
     @Override
     public boolean isSupported() {
-        return false;
+        return true;
     }
 
     /**
@@ -34,7 +37,22 @@ public class HwOaidRequestCallbackImpl implements OaidRequestCallback {
      * @date: 2020-06-19 18:17
      */
     @Override
-    public void request(@NonNull CloudUtilsSystemInfoService.AppIdsUpdater appIdsUpdater) {
-        appIdsUpdater.onIdsAvalId("");
+    public void request(@NonNull final CloudUtilsSystemInfoService.AppIdsUpdater appIdsUpdater) {
+        HwOaidAidlUtil oaidAidlUtil = new HwOaidAidlUtil(ActivityStack.getApplication());
+        oaidAidlUtil.getOaid(new HwOaidCallback() {
+            @Override
+            public void onSuccuss(String oaid, boolean isOaidTrackLimited) {
+                if (TextUtils.isEmpty(oaid)) {
+                    appIdsUpdater.onIdsAvalId("");
+                } else {
+                    appIdsUpdater.onIdsAvalId(oaid);
+                }
+            }
+
+            @Override
+            public void onFail(String errMsg) {
+                appIdsUpdater.onIdsAvalId("");
+            }
+        });
     }
 }
