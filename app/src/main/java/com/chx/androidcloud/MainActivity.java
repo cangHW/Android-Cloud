@@ -7,10 +7,8 @@ import android.view.View;
 
 import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.services.CloudUtilsInstallService;
-import com.proxy.service.api.tag.CloudServiceTagUtils;
+import com.proxy.service.api.tag.CloudServiceTagLibrary;
 import com.proxy.service.api.utils.Logger;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View view){
 
-        CloudUtilsInstallService service=CloudSystem.getService(CloudServiceTagUtils.UTILS_INSTALL);
+        CloudUtilsInstallService service=CloudSystem.getService(CloudServiceTagLibrary.UTILS_INSTALL);
         if (service==null){
             return;
         }

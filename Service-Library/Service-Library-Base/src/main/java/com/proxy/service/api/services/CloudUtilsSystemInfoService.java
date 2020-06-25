@@ -49,7 +49,6 @@ public interface CloudUtilsSystemInfoService extends BaseService {
      * @date: 2020-06-19 18:36
      */
     @NonNull
-    @BRAND
     String getBrand();
 
     /**

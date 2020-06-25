@@ -1,12 +1,12 @@
 package com.proxy.service.api.services;
 
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
+import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 
+import com.proxy.service.api.callback.CloudInstallCallback;
+import com.proxy.service.api.enums.CloudInstallStatusEnum;
+import com.proxy.service.api.info.CloudAppInfo;
 import com.proxy.service.base.BaseService;
 
 import java.util.List;
@@ -20,46 +20,15 @@ import java.util.List;
 public interface CloudUtilsInstallService extends BaseService {
 
     /**
-     * 已安装app的信息
+     * 添加安装状态回调
+     *
+     * @param cloudInstallCallback : 安装状态回调接口
+     * @param statusEnums          : 准备接收的状态类型
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-24 17:06
      */
-    class AppInfo {
-        /**
-         * app名字
-         */
-        public String name;
-        /**
-         * app图标
-         */
-        public Drawable icon;
-        /**
-         * app包名
-         */
-        public String packageName;
-        /**
-         * app版本name
-         */
-        public String versionName;
-        /**
-         * app版本code
-         *
-         * @see #longVersionCode
-         */
-        @Deprecated
-        public int versionCode;
-        /**
-         * app版本code
-         */
-        @RequiresApi(Build.VERSION_CODES.P)
-        public long longVersionCode;
-        /**
-         * 是否安装在sd卡
-         */
-        public boolean isInstallSd;
-        /**
-         * 是否是普通应用(非系统应用)
-         */
-        public boolean isSystemApp;
-    }
+    void addInstallCallback(@NonNull CloudInstallCallback cloudInstallCallback, @Nullable CloudInstallStatusEnum... statusEnums);
 
     /**
      * 对应包名的app是否安装
@@ -124,7 +93,7 @@ public interface CloudUtilsInstallService extends BaseService {
      */
     @NonNull
     @WorkerThread
-    List<AppInfo> getAllInstallAppsInfo();
+    List<CloudAppInfo> getAllInstallAppsInfo();
 
     /**
      * 打开对应包名的app
