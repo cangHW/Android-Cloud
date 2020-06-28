@@ -2,9 +2,13 @@ package com.proxy.service.library.manager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.proxy.service.api.callback.CloudInstallCallback;
+import com.proxy.service.api.enums.CloudInstallStatusEnum;
+import com.proxy.service.api.utils.Logger;
 import com.proxy.service.library.receiver.CloudBroadcastReceiver;
+import com.proxy.service.library.util.HandleUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,19 +19,19 @@ import java.util.Map;
  * @author: cangHX
  * on 2020/06/24  18:47
  */
-public class ReceiverListenerManager implements CloudBroadcastReceiver.ReceiverListener {
+public class InstallReceiverListenerManager implements CloudBroadcastReceiver.ReceiverListener {
 
     private HashMap<String, List<CloudInstallCallback>> mCallbackMap = new HashMap<>();
 
     private static class Factory {
-        private static ReceiverListenerManager mInstance = new ReceiverListenerManager();
+        private static InstallReceiverListenerManager mInstance = new InstallReceiverListenerManager();
     }
 
-    public static ReceiverListenerManager getInstance() {
+    public static InstallReceiverListenerManager getInstance() {
         return Factory.mInstance;
     }
 
-    public ReceiverListenerManager addMap(HashMap<String, CloudInstallCallback> hashMap) {
+    public InstallReceiverListenerManager addMap(HashMap<String, CloudInstallCallback> hashMap) {
         for (Map.Entry<String, CloudInstallCallback> entry : hashMap.entrySet()) {
             String key = entry.getKey();
             CloudInstallCallback value = entry.getValue();
@@ -55,13 +59,28 @@ public class ReceiverListenerManager implements CloudBroadcastReceiver.ReceiverL
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
+        if (TextUtils.isEmpty(action)) {
+            return;
+        }
         List<CloudInstallCallback> list = mCallbackMap.get(action);
         if (list == null || list.size() == 0) {
             return;
         }
-        for (CloudInstallCallback callback : list) {
-            //TODO
-//            callback.onStatusChanged();
+        final CloudInstallStatusEnum cloudInstallStatusEnum = CloudInstallStatusEnum.of(action);
+        if (cloudInstallStatusEnum == null) {
+            return;
+        }
+        for (final CloudInstallCallback callback : list) {
+            HandleUtils.postMain(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        callback.onStatusChanged(cloudInstallStatusEnum);
+                    } catch (Throwable throwable) {
+                        Logger.Debug(throwable);
+                    }
+                }
+            });
         }
     }
 }

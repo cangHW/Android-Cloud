@@ -67,8 +67,7 @@ public class CloudUtilsShareServiceImpl implements CloudUtilsShareService {
                     Uri imageUri = Uri.fromFile(new File(path));
                     imageUris.add(imageUri);
                 } catch (Throwable throwable) {
-                    Logger.Debug(CloudApiError.DATA_ERROR.append("the img is error on " + path).build());
-                    Logger.Debug(throwable.getMessage());
+                    Logger.Debug(CloudApiError.DATA_ERROR.append("the img is error on " + path).build(), throwable);
                 }
             }
         }

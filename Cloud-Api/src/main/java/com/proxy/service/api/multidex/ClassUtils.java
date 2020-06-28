@@ -60,7 +60,7 @@ public class ClassUtils {
                             }
                         }
                     } catch (Throwable throwable) {
-                        Logger.Error("Scan map file in dex files made error." + throwable);
+                        Logger.Error("Scan map file in dex files made error.", throwable);
                     }
 
                     if (dexfile != null) {

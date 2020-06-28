@@ -33,7 +33,7 @@ public class Cache {
         try {
             packageManager = context.getPackageManager();
         } catch (Throwable throwable) {
-            Logger.Debug(throwable.getMessage());
+            Logger.Debug(throwable);
             return null;
         }
         mPackageManagerSoftReference = new SoftReference<>(packageManager);
@@ -52,7 +52,7 @@ public class Cache {
         try {
             activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         } catch (Throwable throwable) {
-            Logger.Debug(throwable.getMessage());
+            Logger.Debug(throwable);
             return null;
         }
         mActivityManagerSoftReference = new SoftReference<>(activityManager);

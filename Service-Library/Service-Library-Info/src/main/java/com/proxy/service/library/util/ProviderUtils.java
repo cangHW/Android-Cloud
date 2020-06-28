@@ -51,7 +51,7 @@ public class ProviderUtils {
                 }
             }
         } catch (Throwable t) {
-            Logger.Debug(t.getMessage());
+            Logger.Debug(t);
         }
         return authorities;
     }

@@ -92,7 +92,7 @@ class HwOaidAidlUtil {
                 }
                 mCallback.onSuccuss(mService.getOaid(), mService.isOaidTrackLimited());
             } catch (Throwable e) {
-                mLogger.error("getChannelInfo RemoteException");
+                mLogger.error("getChannelInfo RemoteException", e);
                 if (mCallback == null) {
                     return;
                 }

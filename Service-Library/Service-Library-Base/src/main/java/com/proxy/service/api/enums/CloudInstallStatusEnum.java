@@ -56,7 +56,28 @@ public enum CloudInstallStatusEnum {
         this.value = value;
     }
 
-    public String getValue(){
+    public static CloudInstallStatusEnum of(String action) {
+        if (action.equals(PACKAGE_DATA_CLEARED.value)) {
+            return PACKAGE_DATA_CLEARED;
+        } else if (action.equals(PACKAGE_FIRST_LAUNCH.value)) {
+            return PACKAGE_FIRST_LAUNCH;
+        } else if (action.equals(PACKAGE_ADDED.value)) {
+            return PACKAGE_ADDED;
+        } else if (action.equals(PACKAGE_REMOVED.value)) {
+            return PACKAGE_REMOVED;
+        } else if (action.equals(PACKAGE_FULLY_REMOVED.value)) {
+            return PACKAGE_FULLY_REMOVED;
+        } else if (action.equals(PACKAGE_REPLACED.value)) {
+            return PACKAGE_REPLACED;
+        } else if (action.equals(PACKAGE_RESTARTED.value)) {
+            return PACKAGE_RESTARTED;
+        } else if (action.equals(MY_PACKAGE_REPLACED.value)) {
+            return MY_PACKAGE_REPLACED;
+        }
+        return null;
+    }
+
+    public String getValue() {
         return value;
     }
 }

@@ -3,6 +3,7 @@ package com.chx.androidcloud;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.proxy.service.api.CloudSystem;
@@ -16,18 +17,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        CloudSystem.init(this);
+//        CloudSystem.init(this);
     }
 
     public void onClick(View view){
 
-        CloudUtilsInstallService service=CloudSystem.getService(CloudServiceTagLibrary.UTILS_INSTALL);
-        if (service==null){
-            return;
-        }
-        boolean flag =service.isInstallApp("com.huawei.scenepack");
-        Logger.Debug(flag+"");
-            Logger.Debug("  ");
+//        CloudUtilsInstallService service=CloudSystem.getService(CloudServiceTagLibrary.UTILS_INSTALL);
+//        if (service==null){
+//            return;
+//        }
+//        boolean flag =service.isInstallApp("com.huawei.scenepack");
+//        Logger.Debug(flag+"");
+        Log.e("asd","xxxxx");
+        Log.e("asd","xxxxx",new NullPointerException("wwwwwww"));
+        Log.e("asd","xxxxx");
+//            Logger.Debug("  ");
 //        List<CloudUtilsInstallService.AppInfo> list = service.getAllInstallAppsInfo();
 //        Logger.Error("list.size  :  "+list.size()+"");
 //        for (CloudUtilsInstallService.AppInfo appInfo:list){

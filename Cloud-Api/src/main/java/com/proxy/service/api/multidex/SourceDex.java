@@ -126,7 +126,7 @@ class SourceDex {
             }
             Logger.Debug("Found InstantRun support");
         } catch (Throwable e) {
-            Logger.Debug("InstantRun support error, " + e.getMessage());
+            Logger.Debug("InstantRun support error, ", e);
         }
         return instantRunDexPaths;
     }

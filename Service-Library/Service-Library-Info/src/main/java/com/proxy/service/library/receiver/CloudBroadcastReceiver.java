@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.text.TextUtils;
 
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.library.util.HandleUtils;
@@ -22,7 +23,7 @@ public class CloudBroadcastReceiver extends BroadcastReceiver {
     /**
      * 接收消息回调
      */
-    public static interface ReceiverListener {
+    public interface ReceiverListener {
         /**
          * 接收到消息
          *
@@ -57,6 +58,10 @@ public class CloudBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
+        String action = intent.getAction();
+        if (TextUtils.isEmpty(action)) {
+            return;
+        }
         HandleUtils.postBg(new Runnable() {
             @Override
             public void run() {

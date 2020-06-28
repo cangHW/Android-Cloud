@@ -52,7 +52,7 @@ public class CloudUtilsAppServiceImpl implements CloudUtilsAppService {
             PackageInfo info = packageManager.getPackageInfo(getPackageName(), 0);
             targetSdkVersion = info.applicationInfo.targetSdkVersion;
         } catch (Throwable e) {
-            Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build());
+            Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build(), e);
         }
         return targetSdkVersion;
     }
@@ -118,7 +118,7 @@ public class CloudUtilsAppServiceImpl implements CloudUtilsAppService {
             PackageInfo info = packageManager.getPackageInfo(context.getPackageName(), 0);
             versionCode = info.versionCode;
         } catch (Throwable e) {
-            Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build());
+            Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build(), e);
         }
         return versionCode;
     }
@@ -148,7 +148,7 @@ public class CloudUtilsAppServiceImpl implements CloudUtilsAppService {
             PackageInfo info = packageManager.getPackageInfo(context.getPackageName(), 0);
             versionCode = info.getLongVersionCode();
         } catch (Throwable e) {
-            Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build());
+            Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build(), e);
         }
         return versionCode;
     }
@@ -177,7 +177,7 @@ public class CloudUtilsAppServiceImpl implements CloudUtilsAppService {
             PackageInfo info = packageManager.getPackageInfo(context.getPackageName(), 0);
             versionName = info.versionName;
         } catch (Throwable e) {
-            Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build());
+            Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build(), e);
         }
         return versionName;
     }
@@ -223,7 +223,7 @@ public class CloudUtilsAppServiceImpl implements CloudUtilsAppService {
                     break;
                 }
             } catch (Throwable throwable) {
-                Logger.Debug(CloudApiError.ACTIVITY_MANAGER_ERROR.setMsg(throwable).build());
+                Logger.Debug(CloudApiError.ACTIVITY_MANAGER_ERROR.setMsg(throwable).build(), throwable);
             }
             return isInBackground;
         }
@@ -241,7 +241,7 @@ public class CloudUtilsAppServiceImpl implements CloudUtilsAppService {
                 isInBackground = false;
             }
         } catch (Throwable throwable) {
-            Logger.Debug(CloudApiError.ACTIVITY_MANAGER_ERROR.setMsg(throwable).build());
+            Logger.Debug(CloudApiError.ACTIVITY_MANAGER_ERROR.setMsg(throwable).build(), throwable);
         }
         return isInBackground;
     }

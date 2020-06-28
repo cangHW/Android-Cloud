@@ -24,7 +24,7 @@ import com.proxy.service.api.services.CloudUtilsInstallService;
 import com.proxy.service.api.tag.CloudServiceTagLibrary;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.library.cache.Cache;
-import com.proxy.service.library.manager.ReceiverListenerManager;
+import com.proxy.service.library.manager.InstallReceiverListenerManager;
 import com.proxy.service.library.provider.CloudProvider;
 import com.proxy.service.library.receiver.CloudBroadcastReceiver;
 import com.proxy.service.library.util.ProviderUtils;
@@ -65,7 +65,7 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
         }
         intentFilter.addDataScheme("package");
 
-        CloudBroadcastReceiver.getInstance().addIntentFilter(intentFilter, ReceiverListenerManager.getInstance().addMap(hashMap));
+        CloudBroadcastReceiver.getInstance().addIntentFilter(intentFilter, InstallReceiverListenerManager.getInstance().addMap(hashMap));
     }
 
     /**
@@ -91,7 +91,7 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
         try {
             return packageManager.getLaunchIntentForPackage(packageName) != null;
         } catch (Throwable throwable) {
-            Logger.Debug(throwable.getMessage());
+            Logger.Debug(throwable);
         }
         return false;
     }
@@ -160,7 +160,7 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
             }
             context.startActivity(intent);
         } catch (Throwable throwable) {
-            Logger.Debug(throwable.getMessage());
+            Logger.Debug(throwable);
         }
     }
 
@@ -188,7 +188,7 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
         try {
             packageInfo = packageManager.getPackageArchiveInfo(apkPath, PackageManager.GET_ACTIVITIES);
         } catch (Throwable throwable) {
-            Logger.Debug(throwable.getMessage());
+            Logger.Debug(throwable);
         }
         if (packageInfo == null) {
             return "";
@@ -299,7 +299,7 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
             context.startActivity(intent);
             return true;
         } catch (Throwable throwable) {
-            Logger.Debug(throwable.getMessage());
+            Logger.Debug(throwable);
         }
 
         return false;

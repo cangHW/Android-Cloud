@@ -11,6 +11,7 @@ import com.proxy.service.api.service.cache.ConverterCache;
 import com.proxy.service.api.service.cache.ServiceCache;
 import com.proxy.service.api.service.listener.Converter;
 import com.proxy.service.api.service.node.Node;
+import com.proxy.service.api.utils.Logger;
 import com.proxy.service.base.BaseService;
 
 import java.util.List;
@@ -40,17 +41,20 @@ public final class CloudSystem {
     /**
      * 初始化
      *
+     * @param context : 上下文环境
+     * @param isDebug : 是否是测试环境
      * @version: 1.0
      * @author: cangHX
      * @date: 2019/10/31 15:53
      */
-    public synchronized static void init(@NonNull Context context) {
+    public synchronized static void init(@NonNull Context context, boolean isDebug) {
         if (isInit) {
             return;
         }
         isInit = true;
         ServiceManager.INSTANCE.registerAllServices(context);
         ContextManager.init(context);
+        Logger.setDebug(isDebug);
     }
 
     /**
