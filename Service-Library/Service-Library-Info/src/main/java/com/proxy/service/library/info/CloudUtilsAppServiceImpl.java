@@ -11,7 +11,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.cloud.annotations.CloudService;
+import com.proxy.service.annotations.CloudService;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsAppService;

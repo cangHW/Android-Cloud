@@ -6,7 +6,7 @@ import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
-import com.cloud.annotations.CloudService;
+import com.proxy.service.annotations.CloudService;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsShareService;

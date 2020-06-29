@@ -1,7 +1,7 @@
 package com.proxy.service.compiler.handler;
 
-import com.cloud.annotations.CloudNewInstance;
-import com.cloud.annotations.CloudService;
+import com.proxy.service.annotations.CloudNewInstance;
+import com.proxy.service.annotations.CloudService;
 import com.proxy.service.consts.ClassConstants;
 import com.proxy.service.node.BaseNode;
 import com.squareup.javapoet.ClassName;

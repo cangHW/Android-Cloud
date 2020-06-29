@@ -2,7 +2,7 @@ package com.proxy.service.library.info;
 
 import android.content.Context;
 
-import com.cloud.annotations.CloudService;
+import com.proxy.service.annotations.CloudService;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsDisplayService;

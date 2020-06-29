@@ -1,6 +1,6 @@
 package com.proxy.service.compiler.process;
 
-import com.cloud.annotations.CloudService;
+import com.proxy.service.annotations.CloudService;
 import com.proxy.service.compiler.handler.CloudServiceHandlerImpl;
 import com.proxy.service.compiler.handler.AbstractHandler;
 import com.proxy.service.consts.ClassConstants;

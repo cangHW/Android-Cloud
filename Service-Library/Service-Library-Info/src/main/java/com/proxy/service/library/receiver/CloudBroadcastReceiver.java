@@ -50,6 +50,15 @@ public class CloudBroadcastReceiver extends BroadcastReceiver {
         return Factory.mInstance;
     }
 
+    /**
+     * 添加过滤器
+     *
+     * @param filter   : 意图过滤器
+     * @param listener : 回调监听
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-28 20:59
+     */
     public void addIntentFilter(IntentFilter filter, ReceiverListener listener) {
         this.mReceiverListeners.put(listener, EMPTY_OBJECT);
         Context context = ContextManager.getApplication();

@@ -4,7 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 
-import com.cloud.annotations.CloudService;
+import com.proxy.service.annotations.CloudService;
 import com.proxy.service.api.services.CloudUtilsSystemInfoService;
 import com.proxy.service.api.tag.CloudServiceTagLibrary;
 import com.proxy.service.api.utils.Logger;

@@ -2,7 +2,6 @@ package com.proxy.service.api.services;
 
 import androidx.annotation.NonNull;
 
-import com.proxy.service.api.annotations.BRAND;
 import com.proxy.service.base.BaseService;
 
 /**

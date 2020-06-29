@@ -2,8 +2,8 @@ package com.proxy.service.api.service.cache;
 
 import androidx.annotation.NonNull;
 
-import com.cloud.annotations.CloudNewInstance;
-import com.cloud.annotations.CloudService;
+import com.proxy.service.annotations.CloudNewInstance;
+import com.proxy.service.annotations.CloudService;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.base.BaseService;
 import com.proxy.service.node.ServiceNode;
