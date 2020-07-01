@@ -1,5 +1,7 @@
 package com.proxy.service.compiler.handler;
 
+import java.util.List;
+
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
@@ -47,6 +49,16 @@ public abstract class AbstractHandler {
             mMessager.printMessage(Diagnostic.Kind.ERROR, "Did you set the \"RoundEnvironment\" on " + this.getClass().getSimpleName() + "?");
         }
     }
+
+    /**
+     * 当前 handler 准备执行哪些注解
+     *
+     * @return 返回注解类型
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-30 10:22
+     */
+    public abstract List<String> getSupportedAnnotationTypes();
 
     /**
      * 处理器执行方法

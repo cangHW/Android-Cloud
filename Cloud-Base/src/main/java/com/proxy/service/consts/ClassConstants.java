@@ -1,6 +1,7 @@
 package com.proxy.service.consts;
 
 import com.proxy.service.base.AbstractServiceCache;
+import com.proxy.service.node.OtherNode;
 import com.proxy.service.node.ServiceNode;
 
 /**
@@ -23,18 +24,31 @@ public class ClassConstants {
      */
     public static final String SUPPER_CLASS_PATH = AbstractServiceCache.class.getCanonicalName();
 
+
     /**
      * 编译器生成的辅助文件所需实现方法
      */
     public static final String SUPPER_CLASS_METHOD_NAME = "getServices";
 
     /**
-     * 用于生成辅助文件，进行自动注册
+     * 编译器生成的辅助文件所需参数路径
      */
-    public static final String CLOUD_MODULE_NAME = "CLOUD_MODULE_NAME";
+    public static final String PARAM_SERVICE_NODE_CLASS_PATH = ServiceNode.class.getCanonicalName();
+
+    /**
+     * 编译器生成的辅助文件所需实现方法  2
+     */
+    public static final String SUPPER_CLASS_METHOD_NAME_2 = "getOthers";
 
     /**
      * 编译器生成的辅助文件所需参数路径
      */
-    public static final String PARAM_SERVICE_NODE_CLASS_PATH = ServiceNode.class.getCanonicalName();
+    public static final String PARAM_OTHER_NODE_CLASS_PATH = OtherNode.class.getCanonicalName();
+
+
+    /**
+     * 用于生成辅助文件，进行自动注册
+     */
+    public static final String CLOUD_MODULE_NAME = "CLOUD_MODULE_NAME";
+
 }

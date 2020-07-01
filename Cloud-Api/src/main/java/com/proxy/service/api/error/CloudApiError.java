@@ -33,6 +33,11 @@ public enum CloudApiError {
     DATA_EMPTY(20001, "The data is empty"),
 
     /**
+     * 数据不类型错误
+     */
+    DATA_TYPE_ERROR(20002, "The data type is empty"),
+
+    /**
      * 获取PackageManager失败
      */
     PACKAGE_MANAGER_ERROR(20100, "The PackageManager is error"),
@@ -44,7 +49,7 @@ public enum CloudApiError {
 
     /******************  权限问题  *************************/
     /**
-     * 获取ActivityManager失败
+     * 安装过程存在安全隐患
      */
     INSTALL_SECURITY_PATH_ERROR(30000, "Lack of security path");
 

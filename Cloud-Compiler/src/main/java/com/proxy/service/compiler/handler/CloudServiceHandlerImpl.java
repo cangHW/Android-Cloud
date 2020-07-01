@@ -2,8 +2,9 @@ package com.proxy.service.compiler.handler;
 
 import com.proxy.service.annotations.CloudNewInstance;
 import com.proxy.service.annotations.CloudService;
+import com.proxy.service.compiler.node.NodeOther;
+import com.proxy.service.compiler.node.NodeService;
 import com.proxy.service.consts.ClassConstants;
-import com.proxy.service.node.BaseNode;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -12,6 +13,8 @@ import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import javax.lang.model.element.Element;
@@ -25,30 +28,33 @@ import javax.tools.Diagnostic;
  */
 public class CloudServiceHandlerImpl extends AbstractHandler {
 
-    private static class Node extends BaseNode {
-        /**
-         * 服务类地址
-         */
-        String classPath;
-
-        private Node(String serviceTag, boolean isNewInstance, String classPath) {
-            this.serviceTag = serviceTag;
-            this.isNewInstance = isNewInstance;
-            this.classPath = classPath;
-        }
-
-        static Node create(String serviceTag, boolean isNewInstance, String classPath) {
-            return new Node(serviceTag, isNewInstance, classPath);
-        }
-    }
-
-    private ArrayList<Node> mNodes = new ArrayList<>();
+    private ArrayList<NodeService> mServiceNodes = new ArrayList<>();
+    private ArrayList<NodeOther> mOtherNodes = new ArrayList<>();
 
     private String mModuleName;
 
     public CloudServiceHandlerImpl setModuleName(String moduleName) {
         this.mModuleName = moduleName;
         return this;
+    }
+
+    public CloudServiceHandlerImpl setOtherList(ArrayList<NodeOther> nodes) {
+        mOtherNodes.clear();
+        mOtherNodes.addAll(nodes);
+        return this;
+    }
+
+    /**
+     * 当前 handler 准备执行哪些注解
+     *
+     * @return 返回注解类型
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-30 10:22
+     */
+    @Override
+    public List<String> getSupportedAnnotationTypes() {
+        return Collections.singletonList(CloudService.class.getCanonicalName());
     }
 
     /**
@@ -78,7 +84,7 @@ public class CloudServiceHandlerImpl extends AbstractHandler {
             CloudNewInstance cloudNewInstance = element.getAnnotation(CloudNewInstance.class);
             TypeElement typeElement = (TypeElement) element;
             String value = typeElement.getQualifiedName().toString();
-            mNodes.add(Node.create(cloudService.serviceTag(), cloudNewInstance != null, value));
+            mServiceNodes.add(NodeService.create(cloudService.serviceTag(), cloudNewInstance != null, value));
         }
     }
 
@@ -87,6 +93,7 @@ public class CloudServiceHandlerImpl extends AbstractHandler {
         TypeSpec.Builder builder = TypeSpec.classBuilder(ClassConstants.CLASS_PREFIX + mModuleName);
         builder.addModifiers(Modifier.PUBLIC).superclass(className);
         builder.addMethod(createMethodSpecGetServices());
+        builder.addMethod(createMethodSpecGetOthers());
         JavaFile.builder(ClassConstants.PACKAGE_SERVICES_CACHE, builder.build()).build().writeTo(mFiler);
     }
 
@@ -97,7 +104,7 @@ public class CloudServiceHandlerImpl extends AbstractHandler {
         ParameterizedTypeName returnTypeName = ParameterizedTypeName.get(ClassName.get(ArrayList.class), typeName);
         builder.addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(returnTypeName);
         builder.addStatement("$T list = new $T()", returnTypeName, returnTypeName);
-        for (Node node : mNodes) {
+        for (NodeService node : mServiceNodes) {
             TypeElement element = mElements.getTypeElement(node.classPath);
             if (element != null) {
                 ClassName className = ClassName.get(element);
@@ -106,6 +113,29 @@ public class CloudServiceHandlerImpl extends AbstractHandler {
                     builder.addStatement(format, typeName, node.serviceTag, node.isNewInstance, className);
                 } catch (Throwable throwable) {
                     mMessager.printMessage(Diagnostic.Kind.ERROR, "Are you sure " + node.classPath + " inherits BaseService?");
+                }
+            }
+        }
+        builder.addStatement("return list");
+        return builder.build();
+    }
+
+    private MethodSpec createMethodSpecGetOthers() {
+        MethodSpec.Builder builder = MethodSpec.methodBuilder(ClassConstants.SUPPER_CLASS_METHOD_NAME_2);
+
+        ClassName typeName = ClassName.get(mElements.getTypeElement(ClassConstants.PARAM_OTHER_NODE_CLASS_PATH));
+        ParameterizedTypeName returnTypeName = ParameterizedTypeName.get(ClassName.get(ArrayList.class), typeName);
+        builder.addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(returnTypeName);
+        builder.addStatement("$T list = new $T()", returnTypeName, returnTypeName);
+        for (NodeOther node : mOtherNodes) {
+            TypeElement element = mElements.getTypeElement(node.classPath);
+            if (element != null) {
+                ClassName className = ClassName.get(element);
+                try {
+                    String format = "list.add(new $T($L,new $T()))";
+                    builder.addStatement(format, typeName, node.isNewInstance, className);
+                } catch (Throwable throwable) {
+                    mMessager.printMessage(Diagnostic.Kind.ERROR, "Are you sure " + node.classPath + " is has?");
                 }
             }
         }

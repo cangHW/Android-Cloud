@@ -1,4 +1,10 @@
-package com.proxy.service.api.annotations;
+package com.proxy.service.annotations;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author: cangHX
@@ -7,6 +13,9 @@ package com.proxy.service.api.annotations;
  * 用于标示自动装载
  * @see com.proxy.service.api.services.CloudUiTabHostService
  */
+@Documented
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface CloudUiTabHostReward {
 
     /**
@@ -17,6 +26,6 @@ public @interface CloudUiTabHostReward {
      * @author: cangHX
      * @date: 2020-06-29 14:36
      */
-    String rewardTag() default "cloud_normal";
+    String rewardTag() default "cloud_reward_normal";
 
 }

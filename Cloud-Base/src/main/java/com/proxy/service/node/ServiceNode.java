@@ -10,6 +10,11 @@ import com.proxy.service.base.BaseService;
 public class ServiceNode extends BaseNode {
 
     /**
+     * 服务的tag
+     */
+    public String serviceTag;
+
+    /**
      * 当前服务类实例
      */
     public BaseService service;

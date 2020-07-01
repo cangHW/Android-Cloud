@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.proxy.service.api.context.ContextManager;
+import com.proxy.service.api.service.DataManager;
 import com.proxy.service.api.service.ServiceManager;
 import com.proxy.service.api.service.cache.ConverterCache;
 import com.proxy.service.api.service.cache.ServiceCache;
@@ -52,10 +53,24 @@ public final class CloudSystem {
             return;
         }
         isInit = true;
-        ServiceManager.INSTANCE.registerAllServices(context);
+        DataManager.INSTANCE.registerAllServices(context);
         ContextManager.init(context);
         Logger.setDebug(isDebug);
     }
+
+
+    /**
+     * 供开发者使用，提供外部注册服务功能
+     *
+     * @param services : 外部准备注册的服务集合
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2019/10/31 18:32
+     */
+    public static void registerServices(@NonNull List<BaseService> services) {
+        ServiceCache.addAllAtFirst(services);
+    }
+
 
     /**
      * 根据传入 tag 值，返回符合条件的 service 实例
@@ -186,17 +201,6 @@ public final class CloudSystem {
         return ServiceManager.INSTANCE.getService(uuid, tClass, ServiceManager.TYPE_ALL);
     }
 
-    /**
-     * 供开发者使用，提供外部注册服务功能
-     *
-     * @param services : 外部准备注册的服务集合
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2019/10/31 18:32
-     */
-    public static void registerServices(@NonNull List<BaseService> services) {
-        ServiceCache.addAllAtFirst(services);
-    }
 
     /**
      * 允许对CloudSystem的功能进行一定程度的扩展

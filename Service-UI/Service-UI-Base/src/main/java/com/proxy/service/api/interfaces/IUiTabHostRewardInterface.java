@@ -1,5 +1,7 @@
 package com.proxy.service.api.interfaces;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
@@ -10,7 +12,7 @@ import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
  * <p>
  * android 选项卡类型页面顶级接口
  */
-public interface IUiTabHostRewardInterface<C, T> {
+public interface IUiTabHostRewardInterface<C> {
 
     /**
      * 设置工具类，可以实现通信、跳转、获取部分数据等功能
@@ -42,7 +44,7 @@ public interface IUiTabHostRewardInterface<C, T> {
      * @date: 2020-06-29 15:52
      */
     @NonNull
-    T getTab();
+    View getTab();
 
     /**
      * 获取展示位置

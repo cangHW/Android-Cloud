@@ -1,11 +1,14 @@
 package com.proxy.service.compiler.process;
 
-import com.proxy.service.annotations.CloudService;
 import com.proxy.service.compiler.handler.CloudServiceHandlerImpl;
 import com.proxy.service.compiler.handler.AbstractHandler;
+import com.proxy.service.compiler.handler.CloudUiTabHostRewardHandlerImpl;
 import com.proxy.service.consts.ClassConstants;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,7 +49,16 @@ public class CloudServiceProcessor extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        return Collections.singleton(CloudService.class.getCanonicalName());
+        List<String> list = new ArrayList<>();
+
+        try {
+            list.addAll(AbstractHandler.create(CloudUiTabHostRewardHandlerImpl.class).getSupportedAnnotationTypes());
+            list.addAll(AbstractHandler.create(CloudServiceHandlerImpl.class).getSupportedAnnotationTypes());
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+
+        return new HashSet<>(list);
     }
 
     @Override
@@ -65,7 +77,9 @@ public class CloudServiceProcessor extends AbstractProcessor {
             return false;
         }
         try {
-            AbstractHandler.create(CloudServiceHandlerImpl.class).setModuleName(mModuleName).setRoundEnvironment(roundEnvironment).execute(mProcessingEnvironment);
+            CloudUiTabHostRewardHandlerImpl cloudUiTabHostRewardHandler = AbstractHandler.create(CloudUiTabHostRewardHandlerImpl.class);
+            cloudUiTabHostRewardHandler.setRoundEnvironment(roundEnvironment).execute(mProcessingEnvironment);
+            AbstractHandler.create(CloudServiceHandlerImpl.class).setModuleName(mModuleName).setOtherList(cloudUiTabHostRewardHandler.getOtherNodes()).setRoundEnvironment(roundEnvironment).execute(mProcessingEnvironment);
         } catch (Throwable throwable) {
             mMessager.printMessage(Diagnostic.Kind.ERROR, throwable.getMessage());
         }

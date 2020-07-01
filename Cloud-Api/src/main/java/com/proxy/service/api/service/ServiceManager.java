@@ -47,17 +47,6 @@ public enum ServiceManager {
     public static final String TYPE_ONLY = "only";
 
     /**
-     * 注册所有的服务
-     *
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2019/10/31 17:25
-     */
-    public synchronized void registerAllServices(Context context) {
-        findAllServices(context);
-    }
-
-    /**
      * 通过 tag 值查找对应的 Service 集合
      *
      * @param uuid : 唯一ID，主要用于转换器
@@ -122,34 +111,6 @@ public enum ServiceManager {
     }
 
     /**
-     * 通过辅助文件，加载所有可以加载的服务
-     *
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2019/10/31 18:01
-     */
-    private void findAllServices(Context context) {
-        try {
-            Set<String> stringSet = ClassUtils.getFileNameByPackageName(context, ClassConstants.PACKAGE_SERVICES_CACHE);
-            if (stringSet == null) {
-                return;
-            }
-            for (String classPath : stringSet) {
-                if (!classPath.startsWith(ClassConstants.PACKAGE_SERVICES_CACHE + "." + ClassConstants.CLASS_PREFIX)) {
-                    continue;
-                }
-                try {
-                    AbstractServiceCache cache = (AbstractServiceCache) Class.forName(classPath).getConstructor().newInstance();
-                    ServiceCache.addAll(cache.getServices());
-                } catch (Throwable ignored) {
-                }
-            }
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-    }
-
-    /**
      * 检查当前服务是否符合要求，以及是否要提前结束查询
      *
      * @param uuid : 唯一ID，主要用于转换器
@@ -165,7 +126,7 @@ public enum ServiceManager {
         BaseService service = node.service;
         if (node.isNewInstance) {
             try {
-                service.getClass().getConstructor().newInstance();
+                service = service.getClass().getConstructor().newInstance();
             } catch (Throwable ignored) {
             }
         }

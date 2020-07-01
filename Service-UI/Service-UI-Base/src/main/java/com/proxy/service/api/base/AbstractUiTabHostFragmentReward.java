@@ -1,7 +1,5 @@
 package com.proxy.service.api.base;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -12,9 +10,12 @@ import com.proxy.service.api.interfaces.IUiTabHostRewardInterface;
 /**
  * @author: cangHX
  * on 2020/06/29  15:42
+ * <p>
+ * 子类需添加注解
+ * {@link com.proxy.service.annotations.CloudUiTabHostReward}
  */
 @SuppressWarnings("WeakerAccess")
-public abstract class AbstractUiTabHostFragmentReward implements IUiTabHostRewardInterface<Fragment, View> {
+public abstract class AbstractUiTabHostFragmentReward implements IUiTabHostRewardInterface<Fragment> {
     /**
      * 设置工具类，可以实现通信、跳转、获取部分数据等功能
      *
