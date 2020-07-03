@@ -1,7 +1,6 @@
 package com.proxy.service.ui.info;
 
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,8 +17,7 @@ import com.proxy.service.api.service.OtherManager;
 import com.proxy.service.api.services.CloudUiTabHostService;
 import com.proxy.service.api.tag.CloudServiceTagUi;
 import com.proxy.service.api.utils.Logger;
-import com.proxy.service.ui.uitabhost.base.AbstractTabHostHelper;
-import com.proxy.service.ui.uitabhost.normal.NormalTabHostHelperImpl;
+import com.proxy.service.ui.uitabhost.TabHostHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +30,7 @@ import java.util.List;
 @CloudService(serviceTag = CloudServiceTagUi.UI_TAB_HOST)
 public class CloudUiTabHostServiceImpl implements CloudUiTabHostService {
 
-    private AbstractTabHostHelper mTabHostHelper;
+    private TabHostHelper mTabHostHelper;
     private FragmentActivity mFragmentActivity;
     private Fragment mFragment;
     private ViewGroup mContentViewGroup;
@@ -97,7 +95,7 @@ public class CloudUiTabHostServiceImpl implements CloudUiTabHostService {
     public CloudUiTabHostService setContentSpace(ViewGroup viewGroup) {
         this.mContentViewGroup = viewGroup;
         if (!isLoadUi) {
-            mTabHostHelper = createHelper(viewGroup);
+            mTabHostHelper = new TabHostHelper();
         }
         return this;
     }
@@ -203,18 +201,12 @@ public class CloudUiTabHostServiceImpl implements CloudUiTabHostService {
         }
         isLoadUi = true;
 
-        if (mFragment != null) {
-            mTabHostHelper.setFragment(mFragment);
-        }
-
-        if (mFragmentActivity != null) {
-            mTabHostHelper.setActivity(mFragmentActivity);
-        }
-
         mTabHostHelper.setUiTabHostRewardInterfaces(getData(rewardTag))
                 .setContentSpace(mContentViewGroup)
-                .addEventCallback(mCloudUiEventCallback)
                 .setTabSpace(mTabViewGroup)
+                .setFragment(mFragment)
+                .setActivity(mFragmentActivity)
+                .addEventCallback(mCloudUiEventCallback)
                 .setSelect(mTabIndex);
     }
 
@@ -282,25 +274,5 @@ public class CloudUiTabHostServiceImpl implements CloudUiTabHostService {
         }
 
         return list;
-    }
-
-    /**
-     * 通过 ViewGroup 创建不同的 helper 对象
-     *
-     * @param viewGroup : 用于展示内容的 ViewGroup
-     * @return 创建好的 helper 对象
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-01 10:46
-     */
-    private AbstractTabHostHelper createHelper(ViewGroup viewGroup) {
-        AbstractTabHostHelper helper = null;
-
-        //TODO 完善更多 helper
-        if (viewGroup instanceof LinearLayout) {
-            helper = new NormalTabHostHelperImpl();
-        }
-
-        return helper;
     }
 }
