@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 //        boolean flag =service.isInstallApp("com.huawei.scenepack");
 //        Logger.Debug(flag+"");
         Log.e("asd","xxxxx");
+        Log.e("asd","xxxxx");
         Log.e("asd","xxxxx",new NullPointerException("wwwwwww"));
         Log.e("asd","xxxxx");
 //            Logger.Debug("  ");
