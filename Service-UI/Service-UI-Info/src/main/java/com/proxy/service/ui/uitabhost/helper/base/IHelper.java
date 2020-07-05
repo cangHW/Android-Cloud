@@ -3,6 +3,8 @@ package com.proxy.service.ui.uitabhost.helper.base;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
+
 import java.util.List;
 
 /**
@@ -57,11 +59,12 @@ public interface IHelper<D, C> {
      * 设置选中的tab
      *
      * @param tabIndex : 用于标示tab
+     * @param from     : 事件来源
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-06-29 14:19
      */
-    void setSelect(int tabIndex);
+    void setSelect(int tabIndex, @TabHostRewardSelectFrom String from);
 
     /**
      * 根据class对象创建具体的对象

@@ -33,9 +33,14 @@ public enum CloudApiError {
     DATA_EMPTY(20001, "The data is empty"),
 
     /**
-     * 数据不类型错误
+     * 数据类型错误
      */
     DATA_TYPE_ERROR(20002, "The data type is empty"),
+
+    /**
+     * 数据重复
+     */
+    DATA_DUPLICATION(20003, "The data is duplication"),
 
     /**
      * 获取PackageManager失败

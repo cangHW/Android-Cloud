@@ -1,5 +1,6 @@
 package com.proxy.service.ui.uitabhost;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
 import com.proxy.service.api.callback.CloudUiEventCallback;
 import com.proxy.service.api.callback.CloudUiLifeCallback;
+import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.interfaces.IUiTabHostHelper;
 import com.proxy.service.api.interfaces.IUiTabHostRewardInterface;
 import com.proxy.service.api.utils.Logger;
@@ -22,6 +24,7 @@ import com.proxy.service.ui.uitabhost.helper.tab.error.TabErrorHelper;
 import com.proxy.service.ui.uitabhost.helper.tab.normal.TabNormalHelper;
 import com.proxy.service.ui.uitabhost.listener.ContentCallback;
 import com.proxy.service.ui.uitabhost.listener.TabCallback;
+import com.proxy.service.ui.util.CollectionUtils;
 import com.proxy.service.ui.util.ViewUtils;
 
 import java.util.ArrayList;
@@ -40,11 +43,15 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
      */
     public static final int SELECT_NULL = -1;
 
+    /**
+     * 是否加载过
+     */
+    private boolean isLoad = false;
     private int mSelectIndex = SELECT_NULL;
     private IContentHelper mContentHelper = null;
     private ITabHelper mTabHelper = null;
     private List<CloudUiEventCallback> mCloudUiEventCallbacks = new ArrayList<>();
-    private List<IUiTabHostRewardInterface> mTabHostRewardInterfaceList = new ArrayList<>();
+    private List<IUiTabHostRewardInterface> mTabHostRewardInterfaceList;
 
     /**
      * 设置依赖的 Activity
@@ -194,8 +201,34 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
      * @date: 2020-07-01 10:08
      */
     public TabHostHelper setUiTabHostRewardInterfaces(List<IUiTabHostRewardInterface> list) {
-        this.mTabHostRewardInterfaceList.clear();
-        this.mTabHostRewardInterfaceList.addAll(list);
+        this.mTabHostRewardInterfaceList = new ArrayList<>(list.size());
+        CollectionUtils.fullValue(this.mTabHostRewardInterfaceList, list.size(), null);
+
+        List<View> views = new ArrayList<>(list.size());
+        CollectionUtils.fullValue(views, list.size(), null);
+
+        List<Object> objects = new ArrayList<>(list.size());
+        CollectionUtils.fullValue(objects, list.size(), null);
+
+        for (IUiTabHostRewardInterface rewardInterface : list) {
+            Object object = this.mTabHostRewardInterfaceList.get(rewardInterface.getIndex());
+            if (object != null) {
+                this.mTabHostRewardInterfaceList.clear();
+                Logger.Error(CloudApiError.DATA_DUPLICATION.append("Repeat for the " + object.getClass().getCanonicalName() + " and " + rewardInterface.getClass().getCanonicalName() + " index").build());
+                return this;
+            }
+            this.mTabHostRewardInterfaceList.set(rewardInterface.getIndex(), rewardInterface);
+            views.set(rewardInterface.getIndex(), rewardInterface.getTab());
+            objects.set(rewardInterface.getIndex(), rewardInterface.getContent());
+
+            if (this.mSelectIndex == SELECT_NULL && rewardInterface.isDefaultSelect()) {
+                this.mSelectIndex = rewardInterface.getIndex();
+            }
+        }
+
+        this.mTabHelper.setData(views);
+        this.mContentHelper.setData(objects);
+
         return this;
     }
 
@@ -232,12 +265,54 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
     @Override
     public TabHostHelper setSelect(int tabIndex) {
         int index = tabIndex;
-        if (tabIndex < 0 || index >= mTabHostRewardInterfaceList.size()) {
+        if (!isCanSelect(index)) {
             index = SELECT_NULL;
         }
-        this.mTabHelper.setSelect(index);
-        this.mContentHelper.setSelect(index);
+
+        if (index < 0 && isLoad) {
+            return this;
+        }
+
+        isLoad = true;
+
+        index = index < 0 ? mSelectIndex : index;
+
+        if (index < 0) {
+            index = 0;
+        }
+
+        if (!isCanSelect(index)) {
+            return this;
+        }
+
+        select(index, TabHostRewardSelectFrom.FROM_HELPER);
+
+        if (mSelectIndex >= 0 && index != mSelectIndex) {
+            unSelect(mSelectIndex, TabHostRewardSelectFrom.FROM_HELPER);
+        }
+
         return this;
+    }
+
+    /**
+     * 目标是否可以被选中
+     *
+     * @param index : 选中的 index
+     * @return true 可以选中，false 不可以选中
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-05 08:47
+     */
+    @Override
+    public boolean isCanSelect(int index) {
+        if (index < 0 || index >= mTabHostRewardInterfaceList.size()) {
+            return false;
+        }
+        IUiTabHostRewardInterface rewardInterface = mTabHostRewardInterfaceList.get(index);
+        if (rewardInterface == null) {
+            return false;
+        }
+        return rewardInterface.isCanSelect();
     }
 
     /**
@@ -253,20 +328,32 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
     public void select(int index, String from) {
         switch (from) {
             case TabHostRewardSelectFrom.FROM_CONTENT:
+                this.mTabHelper.setSelect(index, from);
                 break;
             case TabHostRewardSelectFrom.FROM_HELPER:
+                this.mTabHelper.setSelect(index, from);
+                this.mContentHelper.setSelect(index, from);
                 break;
             case TabHostRewardSelectFrom.FROM_TAB:
+                this.mContentHelper.setSelect(index, from);
                 break;
             default:
                 break;
         }
+
+        IUiTabHostRewardInterface rewardInterface = mTabHostRewardInterfaceList.get(index);
+        try {
+            rewardInterface.onSelect(from);
+        } catch (Throwable throwable) {
+            Logger.Error(throwable);
+        }
+        this.mSelectIndex = index;
     }
 
     /**
      * 取消选中
      *
-     * @param index : 选中的 index
+     * @param index : 取消选中的 index
      * @param from  : 事件来源
      * @version: 1.0
      * @author: cangHX
@@ -274,15 +361,11 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
      */
     @Override
     public void unSelect(int index, String from) {
-        switch (from) {
-            case TabHostRewardSelectFrom.FROM_CONTENT:
-                break;
-            case TabHostRewardSelectFrom.FROM_HELPER:
-                break;
-            case TabHostRewardSelectFrom.FROM_TAB:
-                break;
-            default:
-                break;
+        IUiTabHostRewardInterface rewardInterface = mTabHostRewardInterfaceList.get(index);
+        try {
+            rewardInterface.onUnSelect(from);
+        } catch (Throwable throwable) {
+            Logger.Error(throwable);
         }
     }
 }

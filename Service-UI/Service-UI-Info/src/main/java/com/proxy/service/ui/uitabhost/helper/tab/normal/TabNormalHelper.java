@@ -60,8 +60,14 @@ public class TabNormalHelper implements ITabHelper {
 
             View cover = new View(mContext);
             cover.setOnClickListener(v -> {
-                //TODO
-                int index = mList.indexOf(v);
+                try {
+                    int index = mList.indexOf(v);
+                    if (!this.mCallback.isCanSelect(index)) {
+                        return;
+                    }
+                    changSelect(mSelect, index, TabHostRewardSelectFrom.FROM_TAB, true);
+                } catch (Throwable ignored) {
+                }
             });
 
             FrameLayout layout = new FrameLayout(mContext);
@@ -147,34 +153,34 @@ public class TabNormalHelper implements ITabHelper {
      * 设置选中的tab
      *
      * @param tabIndex : 用于标示tab
+     * @param from     : 事件来源
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-06-29 14:19
      */
     @Override
-    public void setSelect(int tabIndex) {
-        changSelect(mSelect, tabIndex, TabHostRewardSelectFrom.FROM_HELPER);
+    public void setSelect(int tabIndex, String from) {
+        changSelect(mSelect, tabIndex, from, false);
     }
 
     /**
      * 切换选中
      *
-     * @param old  : 当前选中
-     * @param now  : 即将选中
-     * @param from : 事件来源
+     * @param old        : 当前选中
+     * @param now        : 即将选中
+     * @param from       : 事件来源
+     * @param isCallback : 是否进行回调
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-07-03 09:59
      */
-    private void changSelect(int old, int now, @TabHostRewardSelectFrom String from) {
-        if (now < 0 || now >= mList.size()) {
-            return;
+    private synchronized void changSelect(int old, int now, @TabHostRewardSelectFrom String from, boolean isCallback) {
+        if (isCallback) {
+            if (old > 0 && old < mList.size() && old != now) {
+                this.mCallback.unSelect(old, from);
+            }
+            this.mCallback.select(now, from);
         }
-
-        if (old > 0 && old < mList.size() && old != now) {
-            this.mCallback.unSelect(old, from);
-        }
-        this.mCallback.select(now, from);
 
         this.mSelect = now;
     }

@@ -9,6 +9,17 @@ import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
 public interface BaseUiTabHostCallback {
 
     /**
+     * 目标是否可以被选中
+     *
+     * @param index : 选中的 index
+     * @return true 可以选中，false 不可以选中
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-05 08:47
+     */
+    boolean isCanSelect(int index);
+
+    /**
      * 选中
      *
      * @param index : 选中的 index
@@ -22,7 +33,7 @@ public interface BaseUiTabHostCallback {
     /**
      * 取消选中
      *
-     * @param index : 选中的 index
+     * @param index : 取消选中的 index
      * @param from  : 事件来源
      * @version: 1.0
      * @author: cangHX
