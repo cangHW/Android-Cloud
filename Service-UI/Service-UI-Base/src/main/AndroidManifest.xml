@@ -1,2 +1,2 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.chx.service_ui_base" />
+    package="com.proxy.service.ui.base" />

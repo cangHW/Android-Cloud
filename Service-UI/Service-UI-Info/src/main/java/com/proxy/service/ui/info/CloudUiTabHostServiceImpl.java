@@ -10,7 +10,6 @@ import com.proxy.service.annotations.CloudNewInstance;
 import com.proxy.service.annotations.CloudService;
 import com.proxy.service.annotations.CloudUiTabHostReward;
 import com.proxy.service.api.callback.CloudUiEventCallback;
-import com.proxy.service.api.callback.CloudUiLifeCallback;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.interfaces.IUiTabHostRewardInterface;
 import com.proxy.service.api.service.OtherManager;
@@ -82,7 +81,7 @@ public class CloudUiTabHostServiceImpl implements CloudUiTabHostService {
     /**
      * 设置内容区域
      * 如果是 viewpager 或者 viewpager2 建议实现对应接口，方便获取更加准确的生命周期
-     * 接口请看{@link CloudUiLifeCallback}
+     * 接口请看{@link com.proxy.service.api.callback.CloudUiLifeCallback}
      *
      * @param viewGroup : ViewGroup，用于展示内容
      * @return 当前对象
@@ -201,12 +200,13 @@ public class CloudUiTabHostServiceImpl implements CloudUiTabHostService {
         }
         isLoadUi = true;
 
-        mTabHostHelper.setUiTabHostRewardInterfaces(getData(rewardTag))
-                .setContentSpace(mContentViewGroup)
-                .setTabSpace(mTabViewGroup)
+        mTabHostHelper
                 .setFragment(mFragment)
                 .setActivity(mFragmentActivity)
                 .addEventCallback(mCloudUiEventCallback)
+                .setUiTabHostRewardInterfaces(getData(rewardTag))
+                .setContentSpace(mContentViewGroup)
+                .setTabSpace(mTabViewGroup)
                 .setSelect(mTabIndex);
     }
 

@@ -1,4 +1,4 @@
-package com.chx.service_ui_base;
+package com.proxy.androidcloud;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.chx.service_ui_base.test", appContext.getPackageName());
+        assertEquals("com.chx.androidcloud", appContext.getPackageName());
     }
 }

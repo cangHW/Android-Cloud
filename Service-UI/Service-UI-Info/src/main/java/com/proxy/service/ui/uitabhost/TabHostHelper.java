@@ -1,16 +1,18 @@
 package com.proxy.service.ui.uitabhost;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
 import com.proxy.service.api.callback.CloudUiEventCallback;
-import com.proxy.service.api.callback.CloudUiLifeCallback;
 import com.proxy.service.api.error.CloudApiError;
+import com.proxy.service.api.interfaces.IRewardHelper;
 import com.proxy.service.api.interfaces.IUiTabHostHelper;
 import com.proxy.service.api.interfaces.IUiTabHostRewardInterface;
 import com.proxy.service.api.utils.Logger;
@@ -36,7 +38,7 @@ import java.util.List;
  * <p>
  * 中转站，关联 helper 与 IUiTabHostRewardInterface
  */
-public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallback, ContentCallback {
+public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallback, ContentCallback, IRewardHelper {
 
     /**
      * 没有选中或者传入数据有误
@@ -47,11 +49,37 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
      * 是否加载过
      */
     private boolean isLoad = false;
+
+    /**
+     * 当前选中
+     */
     private int mSelectIndex = SELECT_NULL;
+    /**
+     * content 辅助类
+     */
     private IContentHelper mContentHelper = null;
+    /**
+     * tab 辅助类
+     */
     private ITabHelper mTabHelper = null;
+
+    private Context mContext;
+    private FragmentManager mFragmentManager;
+
+    /**
+     * Event 事件回调集合
+     */
     private List<CloudUiEventCallback> mCloudUiEventCallbacks = new ArrayList<>();
+    /**
+     * 数据集合
+     */
     private List<IUiTabHostRewardInterface> mTabHostRewardInterfaceList;
+
+    /**
+     * 临时数据
+     */
+    private List<View> mViewsTemp = null;
+    private List<Object> mObjectsTemp = null;
 
     /**
      * 设置依赖的 Activity
@@ -67,11 +95,11 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
     @NonNull
     @Override
     public TabHostHelper setActivity(FragmentActivity fragmentActivity) {
-        if (fragmentActivity != null) {
-            this.mContentHelper.setFragmentManager(fragmentActivity.getSupportFragmentManager());
-            this.mContentHelper.setContext(fragmentActivity);
-            this.mTabHelper.setContext(fragmentActivity);
+        if (fragmentActivity == null) {
+            return this;
         }
+        this.mContext = fragmentActivity;
+        this.mFragmentManager = fragmentActivity.getSupportFragmentManager();
         return this;
     }
 
@@ -89,18 +117,18 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
     @NonNull
     @Override
     public TabHostHelper setFragment(Fragment fragment) {
-        if (fragment != null) {
-            this.mContentHelper.setFragmentManager(fragment.getChildFragmentManager());
-            this.mContentHelper.setContext(fragment.getContext());
-            this.mTabHelper.setContext(fragment.getContext());
+        if (fragment == null) {
+            return this;
         }
+        this.mContext = fragment.getContext();
+        this.mFragmentManager = fragment.getChildFragmentManager();
         return this;
     }
 
     /**
      * 设置内容区域
      * 如果是 viewpager 或者 viewpager2 建议实现对应接口，方便获取更加准确的生命周期
-     * 接口请看{@link CloudUiLifeCallback}
+     * 接口请看{@link com.proxy.service.api.callback.CloudUiLifeCallback}
      *
      * @param viewGroup : ViewGroup，用于展示内容
      * @return 当前对象
@@ -111,6 +139,9 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
     @NonNull
     @Override
     public TabHostHelper setContentSpace(ViewGroup viewGroup) {
+        if (isLoad) {
+            return this;
+        }
         viewGroup.removeAllViews();
         int type = ViewUtils.getViewGroupType(viewGroup);
         switch (type) {
@@ -141,6 +172,10 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
         if (this.mContentHelper == null) {
             this.mContentHelper = new ContentErrorHelper();
         }
+        this.mContentHelper.setContext(this.mContext);
+        this.mContentHelper.setFragmentManager(this.mFragmentManager);
+        this.mContentHelper.setCallback(this);
+        this.mContentHelper.setData(this.mObjectsTemp);
         this.mContentHelper.setViewGroup(viewGroup);
         return this;
     }
@@ -157,6 +192,9 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
     @NonNull
     @Override
     public TabHostHelper setTabSpace(ViewGroup viewGroup) {
+        if (isLoad) {
+            return this;
+        }
         viewGroup.removeAllViews();
         int type = ViewUtils.getViewGroupType(viewGroup);
         switch (type) {
@@ -187,6 +225,9 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
         if (this.mTabHelper == null) {
             this.mTabHelper = new TabErrorHelper();
         }
+        this.mTabHelper.setContext(this.mContext);
+        this.mTabHelper.setCallback(this);
+        this.mTabHelper.setData(this.mViewsTemp);
         this.mTabHelper.setViewGroup(viewGroup);
         return this;
     }
@@ -204,31 +245,34 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
         this.mTabHostRewardInterfaceList = new ArrayList<>(list.size());
         CollectionUtils.fullValue(this.mTabHostRewardInterfaceList, list.size(), null);
 
-        List<View> views = new ArrayList<>(list.size());
-        CollectionUtils.fullValue(views, list.size(), null);
+        this.mViewsTemp = new ArrayList<>(list.size());
+        CollectionUtils.fullValue(this.mViewsTemp, list.size(), null);
 
-        List<Object> objects = new ArrayList<>(list.size());
-        CollectionUtils.fullValue(objects, list.size(), null);
+        this.mObjectsTemp = new ArrayList<>(list.size());
+        CollectionUtils.fullValue(this.mObjectsTemp, list.size(), null);
 
         for (IUiTabHostRewardInterface rewardInterface : list) {
-            Object object = this.mTabHostRewardInterfaceList.get(rewardInterface.getIndex());
+            int index = rewardInterface.getIndex();
+            if (index >= list.size()) {
+                Logger.Error(rewardInterface.getClass().getCanonicalName() + ": position is error,The total count: " + list.size() + ",The position: " + index);
+                return this;
+            }
+
+            Object object = this.mTabHostRewardInterfaceList.get(index);
             if (object != null) {
                 this.mTabHostRewardInterfaceList.clear();
                 Logger.Error(CloudApiError.DATA_DUPLICATION.append("Repeat for the " + object.getClass().getCanonicalName() + " and " + rewardInterface.getClass().getCanonicalName() + " index").build());
                 return this;
             }
-            this.mTabHostRewardInterfaceList.set(rewardInterface.getIndex(), rewardInterface);
-            views.set(rewardInterface.getIndex(), rewardInterface.getTab());
-            objects.set(rewardInterface.getIndex(), rewardInterface.getContent());
+            rewardInterface.setRewardHelper(this);
+            this.mTabHostRewardInterfaceList.set(index, rewardInterface);
+            this.mViewsTemp.set(index, rewardInterface.getTab());
+            this.mObjectsTemp.set(index, rewardInterface.getContent());
 
             if (this.mSelectIndex == SELECT_NULL && rewardInterface.isDefaultSelect()) {
-                this.mSelectIndex = rewardInterface.getIndex();
+                this.mSelectIndex = index;
             }
         }
-
-        this.mTabHelper.setData(views);
-        this.mContentHelper.setData(objects);
-
         return this;
     }
 
@@ -247,8 +291,6 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
         if (cloudUiEventCallback != null) {
             this.mCloudUiEventCallbacks.add(cloudUiEventCallback);
         }
-        this.mContentHelper.setCallback(this);
-        this.mTabHelper.setCallback(this);
         return this;
     }
 
@@ -366,6 +408,75 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
             rewardInterface.onUnSelect(from);
         } catch (Throwable throwable) {
             Logger.Error(throwable);
+        }
+    }
+
+    /**
+     * 根据标签获取数据
+     *
+     * @param helper : 标签
+     * @return 获取的数据
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-06 13:45
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T get(Get helper) {
+        Object object;
+        switch (helper) {
+            case CONTEXT:
+                object = mContext;
+                break;
+            case SELECT_INDEX:
+                object = mSelectIndex;
+                break;
+            default:
+                object = null;
+                break;
+        }
+        try {
+            return (T) object;
+        } catch (Throwable throwable) {
+            Logger.Error(throwable);
+        }
+        return null;
+    }
+
+    /**
+     * 根据标签进行事件发送
+     *
+     * @param helper : 标签
+     * @param index  : 页面的 index，PS：如果是跳转事件{@link Set#SELECT_INDEX}，则 index 为目标页面的 index
+     * @param tag    : 保留字段，开发者可以自定义使用
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-06 13:46
+     */
+    @Override
+    public void set(Set helper, int index, Object tag) {
+        switch (helper) {
+            case UI_EVENT:
+                sendMessage(index, tag);
+                break;
+            case SELECT_INDEX:
+                setSelect(index);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void sendMessage(int index, Object tag) {
+        for (CloudUiEventCallback callback : mCloudUiEventCallbacks) {
+            if (callback == null) {
+                continue;
+            }
+            try {
+                callback.onCall(index, tag);
+            } catch (Throwable throwable) {
+                Logger.Error(throwable);
+            }
         }
     }
 }

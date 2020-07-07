@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
+import com.proxy.service.api.utils.Logger;
 import com.proxy.service.ui.annotations.ViewGroupType;
 import com.proxy.service.ui.uitabhost.TabHostHelper;
 import com.proxy.service.ui.uitabhost.helper.tab.base.ITabHelper;
@@ -54,6 +55,11 @@ public class TabNormalHelper implements ITabHelper {
     @SuppressLint("SwitchIntDef")
     @Override
     public void setViewGroup(ViewGroup viewGroup) {
+        if (this.mContext == null) {
+            Logger.Error("The context is error");
+            return;
+        }
+
         int type = ViewUtils.getViewGroupType(viewGroup);
 
         for (View view : mList) {
@@ -61,7 +67,7 @@ public class TabNormalHelper implements ITabHelper {
             View cover = new View(mContext);
             cover.setOnClickListener(v -> {
                 try {
-                    int index = mList.indexOf(v);
+                    int index = mList.indexOf(view);
                     if (!this.mCallback.isCanSelect(index)) {
                         return;
                     }
@@ -132,6 +138,9 @@ public class TabNormalHelper implements ITabHelper {
      */
     @Override
     public void setData(List<View> list) {
+        if (list == null) {
+            return;
+        }
         this.mList.clear();
         this.mList.addAll(list);
     }
@@ -176,7 +185,7 @@ public class TabNormalHelper implements ITabHelper {
      */
     private synchronized void changSelect(int old, int now, @TabHostRewardSelectFrom String from, boolean isCallback) {
         if (isCallback) {
-            if (old > 0 && old < mList.size() && old != now) {
+            if (old >= 0 && old < mList.size() && old != now) {
                 this.mCallback.unSelect(old, from);
             }
             this.mCallback.select(now, from);

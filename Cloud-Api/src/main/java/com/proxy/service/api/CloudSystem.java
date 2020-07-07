@@ -203,6 +203,7 @@ public final class CloudSystem {
 
 
     /**
+     * 全局监控
      * 允许对CloudSystem的功能进行一定程度的扩展
      * 传入一个转换器对象，生效时机为数据返回之前
      *
@@ -217,6 +218,7 @@ public final class CloudSystem {
     }
 
     /**
+     * 定向监控
      * 允许对CloudSystem的功能进行一定程度的扩展
      * 传入一个转换器对象，生效时机为数据返回之前
      *

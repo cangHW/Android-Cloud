@@ -67,10 +67,17 @@ public class CloudServiceHandlerImpl extends AbstractHandler {
     @Override
     protected void run() {
         Set<? extends Element> elements = mRoundEnvironment.getElementsAnnotatedWith(CloudService.class);
-        if (elements == null || elements.isEmpty()) {
+        if (elements != null && elements.size() > 0) {
+            traverseElement(elements);
+        }
+
+        boolean isServiceEmpty = mServiceNodes == null || mServiceNodes.isEmpty();
+        boolean isOtherEmpty = mOtherNodes == null || mOtherNodes.isEmpty();
+
+        if (isServiceEmpty && isOtherEmpty) {
             return;
         }
-        traverseElement(elements);
+
         try {
             createClass();
         } catch (IOException e) {

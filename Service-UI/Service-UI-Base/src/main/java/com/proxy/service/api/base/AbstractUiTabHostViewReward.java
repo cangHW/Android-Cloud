@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
 import com.proxy.service.api.interfaces.IRewardHelper;
@@ -18,7 +17,7 @@ import com.proxy.service.api.interfaces.IUiTabHostRewardInterface;
  * {@link com.proxy.service.annotations.CloudUiTabHostReward}
  */
 @SuppressWarnings("WeakerAccess")
-public abstract class AbstractUiTabHostFragmentReward implements IUiTabHostRewardInterface<Fragment> {
+public abstract class AbstractUiTabHostViewReward implements IUiTabHostRewardInterface<View> {
 
     /**
      * 工具类对象，拥有多项功能
@@ -54,7 +53,7 @@ public abstract class AbstractUiTabHostFragmentReward implements IUiTabHostRewar
      */
     @NonNull
     @Override
-    public Fragment getContent() {
+    public View getContent() {
         return getContent(mContext);
     }
 
@@ -134,7 +133,7 @@ public abstract class AbstractUiTabHostFragmentReward implements IUiTabHostRewar
      * @date: 2020-06-29 15:52
      */
     @NonNull
-    public abstract Fragment getContent(Context context);
+    public abstract View getContent(Context context);
 
     /**
      * 获取显示tab

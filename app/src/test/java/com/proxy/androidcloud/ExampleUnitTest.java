@@ -1,4 +1,4 @@
-package com.chx.service_ui_base;
+package com.proxy.androidcloud;
 
 import org.junit.Test;
 

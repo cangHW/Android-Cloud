@@ -84,12 +84,13 @@ public class ContentErrorHelper implements IContentHelper {
      * 设置选中的tab
      *
      * @param tabIndex : 用于标示tab
+     * @param from     : 事件来源
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-06-29 14:19
      */
     @Override
-    public void setSelect(int tabIndex) {
+    public void setSelect(int tabIndex, String from) {
 
     }
 }

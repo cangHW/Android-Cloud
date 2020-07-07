@@ -1,2 +1,2 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.proxy.utils" />
+    package="com.proxy.service.library.base" />
