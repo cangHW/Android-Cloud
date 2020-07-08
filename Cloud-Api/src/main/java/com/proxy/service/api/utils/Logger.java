@@ -176,7 +176,7 @@ public class Logger {
                 } else {
                     Log.d(tag, msg, throwable);
                 }
-                Log.e(tag, endLog);
+                Log.d(tag, endLog);
                 break;
             case I:
                 if (throwable == null) {

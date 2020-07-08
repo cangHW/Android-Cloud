@@ -10,14 +10,14 @@ import android.os.Looper;
  */
 public class TaskUtils {
 
-    private static Handler mMainHandler = new Handler(Looper.getMainLooper());
-    private static HandlerThread mThread = new HandlerThread("background");
+    private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
+    private static final HandlerThread HANDLER_THREAD = new HandlerThread("background");
 
     static {
-        mThread.start();
+        HANDLER_THREAD.start();
     }
 
-    private static Handler mThreadHandler = new Handler(mThread.getLooper());
+    private static final Handler THREAD_HANDLER = new Handler(HANDLER_THREAD.getLooper());
 
     /**
      * 是否在主线程
@@ -40,7 +40,7 @@ public class TaskUtils {
      * @date: 2020-07-08 20:28
      */
     public static void postUi(Runnable runnable) {
-        mMainHandler.post(runnable);
+        MAIN_HANDLER.post(runnable);
     }
 
     /**
@@ -52,7 +52,7 @@ public class TaskUtils {
      * @date: 2020-07-08 20:29
      */
     public static void postBg(Runnable runnable) {
-        mThreadHandler.post(runnable);
+        THREAD_HANDLER.post(runnable);
     }
 
 }
