@@ -7,15 +7,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.proxy.androidcloud.R;
+import com.proxy.androidcloud.base.BaseFragment;
 
 /**
  * @author: cangHX
  * on 2020/07/06  12:16
  */
-public class LibraryFragment extends Fragment {
+public class LibraryFragment extends BaseFragment {
 
     @Nullable
     @Override

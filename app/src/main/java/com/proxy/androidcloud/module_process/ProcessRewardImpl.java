@@ -8,14 +8,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.proxy.androidcloud.R;
-import com.proxy.service.api.base.AbstractUiTabHostViewReward;
+import com.proxy.service.api.base.CloudUiTabHostViewReward;
 
 /**
  * @author: cangHX
  * on 2020/07/06  13:26
  */
 //@CloudUiTabHostReward(rewardTag = "main")
-public class ProcessRewardImpl extends AbstractUiTabHostViewReward {
+public class ProcessRewardImpl extends CloudUiTabHostViewReward {
 
     /**
      * 获取显示内容

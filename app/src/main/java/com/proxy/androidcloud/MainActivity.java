@@ -1,22 +1,27 @@
 package com.proxy.androidcloud;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.proxy.androidcloud.base.BaseActivity;
 import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.callback.CloudUiEventCallback;
 import com.proxy.service.api.services.CloudUiTabHostService;
 import com.proxy.service.api.tag.CloudServiceTagUi;
 
-public class MainActivity extends AppCompatActivity implements CloudUiEventCallback {
+public class MainActivity extends BaseActivity implements CloudUiEventCallback {
 
     private static final String TAG = "ssss";
+
+    public static void launch(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements CloudUiEventCallb
     /**
      * 接收到回调
      *
-     * @param tabIndex : 标示发次本次事件的tab
+     * @param tabIndex : 标示发送本次事件的tab
      * @param tag      : 保留对象，开发者可以自定义设置
      * @version: 1.0
      * @author: cangHX

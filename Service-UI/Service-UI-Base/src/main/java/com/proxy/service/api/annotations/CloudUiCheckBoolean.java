@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CloudUiCheckNumber {
+public @interface CloudUiCheckBoolean {
 
     /**
      * 标记id，标记当前变量
@@ -23,29 +23,9 @@ public @interface CloudUiCheckNumber {
     String markId();
 
     /**
-     * 最大值，<=
+     * 当前内容
      */
-    double max() default Double.MAX_VALUE;
-
-    /**
-     * 最大值，<
-     */
-    double maxNotSame() default Double.MAX_VALUE;
-
-    /**
-     * 最小值，>=
-     */
-    double min() default Double.MIN_VALUE;
-
-    /**
-     * 最小值，>
-     */
-    double minNotSame() default Double.MIN_VALUE;
-
-    /**
-     * 小数长度
-     */
-    int scale() default -1;
+    boolean isValue() default false;
 
     /**
      * 校验失败后的吐司信息

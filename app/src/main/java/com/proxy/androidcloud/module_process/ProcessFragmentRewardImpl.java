@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import com.proxy.androidcloud.R;
 import com.proxy.service.annotations.CloudUiTabHostReward;
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
-import com.proxy.service.api.base.AbstractUiTabHostFragmentReward;
+import com.proxy.service.api.base.CloudUiTabHostFragmentReward;
 import com.proxy.service.api.interfaces.IRewardHelper;
 
 /**
@@ -18,7 +18,7 @@ import com.proxy.service.api.interfaces.IRewardHelper;
  * on 2020/07/06  13:26
  */
 @CloudUiTabHostReward(rewardTag = "main")
-public class ProcessFragmentRewardImpl extends AbstractUiTabHostFragmentReward {
+public class ProcessFragmentRewardImpl extends CloudUiTabHostFragmentReward {
 
     private boolean isSelect = false;
 

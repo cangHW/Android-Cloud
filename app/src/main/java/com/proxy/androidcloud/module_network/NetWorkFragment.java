@@ -7,15 +7,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.proxy.androidcloud.R;
+import com.proxy.androidcloud.base.BaseFragment;
 
 /**
  * @author: cangHX
  * on 2020/07/06  10:21
  */
-public class NetWorkFragment extends Fragment {
+public class NetWorkFragment extends BaseFragment {
 
     @Nullable
     @Override

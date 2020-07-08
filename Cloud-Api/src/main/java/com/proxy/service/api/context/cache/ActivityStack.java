@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.Stack;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author: cangHX
@@ -19,7 +20,7 @@ public class ActivityStack {
     /**
      * 显示的页面数量，一般为 1 或 0
      */
-    private static int SHOW_COUNT = 0;
+    private static final AtomicInteger SHOW_COUNT = new AtomicInteger(0);
     /**
      * Application
      */
@@ -38,7 +39,7 @@ public class ActivityStack {
      * @author: cangHX
      * @date: 2020-06-11 11:24
      */
-    public synchronized static boolean add(@NonNull Activity activity) {
+    public static boolean add(@NonNull Activity activity) {
         return STACK.add(activity);
     }
 
@@ -49,8 +50,8 @@ public class ActivityStack {
      * @author: cangHX
      * @date: 2020-06-12 09:55
      */
-    public synchronized static void resume() {
-        SHOW_COUNT++;
+    public static void resume() {
+        SHOW_COUNT.incrementAndGet();
     }
 
     /**
@@ -62,7 +63,7 @@ public class ActivityStack {
      * @author: cangHX
      * @date: 2020-06-11 11:24
      */
-    public synchronized static boolean remove(@NonNull Activity activity) {
+    public static boolean remove(@NonNull Activity activity) {
         return STACK.remove(activity);
     }
 
@@ -73,8 +74,8 @@ public class ActivityStack {
      * @author: cangHX
      * @date: 2020-06-12 09:55
      */
-    public synchronized static void stop() {
-        SHOW_COUNT--;
+    public static void stop() {
+        SHOW_COUNT.decrementAndGet();
     }
 
     /**
@@ -86,9 +87,11 @@ public class ActivityStack {
      * @date: 2020-06-11 11:45
      */
     @Nullable
-    public synchronized static Activity getCurrentActivity() {
+    public static Activity getCurrentActivity() {
         if (!STACK.empty()) {
-            return STACK.lastElement();
+            try {
+                return STACK.lastElement();
+            }catch (Throwable ignored){}
         }
         return null;
     }
@@ -100,10 +103,16 @@ public class ActivityStack {
      * @author: cangHX
      * @date: 2020-06-11 11:48
      */
-    public synchronized static void finishAllActivity() {
+    public static void finishAllActivity() {
         while (!STACK.empty()) {
-            Activity activity = STACK.pop();
-            activity.finish();
+            try {
+                Activity activity = STACK.pop();
+                if (activity == null) {
+                    return;
+                }
+                activity.finish();
+            } catch (Throwable ignored) {
+            }
         }
     }
 
@@ -134,13 +143,12 @@ public class ActivityStack {
     /**
      * 获取展示页面的数量
      *
-     * @return  页面的数量
-     * @throws
+     * @return 页面的数量
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-06-12 09:59
      */
     public static int getShowCount() {
-        return SHOW_COUNT;
+        return SHOW_COUNT.intValue();
     }
 }

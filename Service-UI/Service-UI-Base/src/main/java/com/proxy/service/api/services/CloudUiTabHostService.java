@@ -1,9 +1,8 @@
 package com.proxy.service.api.services;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
+import com.proxy.service.api.base.CloudUiTabHostFragmentReward;
 import com.proxy.service.api.interfaces.IUiTabHostHelper;
 
 /**
@@ -14,7 +13,7 @@ import com.proxy.service.api.interfaces.IUiTabHostHelper;
  * <p>
  * 对应模块需要实现相关功能
  * <p>
- * {@link com.proxy.service.api.base.AbstractUiTabHostFragmentReward}
+ * {@link CloudUiTabHostFragmentReward}
  * <p>
  * 主要通过相关子类来实现具体的ui效果
  */

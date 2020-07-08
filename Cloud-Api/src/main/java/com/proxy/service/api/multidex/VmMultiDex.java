@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
  */
 class VmMultiDex {
 
+    private static final Pattern PATTERN = Pattern.compile("(\\d+)\\.(\\d+)(\\.\\d+)?");
     private static final int VM_WITH_MULTIDEX_VERSION_MAJOR = 2;
     private static final int VM_WITH_MULTIDEX_VERSION_MINOR = 1;
 
@@ -53,7 +54,7 @@ class VmMultiDex {
     private static boolean isAndroidMultiDexCapable() {
         String versionString = System.getProperty("java.vm.version");
         if (versionString != null) {
-            Matcher matcher = Pattern.compile("(\\d+)\\.(\\d+)(\\.\\d+)?").matcher(versionString);
+            Matcher matcher = PATTERN.matcher(versionString);
             if (matcher.matches()) {
                 try {
                     int major = Integer.parseInt(matcher.group(1));

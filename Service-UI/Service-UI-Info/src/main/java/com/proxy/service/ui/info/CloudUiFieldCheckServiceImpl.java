@@ -1,16 +1,54 @@
 package com.proxy.service.ui.info;
 
+import androidx.annotation.NonNull;
+
+import com.proxy.service.annotations.CloudNewInstance;
 import com.proxy.service.annotations.CloudService;
 import com.proxy.service.api.callback.CloudUiFieldCheckErrorCallback;
+import com.proxy.service.api.interfaces.IReallyUiFieldCheck;
 import com.proxy.service.api.services.CloudUiFieldCheckService;
 import com.proxy.service.api.tag.CloudServiceTagUi;
+import com.proxy.service.ui.fieldcheck.FieldCheckDataManager;
+import com.proxy.service.ui.fieldcheck.ReallyUiFieldCheckImpl;
+import com.proxy.service.ui.fieldcheck.UiFieldCheckErrorCallbackImpl;
 
 /**
  * @author: cangHX
  * on 2020/07/07  19:12
  */
+@CloudNewInstance()
 @CloudService(serviceTag = CloudServiceTagUi.UI_FIELD_CHECK)
 public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
+
+    /**
+     * 全局回调
+     */
+    private volatile static CloudUiFieldCheckErrorCallback mGlobalCallback = new UiFieldCheckErrorCallbackImpl();
+
+    /**
+     * 当前回调
+     */
+    private CloudUiFieldCheckErrorCallback mCallback = mGlobalCallback;
+
+    /**
+     * 当前申请检测的 class
+     */
+    private Class<?> aClass;
+
+    /**
+     * 初始化
+     *
+     * @param aClass : 申请检测的 class
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-08 09:27
+     */
+    @Override
+    public void init(@NonNull Class<?> aClass) {
+        this.aClass = aClass;
+        FieldCheckDataManager.init(aClass);
+    }
+
     /**
      * 设置全局检查失败回调
      *
@@ -20,8 +58,8 @@ public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
      * @date: 2020-07-07 17:18
      */
     @Override
-    public void setGlobalErrorToastCallback(CloudUiFieldCheckErrorCallback callback) {
-
+    public void setGlobalErrorToastCallback(@NonNull CloudUiFieldCheckErrorCallback callback) {
+        mGlobalCallback = callback;
     }
 
     /**
@@ -33,8 +71,8 @@ public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
      * @date: 2020-07-07 17:18
      */
     @Override
-    public void setErrorToastCallback(CloudUiFieldCheckErrorCallback callback) {
-
+    public void setErrorToastCallback(@NonNull CloudUiFieldCheckErrorCallback callback) {
+        this.mCallback = callback;
     }
 
     /**
@@ -47,9 +85,11 @@ public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
      * @author: cangHX
      * @date: 2020-07-07 17:19
      */
+    @NonNull
     @Override
-    public CloudUiFieldCheckService of(String markId, String s) {
-        return null;
+    public IReallyUiFieldCheck of(String markId, String s) {
+        ReallyUiFieldCheckImpl reallyUiFieldCheck = new ReallyUiFieldCheckImpl(aClass, mCallback);
+        return reallyUiFieldCheck.of(markId, s);
     }
 
     /**
@@ -62,9 +102,11 @@ public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
      * @author: cangHX
      * @date: 2020-07-07 17:19
      */
+    @NonNull
     @Override
-    public CloudUiFieldCheckService of(String markId, double d) {
-        return null;
+    public IReallyUiFieldCheck of(String markId, double d) {
+        ReallyUiFieldCheckImpl reallyUiFieldCheck = new ReallyUiFieldCheckImpl(aClass, mCallback);
+        return reallyUiFieldCheck.of(markId, d);
     }
 
     /**
@@ -77,9 +119,11 @@ public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
      * @author: cangHX
      * @date: 2020-07-07 17:19
      */
+    @NonNull
     @Override
-    public CloudUiFieldCheckService of(String markId, float f) {
-        return null;
+    public IReallyUiFieldCheck of(String markId, float f) {
+        ReallyUiFieldCheckImpl reallyUiFieldCheck = new ReallyUiFieldCheckImpl(aClass, mCallback);
+        return reallyUiFieldCheck.of(markId, f);
     }
 
     /**
@@ -92,9 +136,11 @@ public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
      * @author: cangHX
      * @date: 2020-07-07 17:19
      */
+    @NonNull
     @Override
-    public CloudUiFieldCheckService of(String markId, int i) {
-        return null;
+    public IReallyUiFieldCheck of(String markId, int i) {
+        ReallyUiFieldCheckImpl reallyUiFieldCheck = new ReallyUiFieldCheckImpl(aClass, mCallback);
+        return reallyUiFieldCheck.of(markId, i);
     }
 
     /**
@@ -107,9 +153,11 @@ public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
      * @author: cangHX
      * @date: 2020-07-07 17:19
      */
+    @NonNull
     @Override
-    public CloudUiFieldCheckService of(String markId, long l) {
-        return null;
+    public IReallyUiFieldCheck of(String markId, long l) {
+        ReallyUiFieldCheckImpl reallyUiFieldCheck = new ReallyUiFieldCheckImpl(aClass, mCallback);
+        return reallyUiFieldCheck.of(markId, l);
     }
 
     /**
@@ -122,34 +170,10 @@ public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
      * @author: cangHX
      * @date: 2020-07-07 17:19
      */
+    @NonNull
     @Override
-    public CloudUiFieldCheckService of(String markId, boolean b) {
-        return null;
-    }
-
-    /**
-     * 检测成功执行，主线程
-     *
-     * @param runnable : 运行体
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-07 18:45
-     */
-    @Override
-    public void runUi(Runnable runnable) {
-
-    }
-
-    /**
-     * 检测成功执行，子线程
-     *
-     * @param runnable : 运行体
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-07 18:45
-     */
-    @Override
-    public void runBg(Runnable runnable) {
-
+    public IReallyUiFieldCheck of(String markId, boolean b) {
+        ReallyUiFieldCheckImpl reallyUiFieldCheck = new ReallyUiFieldCheckImpl(aClass, mCallback);
+        return reallyUiFieldCheck.of(markId, b);
     }
 }
