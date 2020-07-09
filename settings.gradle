@@ -8,8 +8,8 @@ include ':Service-Process:Service-Process-Base'
 include ':Service-NetWork:Service-NetWork-Base'
 include ':Service-NetWork:Service-NetWork-OkHttp'
 
-include ':Service-Library:Service-Library-Base'
-include ':Service-Library:Service-Library-Info'
+include ':Service-Utils:Service-Utils-Base'
+include ':Service-Utils:Service-Utils-Info'
 
 include ':Cloud-Base'
 include ':Cloud-Api'
