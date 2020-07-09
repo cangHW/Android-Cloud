@@ -7,10 +7,10 @@ import androidx.annotation.NonNull;
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
 
 /**
+ * android 选项卡类型页面顶级接口
+ *
  * @author: cangHX
  * on 2020/06/29  15:46
- * <p>
- * android 选项卡类型页面顶级接口
  */
 public interface IUiTabHostRewardInterface<C> {
 

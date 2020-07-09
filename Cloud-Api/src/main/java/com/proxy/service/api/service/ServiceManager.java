@@ -19,10 +19,10 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
+ * service管理类
+ *
  * @author: cangHX
  * on 2020/06/04  16:14
- * <p>
- * service管理类
  */
 @SuppressWarnings("unchecked")
 public enum ServiceManager {

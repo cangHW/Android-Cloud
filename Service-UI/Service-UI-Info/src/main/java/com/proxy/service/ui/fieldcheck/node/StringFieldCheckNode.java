@@ -71,7 +71,14 @@ public class StringFieldCheckNode extends BaseFieldCheckNode {
         }
 
         if (notBlank) {
-            if (TextUtils.isEmpty(string) || TextUtils.isEmpty(string.trim())) {
+            if (TextUtils.isEmpty(string)) {
+                callback.onError(message);
+                return true;
+            }
+
+            string = string.trim();
+
+            if (TextUtils.isEmpty(string)) {
                 callback.onError(message);
                 return true;
             }

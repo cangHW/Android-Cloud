@@ -10,15 +10,15 @@ import androidx.annotation.Nullable;
 import com.proxy.service.api.context.cache.ActivityStack;
 
 /**
+ * activity生命周期管理
+ *
  * @author: cangHX
  * on 2020/06/11  11:14
- * <p>
- * activity生命周期管理
  */
-class CloudActivityLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
+class ActivityLifecycleCallbackManager implements Application.ActivityLifecycleCallbacks {
 
-    static CloudActivityLifecycleCallbacks create() {
-        return new CloudActivityLifecycleCallbacks();
+    static ActivityLifecycleCallbackManager create() {
+        return new ActivityLifecycleCallbackManager();
     }
 
     @Override

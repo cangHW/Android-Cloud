@@ -26,19 +26,19 @@ import javax.tools.Diagnostic;
  * @author: cangHX
  * on 2020/06/05  12:12
  */
-public class CloudServiceHandlerImpl extends AbstractHandler {
+public class ServiceHandlerImpl extends AbstractHandler {
 
     private ArrayList<NodeService> mServiceNodes = new ArrayList<>();
     private ArrayList<NodeOther> mOtherNodes = new ArrayList<>();
 
     private String mModuleName;
 
-    public CloudServiceHandlerImpl setModuleName(String moduleName) {
+    public ServiceHandlerImpl setModuleName(String moduleName) {
         this.mModuleName = moduleName;
         return this;
     }
 
-    public CloudServiceHandlerImpl setOtherList(ArrayList<NodeOther> nodes) {
+    public ServiceHandlerImpl setOtherList(ArrayList<NodeOther> nodes) {
         mOtherNodes.clear();
         mOtherNodes.addAll(nodes);
         return this;

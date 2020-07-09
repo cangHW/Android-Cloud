@@ -16,7 +16,7 @@ import javax.lang.model.element.TypeElement;
  * @author: cangHX
  * on 2020/06/30  10:04
  */
-public class CloudUiTabHostRewardHandlerImpl extends AbstractHandler {
+public class UiTabHostRewardHandlerImpl extends AbstractHandler {
 
     private ArrayList<NodeOther> mOtherNodes = new ArrayList<>();
 

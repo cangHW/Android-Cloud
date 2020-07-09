@@ -9,7 +9,7 @@ import com.proxy.service.api.interfaces.IReallyUiFieldCheck;
 import com.proxy.service.api.services.CloudUiFieldCheckService;
 import com.proxy.service.api.tag.CloudServiceTagUi;
 import com.proxy.service.ui.fieldcheck.FieldCheckDataManager;
-import com.proxy.service.ui.fieldcheck.ReallyUiFieldCheckImpl;
+import com.proxy.service.ui.fieldcheck.RealUiFieldCheckImpl;
 import com.proxy.service.ui.fieldcheck.UiFieldCheckErrorCallbackImpl;
 
 /**
@@ -18,7 +18,7 @@ import com.proxy.service.ui.fieldcheck.UiFieldCheckErrorCallbackImpl;
  */
 @CloudNewInstance()
 @CloudService(serviceTag = CloudServiceTagUi.UI_FIELD_CHECK)
-public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
+public class UiFieldCheckServiceImpl implements CloudUiFieldCheckService {
 
     /**
      * 全局回调
@@ -88,7 +88,7 @@ public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
     @NonNull
     @Override
     public IReallyUiFieldCheck of(String markId, String s) {
-        ReallyUiFieldCheckImpl reallyUiFieldCheck = new ReallyUiFieldCheckImpl(aClass, mCallback);
+        RealUiFieldCheckImpl reallyUiFieldCheck = new RealUiFieldCheckImpl(aClass, mCallback);
         return reallyUiFieldCheck.of(markId, s);
     }
 
@@ -105,7 +105,7 @@ public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
     @NonNull
     @Override
     public IReallyUiFieldCheck of(String markId, double d) {
-        ReallyUiFieldCheckImpl reallyUiFieldCheck = new ReallyUiFieldCheckImpl(aClass, mCallback);
+        RealUiFieldCheckImpl reallyUiFieldCheck = new RealUiFieldCheckImpl(aClass, mCallback);
         return reallyUiFieldCheck.of(markId, d);
     }
 
@@ -122,7 +122,7 @@ public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
     @NonNull
     @Override
     public IReallyUiFieldCheck of(String markId, float f) {
-        ReallyUiFieldCheckImpl reallyUiFieldCheck = new ReallyUiFieldCheckImpl(aClass, mCallback);
+        RealUiFieldCheckImpl reallyUiFieldCheck = new RealUiFieldCheckImpl(aClass, mCallback);
         return reallyUiFieldCheck.of(markId, f);
     }
 
@@ -139,7 +139,7 @@ public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
     @NonNull
     @Override
     public IReallyUiFieldCheck of(String markId, int i) {
-        ReallyUiFieldCheckImpl reallyUiFieldCheck = new ReallyUiFieldCheckImpl(aClass, mCallback);
+        RealUiFieldCheckImpl reallyUiFieldCheck = new RealUiFieldCheckImpl(aClass, mCallback);
         return reallyUiFieldCheck.of(markId, i);
     }
 
@@ -156,7 +156,7 @@ public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
     @NonNull
     @Override
     public IReallyUiFieldCheck of(String markId, long l) {
-        ReallyUiFieldCheckImpl reallyUiFieldCheck = new ReallyUiFieldCheckImpl(aClass, mCallback);
+        RealUiFieldCheckImpl reallyUiFieldCheck = new RealUiFieldCheckImpl(aClass, mCallback);
         return reallyUiFieldCheck.of(markId, l);
     }
 
@@ -173,7 +173,7 @@ public class CloudUiFieldCheckServiceImpl implements CloudUiFieldCheckService {
     @NonNull
     @Override
     public IReallyUiFieldCheck of(String markId, boolean b) {
-        ReallyUiFieldCheckImpl reallyUiFieldCheck = new ReallyUiFieldCheckImpl(aClass, mCallback);
+        RealUiFieldCheckImpl reallyUiFieldCheck = new RealUiFieldCheckImpl(aClass, mCallback);
         return reallyUiFieldCheck.of(markId, b);
     }
 }

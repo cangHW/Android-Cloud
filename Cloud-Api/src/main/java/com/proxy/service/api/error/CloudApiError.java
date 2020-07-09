@@ -3,15 +3,15 @@ package com.proxy.service.api.error;
 import android.text.TextUtils;
 
 /**
- * @author: cangHX
- * on 2020/06/11  12:57
- * <p>
  * 一些默认异常，如未初始化等
  * 初始化问题，10000 - 20000
  * 数据错误,  20000 - 30000
  * 权限问题,  30000 - 40000
  * 网络问题,  40000 - 50000
  * 未知异常,  50000 -
+ *
+ * @author: cangHX
+ * on 2020/06/11  12:57
  */
 public enum CloudApiError {
 

@@ -6,10 +6,10 @@ import com.proxy.service.api.services.CloudUtilsSystemInfoService;
 import com.proxy.service.library.oaid.callback.OaidRequestCallback;
 
 /**
+ * 默认实现类
+ *
  * @author: cangHX
  * on 2020/06/19  18:31
- * <p>
- * 默认实现类
  */
 public class OaidRequestCallbackEmpty implements OaidRequestCallback {
     /**

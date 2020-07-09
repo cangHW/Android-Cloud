@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.proxy.service.api.utils.Logger;
+import com.proxy.service.ui.fieldcheck.cache.FieldCheckDataCache;
 import com.proxy.service.ui.fieldcheck.enums.FieldCheckEnum;
 import com.proxy.service.ui.fieldcheck.node.BaseFieldCheckNode;
 
@@ -20,12 +21,10 @@ import java.util.Map;
  */
 public class FieldCheckDataManager {
 
-    private static final Map<Class<?>, List<BaseFieldCheckNode>> NODE_MAPPER = new HashMap<>();
-
-    public static void init(@NonNull Class<?> aClass) {
-        List<BaseFieldCheckNode> nodes = NODE_MAPPER.get(aClass);
+    public static List<BaseFieldCheckNode> init(@NonNull Class<?> aClass) {
+        List<BaseFieldCheckNode> nodes = FieldCheckDataCache.INSTANCE.get(aClass);
         if (nodes != null) {
-            return;
+            return nodes;
         }
         nodes = new ArrayList<>();
         Field[] fields = aClass.getDeclaredFields();
@@ -69,15 +68,8 @@ public class FieldCheckDataManager {
                 default:
             }
         }
-        NODE_MAPPER.put(aClass, nodes);
+        FieldCheckDataCache.INSTANCE.put(aClass, nodes);
+        return nodes;
     }
-
-    @NonNull
-    public static List<BaseFieldCheckNode> get(@NonNull Class<?> aClass) {
-        List<BaseFieldCheckNode> list = new ArrayList<>();
-
-        return list;
-    }
-
 
 }

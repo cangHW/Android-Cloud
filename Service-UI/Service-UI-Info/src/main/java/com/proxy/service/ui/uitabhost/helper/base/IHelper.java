@@ -8,10 +8,10 @@ import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
 import java.util.List;
 
 /**
+ * 关联用户
+ *
  * @author: cangHX
  * on 2020/07/02  10:54
- * <p>
- * 关联用户
  */
 public interface IHelper<D, C> {
 

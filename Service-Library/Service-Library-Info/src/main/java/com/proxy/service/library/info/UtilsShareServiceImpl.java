@@ -22,7 +22,7 @@ import java.util.List;
  * on 2020/06/11  12:42
  */
 @CloudService(serviceTag = CloudServiceTagLibrary.UTILS_SHARE)
-public class CloudUtilsShareServiceImpl implements CloudUtilsShareService {
+public class UtilsShareServiceImpl implements CloudUtilsShareService {
 
     /**
      * 打开系统分享，文字

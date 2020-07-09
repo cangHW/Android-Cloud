@@ -6,9 +6,6 @@ import com.proxy.service.api.base.CloudUiTabHostFragmentReward;
 import com.proxy.service.api.interfaces.IUiTabHostHelper;
 
 /**
- * @author: cangHX
- * on 2020/06/28  21:01
- * <p>
  * android 选项卡类型页面，经典场景--首页，tab切换页面
  * <p>
  * 对应模块需要实现相关功能
@@ -16,6 +13,9 @@ import com.proxy.service.api.interfaces.IUiTabHostHelper;
  * {@link CloudUiTabHostFragmentReward}
  * <p>
  * 主要通过相关子类来实现具体的ui效果
+ *
+ * @author: cangHX
+ * on 2020/06/28  21:01
  */
 public interface CloudUiTabHostService extends IUiTabHostHelper<CloudUiTabHostService> {
 

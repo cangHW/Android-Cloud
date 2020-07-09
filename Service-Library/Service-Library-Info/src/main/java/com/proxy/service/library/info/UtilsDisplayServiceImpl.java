@@ -14,7 +14,7 @@ import com.proxy.service.api.utils.Logger;
  * on 2020/06/11  12:12
  */
 @CloudService(serviceTag = CloudServiceTagLibrary.UTILS_DISPLAY)
-public class CloudUtilsDisplayServiceImpl implements CloudUtilsDisplayService {
+public class UtilsDisplayServiceImpl implements CloudUtilsDisplayService {
 
     /**
      * px转dp

@@ -17,10 +17,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * dex资源相关
+ *
  * @author: cangHX
  * on 2020/06/22  13:57
- * <p>
- * dex资源相关
  */
 class SourceDex {
 

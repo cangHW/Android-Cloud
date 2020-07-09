@@ -7,10 +7,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 标示一个类为对外提供的服务实现类
+ *
  * @author: cangHX
  * on 2020/06/05  11:11
- * <p>
- * 标示一个类为对外提供的服务实现类
  */
 @Documented
 @Target(ElementType.TYPE)

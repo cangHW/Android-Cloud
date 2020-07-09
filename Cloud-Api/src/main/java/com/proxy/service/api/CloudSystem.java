@@ -18,10 +18,10 @@ import com.proxy.service.base.BaseService;
 import java.util.List;
 
 /**
+ * 微服务，对外管理类
+ *
  * @author: cangHX
  * on 2020/06/04  16:10
- * <p>
- * 微服务，对外管理类
  */
 public final class CloudSystem {
 

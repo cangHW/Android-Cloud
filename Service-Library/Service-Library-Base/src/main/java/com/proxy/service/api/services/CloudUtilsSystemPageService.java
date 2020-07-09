@@ -8,10 +8,10 @@ import androidx.annotation.RequiresApi;
 import com.proxy.service.base.BaseService;
 
 /**
+ * 系统页面相关
+ *
  * @author: cangHX
  * on 2020/06/18  13:47
- * <p>
- * 系统页面相关
  */
 public interface CloudUtilsSystemPageService extends BaseService {
 

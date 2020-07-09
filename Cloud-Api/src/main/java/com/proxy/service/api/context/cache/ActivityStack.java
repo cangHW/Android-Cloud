@@ -10,10 +10,10 @@ import java.util.Stack;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * activity 缓存栈
+ *
  * @author: cangHX
  * on 2020/06/11  11:22
- * <p>
- * activity 缓存栈
  */
 public class ActivityStack {
 
@@ -91,7 +91,8 @@ public class ActivityStack {
         if (!STACK.empty()) {
             try {
                 return STACK.lastElement();
-            }catch (Throwable ignored){}
+            } catch (Throwable ignored) {
+            }
         }
         return null;
     }

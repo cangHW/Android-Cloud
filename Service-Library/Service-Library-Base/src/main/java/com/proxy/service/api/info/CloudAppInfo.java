@@ -6,10 +6,10 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 /**
+ * 已安装app的信息
+ *
  * @author: cangHX
  * on 2020/06/24  17:14
- * <p>
- * 已安装app的信息
  */
 public class CloudAppInfo {
 

@@ -7,10 +7,10 @@ import androidx.annotation.RequiresApi;
 import com.proxy.service.base.BaseService;
 
 /**
+ * app相关
+ *
  * @author: cangHX
  * on 2020/06/10  19:00
- * <p>
- * app相关
  */
 public interface CloudUtilsAppService extends BaseService {
 

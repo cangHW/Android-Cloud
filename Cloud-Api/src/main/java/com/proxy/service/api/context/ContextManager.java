@@ -2,7 +2,6 @@ package com.proxy.service.api.context;
 
 import android.app.Activity;
 import android.app.Application;
-import android.app.Fragment;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
@@ -10,10 +9,10 @@ import androidx.annotation.NonNull;
 import com.proxy.service.api.context.cache.ActivityStack;
 
 /**
+ * context管理类
+ *
  * @author: cangHX
  * on 2020/06/11  11:09
- * <p>
- * context管理类
  */
 public class ContextManager {
 
@@ -32,7 +31,7 @@ public class ContextManager {
         } else {
             application = (Application) context.getApplicationContext();
         }
-        application.registerActivityLifecycleCallbacks(CloudActivityLifecycleCallbacks.create());
+        application.registerActivityLifecycleCallbacks(ActivityLifecycleCallbackManager.create());
         ActivityStack.setApplication(application);
 
         if (context instanceof Activity) {

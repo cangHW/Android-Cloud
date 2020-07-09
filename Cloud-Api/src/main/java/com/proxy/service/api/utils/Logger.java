@@ -6,10 +6,10 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 /**
+ * 日志打印
+ *
  * @author: cangHX
  * on 2020/06/04  16:22
- * <p>
- * 日志打印
  */
 public class Logger {
 

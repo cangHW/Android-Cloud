@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 服务类仓库
+ *
  * @author: cangHX
  * on 2020/06/08  17:46
- * <p>
- * 服务类仓库
  */
 public class ServiceCache {
 

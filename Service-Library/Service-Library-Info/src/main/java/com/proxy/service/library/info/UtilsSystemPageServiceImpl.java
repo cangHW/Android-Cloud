@@ -20,7 +20,7 @@ import com.proxy.service.api.utils.Logger;
  * on 2020/06/18  13:49
  */
 @CloudService(serviceTag = CloudServiceTagLibrary.UTILS_SYSTEM_PAGE)
-public class CloudUtilsSystemPageServiceImpl implements CloudUtilsSystemPageService {
+public class UtilsSystemPageServiceImpl implements CloudUtilsSystemPageService {
 
     /**
      * 打开应用设置页面
@@ -40,7 +40,7 @@ public class CloudUtilsSystemPageServiceImpl implements CloudUtilsSystemPageServ
         Intent intent = new Intent();
         intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
         if (TextUtils.isEmpty(packageName)) {
-            CloudUtilsAppService service = new CloudUtilsAppServiceImpl();
+            CloudUtilsAppService service = new UtilsAppServiceImpl();
             intent.setData(Uri.parse("package:" + service.getPackageName()));
         } else {
             intent.setData(Uri.parse("package:" + packageName));
@@ -67,7 +67,7 @@ public class CloudUtilsSystemPageServiceImpl implements CloudUtilsSystemPageServ
         Intent intent = new Intent();
         intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
 
-        CloudUtilsAppService service = new CloudUtilsAppServiceImpl();
+        CloudUtilsAppService service = new UtilsAppServiceImpl();
 
         if (TextUtils.isEmpty(packageName)) {
             intent.putExtra("app_package", service.getPackageName());

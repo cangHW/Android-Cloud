@@ -3,10 +3,10 @@ package com.proxy.service.api.enums;
 import android.content.Intent;
 
 /**
+ * 安装状态枚举
+ *
  * @author: cangHX
  * on 2020/06/24  17:06
- * <p>
- * 安装状态枚举
  */
 public enum CloudInstallStatusEnum {
 

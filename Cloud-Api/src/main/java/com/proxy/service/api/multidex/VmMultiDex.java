@@ -6,10 +6,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * 虚拟机多dex相关判断
+ *
  * @author: cangHX
  * on 2020/06/22  09:53
- * <p>
- * 虚拟机多dex相关判断
  */
 class VmMultiDex {
 

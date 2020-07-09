@@ -25,8 +25,8 @@ import com.proxy.service.api.tag.CloudServiceTagLibrary;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.library.cache.Cache;
 import com.proxy.service.library.manager.InstallReceiverListenerManager;
-import com.proxy.service.library.provider.CloudProvider;
-import com.proxy.service.library.receiver.CloudBroadcastReceiver;
+import com.proxy.service.library.provider.UtilsProvider;
+import com.proxy.service.library.receiver.UtilsBroadcastReceiver;
 import com.proxy.service.library.util.ProviderUtils;
 
 import java.io.File;
@@ -39,7 +39,7 @@ import java.util.List;
  * on 2020/06/11  12:41
  */
 @CloudService(serviceTag = CloudServiceTagLibrary.UTILS_INSTALL)
-public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
+public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
 
     /**
      * 添加安装状态回调
@@ -65,7 +65,7 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
         }
         intentFilter.addDataScheme("package");
 
-        CloudBroadcastReceiver.getInstance().addIntentFilter(intentFilter, InstallReceiverListenerManager.getInstance().addMap(hashMap));
+        UtilsBroadcastReceiver.getInstance().addIntentFilter(intentFilter, InstallReceiverListenerManager.getInstance().addMap(hashMap));
     }
 
     /**
@@ -107,7 +107,7 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
      */
     @Override
     public void addProviderResourcePath(@NonNull String filePath) {
-        CloudProvider.addSecurityPaths(filePath);
+        UtilsProvider.addSecurityPaths(filePath);
     }
 
     /**
@@ -137,14 +137,14 @@ public class CloudUtilsInstallServiceImpl implements CloudUtilsInstallService {
         String type = "application/vnd.android.package-archive";
 
         Uri uri;
-        CloudUtilsAppService service = new CloudUtilsAppServiceImpl();
+        CloudUtilsAppService service = new UtilsAppServiceImpl();
         boolean isSdkVersionReady = Build.VERSION.SDK_INT < Build.VERSION_CODES.N;
         // 部分机型在系统版本为7.0，但使用provier形式会崩溃。所以判断如果targetV如果<=23并且系统版本为7.0时仍然使用file://形式
         boolean isTargetReady = Build.VERSION.SDK_INT == Build.VERSION_CODES.N && service.getTargetSdkVersion() <= Build.VERSION_CODES.M;
         if (isSdkVersionReady || isTargetReady) {
             uri = Uri.fromFile(file);
         } else {
-            String provider = ProviderUtils.getProviderAuthoritiesFromManifest(CloudProvider.class.getName(), "proxy_service_provider");
+            String provider = ProviderUtils.getProviderAuthoritiesFromManifest(UtilsProvider.class.getName(), "proxy_service_provider");
             uri = Uri.parse("content://" + provider + apkPath);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }

@@ -3,10 +3,10 @@ package com.proxy.service.api.callback;
 import com.proxy.service.api.enums.CloudInstallStatusEnum;
 
 /**
+ * 安装回调接口
+ *
  * @author: cangHX
  * on 2020/06/24  17:10
- * <p>
- * 安装回调接口
  */
 public interface CloudInstallCallback {
 

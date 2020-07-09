@@ -13,23 +13,22 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 真正执行检测的地方
+ *
  * @author: cangHX
  * on 2020/07/08  09:36
- * <p>
- * 真正执行检测的地方
  */
-public class ReallyUiFieldCheckImpl implements IReallyUiFieldCheck {
+public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
 
     private Map<String, List<BaseFieldCheckNode>> mNodeMapper = new HashMap<>();
     private CloudUiFieldCheckErrorCallback mCallback;
 
     private boolean isError = false;
 
-    public ReallyUiFieldCheckImpl(Class<?> aClass, CloudUiFieldCheckErrorCallback callback) {
-        FieldCheckDataManager.init(aClass);
+    public RealUiFieldCheckImpl(Class<?> aClass, CloudUiFieldCheckErrorCallback callback) {
         this.mCallback = callback;
-        List<BaseFieldCheckNode> nodeList = FieldCheckDataManager.get(aClass);
 
+        List<BaseFieldCheckNode> nodeList = FieldCheckDataManager.init(aClass);
         for (BaseFieldCheckNode node : nodeList) {
             List<BaseFieldCheckNode> list = mNodeMapper.get(node.markId);
             if (list == null) {

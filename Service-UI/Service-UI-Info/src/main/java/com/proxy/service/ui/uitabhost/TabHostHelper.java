@@ -33,10 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 中转站，关联 helper 与 IUiTabHostRewardInterface
+ *
  * @author: cangHX
  * on 2020/06/30  18:50
- * <p>
- * 中转站，关联 helper 与 IUiTabHostRewardInterface
  */
 public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallback, ContentCallback, IRewardHelper {
 

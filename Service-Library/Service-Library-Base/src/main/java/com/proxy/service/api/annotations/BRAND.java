@@ -7,10 +7,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
+ * 设备厂商
+ *
  * @author: cangHX
  * on 2020/06/20  12:55
- * <p>
- * 设备厂商
  */
 @StringDef({
         BRAND.HUAWEI,

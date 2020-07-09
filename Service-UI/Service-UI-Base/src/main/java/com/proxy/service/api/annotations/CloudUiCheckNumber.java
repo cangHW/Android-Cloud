@@ -8,10 +8,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 设置单个判断，吐司
+ *
  * @author: cangHX
  * on 2020/07/07  16:33
- * <p>
- * 设置单个判断，吐司
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

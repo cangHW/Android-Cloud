@@ -14,10 +14,10 @@ import com.proxy.service.api.utils.Logger;
 import com.uodis.opendevice.aidl.OpenDeviceIdentifierService;
 
 /**
+ * 获取华为oaid
+ *
  * @author: cangHX
  * on 2020/06/19  18:18
- * <p>
- * 获取华为oaid
  */
 class HwOaidAidlUtil {
     private Logger mLogger = Logger.create("HwOaidAidlUtil");

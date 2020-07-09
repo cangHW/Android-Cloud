@@ -1,10 +1,10 @@
 package com.proxy.service.api.tag;
 
 /**
+ * 工具库service的tag类
+ *
  * @author: cangHX
  * on 2020/06/11  12:06
- * <p>
- * 工具库service的tag类
  */
 public class CloudServiceTagLibrary {
 

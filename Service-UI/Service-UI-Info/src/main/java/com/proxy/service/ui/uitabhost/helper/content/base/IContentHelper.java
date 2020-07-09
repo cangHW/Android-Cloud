@@ -6,10 +6,10 @@ import com.proxy.service.ui.uitabhost.helper.base.IHelper;
 import com.proxy.service.ui.uitabhost.listener.ContentCallback;
 
 /**
+ * 关联用户
+ *
  * @author: cangHX
  * on 2020/07/02  14:15
- * <p>
- * 关联用户
  */
 public interface IContentHelper extends IHelper<Object, ContentCallback> {
 

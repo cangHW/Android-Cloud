@@ -7,11 +7,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 用于标示自动装载
+ * {@link com.proxy.service.api.services.CloudUiTabHostService}
+ *
  * @author: cangHX
  * on 2020/06/29  14:32
- * <p>
- * 用于标示自动装载
- * @see com.proxy.service.api.services.CloudUiTabHostService
  */
 @Documented
 @Target(ElementType.TYPE)

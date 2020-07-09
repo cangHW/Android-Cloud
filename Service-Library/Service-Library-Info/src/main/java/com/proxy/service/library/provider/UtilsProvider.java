@@ -22,7 +22,7 @@ import java.util.List;
  * @author: cangHX
  * on 2020/06/12  15:37
  */
-public class CloudProvider extends ContentProvider {
+public class UtilsProvider extends ContentProvider {
 
     /**
      * 安全路径

@@ -6,10 +6,10 @@ import com.proxy.service.api.callback.CloudUiFieldCheckErrorCallback;
 import com.proxy.service.api.interfaces.IUiFieldCheck;
 
 /**
+ * 提供变量信息检查以及提示的服务
+ *
  * @author: cangHX
  * on 2020/07/07  16:57
- * <p>
- * 提供变量信息检查以及提示的服务
  */
 public interface CloudUiFieldCheckService extends IUiFieldCheck {
 

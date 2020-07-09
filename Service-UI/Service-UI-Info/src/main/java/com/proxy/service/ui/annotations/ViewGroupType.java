@@ -7,10 +7,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
+ * ViewGroup 的类型
+ *
  * @author: cangHX
  * on 2020/07/01  18:50
- * <p>
- * ViewGroup 的类型
  */
 @IntDef({
         ViewGroupType.ERROR,

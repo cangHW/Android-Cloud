@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import com.proxy.service.api.callback.CloudInstallCallback;
 import com.proxy.service.api.enums.CloudInstallStatusEnum;
 import com.proxy.service.api.utils.Logger;
-import com.proxy.service.library.receiver.CloudBroadcastReceiver;
+import com.proxy.service.library.receiver.UtilsBroadcastReceiver;
 import com.proxy.service.library.util.HandleUtils;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @author: cangHX
  * on 2020/06/24  18:47
  */
-public class InstallReceiverListenerManager implements CloudBroadcastReceiver.ReceiverListener {
+public class InstallReceiverListenerManager implements UtilsBroadcastReceiver.ReceiverListener {
 
     private HashMap<String, List<CloudInstallCallback>> mCallbackMap = new HashMap<>();
 

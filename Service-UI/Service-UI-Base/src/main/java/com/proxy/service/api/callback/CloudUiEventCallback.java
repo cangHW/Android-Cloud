@@ -1,10 +1,10 @@
 package com.proxy.service.api.callback;
 
 /**
+ * 事件回调
+ *
  * @author: cangHX
  * on 2020/06/29  14:14
- * <p>
- * 事件回调
  */
 public interface CloudUiEventCallback {
 

@@ -16,7 +16,7 @@ import com.proxy.service.library.oaid.callback.OaidRequestCallback;
  * on 2020/06/11  12:45
  */
 @CloudService(serviceTag = CloudServiceTagLibrary.UTILS_SYSTEM_INFO)
-public class CloudUtilsSystemInfoServiceImpl implements CloudUtilsSystemInfoService {
+public class UtilsSystemInfoServiceImpl implements CloudUtilsSystemInfoService {
 
     /**
      * 获取设备ID

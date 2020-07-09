@@ -9,10 +9,10 @@ import com.proxy.service.api.services.CloudUtilsSystemInfoService;
 import com.proxy.service.library.oaid.callback.OaidRequestCallback;
 
 /**
+ * 华为设备
+ *
  * @author: cangHX
  * on 2020/06/19  18:18
- * <p>
- * 华为设备
  */
 public class HwOaidRequestCallbackImpl implements OaidRequestCallback {
     /**

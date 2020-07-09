@@ -27,7 +27,7 @@ import java.util.List;
  */
 @CloudNewInstance
 @CloudService(serviceTag = CloudServiceTagUi.UI_TAB_HOST)
-public class CloudUiTabHostServiceImpl implements CloudUiTabHostService {
+public class UiTabHostServiceImpl implements CloudUiTabHostService {
 
     private TabHostHelper mTabHostHelper;
     private FragmentActivity mFragmentActivity;
@@ -271,6 +271,10 @@ public class CloudUiTabHostServiceImpl implements CloudUiTabHostService {
             if (rewardTag.equals(tag)) {
                 list.add((IUiTabHostRewardInterface) object);
             }
+        }
+
+        if (list.size() == 0) {
+            Logger.Debug(CloudApiError.DATA_EMPTY.append("Are you sure you added CloudUiTabHostReward annotation?").build());
         }
 
         return list;

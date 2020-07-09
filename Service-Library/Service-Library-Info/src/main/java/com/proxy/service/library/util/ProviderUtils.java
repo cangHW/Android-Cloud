@@ -9,7 +9,7 @@ import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.library.cache.Cache;
-import com.proxy.service.library.info.CloudUtilsAppServiceImpl;
+import com.proxy.service.library.info.UtilsAppServiceImpl;
 
 /**
  * @author: cangHX
@@ -35,7 +35,7 @@ public class ProviderUtils {
         if (packageManager == null) {
             return authorities;
         }
-        CloudUtilsAppServiceImpl service = new CloudUtilsAppServiceImpl();
+        UtilsAppServiceImpl service = new UtilsAppServiceImpl();
         try {
             PackageInfo packageInfo = packageManager.getPackageInfo(service.getPackageName(), PackageManager.GET_PROVIDERS);
             ProviderInfo[] providers = packageInfo.providers;

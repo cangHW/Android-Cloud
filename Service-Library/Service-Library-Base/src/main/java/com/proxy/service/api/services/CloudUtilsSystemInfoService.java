@@ -5,10 +5,10 @@ import androidx.annotation.NonNull;
 import com.proxy.service.base.BaseService;
 
 /**
+ * 系统信息相关
+ *
  * @author: cangHX
  * on 2020/06/11  10:30
- * <p>
- * 系统信息相关
  */
 public interface CloudUtilsSystemInfoService extends BaseService {
 

@@ -10,11 +10,11 @@ import com.proxy.service.api.interfaces.IRewardHelper;
 import com.proxy.service.api.interfaces.IUiTabHostRewardInterface;
 
 /**
- * @author: cangHX
- * on 2020/06/29  15:42
- * <p>
  * 子类需添加注解
  * {@link com.proxy.service.annotations.CloudUiTabHostReward}
+ *
+ * @author: cangHX
+ * on 2020/06/29  15:42
  */
 @SuppressWarnings("WeakerAccess")
 public abstract class CloudUiTabHostViewReward implements IUiTabHostRewardInterface<View> {

@@ -9,10 +9,10 @@ import com.proxy.service.library.oaid.mi.MiOaidRequestCallbackImpl;
 import com.proxy.service.library.util.BrandUtils;
 
 /**
+ * 获取oaid管理类
+ *
  * @author: cangHX
  * on 2020/06/19  17:56
- * <p>
- * 获取oaid管理类
  */
 public class OaidManager {
 

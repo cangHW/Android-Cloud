@@ -7,10 +7,10 @@ import com.proxy.service.base.BaseService;
 import java.util.List;
 
 /**
+ * 分享相关
+ *
  * @author: cangHX
  * on 2020/06/11  10:13
- * <p>
- * 分享相关
  */
 public interface CloudUtilsShareService extends BaseService {
 

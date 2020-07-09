@@ -13,12 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 广播接收中心
+ *
  * @author: cangHX
  * on 2020/06/24  17:26
- * <p>
- * 广播接收中心
  */
-public class CloudBroadcastReceiver extends BroadcastReceiver {
+public class UtilsBroadcastReceiver extends BroadcastReceiver {
 
     /**
      * 接收消息回调
@@ -40,13 +40,13 @@ public class CloudBroadcastReceiver extends BroadcastReceiver {
     private Map<ReceiverListener, Object> mReceiverListeners = new HashMap<>();
 
     private static class Factory {
-        private static CloudBroadcastReceiver mInstance = new CloudBroadcastReceiver();
+        private static UtilsBroadcastReceiver mInstance = new UtilsBroadcastReceiver();
     }
 
-    private CloudBroadcastReceiver() {
+    private UtilsBroadcastReceiver() {
     }
 
-    public static CloudBroadcastReceiver getInstance() {
+    public static UtilsBroadcastReceiver getInstance() {
         return Factory.mInstance;
     }
 

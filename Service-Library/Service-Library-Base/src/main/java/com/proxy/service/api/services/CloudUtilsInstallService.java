@@ -12,10 +12,10 @@ import com.proxy.service.base.BaseService;
 import java.util.List;
 
 /**
+ * 安装相关
+ *
  * @author: cangHX
  * on 2020/06/11  09:54
- * <p>
- * 安装相关
  */
 public interface CloudUtilsInstallService extends BaseService {
 

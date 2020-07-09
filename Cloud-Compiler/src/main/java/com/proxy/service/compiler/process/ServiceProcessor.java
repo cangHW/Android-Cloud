@@ -1,8 +1,8 @@
 package com.proxy.service.compiler.process;
 
-import com.proxy.service.compiler.handler.CloudServiceHandlerImpl;
+import com.proxy.service.compiler.handler.ServiceHandlerImpl;
 import com.proxy.service.compiler.handler.AbstractHandler;
-import com.proxy.service.compiler.handler.CloudUiTabHostRewardHandlerImpl;
+import com.proxy.service.compiler.handler.UiTabHostRewardHandlerImpl;
 import com.proxy.service.consts.ClassConstants;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import javax.tools.Diagnostic;
  * @author: cangHX
  * on 2020/06/05  11:19
  */
-public class CloudServiceProcessor extends AbstractProcessor {
+public class ServiceProcessor extends AbstractProcessor {
 
     private static final String DEFAULT_NAME = "-1";
 
@@ -52,8 +52,8 @@ public class CloudServiceProcessor extends AbstractProcessor {
         List<String> list = new ArrayList<>();
 
         try {
-            list.addAll(AbstractHandler.create(CloudUiTabHostRewardHandlerImpl.class).getSupportedAnnotationTypes());
-            list.addAll(AbstractHandler.create(CloudServiceHandlerImpl.class).getSupportedAnnotationTypes());
+            list.addAll(AbstractHandler.create(UiTabHostRewardHandlerImpl.class).getSupportedAnnotationTypes());
+            list.addAll(AbstractHandler.create(ServiceHandlerImpl.class).getSupportedAnnotationTypes());
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -77,9 +77,9 @@ public class CloudServiceProcessor extends AbstractProcessor {
             return false;
         }
         try {
-            CloudUiTabHostRewardHandlerImpl cloudUiTabHostRewardHandler = AbstractHandler.create(CloudUiTabHostRewardHandlerImpl.class);
+            UiTabHostRewardHandlerImpl cloudUiTabHostRewardHandler = AbstractHandler.create(UiTabHostRewardHandlerImpl.class);
             cloudUiTabHostRewardHandler.setRoundEnvironment(roundEnvironment).execute(mProcessingEnvironment);
-            AbstractHandler.create(CloudServiceHandlerImpl.class).setModuleName(mModuleName).setOtherList(cloudUiTabHostRewardHandler.getOtherNodes()).setRoundEnvironment(roundEnvironment).execute(mProcessingEnvironment);
+            AbstractHandler.create(ServiceHandlerImpl.class).setModuleName(mModuleName).setOtherList(cloudUiTabHostRewardHandler.getOtherNodes()).setRoundEnvironment(roundEnvironment).execute(mProcessingEnvironment);
         } catch (Throwable throwable) {
             mMessager.printMessage(Diagnostic.Kind.ERROR, throwable.getMessage());
         }

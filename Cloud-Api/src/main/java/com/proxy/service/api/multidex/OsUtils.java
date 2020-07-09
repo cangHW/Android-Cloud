@@ -1,10 +1,10 @@
 package com.proxy.service.api.multidex;
 
 /**
+ * 系统相关判断
+ *
  * @author: cangHX
  * on 2020/06/22  09:55
- * <p>
- * 系统相关判断
  */
 class OsUtils {
 

@@ -3,10 +3,10 @@ package com.proxy.service.api.services;
 import com.proxy.service.base.BaseService;
 
 /**
+ * 像素转换相关
+ *
  * @author: cangHX
  * on 2020/06/11  10:23
- * <p>
- * 像素转换相关
  */
 public interface CloudUtilsDisplayService extends BaseService {
 

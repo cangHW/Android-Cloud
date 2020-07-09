@@ -26,7 +26,7 @@ import java.util.List;
  * on 2020/06/11  12:10
  */
 @CloudService(serviceTag = CloudServiceTagLibrary.UTILS_APP)
-public class CloudUtilsAppServiceImpl implements CloudUtilsAppService {
+public class UtilsAppServiceImpl implements CloudUtilsAppService {
 
     /**
      * 获取当前app的目标设备SDK版本

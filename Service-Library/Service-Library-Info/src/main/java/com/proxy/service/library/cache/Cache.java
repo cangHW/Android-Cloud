@@ -11,10 +11,10 @@ import com.proxy.service.api.utils.Logger;
 import java.lang.ref.SoftReference;
 
 /**
+ * 缓存类，防止重复创建，降低资源消耗
+ *
  * @author: cangHX
  * on 2020/06/11  15:27
- * <p>
- * 缓存类，防止重复创建，降低资源消耗
  */
 public class Cache {
 

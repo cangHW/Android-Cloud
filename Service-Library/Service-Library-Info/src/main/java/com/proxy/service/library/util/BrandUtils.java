@@ -2,7 +2,7 @@ package com.proxy.service.library.util;
 
 import com.proxy.service.api.annotations.BRAND;
 import com.proxy.service.api.services.CloudUtilsSystemInfoService;
-import com.proxy.service.library.info.CloudUtilsSystemInfoServiceImpl;
+import com.proxy.service.library.info.UtilsSystemInfoServiceImpl;
 
 /**
  * @author: cangHX
@@ -19,7 +19,7 @@ public class BrandUtils {
      * @date: 2020-06-19 19:05
      */
     public static boolean isHw() {
-        CloudUtilsSystemInfoService service = new CloudUtilsSystemInfoServiceImpl();
+        CloudUtilsSystemInfoService service = new UtilsSystemInfoServiceImpl();
         String brand = service.getBrand();
         return BRAND.HUAWEI.equalsIgnoreCase(brand) || BRAND.HONOR.equalsIgnoreCase(brand);
     }
@@ -33,7 +33,7 @@ public class BrandUtils {
      * @date: 2020-06-19 19:05
      */
     public static boolean isMi() {
-        CloudUtilsSystemInfoService service = new CloudUtilsSystemInfoServiceImpl();
+        CloudUtilsSystemInfoService service = new UtilsSystemInfoServiceImpl();
         String brand = service.getBrand();
         return BRAND.XIAOMI.equalsIgnoreCase(brand) || BRAND.REDMI.equalsIgnoreCase(brand);
     }

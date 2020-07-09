@@ -81,7 +81,14 @@ public enum FieldCheckEnum {
                 node.message = "";
                 return node;
             }
-            node.message = context.getString(stringId);
+            try {
+                node.message = context.getString(stringId);
+            } catch (Throwable ignored) {
+            } finally {
+                if (node.message == null) {
+                    node.message = "";
+                }
+            }
             return node;
         }
     },
@@ -140,7 +147,15 @@ public enum FieldCheckEnum {
                 node.message = "";
                 return node;
             }
-            node.message = context.getString(stringId);
+            try {
+                node.message = context.getString(stringId);
+            } catch (Throwable ignored) {
+            } finally {
+                if (node.message == null) {
+                    node.message = "";
+                }
+            }
+
             return node;
         }
     },
@@ -194,7 +209,14 @@ public enum FieldCheckEnum {
                 node.message = "";
                 return node;
             }
-            node.message = context.getString(stringId);
+            try {
+                node.message = context.getString(stringId);
+            } catch (Throwable ignored) {
+            } finally {
+                if (node.message == null) {
+                    node.message = "";
+                }
+            }
             return node;
         }
     };
