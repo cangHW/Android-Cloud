@@ -10,7 +10,7 @@ import com.proxy.service.api.services.CloudUiFieldCheckService;
 import com.proxy.service.api.tag.CloudServiceTagUi;
 import com.proxy.service.ui.fieldcheck.FieldCheckDataManager;
 import com.proxy.service.ui.fieldcheck.RealUiFieldCheckImpl;
-import com.proxy.service.ui.fieldcheck.UiFieldCheckErrorCallbackImpl;
+import com.proxy.service.ui.fieldcheck.UiFieldCheckErrorCallbackDefaultImpl;
 
 /**
  * @author: cangHX
@@ -23,7 +23,7 @@ public class UiFieldCheckServiceImpl implements CloudUiFieldCheckService {
     /**
      * 全局回调
      */
-    private volatile static CloudUiFieldCheckErrorCallback mGlobalCallback = new UiFieldCheckErrorCallbackImpl();
+    private volatile static CloudUiFieldCheckErrorCallback mGlobalCallback = new UiFieldCheckErrorCallbackDefaultImpl();
 
     /**
      * 当前回调

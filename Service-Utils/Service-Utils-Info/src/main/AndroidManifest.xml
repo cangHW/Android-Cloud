@@ -1,10 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.proxy.service.library.info" >
+    package="com.proxy.service.utils.info" >
 
     <application>
 
         <provider
-            android:name="com.proxy.service.library.provider.UtilsProvider"
+            android:name="com.proxy.service.utils.provider.UtilsProvider"
             android:authorities="${applicationId}.proxy_service_provider"
             android:exported="false"
             android:grantUriPermissions="true" />

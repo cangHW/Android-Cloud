@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.proxy.service.api.context.cache.ActivityStack;
 
@@ -48,6 +49,7 @@ public class ContextManager {
      * @author: cangHX
      * @date: 2020-06-11 11:45
      */
+    @Nullable
     public static Activity getCurrentActivity() {
         return ActivityStack.getCurrentActivity();
     }
@@ -71,6 +73,7 @@ public class ContextManager {
      * @author: cangHX
      * @date: 2020-06-12 09:56
      */
+    @Nullable
     public static Application getApplication() {
         return ActivityStack.getApplication();
     }

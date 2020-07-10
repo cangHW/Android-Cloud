@@ -35,7 +35,7 @@ public enum FieldCheckDataCache {
     }
 
     public List<BaseFieldCheckNode> get(Class<?> key) {
-        List<BaseFieldCheckNode> list = new ArrayList<>();
+        List<BaseFieldCheckNode> list = null;
 
         List<BaseFieldCheckNode> nodes = mLruCache.get(key);
         if (nodes == null) {
@@ -45,7 +45,7 @@ public enum FieldCheckDataCache {
             }
         }
         if (nodes != null) {
-            list.addAll(nodes);
+            list = new ArrayList<>(nodes);
         }
 
         return list;

@@ -27,7 +27,7 @@ public interface CloudUtilsEditTextService extends BaseService {
      * @date: 2020-07-09 18:40
      */
     @NonNull
-    IEditTextHelper with(EditText editText);
+    IEditTextHelper with(@NonNull EditText editText);
 
     /**
      * 弹出键盘
