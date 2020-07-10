@@ -57,8 +57,17 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
 
         CloudUtilsEditTextService editTextService = CloudSystem.getService(CloudServiceTagUtils.UTILS_EDIT_TEXT);
         if (editTextService != null) {
-            editTextService.with(mInputAccountView).clearInputType().addTextChangedCallback(this);
-            editTextService.with(mInputPasswordView).clearInputType().allowNumber().addTextChangedCallback(this);
+            editTextService
+                    .with(mInputAccountView)
+                    .clearInputType()
+                    .allowLetter()
+                    .allowNumber()
+                    .addTextChangedCallback(this);
+            editTextService
+                    .with(mInputPasswordView)
+                    .clearInputType()
+                    .allowNumber()
+                    .addTextChangedCallback(this);
         }
 
 
