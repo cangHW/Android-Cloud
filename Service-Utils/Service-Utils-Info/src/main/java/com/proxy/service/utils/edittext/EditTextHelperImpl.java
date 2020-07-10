@@ -71,9 +71,7 @@ public class EditTextHelperImpl implements IEditTextHelper {
     @NonNull
     @Override
     public IEditTextBanHelper banEmoji() {
-        IEditTextBanHelper helper = createBanHelper();
-        helper.banEmoji();
-        return helper;
+        return createBanHelper().banEmoji();
     }
 
     /**
@@ -87,9 +85,7 @@ public class EditTextHelperImpl implements IEditTextHelper {
     @NonNull
     @Override
     public IEditTextBanHelper banNumber() {
-        IEditTextBanHelper helper = createBanHelper();
-        helper.banNumber();
-        return helper;
+        return createBanHelper().banNumber();
     }
 
     /**
@@ -103,9 +99,7 @@ public class EditTextHelperImpl implements IEditTextHelper {
     @NonNull
     @Override
     public IEditTextBanHelper banLetter() {
-        IEditTextBanHelper helper = createBanHelper();
-        helper.banLetter();
-        return helper;
+        return createBanHelper().banLetter();
     }
 
     /**
@@ -119,9 +113,7 @@ public class EditTextHelperImpl implements IEditTextHelper {
     @NonNull
     @Override
     public IEditTextBanHelper banLetterLowerCase() {
-        IEditTextBanHelper helper = createBanHelper();
-        helper.banLetterLowerCase();
-        return helper;
+        return createBanHelper().banLetterLowerCase();
     }
 
     /**
@@ -135,9 +127,7 @@ public class EditTextHelperImpl implements IEditTextHelper {
     @NonNull
     @Override
     public IEditTextBanHelper banLetterUpperCase() {
-        IEditTextBanHelper helper = createBanHelper();
-        helper.banLetterUpperCase();
-        return helper;
+        return createBanHelper().banLetterUpperCase();
     }
 
     /**
@@ -152,9 +142,7 @@ public class EditTextHelperImpl implements IEditTextHelper {
     @NonNull
     @Override
     public IEditTextBanHelper banDigits(@NonNull String digits) {
-        IEditTextBanHelper helper = createBanHelper();
-        helper.banDigits(digits);
-        return helper;
+        return createBanHelper().banDigits(digits);
     }
 
     private IEditTextBanHelper createBanHelper() {

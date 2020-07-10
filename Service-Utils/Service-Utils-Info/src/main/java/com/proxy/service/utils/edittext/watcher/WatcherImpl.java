@@ -44,6 +44,9 @@ public class WatcherImpl implements TextWatcher {
             return;
         }
         for (CloudTextChangedCallback callback : mCallbacks) {
+            if (callback == null) {
+                continue;
+            }
             try {
                 callback.onChanged(mEditText, s, mBeforeText);
             } catch (Throwable throwable) {
