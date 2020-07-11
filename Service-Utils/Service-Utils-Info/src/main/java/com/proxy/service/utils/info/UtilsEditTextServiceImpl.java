@@ -2,6 +2,8 @@ package com.proxy.service.utils.info;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -92,6 +94,34 @@ public class UtilsEditTextServiceImpl implements CloudUtilsEditTextService {
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         }
+    }
+
+    /**
+     * 隐藏输入内容，用点号替换文字
+     *
+     * @param editText : EditText
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-11 10:36
+     */
+    @Override
+    public void hideInputContent(@NonNull EditText editText) {
+        editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        editText.setSelection(editText.getText().length());
+    }
+
+    /**
+     * 显示输入内容
+     *
+     * @param editText : EditText
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-11 10:36
+     */
+    @Override
+    public void showInputContent(@NonNull EditText editText) {
+        editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        editText.setSelection(editText.getText().length());
     }
 
     private View getOtherView(View view) {

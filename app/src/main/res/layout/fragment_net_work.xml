@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:background="#ff0000"
         android:gravity="center"
-        android:text="HomeFragment"
+        android:text="网络"
         android:textColor="#ffffff"
         android:textSize="20dp" />
 

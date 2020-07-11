@@ -49,4 +49,23 @@ public interface CloudUtilsEditTextService extends BaseService {
      */
     void hideSoftInput(@Nullable View view);
 
+    /**
+     * 隐藏输入内容，用点号替换文字
+     *
+     * @param editText : EditText
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-11 10:36
+     */
+    void hideInputContent(@NonNull EditText editText);
+
+    /**
+     * 显示输入内容
+     *
+     * @param editText : EditText
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-11 10:36
+     */
+    void showInputContent(@NonNull EditText editText);
 }
