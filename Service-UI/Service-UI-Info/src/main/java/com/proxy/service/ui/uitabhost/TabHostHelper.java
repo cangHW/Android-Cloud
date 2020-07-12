@@ -159,6 +159,7 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
                 }
                 break;
             case ViewGroupType.VIEW_PAGER:
+                //TODO 更多viewgroup
                 break;
             case ViewGroupType.LIST_VIEW:
                 break;

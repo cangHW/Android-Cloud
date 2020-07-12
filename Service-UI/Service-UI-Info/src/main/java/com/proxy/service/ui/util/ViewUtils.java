@@ -33,12 +33,17 @@ public class ViewUtils {
             return ViewGroupType.RELATIVE_LAYOUT;
         } else if (viewGroup instanceof FrameLayout) {
             return ViewGroupType.FRAME_LAYOUT;
-        } else if (viewGroup instanceof LinearLayoutCompat) {
-            return ViewGroupType.LINEAR_LAYOUT_COMPAT;
         } else if (viewGroup instanceof ViewPager) {
             return ViewGroupType.VIEW_PAGER;
         } else if (viewGroup instanceof ListView) {
             return ViewGroupType.LIST_VIEW;
+        }
+
+        try {
+            if (viewGroup instanceof LinearLayoutCompat) {
+                return ViewGroupType.LINEAR_LAYOUT_COMPAT;
+            }
+        } catch (Throwable ignored) {
         }
 
         try {

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.fragment.app.FragmentManager;
-
 import com.proxy.service.ui.uitabhost.helper.tab.base.ITabHelper;
 import com.proxy.service.ui.uitabhost.listener.TabCallback;
 
