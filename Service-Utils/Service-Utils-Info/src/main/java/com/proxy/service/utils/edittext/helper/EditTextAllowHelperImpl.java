@@ -1,7 +1,8 @@
 package com.proxy.service.utils.edittext.helper;
 
-import android.text.InputType;
-import android.text.method.NumberKeyListener;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -9,32 +10,33 @@ import androidx.annotation.NonNull;
 import com.proxy.service.api.callback.CloudTextChangedCallback;
 import com.proxy.service.api.interfaces.IEditTextAllowHelper;
 import com.proxy.service.utils.edittext.node.EditTextTypeInfo;
+import com.proxy.service.utils.util.StringUtils;
 
-import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * @author: cangHX
  * on 2020/07/10  17:56
  */
-public class EditTextAllowHelperImpl implements IEditTextAllowHelper {
+public class EditTextAllowHelperImpl implements IEditTextAllowHelper, InputFilter {
 
-    private List<CloudTextChangedCallback> mCallbacks;
-    private StringBuilder mBuilder = new StringBuilder();
+    private EditTextTypeInfo mInfo = new EditTextTypeInfo();
+    private Set<CloudTextChangedCallback> mCallbacks;
+    private Pattern mDigitsPattern;
+    private Pattern mRegexPattern;
 
-    public EditTextAllowHelperImpl(EditText editText, List<CloudTextChangedCallback> callbacks) {
+    public EditTextAllowHelperImpl(EditText editText, Set<CloudTextChangedCallback> callbacks) {
         this.mCallbacks = callbacks;
-        final int inputType = editText.getInputType();
-        editText.setKeyListener(new NumberKeyListener() {
-            @NonNull
-            @Override
-            protected char[] getAcceptedChars() {
-                return mBuilder.toString().toCharArray();
-            }
 
-            @Override
-            public int getInputType() {
-                return inputType == InputType.TYPE_NULL ? InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD : inputType;
-            }
+        mInfo.setNumberEnable(false);
+        mInfo.setLetterEnable(false);
+        mInfo.setLetterUpperCaseEnable(false);
+        mInfo.setLetterLowerCaseEnable(false);
+        mInfo.setEmojiEnable(false);
+
+        editText.setFilters(new InputFilter[]{
+                EditTextAllowHelperImpl.this
         });
     }
 
@@ -49,7 +51,7 @@ public class EditTextAllowHelperImpl implements IEditTextAllowHelper {
     @NonNull
     @Override
     public IEditTextAllowHelper allowNumber() {
-        mBuilder.append(EditTextTypeInfo.NUMBER);
+        mInfo.setNumberEnable(true);
         return this;
     }
 
@@ -64,7 +66,7 @@ public class EditTextAllowHelperImpl implements IEditTextAllowHelper {
     @NonNull
     @Override
     public IEditTextAllowHelper allowLetter() {
-        mBuilder.append(EditTextTypeInfo.LETTER);
+        mInfo.setLetterEnable(true);
         return this;
     }
 
@@ -79,7 +81,7 @@ public class EditTextAllowHelperImpl implements IEditTextAllowHelper {
     @NonNull
     @Override
     public IEditTextAllowHelper allowLetterUpperCase() {
-        mBuilder.append(EditTextTypeInfo.LETTER_UPPERCASE);
+        mInfo.setLetterUpperCaseEnable(true);
         return this;
     }
 
@@ -94,7 +96,7 @@ public class EditTextAllowHelperImpl implements IEditTextAllowHelper {
     @NonNull
     @Override
     public IEditTextAllowHelper allowLetterLowerCase() {
-        mBuilder.append(EditTextTypeInfo.LETTER_LOWERCASE);
+        mInfo.setLetterLowerCaseEnable(true);
         return this;
     }
 
@@ -110,7 +112,29 @@ public class EditTextAllowHelperImpl implements IEditTextAllowHelper {
     @NonNull
     @Override
     public IEditTextAllowHelper allowDigits(@NonNull String digits) {
-        mBuilder.append(digits);
+        if (TextUtils.isEmpty(digits)) {
+            return this;
+        }
+        mDigitsPattern = Pattern.compile("[" + digits + "]");
+        return this;
+    }
+
+    /**
+     * 自定义允许输入正则
+     *
+     * @param regex : 正则表达式
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-12 11:56
+     */
+    @NonNull
+    @Override
+    public IEditTextAllowHelper allowMatcher(@NonNull String regex) {
+        if (TextUtils.isEmpty(regex)) {
+            return this;
+        }
+        mRegexPattern = Pattern.compile(regex);
         return this;
     }
 
@@ -130,5 +154,31 @@ public class EditTextAllowHelperImpl implements IEditTextAllowHelper {
             this.mCallbacks.add(callback);
         }
         return this;
+    }
+
+    @Override
+    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+        if (mInfo.isEmojiEnable() && StringUtils.checkEmoji(source)) {
+            return null;
+        }
+        if (mInfo.isNumberEnable() && StringUtils.checkNumber(source)) {
+            return null;
+        }
+        if (mInfo.isLetterEnable() && StringUtils.checkLetter(source)) {
+            return null;
+        }
+        if (mInfo.isLetterLowerCaseEnable() && StringUtils.checkLetterLowerCase(source)) {
+            return null;
+        }
+        if (mInfo.isLetterUpperCaseEnable() && StringUtils.checkLetterUpperCase(source)) {
+            return null;
+        }
+        if (mDigitsPattern != null && StringUtils.checkMatcher(mDigitsPattern, source)) {
+            return null;
+        }
+        if (mRegexPattern != null && StringUtils.checkMatcher(mRegexPattern, source)) {
+            return null;
+        }
+        return "";
     }
 }

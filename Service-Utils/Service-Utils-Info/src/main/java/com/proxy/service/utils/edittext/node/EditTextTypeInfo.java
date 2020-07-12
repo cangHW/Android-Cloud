@@ -8,23 +8,6 @@ import java.util.regex.Pattern;
  */
 public class EditTextTypeInfo {
 
-    private static final String INPUT_SYMBOL = "`~!@#$%^&*()_+-=[]{}|;':,./\\，。、；’【】、";
-
-    public static final String LETTER_LOWERCASE = "[abcdefghijklmnopqrstuvwxyz]";
-    public Pattern mLetterLowerCasePattern = Pattern.compile(LETTER_LOWERCASE);
-
-    public static final String LETTER_UPPERCASE = "[ABCDEFGHIJKLMNOPQRSTUVWXYZ]";
-    public Pattern mLetterUpperCasePattern = Pattern.compile(LETTER_UPPERCASE);
-
-    public static final String LETTER = "[" + LETTER_LOWERCASE + LETTER_UPPERCASE + "]";
-    public Pattern mLetterPattern = Pattern.compile(LETTER);
-
-    public static final String NUMBER = "[0123456789]";
-    public Pattern mNumberPattern = Pattern.compile(NUMBER);
-
-    private static final String EMOJI = "[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]";
-    public Pattern mEmojiPattern = Pattern.compile(EMOJI, Pattern.UNICODE_CASE | Pattern.CASE_INSENSITIVE);
-
     private boolean isNumberEnable = true;
 
     private boolean isLetterEnable = true;
@@ -70,24 +53,24 @@ public class EditTextTypeInfo {
         return isEmojiEnable;
     }
 
-    public void banNumber() {
-        isNumberEnable = false;
+    public void setNumberEnable(boolean enable) {
+        isNumberEnable = enable;
     }
 
-    public void banLetter() {
-        isLetterEnable = false;
+    public void setLetterEnable(boolean enable) {
+        isLetterEnable = enable;
     }
 
-    public void banLetterUpperCase() {
-        isLetterUpperCaseEnable = false;
+    public void setLetterUpperCaseEnable(boolean enable) {
+        isLetterUpperCaseEnable = enable;
     }
 
-    public void banLetterLowerCase() {
-        isLetterLowerCaseEnable = false;
+    public void setLetterLowerCaseEnable(boolean enable) {
+        isLetterLowerCaseEnable = enable;
     }
 
-    public void banEmoji() {
-        isEmojiEnable = false;
+    public void setEmojiEnable(boolean enable) {
+        isEmojiEnable = enable;
     }
 
 }

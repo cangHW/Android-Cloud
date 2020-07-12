@@ -14,7 +14,7 @@ public abstract class BaseFieldCheckNode {
     public String markId;
 
     /**
-     * 校验失败后的吐司信息
+     * 校验失败后的错误信息
      */
     public String message;
 

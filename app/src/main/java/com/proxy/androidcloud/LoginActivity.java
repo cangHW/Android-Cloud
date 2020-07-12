@@ -32,14 +32,17 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
             @CloudUiCheckString(markId = ACCOUNT, notEmpty = true, message = "请输入用户名"),
             @CloudUiCheckString(markId = ACCOUNT, notBlank = true, message = "用户名不能为空格"),
             @CloudUiCheckString(markId = ACCOUNT, maxLength = 8, notBlank = true, stringId = R.string.long_account),
-            @CloudUiCheckString(markId = ACCOUNT, minLength = 4, notBlank = true, message = "用户名太短")
+            @CloudUiCheckString(markId = ACCOUNT, minLength = 4, notBlank = true, message = "用户名太短"),
+            @CloudUiCheckString(markId = ACCOUNT, notWithRegex = "[01abc]", message = "用户名不能包含 01abc")
     })
     private String mAccountText;
 
     @CloudUiCheckStrings({
             @CloudUiCheckString(markId = PASSWORD, notEmpty = true, message = "请输入密码"),
             @CloudUiCheckString(markId = PASSWORD, notBlank = true, message = "密码不能为空格"),
-            @CloudUiCheckString(markId = PASSWORD, maxLength = 4, minLength = 4, notBlank = true, message = "密码不符合4位要求")
+            @CloudUiCheckString(markId = PASSWORD, maxLength = 4, minLength = 4, notBlank = true, message = "密码不符合4位要求"),
+            @CloudUiCheckString(markId = PASSWORD, shouldWithRegex = "[1]", message = "密码必须包含 1"),
+            @CloudUiCheckString(markId = PASSWORD, notWithRegex = "(1111|1234|1222|1333|1444|1324|1432|1423)", message = "密码太简单")
     })
     private String mPasswordText = null;
 

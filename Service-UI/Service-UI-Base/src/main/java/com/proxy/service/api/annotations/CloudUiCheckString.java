@@ -53,12 +53,22 @@ public @interface CloudUiCheckString {
     boolean notBlank() default false;
 
     /**
-     * 校验失败后的吐司信息
+     * 不允许含有的格式，正则表达式
+     */
+    String notWithRegex() default "";
+
+    /**
+     * 必须含有的格式，正则表达式
+     */
+    String shouldWithRegex() default "";
+
+    /**
+     * 校验失败后的错误信息
      */
     String message() default "";
 
     /**
-     * 校验失败后的吐司信息的资源 id，与 message 取其一，优先 message
+     * 校验失败后的错误信息的资源 id，与 message 取其一，优先 message
      */
     @StringRes int stringId() default 0;
 }

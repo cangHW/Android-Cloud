@@ -12,8 +12,8 @@ import com.proxy.service.utils.edittext.helper.EditTextAllowHelperImpl;
 import com.proxy.service.utils.edittext.helper.EditTextBanHelperImpl;
 import com.proxy.service.utils.edittext.watcher.WatcherImpl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author: cangHX
@@ -22,7 +22,7 @@ import java.util.List;
 public class EditTextHelperImpl implements IEditTextHelper {
 
     private EditText mEditText;
-    private List<CloudTextChangedCallback> mCallbacks = new ArrayList<>();
+    private Set<CloudTextChangedCallback> mCallbacks = new HashSet<>();
 
     public EditTextHelperImpl(EditText editText) {
         this.mEditText = editText;
@@ -145,6 +145,24 @@ public class EditTextHelperImpl implements IEditTextHelper {
         return createBanHelper().banDigits(digits);
     }
 
+    /**
+     * 自定义禁止输入正则
+     *
+     * @param regex : 正则表达式
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-12 11:56
+     */
+    @NonNull
+    @Override
+    public IEditTextBanHelper banMatcher(@NonNull String regex) {
+        return createBanHelper().banMatcher(regex);
+    }
+
+    /**
+     * 创建禁止 helper 类
+     */
     private IEditTextBanHelper createBanHelper() {
         return new EditTextBanHelperImpl(mEditText, mCallbacks);
     }

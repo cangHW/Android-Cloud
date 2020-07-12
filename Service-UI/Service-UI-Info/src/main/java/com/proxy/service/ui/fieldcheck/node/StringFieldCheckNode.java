@@ -6,6 +6,8 @@ import com.proxy.service.api.callback.CloudUiFieldCheckErrorCallback;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.utils.Logger;
 
+import java.util.regex.Pattern;
+
 /**
  * @author: cangHX
  * on 2020/07/08  15:12
@@ -41,6 +43,16 @@ public class StringFieldCheckNode extends BaseFieldCheckNode {
      * 不能为空格
      */
     public boolean notBlank;
+
+    /**
+     * 不允许含有的格式，正则表达式
+     */
+    public String notWithRegex;
+
+    /**
+     * 必须含有的格式，正则表达式
+     */
+    public String shouldWithRegex;
 
     /**
      * 检测是否符合要求
@@ -109,6 +121,30 @@ public class StringFieldCheckNode extends BaseFieldCheckNode {
             if (string == null || string.length() <= minLengthNotSame) {
                 callback.onError(message);
                 return true;
+            }
+        }
+
+        if (!TextUtils.isEmpty(notWithRegex)) {
+            try {
+                Pattern pattern = Pattern.compile(notWithRegex);
+                if (string == null || pattern.matcher(string).find()) {
+                    callback.onError(message);
+                    return true;
+                }
+            } catch (Throwable throwable) {
+                Logger.Error(CloudApiError.DATA_ERROR.setMsg("Regular expression format error. notWithRegex : " + notWithRegex).build(), throwable);
+            }
+        }
+
+        if (!TextUtils.isEmpty(shouldWithRegex)) {
+            try {
+                Pattern pattern = Pattern.compile(shouldWithRegex);
+                if (string == null || !pattern.matcher(string).find()) {
+                    callback.onError(message);
+                    return true;
+                }
+            } catch (Throwable throwable) {
+                Logger.Error(CloudApiError.DATA_ERROR.setMsg("Regular expression format error. shouldWithRegex : " + shouldWithRegex).build(), throwable);
             }
         }
 

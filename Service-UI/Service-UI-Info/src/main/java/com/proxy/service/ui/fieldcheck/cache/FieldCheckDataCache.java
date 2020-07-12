@@ -39,7 +39,10 @@ public enum FieldCheckDataCache {
 
         List<BaseFieldCheckNode> nodes = mLruCache.get(key);
         if (nodes == null) {
-            nodes = mHashMap.get(key);
+            if (mHashMap.containsKey(key)) {
+                nodes = mHashMap.get(key);
+                mHashMap.remove(key);
+            }
             if (nodes != null) {
                 mLruCache.put(key, nodes);
             }

@@ -136,6 +136,6 @@ public class UtilsEditTextServiceImpl implements CloudUtilsEditTextService {
             }
             view = viewGroup;
         }
-        return view;
+        return null;
     }
 }

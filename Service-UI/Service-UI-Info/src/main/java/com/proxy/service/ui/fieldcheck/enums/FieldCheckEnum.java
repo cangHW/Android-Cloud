@@ -136,6 +136,8 @@ public enum FieldCheckEnum {
             node.minLengthNotSame = checkString.minLengthNotSame();
             node.notEmpty = checkString.notEmpty();
             node.notBlank = checkString.notBlank();
+            node.notWithRegex = checkString.notWithRegex();
+            node.shouldWithRegex = checkString.shouldWithRegex();
             if (!TextUtils.isEmpty(checkString.message())) {
                 node.message = checkString.message();
                 return node;

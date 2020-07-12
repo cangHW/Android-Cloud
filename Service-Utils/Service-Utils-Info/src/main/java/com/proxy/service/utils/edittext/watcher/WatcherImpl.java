@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import com.proxy.service.api.callback.CloudTextChangedCallback;
 import com.proxy.service.api.utils.Logger;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author: cangHX
@@ -17,11 +17,11 @@ import java.util.List;
  */
 public class WatcherImpl implements TextWatcher {
 
-    private List<CloudTextChangedCallback> mCallbacks;
+    private Set<CloudTextChangedCallback> mCallbacks;
     private EditText mEditText;
     private String mBeforeText;
 
-    public WatcherImpl(@NonNull EditText editText, @NonNull List<CloudTextChangedCallback> list) {
+    public WatcherImpl(@NonNull EditText editText, @NonNull Set<CloudTextChangedCallback> list) {
         this.mEditText = editText;
         this.mCallbacks = list;
     }

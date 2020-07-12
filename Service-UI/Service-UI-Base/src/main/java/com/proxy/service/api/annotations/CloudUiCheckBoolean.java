@@ -28,12 +28,12 @@ public @interface CloudUiCheckBoolean {
     boolean isValue() default false;
 
     /**
-     * 校验失败后的吐司信息
+     * 校验失败后的错误信息
      */
     String message() default "";
 
     /**
-     * 校验失败后的吐司信息的资源 id，与 message 取其一，优先 message
+     * 校验失败后的错误信息的资源 id，与 message 取其一，优先 message
      */
     @StringRes int stringId() default 0;
 }

@@ -2,6 +2,7 @@ package com.proxy.service.utils.edittext.helper;
 
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -9,9 +10,9 @@ import androidx.annotation.NonNull;
 import com.proxy.service.api.callback.CloudTextChangedCallback;
 import com.proxy.service.api.interfaces.IEditTextBanHelper;
 import com.proxy.service.utils.edittext.node.EditTextTypeInfo;
+import com.proxy.service.utils.util.StringUtils;
 
-import java.util.List;
-import java.util.regex.Matcher;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -21,10 +22,11 @@ import java.util.regex.Pattern;
 public class EditTextBanHelperImpl implements IEditTextBanHelper, InputFilter {
 
     private EditTextTypeInfo mInfo = new EditTextTypeInfo();
-    private List<CloudTextChangedCallback> mCallbacks;
+    private Set<CloudTextChangedCallback> mCallbacks;
     private Pattern mDigitsPattern;
+    private Pattern mRegexPattern;
 
-    public EditTextBanHelperImpl(EditText editText, List<CloudTextChangedCallback> callbacks) {
+    public EditTextBanHelperImpl(EditText editText, Set<CloudTextChangedCallback> callbacks) {
         this.mCallbacks = callbacks;
         editText.setFilters(new InputFilter[]{
                 EditTextBanHelperImpl.this
@@ -42,7 +44,7 @@ public class EditTextBanHelperImpl implements IEditTextBanHelper, InputFilter {
     @NonNull
     @Override
     public IEditTextBanHelper banEmoji() {
-        mInfo.banEmoji();
+        mInfo.setEmojiEnable(false);
         return this;
     }
 
@@ -57,7 +59,7 @@ public class EditTextBanHelperImpl implements IEditTextBanHelper, InputFilter {
     @NonNull
     @Override
     public IEditTextBanHelper banNumber() {
-        mInfo.banNumber();
+        mInfo.setNumberEnable(false);
         return this;
     }
 
@@ -72,7 +74,7 @@ public class EditTextBanHelperImpl implements IEditTextBanHelper, InputFilter {
     @NonNull
     @Override
     public IEditTextBanHelper banLetter() {
-        mInfo.banLetter();
+        mInfo.setLetterEnable(false);
         return this;
     }
 
@@ -87,7 +89,7 @@ public class EditTextBanHelperImpl implements IEditTextBanHelper, InputFilter {
     @NonNull
     @Override
     public IEditTextBanHelper banLetterLowerCase() {
-        mInfo.banLetterLowerCase();
+        mInfo.setLetterLowerCaseEnable(false);
         return this;
     }
 
@@ -102,7 +104,7 @@ public class EditTextBanHelperImpl implements IEditTextBanHelper, InputFilter {
     @NonNull
     @Override
     public IEditTextBanHelper banLetterUpperCase() {
-        mInfo.banLetterUpperCase();
+        mInfo.setLetterUpperCaseEnable(false);
         return this;
     }
 
@@ -118,7 +120,29 @@ public class EditTextBanHelperImpl implements IEditTextBanHelper, InputFilter {
     @NonNull
     @Override
     public IEditTextBanHelper banDigits(@NonNull String digits) {
-        mDigitsPattern = Pattern.compile(digits);
+        if (TextUtils.isEmpty(digits)) {
+            return this;
+        }
+        mDigitsPattern = Pattern.compile("[" + digits + "]");
+        return this;
+    }
+
+    /**
+     * 自定义禁止输入正则
+     *
+     * @param regex : 正则表达式
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-12 11:56
+     */
+    @NonNull
+    @Override
+    public IEditTextBanHelper banMatcher(@NonNull String regex) {
+        if (TextUtils.isEmpty(regex)) {
+            return this;
+        }
+        mRegexPattern = Pattern.compile(regex);
         return this;
     }
 
@@ -142,146 +166,28 @@ public class EditTextBanHelperImpl implements IEditTextBanHelper, InputFilter {
 
     @Override
     public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-        if (mInfo.isEmojiEnable() && checkEmoji(source)) {
+        if (!mInfo.isEmojiEnable() && StringUtils.checkEmoji(source)) {
             return "";
         }
-        if (mInfo.isNumberEnable() && checkNumber(source)) {
+        if (!mInfo.isNumberEnable() && StringUtils.checkNumber(source)) {
             return "";
         }
-        if (mInfo.isLetterEnable() && checkLetter(source)) {
+        if (!mInfo.isLetterEnable() && StringUtils.checkLetter(source)) {
             return "";
         }
-        if (mInfo.isLetterLowerCaseEnable() && checkLetterLowerCase(source)) {
+        if (!mInfo.isLetterLowerCaseEnable() && StringUtils.checkLetterLowerCase(source)) {
             return "";
         }
-        if (mInfo.isLetterUpperCaseEnable() && checkLetterUpperCase(source)) {
+        if (!mInfo.isLetterUpperCaseEnable() && StringUtils.checkLetterUpperCase(source)) {
             return "";
         }
-        if (mDigitsPattern != null && checkDigits(source)) {
+        if (mDigitsPattern != null && StringUtils.checkMatcher(mDigitsPattern, source)) {
+            return "";
+        }
+        if (mRegexPattern != null && StringUtils.checkMatcher(mRegexPattern, source)) {
             return "";
         }
         return null;
     }
 
-    /**
-     * 自定义数据检测
-     *
-     * @param source : 待检测对象
-     * @return true 包含，false 不包含
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-10 18:49
-     */
-    private boolean checkDigits(CharSequence source) {
-        Matcher matcher = mDigitsPattern.matcher(source);
-        return matcher.find();
-    }
-
-    /**
-     * 检测是否包含大写英文
-     *
-     * @param source : 待检测对象
-     * @return true 包含，false 不包含
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-10 18:49
-     */
-    private boolean checkLetterUpperCase(CharSequence source) {
-        Matcher matcher = mInfo.mLetterUpperCasePattern.matcher(source);
-        return matcher.find();
-    }
-
-    /**
-     * 检测是否包含小写英文
-     *
-     * @param source : 待检测对象
-     * @return true 包含，false 不包含
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-10 18:49
-     */
-    private boolean checkLetterLowerCase(CharSequence source) {
-        Matcher matcher = mInfo.mLetterLowerCasePattern.matcher(source);
-        return matcher.find();
-    }
-
-    /**
-     * 检测是否包含英文
-     *
-     * @param source : 待检测对象
-     * @return true 包含，false 不包含
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-10 18:49
-     */
-    private boolean checkLetter(CharSequence source) {
-        Matcher matcher = mInfo.mLetterPattern.matcher(source);
-        return matcher.find();
-    }
-
-    /**
-     * 检测是否包含数字
-     *
-     * @param source : 待检测对象
-     * @return true 包含，false 不包含
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-10 18:49
-     */
-    private boolean checkNumber(CharSequence source) {
-        Matcher matcher = mInfo.mNumberPattern.matcher(source);
-        return matcher.find();
-    }
-
-    /**
-     * 检测是否包含表情
-     *
-     * @param source : 待检测对象
-     * @return true 包含，false 不包含
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-10 18:46
-     */
-    private boolean checkEmoji(CharSequence source) {
-        //第一重过滤,这个方法能过滤掉大部分表情,但有极个别的过滤不掉,故加上下面的方法进行双重过滤
-        Matcher matcher = mInfo.mEmojiPattern.matcher(source);
-        if (matcher.find()) {
-            return true;
-        }
-        //第二重过滤,增强排查力度,如果还有漏网之鱼，则进行第三次过滤(暂不考虑第三次过滤)
-        return containsEmoji(source.toString());
-    }
-
-    /**
-     * 检测 string 字符串中是否包含表情
-     *
-     * @param source : 待检测的字符串
-     * @return true 包含，false 不包含
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-10 14:09
-     */
-    private static boolean containsEmoji(String source) {
-        int len = source.length();
-        for (int i = 0; i < len; i++) {
-            char codePoint = source.charAt(i);
-            if (!isEmojiCharacter(codePoint)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 检测字符是否为表情
-     *
-     * @param codePoint : 待检测的字符
-     * @return true 是表情，false 不是表情
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-10 14:10
-     */
-    private static boolean isEmojiCharacter(char codePoint) {
-        return codePoint == 0x0 || codePoint == 0x9 || codePoint == 0xA || codePoint == 0xD || codePoint >= 0x20 && codePoint <= 0xD7FF || codePoint >= 0xE000 && codePoint <= 0xFFFD;
-    }
 }

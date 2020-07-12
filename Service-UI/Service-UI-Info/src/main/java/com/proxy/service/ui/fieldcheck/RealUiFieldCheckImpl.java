@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.proxy.service.api.callback.CloudUiFieldCheckErrorCallback;
 import com.proxy.service.api.interfaces.IReallyUiFieldCheck;
+import com.proxy.service.api.utils.Logger;
 import com.proxy.service.ui.fieldcheck.node.BaseFieldCheckNode;
 import com.proxy.service.ui.util.TaskUtils;
 
@@ -98,6 +99,7 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
 
         List<BaseFieldCheckNode> list = mNodeMapper.get(markId);
         if (list == null || list.size() == 0) {
+            Logger.Debug("The judgment condition does not exist. markId : " + markId);
             return this;
         }
 
@@ -130,6 +132,7 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
 
         List<BaseFieldCheckNode> list = mNodeMapper.get(markId);
         if (list == null || list.size() == 0) {
+            Logger.Debug("The judgment condition does not exist. markId : " + markId);
             return this;
         }
 
@@ -162,6 +165,7 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
 
         List<BaseFieldCheckNode> list = mNodeMapper.get(markId);
         if (list == null || list.size() == 0) {
+            Logger.Debug("The judgment condition does not exist. markId : " + markId);
             return this;
         }
 
@@ -194,6 +198,7 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
 
         List<BaseFieldCheckNode> list = mNodeMapper.get(markId);
         if (list == null || list.size() == 0) {
+            Logger.Debug("The judgment condition does not exist. markId : " + markId);
             return this;
         }
 
@@ -226,6 +231,7 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
 
         List<BaseFieldCheckNode> list = mNodeMapper.get(markId);
         if (list == null || list.size() == 0) {
+            Logger.Debug("The judgment condition does not exist. markId : " + markId);
             return this;
         }
 
@@ -258,6 +264,7 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
 
         List<BaseFieldCheckNode> list = mNodeMapper.get(markId);
         if (list == null || list.size() == 0) {
+            Logger.Debug("The judgment condition does not exist. markId : " + markId);
             return this;
         }
 

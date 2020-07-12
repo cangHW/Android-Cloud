@@ -69,6 +69,18 @@ public interface IEditTextAllowHelper {
     IEditTextAllowHelper allowDigits(@NonNull String digits);
 
     /**
+     * 自定义允许输入正则
+     *
+     * @param regex : 正则表达式
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-12 11:56
+     */
+    @NonNull
+    IEditTextAllowHelper allowMatcher(@NonNull String regex);
+
+    /**
      * 设置文字改变监听
      *
      * @param callback : 文字改变监听回调集合
