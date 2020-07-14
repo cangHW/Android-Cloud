@@ -21,6 +21,7 @@ import com.proxy.service.ui.uitabhost.helper.base.IHelper;
 import com.proxy.service.ui.uitabhost.helper.content.base.IContentHelper;
 import com.proxy.service.ui.uitabhost.helper.content.error.ContentErrorHelper;
 import com.proxy.service.ui.uitabhost.helper.content.normal.ContentNormalHelper;
+import com.proxy.service.ui.uitabhost.helper.content.viewpager.ContentViewPagerHelper;
 import com.proxy.service.ui.uitabhost.helper.tab.base.ITabHelper;
 import com.proxy.service.ui.uitabhost.helper.tab.error.TabErrorHelper;
 import com.proxy.service.ui.uitabhost.helper.tab.normal.TabNormalHelper;
@@ -69,11 +70,11 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
     /**
      * Event 事件回调集合
      */
-    private List<CloudUiEventCallback> mCloudUiEventCallbacks = new ArrayList<>();
+    private final List<CloudUiEventCallback> mCloudUiEventCallbacks = new ArrayList<>();
     /**
      * 数据集合
      */
-    private List<IUiTabHostRewardInterface> mTabHostRewardInterfaceList;
+    private List<IUiTabHostRewardInterface<?>> mTabHostRewardInterfaceList;
 
     /**
      * 临时数据
@@ -159,9 +160,14 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
                 }
                 break;
             case ViewGroupType.VIEW_PAGER:
-                //TODO 更多viewgroup
+                try {
+                    this.mContentHelper = IHelper.create(ContentViewPagerHelper.class);
+                } catch (Throwable throwable) {
+                    Logger.Error(throwable);
+                }
                 break;
             case ViewGroupType.LIST_VIEW:
+                //TODO 更多viewgroup
                 break;
             case ViewGroupType.RECYCLER_VIEW:
                 break;
@@ -172,6 +178,7 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
 
         if (this.mContentHelper == null) {
             this.mContentHelper = new ContentErrorHelper();
+            Logger.Error(CloudApiError.UNKNOWN_ERROR.build());
         }
         this.mContentHelper.setContext(this.mContext);
         this.mContentHelper.setFragmentManager(this.mFragmentManager);
@@ -213,6 +220,7 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
                 }
                 break;
             case ViewGroupType.VIEW_PAGER:
+                Logger.Error(CloudApiError.DATA_TYPE_ERROR.setMsg("You cannot use viewPager on TabSpace.").build());
                 break;
             case ViewGroupType.LIST_VIEW:
                 break;
@@ -225,6 +233,7 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
 
         if (this.mTabHelper == null) {
             this.mTabHelper = new TabErrorHelper();
+            Logger.Error(CloudApiError.UNKNOWN_ERROR.build());
         }
         this.mTabHelper.setContext(this.mContext);
         this.mTabHelper.setCallback(this);

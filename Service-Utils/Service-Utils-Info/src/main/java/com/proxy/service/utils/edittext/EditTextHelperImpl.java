@@ -21,8 +21,8 @@ import java.util.Set;
  */
 public class EditTextHelperImpl implements IEditTextHelper {
 
-    private EditText mEditText;
-    private Set<CloudTextChangedCallback> mCallbacks = new HashSet<>();
+    private final EditText mEditText;
+    private final Set<CloudTextChangedCallback> mCallbacks = new HashSet<>();
 
     public EditTextHelperImpl(EditText editText) {
         this.mEditText = editText;
@@ -30,7 +30,7 @@ public class EditTextHelperImpl implements IEditTextHelper {
     }
 
     /**
-     * 清除当前输入框的输入格式设置，危险，
+     * 清除当前输入框的输入格式，危险，
      * 如果随后没有设置允许输入格式，将导致无法输入
      *
      * @return 当前对象

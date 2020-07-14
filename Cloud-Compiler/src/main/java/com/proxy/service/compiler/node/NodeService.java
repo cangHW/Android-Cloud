@@ -11,12 +11,12 @@ public class NodeService extends BaseNode {
     /**
      * 服务的tag
      */
-    public String serviceTag;
+    public final String serviceTag;
 
     /**
      * 服务类地址
      */
-    public String classPath;
+    public final String classPath;
 
     private NodeService(String serviceTag, boolean isNewInstance, String classPath) {
         this.serviceTag = serviceTag;

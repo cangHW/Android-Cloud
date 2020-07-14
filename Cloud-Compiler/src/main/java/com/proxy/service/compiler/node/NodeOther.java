@@ -11,7 +11,7 @@ public class NodeOther extends BaseNode {
     /**
      * 服务类地址
      */
-    public String classPath;
+    public final String classPath;
 
     private NodeOther(boolean isNewInstance, String classPath) {
         this.isNewInstance = isNewInstance;

@@ -8,7 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.proxy.androidcloud.R;
+import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
 import com.proxy.service.api.base.CloudUiTabHostViewReward;
+import com.proxy.service.api.interfaces.IRewardHelper;
 
 /**
  * @author: cangHX
@@ -16,6 +18,8 @@ import com.proxy.service.api.base.CloudUiTabHostViewReward;
  */
 //@CloudUiTabHostReward(rewardTag = "main")
 public class ProcessRewardImpl extends CloudUiTabHostViewReward {
+
+    private boolean isSelect = false;
 
     /**
      * 获取显示内容
@@ -49,6 +53,32 @@ public class ProcessRewardImpl extends CloudUiTabHostViewReward {
     public View getTab(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.tab_process, null, false);
         return view;
+    }
+
+    @Override
+    public void onUnSelect(String from) {
+        isSelect = false;
+    }
+
+    @Override
+    public void onSelect(String from) {
+        switch (from) {
+            case TabHostRewardSelectFrom.FROM_TAB:
+                if (isSelect) {
+                    mRewardHelper.set(IRewardHelper.Set.UI_EVENT, getIndex(), "你要双击刷新么？");
+                } else {
+                    mRewardHelper.set(IRewardHelper.Set.UI_EVENT, getIndex(), "通过按钮选中了进程模块");
+                }
+                break;
+            case TabHostRewardSelectFrom.FROM_CONTENT:
+                mRewardHelper.set(IRewardHelper.Set.UI_EVENT, getIndex(), "通过滑动选中了进程模块");
+                break;
+            case TabHostRewardSelectFrom.FROM_HELPER:
+                mRewardHelper.set(IRewardHelper.Set.UI_EVENT, getIndex(), "通过设置选中了进程模块");
+                break;
+            default:
+        }
+        isSelect = true;
     }
 
     /**

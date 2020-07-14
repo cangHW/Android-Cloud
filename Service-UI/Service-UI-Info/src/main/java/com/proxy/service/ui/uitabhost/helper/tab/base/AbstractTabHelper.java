@@ -1,20 +1,25 @@
-package com.proxy.service.ui.uitabhost.helper.tab.error;
+package com.proxy.service.ui.uitabhost.helper.tab.base;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
-import com.proxy.service.ui.uitabhost.helper.tab.base.ITabHelper;
+import com.proxy.service.ui.uitabhost.TabHostHelper;
 import com.proxy.service.ui.uitabhost.listener.TabCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author: cangHX
- * on 2020/07/02  14:25
+ * on 2020/07/12  18:39
  */
-public class TabErrorHelper implements ITabHelper {
+public abstract class AbstractTabHelper implements ITabHelper {
+
+    protected Context mContext;
+    protected final List<View> mList = new ArrayList<>();
+    protected TabCallback mCallback;
+    protected int mSelect = TabHostHelper.SELECT_NULL;
 
     /**
      * 设置上下文环境
@@ -26,20 +31,7 @@ public class TabErrorHelper implements ITabHelper {
      */
     @Override
     public void setContext(Context context) {
-
-    }
-
-    /**
-     * 设置容器
-     *
-     * @param viewGroup : ViewGroup，容器
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-02 11:14
-     */
-    @Override
-    public void setViewGroup(ViewGroup viewGroup) {
-
+        this.mContext = context;
     }
 
     /**
@@ -52,7 +44,11 @@ public class TabErrorHelper implements ITabHelper {
      */
     @Override
     public void setData(List<View> list) {
-
+        if (list == null) {
+            return;
+        }
+        this.mList.clear();
+        this.mList.addAll(list);
     }
 
     /**
@@ -65,7 +61,7 @@ public class TabErrorHelper implements ITabHelper {
      */
     @Override
     public void setCallback(TabCallback callback) {
-
+        this.mCallback = callback;
     }
 
     /**
@@ -79,6 +75,19 @@ public class TabErrorHelper implements ITabHelper {
      */
     @Override
     public void setSelect(int tabIndex, String from) {
-
+        changSelect(mSelect, tabIndex, from, false);
     }
+
+    /**
+     * 切换选中
+     *
+     * @param old        : 当前选中
+     * @param now        : 即将选中
+     * @param from       : 事件来源，{@link TabHostRewardSelectFrom}
+     * @param isCallback : 是否进行回调
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-03 09:59
+     */
+    protected abstract void changSelect(int old, int now, @TabHostRewardSelectFrom String from, boolean isCallback);
 }

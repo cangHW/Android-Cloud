@@ -3,7 +3,7 @@ package com.proxy.androidcloud;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.FrameLayout;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -27,7 +27,7 @@ public class MainActivity extends BaseActivity implements CloudUiEventCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FrameLayout contentLayout = findViewById(R.id.content_layout);
+        ViewGroup contentLayout = findViewById(R.id.content_layout);
 
         LinearLayout bottomLayout = findViewById(R.id.bottom_layout);
 

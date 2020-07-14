@@ -97,7 +97,7 @@ public class UtilsEditTextServiceImpl implements CloudUtilsEditTextService {
     }
 
     /**
-     * 隐藏输入内容，用点号替换文字
+     * 密文模式
      *
      * @param editText : EditText
      * @version: 1.0
@@ -111,7 +111,7 @@ public class UtilsEditTextServiceImpl implements CloudUtilsEditTextService {
     }
 
     /**
-     * 显示输入内容
+     * 明文模式
      *
      * @param editText : EditText
      * @version: 1.0

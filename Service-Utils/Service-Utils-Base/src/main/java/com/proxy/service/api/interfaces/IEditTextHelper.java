@@ -11,7 +11,7 @@ import com.proxy.service.api.callback.CloudTextChangedCallback;
 public interface IEditTextHelper extends IEditTextBanHelper {
 
     /**
-     * 清除当前输入框的输入格式设置，危险，
+     * 清除当前输入框的输入格式，危险，
      * 如果随后没有设置允许输入格式，将导致无法输入
      *
      * @return 当前对象

@@ -1,7 +1,6 @@
 package com.proxy.service.ui.uitabhost.helper.tab.normal;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -12,37 +11,14 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.ui.annotations.ViewGroupType;
-import com.proxy.service.ui.uitabhost.TabHostHelper;
-import com.proxy.service.ui.uitabhost.helper.tab.base.ITabHelper;
-import com.proxy.service.ui.uitabhost.listener.TabCallback;
+import com.proxy.service.ui.uitabhost.helper.tab.base.AbstractTabHelper;
 import com.proxy.service.ui.util.ViewUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author: cangHX
  * on 2020/07/02  14:22
  */
-public class TabNormalHelper implements ITabHelper {
-
-    private Context mContext;
-    private List<View> mList = new ArrayList<>();
-    private TabCallback mCallback;
-    private int mSelect = TabHostHelper.SELECT_NULL;
-
-    /**
-     * 设置上下文环境
-     *
-     * @param context : 上下文环境
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-02 14:53
-     */
-    @Override
-    public void setContext(Context context) {
-        this.mContext = context;
-    }
+public class TabNormalHelper extends AbstractTabHelper {
 
     /**
      * 设置容器
@@ -129,61 +105,18 @@ public class TabNormalHelper implements ITabHelper {
     }
 
     /**
-     * 设置数据
-     *
-     * @param list : 数据数组
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-02 12:01
-     */
-    @Override
-    public void setData(List<View> list) {
-        if (list == null) {
-            return;
-        }
-        this.mList.clear();
-        this.mList.addAll(list);
-    }
-
-    /**
-     * 设置内容区域回调
-     *
-     * @param callback : 回调接口
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-02 11:59
-     */
-    @Override
-    public void setCallback(TabCallback callback) {
-        this.mCallback = callback;
-    }
-
-    /**
-     * 设置选中的tab
-     *
-     * @param tabIndex : 用于标示tab
-     * @param from     : 事件来源
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-06-29 14:19
-     */
-    @Override
-    public void setSelect(int tabIndex, String from) {
-        changSelect(mSelect, tabIndex, from, false);
-    }
-
-    /**
      * 切换选中
      *
      * @param old        : 当前选中
      * @param now        : 即将选中
-     * @param from       : 事件来源
+     * @param from       : 事件来源，{@link TabHostRewardSelectFrom}
      * @param isCallback : 是否进行回调
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-07-03 09:59
      */
-    private synchronized void changSelect(int old, int now, @TabHostRewardSelectFrom String from, boolean isCallback) {
+    @Override
+    protected synchronized void changSelect(int old, int now, @TabHostRewardSelectFrom String from, boolean isCallback) {
         if (isCallback) {
             if (old >= 0 && old < mList.size() && old != now) {
                 this.mCallback.unSelect(old, from);

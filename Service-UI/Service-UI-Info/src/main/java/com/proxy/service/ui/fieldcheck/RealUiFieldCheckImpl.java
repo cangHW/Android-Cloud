@@ -21,8 +21,8 @@ import java.util.Map;
  */
 public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
 
-    private Map<String, List<BaseFieldCheckNode>> mNodeMapper = new HashMap<>();
-    private CloudUiFieldCheckErrorCallback mCallback;
+    private final Map<String, List<BaseFieldCheckNode>> mNodeMapper = new HashMap<>();
+    private final CloudUiFieldCheckErrorCallback mCallback;
 
     private boolean isError = false;
 

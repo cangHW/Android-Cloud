@@ -21,7 +21,7 @@ public class ConverterCache {
     /**
      * 转换器集合
      */
-    private static final LinkedHashMap<Class, ListNode> CONVERTERS_MAPPER = new LinkedHashMap<>();
+    private static final LinkedHashMap<Class<? extends BaseService>, ListNode> CONVERTERS_MAPPER = new LinkedHashMap<>();
 
     /**
      * 添加
@@ -91,7 +91,7 @@ public class ConverterCache {
      * @date: 2020-06-08 18:01
      */
     @NonNull
-    public static HashSet<Class> keySet() {
+    public static HashSet<Class<? extends BaseService>> keySet() {
         return new HashSet<>(CONVERTERS_MAPPER.keySet());
     }
 

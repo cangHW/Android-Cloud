@@ -21,14 +21,14 @@ import java.util.Map;
  */
 public class InstallReceiverListenerManager implements UtilsBroadcastReceiver.ReceiverListener {
 
-    private HashMap<String, List<CloudInstallCallback>> mCallbackMap = new HashMap<>();
+    private final HashMap<String, List<CloudInstallCallback>> mCallbackMap = new HashMap<>();
 
     private static class Factory {
-        private static InstallReceiverListenerManager mInstance = new InstallReceiverListenerManager();
+        private static final InstallReceiverListenerManager M_INSTANCE = new InstallReceiverListenerManager();
     }
 
     public static InstallReceiverListenerManager getInstance() {
-        return Factory.mInstance;
+        return Factory.M_INSTANCE;
     }
 
     public InstallReceiverListenerManager addMap(HashMap<String, CloudInstallCallback> hashMap) {

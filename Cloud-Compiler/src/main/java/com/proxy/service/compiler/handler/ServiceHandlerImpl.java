@@ -28,8 +28,8 @@ import javax.tools.Diagnostic;
  */
 public class ServiceHandlerImpl extends AbstractHandler {
 
-    private ArrayList<NodeService> mServiceNodes = new ArrayList<>();
-    private ArrayList<NodeOther> mOtherNodes = new ArrayList<>();
+    private final ArrayList<NodeService> mServiceNodes = new ArrayList<>();
+    private final ArrayList<NodeOther> mOtherNodes = new ArrayList<>();
 
     private String mModuleName;
 

@@ -18,7 +18,7 @@ import javax.lang.model.element.TypeElement;
  */
 public class UiTabHostRewardHandlerImpl extends AbstractHandler {
 
-    private ArrayList<NodeOther> mOtherNodes = new ArrayList<>();
+    private final ArrayList<NodeOther> mOtherNodes = new ArrayList<>();
 
     public ArrayList<NodeOther> getOtherNodes() {
         return mOtherNodes;

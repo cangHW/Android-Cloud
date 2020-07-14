@@ -42,9 +42,6 @@ public enum DataManager {
     private void findAllServices(Context context) {
         try {
             Set<String> stringSet = ClassUtils.getFileNameByPackageName(context, ClassConstants.PACKAGE_SERVICES_CACHE);
-            if (stringSet == null) {
-                return;
-            }
             for (String classPath : stringSet) {
                 if (!classPath.startsWith(ClassConstants.PACKAGE_SERVICES_CACHE + "." + ClassConstants.CLASS_PREFIX)) {
                     continue;

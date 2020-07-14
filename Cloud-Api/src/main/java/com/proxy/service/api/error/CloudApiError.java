@@ -56,7 +56,11 @@ public enum CloudApiError {
     /**
      * 安装过程存在安全隐患
      */
-    INSTALL_SECURITY_PATH_ERROR(30000, "Lack of security path");
+    INSTALL_SECURITY_PATH_ERROR(30000, "Lack of security path"),
+
+    /******************  未知异常  *************************/
+    UNKNOWN_ERROR(50000, "Unknown error");
+
 
     private final int errorCode;
     private final String errorMsg;

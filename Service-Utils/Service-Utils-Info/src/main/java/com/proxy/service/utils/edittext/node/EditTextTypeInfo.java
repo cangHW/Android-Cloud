@@ -1,7 +1,5 @@
 package com.proxy.service.utils.edittext.node;
 
-import java.util.regex.Pattern;
-
 /**
  * @author: cangHX
  * on 2020/07/10  09:57

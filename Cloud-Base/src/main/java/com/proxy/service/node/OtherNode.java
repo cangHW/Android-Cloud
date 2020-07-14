@@ -9,7 +9,7 @@ public class OtherNode extends BaseNode {
     /**
      * 未知数据
      */
-    public Object object;
+    public final Object object;
 
     public OtherNode(boolean isNewInstance, Object object) {
         this.isNewInstance = isNewInstance;

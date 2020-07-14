@@ -15,19 +15,19 @@ public class StringUtils {
     private static final String INPUT_SYMBOL = "`~!@#$%^&*()_+-=[]{}|;':,./\\，。、；’【】、";
 
     private static final String LETTER_LOWERCASE = "[abcdefghijklmnopqrstuvwxyz]";
-    private static Pattern PATTERN_LETTER_LOWERCASE = Pattern.compile(LETTER_LOWERCASE);
+    private static final Pattern PATTERN_LETTER_LOWERCASE = Pattern.compile(LETTER_LOWERCASE);
 
     private static final String LETTER_UPPERCASE = "[ABCDEFGHIJKLMNOPQRSTUVWXYZ]";
-    private static Pattern PATTERN_LETTER_UPPERCASE = Pattern.compile(LETTER_UPPERCASE);
+    private static final Pattern PATTERN_LETTER_UPPERCASE = Pattern.compile(LETTER_UPPERCASE);
 
     private static final String LETTER = "[" + LETTER_LOWERCASE + LETTER_UPPERCASE + "]";
-    private static Pattern PATTERN_LETTER = Pattern.compile(LETTER);
+    private static final Pattern PATTERN_LETTER = Pattern.compile(LETTER);
 
     private static final String NUMBER = "[0123456789]";
-    private static Pattern PATTERN_NUMBER = Pattern.compile(NUMBER);
+    private static final Pattern PATTERN_NUMBER = Pattern.compile(NUMBER);
 
     private static final String EMOJI = "[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]";
-    private static Pattern PATTERN_EMOJI = Pattern.compile(EMOJI, Pattern.UNICODE_CASE | Pattern.CASE_INSENSITIVE);
+    private static final Pattern PATTERN_EMOJI = Pattern.compile(EMOJI, Pattern.UNICODE_CASE | Pattern.CASE_INSENSITIVE);
 
     /**
      * 自定义正则检测
@@ -115,12 +115,12 @@ public class StringUtils {
      * @date: 2020-07-10 18:46
      */
     public static boolean checkEmoji(CharSequence source) {
-        //第一重过滤,这个方法能过滤掉大部分表情,但有极个别的过滤不掉,故加上下面的方法进行双重过滤
+        //第一重检测,这个方法能检测大部分表情,但有极个别的检测不到,故加上下面的方法进行双重检测
         Matcher matcher = PATTERN_EMOJI.matcher(source);
         if (matcher.find()) {
             return true;
         }
-        //第二重过滤,增强排查力度,如果还有漏网之鱼，则进行第三次过滤(暂不考虑第三次过滤)
+        //第二重检测,增强检测力度,如果还有漏网之鱼，则进行第三次检测(暂不考虑第三次检测)
         return containsEmoji(source.toString());
     }
 

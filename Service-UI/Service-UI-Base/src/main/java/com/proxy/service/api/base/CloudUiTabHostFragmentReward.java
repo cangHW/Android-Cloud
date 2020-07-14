@@ -101,7 +101,7 @@ public abstract class CloudUiTabHostFragmentReward implements IUiTabHostRewardIn
     /**
      * 状态选中
      *
-     * @param from : 选中状态来源
+     * @param from : 选中状态来源，{@link TabHostRewardSelectFrom}
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-06-29 16:02
@@ -114,7 +114,7 @@ public abstract class CloudUiTabHostFragmentReward implements IUiTabHostRewardIn
     /**
      * 状态未选中
      *
-     * @param from : 选中状态来源
+     * @param from : 选中状态来源，{@link TabHostRewardSelectFrom}
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-06-29 16:05

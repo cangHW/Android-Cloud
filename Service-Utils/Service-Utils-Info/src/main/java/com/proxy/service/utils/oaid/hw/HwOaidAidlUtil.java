@@ -20,7 +20,7 @@ import com.uodis.opendevice.aidl.OpenDeviceIdentifierService;
  * on 2020/06/19  18:18
  */
 class HwOaidAidlUtil {
-    private Logger mLogger = Logger.create("HwOaidAidlUtil");
+    private static final Logger mLogger = Logger.create("HwOaidAidlUtil");
     private static final String SERVICE_PACKAGE_NAME = "com.huawei.hwid";
     private static final String SERVICE_ACTION = "com.uodis.opendevice.OPENIDS_SERVICE";
     private Context mContext;

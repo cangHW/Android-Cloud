@@ -59,7 +59,7 @@ public interface IHelper<D, C> {
      * 设置选中的tab
      *
      * @param tabIndex : 用于标示tab
-     * @param from     : 事件来源
+     * @param from     : 事件来源，{@link TabHostRewardSelectFrom}
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-06-29 14:19
@@ -76,7 +76,7 @@ public interface IHelper<D, C> {
      * @author: cangHX
      * @date: 2020-07-02 11:00
      */
-    static <T extends IHelper> T create(Class<T> tClass) throws Throwable {
+    static <T extends IHelper<?, ?>> T create(Class<T> tClass) throws Throwable {
         return tClass.getConstructor().newInstance();
     }
 

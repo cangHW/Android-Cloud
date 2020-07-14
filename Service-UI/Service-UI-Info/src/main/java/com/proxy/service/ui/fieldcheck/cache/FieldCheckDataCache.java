@@ -19,9 +19,9 @@ public enum FieldCheckDataCache {
      */
     INSTANCE;
 
-    private WeakHashMap<Class<?>, List<BaseFieldCheckNode>> mHashMap = new WeakHashMap<>();
+    private final WeakHashMap<Class<?>, List<BaseFieldCheckNode>> mHashMap = new WeakHashMap<>();
 
-    private LruCache<Class<?>, List<BaseFieldCheckNode>> mLruCache = new LruCache<Class<?>, List<BaseFieldCheckNode>>(5) {
+    private final LruCache<Class<?>, List<BaseFieldCheckNode>> mLruCache = new LruCache<Class<?>, List<BaseFieldCheckNode>>(5) {
         @Override
         protected void entryRemoved(boolean evicted, Class<?> key, List<BaseFieldCheckNode> oldValue, List<BaseFieldCheckNode> newValue) {
             if (oldValue != null) {

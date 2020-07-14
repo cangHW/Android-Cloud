@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.text.TextUtils;
 
 import com.proxy.service.api.context.ContextManager;
+import com.proxy.service.api.error.CloudApiError;
+import com.proxy.service.api.utils.Logger;
 import com.proxy.service.utils.util.HandleUtils;
 
 import java.util.HashMap;
@@ -37,17 +39,17 @@ public class UtilsBroadcastReceiver extends BroadcastReceiver {
     }
 
     private static final Object EMPTY_OBJECT = new Object();
-    private Map<ReceiverListener, Object> mReceiverListeners = new HashMap<>();
+    private final Map<ReceiverListener, Object> mReceiverListeners = new HashMap<>();
 
     private static class Factory {
-        private static UtilsBroadcastReceiver mInstance = new UtilsBroadcastReceiver();
+        private static final UtilsBroadcastReceiver M_INSTANCE = new UtilsBroadcastReceiver();
     }
 
     private UtilsBroadcastReceiver() {
     }
 
     public static UtilsBroadcastReceiver getInstance() {
-        return Factory.mInstance;
+        return Factory.M_INSTANCE;
     }
 
     /**
@@ -62,7 +64,11 @@ public class UtilsBroadcastReceiver extends BroadcastReceiver {
     public void addIntentFilter(IntentFilter filter, ReceiverListener listener) {
         this.mReceiverListeners.put(listener, EMPTY_OBJECT);
         Context context = ContextManager.getApplication();
-        context.registerReceiver(Factory.mInstance, filter);
+        if (context == null) {
+            Logger.Error(CloudApiError.NO_INIT.build());
+            return;
+        }
+        context.registerReceiver(Factory.M_INSTANCE, filter);
     }
 
     @Override

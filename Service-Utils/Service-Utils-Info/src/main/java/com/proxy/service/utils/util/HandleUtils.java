@@ -10,15 +10,15 @@ import android.os.Looper;
  */
 public class HandleUtils {
 
-    private static HandlerThread HANDLER_THREAD = new HandlerThread("cloud_thread_handler");
+    private static final HandlerThread HANDLER_THREAD = new HandlerThread("cloud_thread_handler");
 
     static {
         HANDLER_THREAD.start();
     }
 
-    private static Handler mBgHandler = new Handler(HANDLER_THREAD.getLooper());
+    private static final Handler HANDLER_BG = new Handler(HANDLER_THREAD.getLooper());
 
-    private static Handler mMainHandler = new Handler(Looper.getMainLooper());
+    private static final Handler HANDLER_MAIN = new Handler(Looper.getMainLooper());
 
     /**
      * 主线程执行
@@ -29,7 +29,7 @@ public class HandleUtils {
      * @date: 2020-06-24 18:14
      */
     public static void postMain(Runnable runnable) {
-        mMainHandler.post(runnable);
+        HANDLER_MAIN.post(runnable);
     }
 
     /**
@@ -41,6 +41,6 @@ public class HandleUtils {
      * @date: 2020-06-24 18:14
      */
     public static void postBg(Runnable runnable) {
-        mBgHandler.post(runnable);
+        HANDLER_BG.post(runnable);
     }
 }

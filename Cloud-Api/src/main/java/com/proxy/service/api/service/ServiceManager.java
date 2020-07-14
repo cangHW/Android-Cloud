@@ -145,8 +145,8 @@ public enum ServiceManager {
      * @date: 2020/03/04 18:01
      */
     private BaseService doConverter(String uuid, BaseService service) {
-        HashSet<Class> set = ConverterCache.keySet();
-        for (Class tClass : set) {
+        HashSet<Class<? extends BaseService>> set = ConverterCache.keySet();
+        for (Class<? extends BaseService> tClass : set) {
             if (!tClass.isAssignableFrom(service.getClass())) {
                 continue;
             }

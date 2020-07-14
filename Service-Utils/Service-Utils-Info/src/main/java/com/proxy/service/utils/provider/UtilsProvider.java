@@ -27,7 +27,7 @@ public class UtilsProvider extends ContentProvider {
     /**
      * 安全路径
      */
-    private static List<String> SECURITY_PATHS = new ArrayList<>();
+    private static final List<String> SECURITY_PATHS = new ArrayList<>();
 
     /**
      * 添加安全路径

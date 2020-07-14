@@ -17,8 +17,8 @@ import java.util.Set;
  */
 public class WatcherImpl implements TextWatcher {
 
-    private Set<CloudTextChangedCallback> mCallbacks;
-    private EditText mEditText;
+    private final Set<CloudTextChangedCallback> mCallbacks;
+    private final EditText mEditText;
     private String mBeforeText;
 
     public WatcherImpl(@NonNull EditText editText, @NonNull Set<CloudTextChangedCallback> list) {

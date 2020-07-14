@@ -12,12 +12,12 @@ public class ServiceNode extends BaseNode {
     /**
      * 服务的tag
      */
-    public String serviceTag;
+    public final String serviceTag;
 
     /**
      * 当前服务类实例
      */
-    public BaseService service;
+    public final BaseService service;
 
     public ServiceNode(String serviceTag, boolean isNewInstance, BaseService service) {
         this.serviceTag = serviceTag;

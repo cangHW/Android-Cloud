@@ -73,7 +73,6 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
                     .addTextChangedCallback(this);
         }
 
-
         mService = CloudSystem.getService(CloudServiceTagUi.UI_FIELD_CHECK);
         if (mService != null) {
             //初始化

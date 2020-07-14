@@ -50,7 +50,7 @@ public enum CloudInstallStatusEnum {
      */
     MY_PACKAGE_REPLACED(Intent.ACTION_MY_PACKAGE_REPLACED);
 
-    String value;
+    final String value;
 
     CloudInstallStatusEnum(String value) {
         this.value = value;

@@ -54,7 +54,7 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
         if (statusEnums == null || statusEnums.length == 0) {
             return;
         }
-        HashMap<String, CloudInstallCallback> hashMap = new HashMap<>();
+        HashMap<String, CloudInstallCallback> hashMap = new HashMap<>(statusEnums.length);
         IntentFilter intentFilter = new IntentFilter();
         for (CloudInstallStatusEnum statusEnum : statusEnums) {
             if (statusEnum == null) {

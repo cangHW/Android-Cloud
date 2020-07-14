@@ -21,8 +21,8 @@ import java.util.regex.Pattern;
  */
 public class EditTextBanHelperImpl implements IEditTextBanHelper, InputFilter {
 
-    private EditTextTypeInfo mInfo = new EditTextTypeInfo();
-    private Set<CloudTextChangedCallback> mCallbacks;
+    private final EditTextTypeInfo mInfo = new EditTextTypeInfo();
+    private final Set<CloudTextChangedCallback> mCallbacks;
     private Pattern mDigitsPattern;
     private Pattern mRegexPattern;
 
