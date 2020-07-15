@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:text="@string/input_account"
-            android:textSize="10sp"
+            android:textSize="13sp"
             tools:ignore="SmallSp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -30,8 +30,8 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/input_account"
-                android:hint="@string/account_content"
-                style="@style/Input_EditText" />
+                style="@style/Input_EditText"
+                android:hint="@string/account_content" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:text="@string/input_password"
-            android:textSize="10sp"
+            android:textSize="13sp"
             tools:ignore="SmallSp" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -59,18 +59,35 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/input_password"
-                android:hint="@string/password_content"
-                style="@style/Input_EditText" />
+                style="@style/Input_EditText"
+                android:hint="@string/password_content" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <CheckBox
+        android:id="@+id/checkView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="13dp"
+        app:layout_constraintLeft_toLeftOf="@+id/login_view"
+        app:layout_constraintTop_toBottomOf="@+id/password_layout" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="《用户协议》"
+        app:layout_constraintBottom_toBottomOf="@+id/checkView"
+        app:layout_constraintLeft_toRightOf="@+id/checkView"
+        app:layout_constraintTop_toTopOf="@+id/checkView" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login_view"
         style="@style/Login_Button"
-        android:text="@string/login"
         android:onClick="onClick"
+        android:text="@string/login"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/checkView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

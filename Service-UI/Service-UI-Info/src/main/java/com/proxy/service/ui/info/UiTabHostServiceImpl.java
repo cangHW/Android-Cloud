@@ -243,8 +243,8 @@ public class UiTabHostServiceImpl implements CloudUiTabHostService {
      * @author: cangHX
      * @date: 2020-07-01 09:50
      */
-    private List<IUiTabHostRewardInterface> getData(@NonNull String rewardTag) {
-        List<IUiTabHostRewardInterface> list = new ArrayList<>();
+    private List<IUiTabHostRewardInterface<?>> getData(@NonNull String rewardTag) {
+        List<IUiTabHostRewardInterface<?>> list = new ArrayList<>();
 
         List<Object> objectList = OtherManager.INSTANCE.getOtherObjectByAnnotation(CloudUiTabHostReward.class);
         for (Object object : objectList) {
@@ -258,7 +258,7 @@ public class UiTabHostServiceImpl implements CloudUiTabHostService {
             }
 
             if ("".equals(rewardTag)) {
-                list.add((IUiTabHostRewardInterface) object);
+                list.add((IUiTabHostRewardInterface<?>) object);
                 continue;
             }
 
@@ -269,7 +269,7 @@ public class UiTabHostServiceImpl implements CloudUiTabHostService {
 
             String tag = reward.rewardTag();
             if (rewardTag.equals(tag)) {
-                list.add((IUiTabHostRewardInterface) object);
+                list.add((IUiTabHostRewardInterface<?>) object);
             }
         }
 

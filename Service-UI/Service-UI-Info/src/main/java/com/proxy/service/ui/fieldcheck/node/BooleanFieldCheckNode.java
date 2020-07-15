@@ -11,7 +11,7 @@ import com.proxy.service.api.utils.Logger;
 public class BooleanFieldCheckNode extends BaseFieldCheckNode {
 
     /**
-     * 当前内容
+     * 要求值
      */
     public boolean isValue;
 

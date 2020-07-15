@@ -3,6 +3,7 @@ package com.proxy.service.ui.uitabhost.helper.content.error;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
@@ -64,7 +65,7 @@ public class ContentErrorHelper implements IContentHelper {
      * @date: 2020-07-02 12:01
      */
     @Override
-    public void setData(List<Object> list) {
+    public void setData(List<Fragment> list) {
 
     }
 

@@ -1,5 +1,6 @@
 package com.proxy.service.ui.uitabhost.helper.content.base;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.proxy.service.ui.uitabhost.helper.base.IHelper;
@@ -11,7 +12,7 @@ import com.proxy.service.ui.uitabhost.listener.ContentCallback;
  * @author: cangHX
  * on 2020/07/02  14:15
  */
-public interface IContentHelper extends IHelper<Object, ContentCallback> {
+public interface IContentHelper extends IHelper<Fragment, ContentCallback> {
 
     /**
      * 设置 FragmentManager

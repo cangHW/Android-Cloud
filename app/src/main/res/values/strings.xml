@@ -4,7 +4,7 @@
     <string name="input_password">请输入密码</string>
     <string name="login">登录</string>
     <string name="account_content">随意4到8位数字/字母，除了 0、1、a、b、c</string>
-    <string name="password_content">随意4个数字，必须包含 1</string>
+    <string name="password_content">随意4位数字，必须包含 1</string>
 
 
     <string name="long_account">用户名太长</string>

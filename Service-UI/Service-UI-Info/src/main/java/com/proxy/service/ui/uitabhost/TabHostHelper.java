@@ -1,10 +1,12 @@
 package com.proxy.service.ui.uitabhost;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -22,6 +24,8 @@ import com.proxy.service.ui.uitabhost.helper.content.base.IContentHelper;
 import com.proxy.service.ui.uitabhost.helper.content.error.ContentErrorHelper;
 import com.proxy.service.ui.uitabhost.helper.content.normal.ContentNormalHelper;
 import com.proxy.service.ui.uitabhost.helper.content.viewpager.ContentViewPagerHelper;
+import com.proxy.service.ui.uitabhost.helper.content.viewpager.cache.ViewCache;
+import com.proxy.service.ui.uitabhost.helper.content.viewpager.fragment.PlaceHolderFragment;
 import com.proxy.service.ui.uitabhost.helper.tab.base.ITabHelper;
 import com.proxy.service.ui.uitabhost.helper.tab.error.TabErrorHelper;
 import com.proxy.service.ui.uitabhost.helper.tab.normal.TabNormalHelper;
@@ -39,7 +43,7 @@ import java.util.List;
  * @author: cangHX
  * on 2020/06/30  18:50
  */
-public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallback, ContentCallback, IRewardHelper {
+public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallback, ContentCallback, IRewardHelper, ViewCache.ObtainViewListener {
 
     /**
      * 没有选中或者传入数据有误
@@ -72,15 +76,20 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
      */
     private final List<CloudUiEventCallback> mCloudUiEventCallbacks = new ArrayList<>();
     /**
-     * 数据集合
+     * 排序后的数据集合
      */
     private List<IUiTabHostRewardInterface<?>> mTabHostRewardInterfaceList;
 
+    private final String mTag = System.currentTimeMillis() + "_" + Math.random();
     /**
-     * 临时数据
+     * 排序后的临时数据
      */
     private List<View> mViewsTemp = null;
-    private List<Object> mObjectsTemp = null;
+    private List<Fragment> mFragmentsTemp = null;
+
+    public TabHostHelper() {
+        ViewCache.INSTANCE.addObtainViewListener(this);
+    }
 
     /**
      * 设置依赖的 Activity
@@ -183,7 +192,7 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
         this.mContentHelper.setContext(this.mContext);
         this.mContentHelper.setFragmentManager(this.mFragmentManager);
         this.mContentHelper.setCallback(this);
-        this.mContentHelper.setData(this.mObjectsTemp);
+        this.mContentHelper.setData(this.mFragmentsTemp);
         this.mContentHelper.setViewGroup(viewGroup);
         return this;
     }
@@ -251,19 +260,22 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
      * @author: cangHX
      * @date: 2020-07-01 10:08
      */
-    public TabHostHelper setUiTabHostRewardInterfaces(List<IUiTabHostRewardInterface> list) {
+    public TabHostHelper setUiTabHostRewardInterfaces(List<IUiTabHostRewardInterface<?>> list) {
         this.mTabHostRewardInterfaceList = new ArrayList<>(list.size());
         CollectionUtils.fullValue(this.mTabHostRewardInterfaceList, list.size(), null);
 
         this.mViewsTemp = new ArrayList<>(list.size());
         CollectionUtils.fullValue(this.mViewsTemp, list.size(), null);
 
-        this.mObjectsTemp = new ArrayList<>(list.size());
-        CollectionUtils.fullValue(this.mObjectsTemp, list.size(), null);
+        this.mFragmentsTemp = new ArrayList<>(list.size());
+        CollectionUtils.fullValue(this.mFragmentsTemp, list.size(), null);
 
-        for (IUiTabHostRewardInterface rewardInterface : list) {
+        for (IUiTabHostRewardInterface<?> rewardInterface : list) {
             int index = rewardInterface.getIndex();
             if (index >= list.size()) {
+                this.mTabHostRewardInterfaceList.clear();
+                this.mViewsTemp.clear();
+                this.mFragmentsTemp.clear();
                 Logger.Error(rewardInterface.getClass().getCanonicalName() + ": position is error,The total count: " + list.size() + ",The position: " + index);
                 return this;
             }
@@ -277,13 +289,46 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
             rewardInterface.setRewardHelper(this);
             this.mTabHostRewardInterfaceList.set(index, rewardInterface);
             this.mViewsTemp.set(index, rewardInterface.getTab());
-            this.mObjectsTemp.set(index, rewardInterface.getContent());
+            Fragment fragment = object2Fragment(rewardInterface.getContent(), index);
+            if (fragment == null) {
+                this.mTabHostRewardInterfaceList.clear();
+                this.mViewsTemp.clear();
+                this.mFragmentsTemp.clear();
+                return this;
+            }
+            this.mFragmentsTemp.set(index, fragment);
 
             if (this.mSelectIndex == SELECT_NULL && rewardInterface.isDefaultSelect()) {
                 this.mSelectIndex = index;
             }
         }
         return this;
+    }
+
+    /**
+     * 根据 object 内容转换为对应 fragment
+     *
+     * @param object : 即将转换的 object
+     * @return 转换后的 fragment
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/15 10:31 AM
+     */
+    @Nullable
+    private Fragment object2Fragment(Object object, int index) {
+        if (object instanceof Fragment) {
+            return (Fragment) object;
+        } else if (object instanceof View) {
+            Bundle bundle = new Bundle();
+            bundle.putString(PlaceHolderFragment.TAG, mTag);
+            bundle.putInt(PlaceHolderFragment.INDEX, index);
+            PlaceHolderFragment fragment = new PlaceHolderFragment();
+            fragment.setArguments(bundle);
+            return fragment;
+        } else {
+            Logger.Error(CloudApiError.UNKNOWN_ERROR.append("Discover unknown data. " + object.getClass().getCanonicalName()).build());
+        }
+        return null;
     }
 
     /**
@@ -360,7 +405,7 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
         if (index < 0 || index >= mTabHostRewardInterfaceList.size()) {
             return false;
         }
-        IUiTabHostRewardInterface rewardInterface = mTabHostRewardInterfaceList.get(index);
+        IUiTabHostRewardInterface<?> rewardInterface = mTabHostRewardInterfaceList.get(index);
         if (rewardInterface == null) {
             return false;
         }
@@ -393,7 +438,7 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
                 break;
         }
 
-        IUiTabHostRewardInterface rewardInterface = mTabHostRewardInterfaceList.get(index);
+        IUiTabHostRewardInterface<?> rewardInterface = mTabHostRewardInterfaceList.get(index);
         try {
             rewardInterface.onSelect(from);
         } catch (Throwable throwable) {
@@ -413,7 +458,7 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
      */
     @Override
     public void unSelect(int index, String from) {
-        IUiTabHostRewardInterface rewardInterface = mTabHostRewardInterfaceList.get(index);
+        IUiTabHostRewardInterface<?> rewardInterface = mTabHostRewardInterfaceList.get(index);
         try {
             rewardInterface.onUnSelect(from);
         } catch (Throwable throwable) {
@@ -488,5 +533,47 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
                 Logger.Error(throwable);
             }
         }
+    }
+
+    /**
+     * 获取当前接口对应的 tag
+     *
+     * @return 获取到的 tag
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-12 21:31
+     */
+    @NonNull
+    @Override
+    public String getTag() {
+        return mTag;
+    }
+
+    /**
+     * 通过 index 获取对应的view
+     *
+     * @param index : 位置
+     * @return 对应的view
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-12 21:32
+     */
+    @Override
+    public View obtain(int index) {
+        if (mTabHostRewardInterfaceList == null) {
+            return null;
+        }
+        if (index < 0 || index >= mTabHostRewardInterfaceList.size()) {
+            return null;
+        }
+        IUiTabHostRewardInterface<?> rewardInterface = mTabHostRewardInterfaceList.get(index);
+        if (rewardInterface == null) {
+            return null;
+        }
+        Object object = rewardInterface.getContent();
+        if (object instanceof View) {
+            return (View) object;
+        }
+        return null;
     }
 }

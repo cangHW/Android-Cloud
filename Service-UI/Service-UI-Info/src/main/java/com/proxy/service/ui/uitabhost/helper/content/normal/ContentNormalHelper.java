@@ -1,6 +1,5 @@
 package com.proxy.service.ui.uitabhost.helper.content.normal;
 
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
@@ -9,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.ui.uitabhost.helper.content.base.AbstractContentHelper;
-import com.proxy.service.ui.util.ViewUtils;
 
 /**
  * @author: cangHX
@@ -32,19 +30,11 @@ public class ContentNormalHelper extends AbstractContentHelper {
             return;
         }
 
-        for (Object object : mList) {
-            if (object instanceof Fragment) {
-                Fragment fragment = (Fragment) object;
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.add(viewGroup.getId(), fragment);
-                fragmentTransaction.hide(fragment);
-                fragmentTransaction.commitAllowingStateLoss();
-            } else if (object instanceof View) {
-                View view = (View) object;
-                view.setVisibility(View.GONE);
-                ViewGroup.LayoutParams params = ViewUtils.getLayoutParams(viewGroup, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                viewGroup.addView(view, params);
-            }
+        for (Fragment fragment : mList) {
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.add(viewGroup.getId(), fragment);
+            fragmentTransaction.hide(fragment);
+            fragmentTransaction.commitAllowingStateLoss();
         }
     }
 
@@ -65,28 +55,16 @@ public class ContentNormalHelper extends AbstractContentHelper {
         }
 
         if (old >= 0 && old < mList.size()) {
-            Object oldObject = mList.get(old);
-            if (oldObject instanceof Fragment) {
-                Fragment fragment = (Fragment) oldObject;
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                fragmentTransaction.hide(fragment);
-                fragmentTransaction.commitAllowingStateLoss();
-            } else if (oldObject instanceof View) {
-                View view = (View) oldObject;
-                view.setVisibility(View.GONE);
-            }
+            Fragment fragment = mList.get(old);
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.hide(fragment);
+            fragmentTransaction.commitAllowingStateLoss();
         }
 
-        Object nowObject = mList.get(now);
-        if (nowObject instanceof Fragment) {
-            Fragment fragment = (Fragment) nowObject;
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.show(fragment);
-            fragmentTransaction.commitAllowingStateLoss();
-        } else if (nowObject instanceof View) {
-            View view = (View) nowObject;
-            view.setVisibility(View.VISIBLE);
-        }
+        Fragment fragment = mList.get(now);
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.show(fragment);
+        fragmentTransaction.commitAllowingStateLoss();
 
         this.mSelect = now;
     }

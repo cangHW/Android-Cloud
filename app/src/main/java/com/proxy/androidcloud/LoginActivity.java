@@ -3,6 +3,8 @@ package com.proxy.androidcloud;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.proxy.androidcloud.base.BaseActivity;
 import com.proxy.service.api.CloudSystem;
+import com.proxy.service.api.annotations.CloudUiCheckBoolean;
 import com.proxy.service.api.annotations.CloudUiCheckString;
 import com.proxy.service.api.annotations.CloudUiCheckStrings;
 import com.proxy.service.api.callback.CloudTextChangedCallback;
@@ -23,10 +26,11 @@ import com.proxy.service.api.tag.CloudServiceTagUtils;
  * on 2020/07/08  20:35
  */
 @SuppressWarnings("FieldCanBeLocal")
-public class LoginActivity extends BaseActivity implements CloudTextChangedCallback {
+public class LoginActivity extends BaseActivity implements CloudTextChangedCallback, CompoundButton.OnCheckedChangeListener {
 
     private static final String ACCOUNT = "account";
     private static final String PASSWORD = "password";
+    private static final String PROTOCOL = "protocol";
 
     @CloudUiCheckStrings({
             @CloudUiCheckString(markId = ACCOUNT, notEmpty = true, message = "请输入用户名"),
@@ -35,7 +39,7 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
             @CloudUiCheckString(markId = ACCOUNT, minLength = 4, notBlank = true, message = "用户名太短"),
             @CloudUiCheckString(markId = ACCOUNT, notWithRegex = "[01abc]", message = "用户名不能包含 01abc")
     })
-    private String mAccountText;
+    private String mAccountText = "qwee";
 
     @CloudUiCheckStrings({
             @CloudUiCheckString(markId = PASSWORD, notEmpty = true, message = "请输入密码"),
@@ -44,7 +48,10 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
             @CloudUiCheckString(markId = PASSWORD, shouldWithRegex = "[1]", message = "密码必须包含 1"),
             @CloudUiCheckString(markId = PASSWORD, notWithRegex = "(1111|1234|1222|1333|1444|1324|1432|1423)", message = "密码太简单")
     })
-    private String mPasswordText = null;
+    private String mPasswordText = "1233";
+
+    @CloudUiCheckBoolean(markId = PROTOCOL, isValue = true, message = "需要同意用户协议")
+    private boolean mProtocolReady = true;
 
     private EditText mInputAccountView;
     private EditText mInputPasswordView;
@@ -57,6 +64,8 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
 
         mInputAccountView = findViewById(R.id.input_account);
         mInputPasswordView = findViewById(R.id.input_password);
+        CheckBox checkView = findViewById(R.id.checkView);
+        checkView.setOnCheckedChangeListener(this);
 
         CloudUtilsEditTextService editTextService = CloudSystem.getService(CloudServiceTagUtils.UTILS_EDIT_TEXT);
         if (editTextService != null) {
@@ -88,6 +97,7 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
         if (mService != null) {
             mService.of(ACCOUNT, mAccountText)
                     .of(PASSWORD, mPasswordText)
+                    .of(PROTOCOL, mProtocolReady)
                     .runUi(() -> MainActivity.launch(LoginActivity.this));
         }
     }
@@ -109,5 +119,10 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
         } else if (view == mInputPasswordView) {
             mPasswordText = newValue.toString();
         }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        mProtocolReady = isChecked;
     }
 }

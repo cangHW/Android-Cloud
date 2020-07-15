@@ -1,22 +1,22 @@
 package com.proxy.service.ui.uitabhost.helper.content.viewpager;
 
-import android.os.Bundle;
-import android.view.View;
+import android.app.Activity;
+import android.content.Context;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
-import com.proxy.service.api.error.CloudApiError;
+import com.proxy.service.api.callback.CloudUiLifeCallback;
+import com.proxy.service.api.context.ContextManager;
+import com.proxy.service.api.context.listener.CloudLifecycleListener;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.ui.uitabhost.helper.content.base.AbstractContentHelper;
 import com.proxy.service.ui.uitabhost.helper.content.viewpager.adapter.ContentFragmentPagerAdapter;
 import com.proxy.service.ui.uitabhost.helper.content.viewpager.adapter.ContentFragmentStatePagerAdapter;
-import com.proxy.service.ui.uitabhost.helper.content.viewpager.cache.ViewCache;
-import com.proxy.service.ui.uitabhost.helper.content.viewpager.fragment.PlaceHolderFragment;
+import com.proxy.service.ui.uitabhost.helper.content.viewpager.listeners.AdapterSettingListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +25,65 @@ import java.util.List;
  * @author: cangHX
  * on 2020/07/12  18:20
  */
-public class ContentViewPagerHelper extends AbstractContentHelper implements ViewCache.ObtainViewListener, ViewPager.OnPageChangeListener {
+public class ContentViewPagerHelper extends AbstractContentHelper implements ViewPager.OnPageChangeListener {
 
+    /**
+     * 未滑动
+     */
+    private static final int SCROLL_IDLE = 0;
+    /**
+     * 滑动中
+     */
+    private static final int SCROLL_PROGRESS = 1;
+    /**
+     * viewpager 滑动方向计算的中位数
+     */
+    private static final float DIRECTION_MEDIAN = 0.5f;
+    /**
+     * 切换 adapter 的临界值
+     */
     private static final int MAX = 5;
-    private final String mTag = System.currentTimeMillis() + "_" + Math.random();
+
     private ViewPager mViewPager;
+    private AdapterSettingListener mAdapterSetting;
+    private int mScrollState = SCROLL_IDLE;
+
+    private CloudLifecycleListener mLifecycleListener = new CloudLifecycleListener() {
+        @Override
+        public void onActivityResumed(Activity activity) {
+            if (mSelect < 0 || mSelect >= mList.size()) {
+                return;
+            }
+            Fragment fragment = mList.get(mSelect);
+            if (fragment instanceof CloudUiLifeCallback) {
+                CloudUiLifeCallback uiLifeCallback = (CloudUiLifeCallback) fragment;
+                uiLifeCallback.onUiResume();
+                uiLifeCallback.onUiVisible();
+            }
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+            if (mSelect < 0 || mSelect >= mList.size()) {
+                return;
+            }
+            Fragment fragment = mList.get(mSelect);
+            if (fragment instanceof CloudUiLifeCallback) {
+                CloudUiLifeCallback uiLifeCallback = (CloudUiLifeCallback) fragment;
+                uiLifeCallback.onUiStop();
+                uiLifeCallback.onUiInVisible();
+            }
+        }
+    };
+
+    @Override
+    public void setContext(Context context) {
+        super.setContext(context);
+        if (context instanceof Activity) {
+            Activity activity = (Activity) context;
+            ContextManager.addLifecycleListener(activity, mLifecycleListener);
+        }
+    }
 
     /**
      * 切换选中
@@ -43,7 +97,6 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
      */
     @Override
     protected synchronized void changSelect(int old, int now, @TabHostRewardSelectFrom String from) {
-        this.mSelect = now;
         switch (from) {
             case TabHostRewardSelectFrom.FROM_HELPER:
             case TabHostRewardSelectFrom.FROM_TAB:
@@ -62,6 +115,24 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
             default:
                 break;
         }
+
+        if (this.mSelect != now) {
+            Fragment fragment;
+            if (old >= 0 && old < mList.size() && old != now) {
+                fragment = this.mList.get(old);
+                if (fragment instanceof CloudUiLifeCallback) {
+                    CloudUiLifeCallback uiLifeCallback = (CloudUiLifeCallback) fragment;
+                    uiLifeCallback.onUiInVisible();
+                }
+            }
+            fragment = this.mList.get(now);
+            if (fragment instanceof CloudUiLifeCallback) {
+                CloudUiLifeCallback uiLifeCallback = (CloudUiLifeCallback) fragment;
+                uiLifeCallback.onUiVisible();
+            }
+        }
+
+        this.mSelect = now;
     }
 
     /**
@@ -80,97 +151,94 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
         }
         mViewPager = (ViewPager) viewGroup;
         mViewPager.addOnPageChangeListener(this);
-        ViewCache.INSTANCE.addObtainViewListener(this);
 
-        Bundle bundle = new Bundle();
-        bundle.putString(PlaceHolderFragment.TAG, mTag);
-
-        List<Fragment> list = new ArrayList<>();
+        List<Fragment> fragments = new ArrayList<>();
         for (int i = 0; i < this.mList.size(); i++) {
-            Object object = this.mList.get(i);
-
-            if (object instanceof Fragment) {
-                list.add((Fragment) object);
-            } else if (object instanceof View) {
-                Bundle args = (Bundle) bundle.clone();
-                args.putInt(PlaceHolderFragment.INDEX, i);
-                PlaceHolderFragment fragment = new PlaceHolderFragment();
-                fragment.setArguments(args);
-                list.add(fragment);
-            } else {
-                list.clear();
-                this.mList.clear();
-                Logger.Error(CloudApiError.UNKNOWN_ERROR.append("Discover unknown data. " + object.getClass().getCanonicalName()).build());
-                return;
+            boolean isCanSelect = this.mCallback.isCanSelect(i);
+            if (isCanSelect) {
+                fragments.add(this.mList.get(i));
             }
         }
 
         PagerAdapter adapter;
-        if (this.mList.size() < MAX) {
-            adapter = new ContentFragmentPagerAdapter(this.mFragmentManager, list);
-        } else {
-            adapter = new ContentFragmentStatePagerAdapter(this.mFragmentManager, list);
-        }
+//        if (this.mList.size() < MAX) {
+        adapter = new ContentFragmentPagerAdapter(this.mFragmentManager, fragments);
+//        } else {
+//            adapter = new ContentFragmentStatePagerAdapter(this.mFragmentManager, this.mList);
+//        }
+        mAdapterSetting = (AdapterSettingListener) adapter;
         mViewPager.setAdapter(adapter);
-    }
-
-    /**
-     * 获取当前接口对应的 tag
-     *
-     * @return 获取到的 tag
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-12 21:31
-     */
-    @NonNull
-    @Override
-    public String getTag() {
-        return mTag;
-    }
-
-    /**
-     * 通过 index 获取对应的view
-     *
-     * @param index : 位置
-     * @return 对应的view
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-12 21:32
-     */
-    @Override
-    public View obtain(int index) {
-        if (index < 0) {
-            return null;
-        }
-
-        if (index >= this.mList.size()) {
-            return null;
-        }
-
-        Object object = this.mList.get(index);
-        if (object instanceof View) {
-            return (View) object;
-        }
-
-        return null;
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        Logger.Info("onPageScrolled  position  :  " + position);
+        Logger.Info("onPageScrolled  positionOffset  :  " + positionOffset);
+        Logger.Info("onPageScrolled  positionOffsetPixels  :  " + positionOffsetPixels);
+        if (mScrollState != SCROLL_IDLE) {
+            return;
+        }
+        mScrollState = SCROLL_PROGRESS;
 
+        Fragment fragment = mAdapterSetting.getFragment(position);
+        if (fragment == null) {
+            return;
+        }
+        int index = this.mList.indexOf(fragment);
+
+        if (positionOffset < DIRECTION_MEDIAN) {
+            //向左滑动
+            index++;
+        }
+//        else {
+//            //向右滑动
+//            //do nothing
+//        }
+        if (index >= this.mList.size()) {
+            return;
+        }
+        boolean isCanSelect = this.mCallback.isCanSelect(index);
+        Logger.Info("index  :  " + index);
+        Logger.Info("this.mList  start");
+        for (Fragment fragment1 : mList) {
+            Logger.Info("this.mList  :  " + fragment1.toString());
+        }
+        Logger.Info("this.mList  end");
+        Logger.Info("  ");
+        if (isCanSelect) {
+            mAdapterSetting.addFragment(index, this.mList.get(index));
+            return;
+        }
+        mAdapterSetting.removeFragment(index, this.mList.get(index));
     }
 
     @Override
-    public void onPageSelected(int position) {
-        //TODO 判断是否可以选择
-        //TODO viewpager 生命周期回调
-        if (position != this.mSelect) {
-            changSelect(this.mSelect, position, TabHostRewardSelectFrom.FROM_CONTENT);
+    public synchronized void onPageSelected(int position) {
+        Fragment fragment = mAdapterSetting.getFragment(position);
+        if (fragment == null) {
+            return;
+        }
+        int index = this.mList.indexOf(fragment);
+        if (index != this.mSelect) {
+            changSelect(this.mSelect, index, TabHostRewardSelectFrom.FROM_CONTENT);
         }
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        switch (state) {
+            case ViewPager.SCROLL_STATE_IDLE:
+                //未滑动
+                mScrollState = SCROLL_IDLE;
+                break;
+            case ViewPager.SCROLL_STATE_DRAGGING:
+                //开始滑动
+                break;
+            case ViewPager.SCROLL_STATE_SETTLING:
+                //选择生效
+                break;
+            default:
+                break;
+        }
     }
 }

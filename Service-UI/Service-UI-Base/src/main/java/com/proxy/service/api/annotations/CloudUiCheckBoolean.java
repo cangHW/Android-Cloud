@@ -23,7 +23,7 @@ public @interface CloudUiCheckBoolean {
     String markId();
 
     /**
-     * 当前内容
+     * 要求值
      */
     boolean isValue() default false;
 

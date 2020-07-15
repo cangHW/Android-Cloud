@@ -2,6 +2,7 @@ package com.proxy.service.ui.uitabhost.helper.content.base;
 
 import android.content.Context;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
@@ -18,7 +19,7 @@ import java.util.List;
 public abstract class AbstractContentHelper implements IContentHelper {
 
     protected Context mContext;
-    protected final List<Object> mList = new ArrayList<>();
+    protected final List<Fragment> mList = new ArrayList<>();
     protected FragmentManager mFragmentManager;
     protected ContentCallback mCallback;
     protected int mSelect = TabHostHelper.SELECT_NULL;
@@ -58,7 +59,7 @@ public abstract class AbstractContentHelper implements IContentHelper {
      * @date: 2020-07-02 12:01
      */
     @Override
-    public void setData(List<Object> list) {
+    public void setData(List<Fragment> list) {
         if (list == null) {
             return;
         }
@@ -89,7 +90,7 @@ public abstract class AbstractContentHelper implements IContentHelper {
      * @date: 2020-06-29 14:19
      */
     @Override
-    public void setSelect(int tabIndex, @TabHostRewardSelectFrom String from) {
+    public synchronized void setSelect(int tabIndex, @TabHostRewardSelectFrom String from) {
         changSelect(mSelect, tabIndex, from);
     }
 

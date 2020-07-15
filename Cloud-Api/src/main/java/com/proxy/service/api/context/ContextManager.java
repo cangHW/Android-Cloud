@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.proxy.service.api.context.cache.ActivityStack;
+import com.proxy.service.api.context.listener.CloudLifecycleListener;
 
 /**
  * context管理类
@@ -88,5 +89,19 @@ public class ContextManager {
      */
     public static int getShowCount() {
         return ActivityStack.getShowCount();
+    }
+
+    /**
+     * 注册生命周期观察者
+     *
+     * @param activity          : 准备申请注册的 activity
+     * @param lifecycleListener : 生命周期回调对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/15 2:12 PM
+     */
+    public static void addLifecycleListener(Activity activity, CloudLifecycleListener lifecycleListener) {
+        String canonicalName = activity.getClass().getCanonicalName();
+        ActivityLifecycleCallbackManager.addLifecycleListener(canonicalName, lifecycleListener);
     }
 }

@@ -3,6 +3,7 @@ package com.proxy.androidcloud;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -17,6 +18,8 @@ public class MainActivity extends BaseActivity implements CloudUiEventCallback {
 
     private static final String TAG = "ssss";
 
+    public static boolean isCanSelect = false;
+
     public static void launch(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
@@ -26,6 +29,9 @@ public class MainActivity extends BaseActivity implements CloudUiEventCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        findViewById(R.id.button).setOnClickListener(v -> {
+            isCanSelect = !isCanSelect;
+        });
 
         ViewGroup contentLayout = findViewById(R.id.content_layout);
 

@@ -7,7 +7,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.proxy.androidcloud.MainActivity;
 import com.proxy.androidcloud.R;
 import com.proxy.service.annotations.CloudUiTabHostReward;
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
@@ -19,14 +18,10 @@ import com.proxy.service.api.interfaces.IRewardHelper;
  * on 2020/07/06  13:26
  */
 @CloudUiTabHostReward(rewardTag = "main")
-public class NetWorkRewardImpl extends CloudUiTabHostFragmentReward {
+public class NetWorkRewardImpl2 extends CloudUiTabHostFragmentReward {
 
     private boolean isSelect = false;
 
-    @Override
-    public boolean isCanSelect() {
-        return MainActivity.isCanSelect;
-    }
     /**
      * 获取显示内容
      *
@@ -94,6 +89,6 @@ public class NetWorkRewardImpl extends CloudUiTabHostFragmentReward {
      */
     @Override
     public int getIndex() {
-        return 0;
+        return 3;
     }
 }
