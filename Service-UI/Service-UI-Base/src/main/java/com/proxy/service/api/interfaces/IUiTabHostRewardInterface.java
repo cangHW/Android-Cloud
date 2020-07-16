@@ -77,6 +77,16 @@ public interface IUiTabHostRewardInterface<C> {
     boolean isDefaultSelect();
 
     /**
+     * 选中进度变化
+     *
+     * @param progress : 选中进度
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/16 3:41 PM
+     */
+    void onSelectProgress(float progress);
+
+    /**
      * 状态选中
      *
      * @param from : 选中状态来源，{@link TabHostRewardSelectFrom}

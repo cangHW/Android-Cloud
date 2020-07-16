@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.proxy.androidcloud.R;
+import com.proxy.androidcloud.view.AlphaChangedTextView;
 import com.proxy.service.annotations.CloudUiTabHostReward;
 import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
 import com.proxy.service.api.base.CloudUiTabHostFragmentReward;
@@ -21,6 +22,7 @@ import com.proxy.service.api.interfaces.IRewardHelper;
 public class LibraryRewardImpl extends CloudUiTabHostFragmentReward {
 
     private boolean isSelect = false;
+    private AlphaChangedTextView mTextView;
 
     /**
      * 获取显示内容
@@ -50,7 +52,13 @@ public class LibraryRewardImpl extends CloudUiTabHostFragmentReward {
     @Override
     public View getTab(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.tab_library, null, false);
+        mTextView = view.findViewById(R.id.text_view);
         return view;
+    }
+
+    @Override
+    public void onSelectProgress(float progress) {
+        mTextView.setAlpha(progress);
     }
 
     @Override

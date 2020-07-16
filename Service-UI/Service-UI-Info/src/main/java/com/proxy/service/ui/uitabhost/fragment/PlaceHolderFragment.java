@@ -1,4 +1,4 @@
-package com.proxy.service.ui.uitabhost.helper.content.viewpager.fragment;
+package com.proxy.service.ui.uitabhost.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.proxy.service.api.callback.CloudUiLifeCallback;
-import com.proxy.service.ui.uitabhost.helper.content.viewpager.cache.ViewCache;
+import com.proxy.service.ui.uitabhost.cache.ViewCache;
 
 /**
  * @author: cangHX

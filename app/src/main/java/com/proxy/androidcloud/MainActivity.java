@@ -9,10 +9,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.proxy.androidcloud.base.BaseActivity;
+import com.proxy.androidcloud.view.AlphaChangedTextView;
 import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.callback.CloudUiEventCallback;
 import com.proxy.service.api.services.CloudUiTabHostService;
 import com.proxy.service.api.tag.CloudServiceTagUi;
+import com.proxy.service.api.utils.Logger;
 
 public class MainActivity extends BaseActivity implements CloudUiEventCallback {
 
@@ -41,6 +43,19 @@ public class MainActivity extends BaseActivity implements CloudUiEventCallback {
                     .setSelect(0)
                     .showWithTag("main");
         }
+    }
+
+    private float alpha = 0.1f;
+    private Logger logger = Logger.create("asd");
+
+    public void onClick(View view) {
+        alpha = alpha + 0.1f;
+        if (alpha>1){
+            alpha = 1;
+        }
+        AlphaChangedTextView textView = (AlphaChangedTextView) view;
+        textView.setAlpha(alpha);
+        logger.info(alpha+"");
     }
 
     /**

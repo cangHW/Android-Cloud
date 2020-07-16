@@ -16,15 +16,32 @@ import com.proxy.service.api.utils.Logger;
 import com.proxy.service.ui.uitabhost.helper.content.base.AbstractContentHelper;
 import com.proxy.service.ui.uitabhost.helper.content.viewpager.adapter.ContentFragmentPagerAdapter;
 import com.proxy.service.ui.uitabhost.helper.content.viewpager.listeners.AdapterSettingListener;
+import com.proxy.service.ui.util.TaskUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author: cangHX
  * on 2020/07/12  18:20
  */
 public class ContentViewPagerHelper extends AbstractContentHelper implements ViewPager.OnPageChangeListener {
+
+    /**
+     * 方向--未知
+     */
+    private static final int DIRECTION_IDLE = 0;
+    /**
+     * 方向--左
+     */
+    private static final int DIRECTION_LEFT = 1;
+    /**
+     * 方向--右
+     */
+    private static final int DIRECTION_RIGHT = 2;
 
     /**
      * 未滑动
@@ -34,7 +51,13 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
      * 滑动中
      */
     private static final int SCROLL_PROGRESS = 1;
+    /**
+     * 计算 viewpager 滑动方向的中位数
+     */
+    private static final float DIRECTION_MEDIAN = 0.5f;
 
+    private int mDirection = DIRECTION_IDLE;
+    private int mDirectionPosition = -1;
     private ViewPager mViewPager;
     private AdapterSettingListener mAdapterSetting;
     private int mScrollState = SCROLL_IDLE;
@@ -164,7 +187,23 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    public synchronized void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        checkPageScrolled(position, positionOffset);
+        checkRefresh();
+    }
+
+    private void checkPageScrolled(int position, float positionOffset) {
+        Fragment fragment = mAdapterSetting.getFragment(position);
+        if (fragment == null) {
+            return;
+        }
+        int index = this.mList.indexOf(fragment);
+        BigDecimal bigDecimal = new BigDecimal(String.valueOf(positionOffset)).setScale(4, RoundingMode.HALF_DOWN);
+        mCallback.onSelectProgress(index, new BigDecimal("1").subtract(bigDecimal).floatValue());
+        mCallback.onSelectProgress(index + 1, bigDecimal.floatValue());
+    }
+
+    private void checkRefresh() {
         if (mScrollState != SCROLL_IDLE) {
             return;
         }
@@ -191,6 +230,7 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
             case ViewPager.SCROLL_STATE_IDLE:
                 //未滑动
                 mScrollState = SCROLL_IDLE;
+                mDirection = DIRECTION_IDLE;
                 break;
             case ViewPager.SCROLL_STATE_DRAGGING:
                 //开始滑动

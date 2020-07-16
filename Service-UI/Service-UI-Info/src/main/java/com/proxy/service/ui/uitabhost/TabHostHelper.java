@@ -24,8 +24,8 @@ import com.proxy.service.ui.uitabhost.helper.content.base.IContentHelper;
 import com.proxy.service.ui.uitabhost.helper.content.error.ContentErrorHelper;
 import com.proxy.service.ui.uitabhost.helper.content.normal.ContentNormalHelper;
 import com.proxy.service.ui.uitabhost.helper.content.viewpager.ContentViewPagerHelper;
-import com.proxy.service.ui.uitabhost.helper.content.viewpager.cache.ViewCache;
-import com.proxy.service.ui.uitabhost.helper.content.viewpager.fragment.PlaceHolderFragment;
+import com.proxy.service.ui.uitabhost.cache.ViewCache;
+import com.proxy.service.ui.uitabhost.fragment.PlaceHolderFragment;
 import com.proxy.service.ui.uitabhost.helper.tab.base.ITabHelper;
 import com.proxy.service.ui.uitabhost.helper.tab.error.TabErrorHelper;
 import com.proxy.service.ui.uitabhost.helper.tab.normal.TabNormalHelper;
@@ -652,5 +652,30 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
             return (View) object;
         }
         return null;
+    }
+
+    /**
+     * 选中进度变化
+     *
+     * @param index    : 目标下标
+     * @param progress : 选中进度
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/16 3:41 PM
+     */
+    @Override
+    public void onSelectProgress(int index, float progress) {
+        if (index < 0 || index >= mTabHostRewardInterfaceList.size()) {
+            return;
+        }
+        IUiTabHostRewardInterface<?> rewardInterface = mTabHostRewardInterfaceList.get(index);
+        if (rewardInterface == null) {
+            return;
+        }
+        try {
+            rewardInterface.onSelectProgress(progress);
+        } catch (Throwable throwable) {
+            Logger.Debug(throwable);
+        }
     }
 }

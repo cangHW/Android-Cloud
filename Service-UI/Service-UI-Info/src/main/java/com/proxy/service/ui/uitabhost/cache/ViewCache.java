@@ -1,4 +1,4 @@
-package com.proxy.service.ui.uitabhost.helper.content.viewpager.cache;
+package com.proxy.service.ui.uitabhost.cache;
 
 import android.view.View;
 

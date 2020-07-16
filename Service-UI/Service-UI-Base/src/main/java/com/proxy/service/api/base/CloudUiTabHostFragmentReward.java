@@ -31,6 +31,16 @@ public abstract class CloudUiTabHostFragmentReward implements IUiTabHostRewardIn
     protected Context mContext;
 
     /**
+     * content 对象
+     */
+    protected Fragment mContentFragment;
+
+    /**
+     * tab 对象
+     */
+    protected View mTabView;
+
+    /**
      * 设置工具类，可以实现通信、跳转、获取部分数据等功能
      *
      * @param iRewardHelper : 工具类对象
@@ -55,7 +65,8 @@ public abstract class CloudUiTabHostFragmentReward implements IUiTabHostRewardIn
     @NonNull
     @Override
     public Fragment getContent() {
-        return getContent(mContext);
+        mContentFragment = getContent(mContext);
+        return mContentFragment;
     }
 
     /**
@@ -69,7 +80,8 @@ public abstract class CloudUiTabHostFragmentReward implements IUiTabHostRewardIn
     @NonNull
     @Override
     public View getTab() {
-        return getTab(mContext);
+        mTabView = getTab(mContext);
+        return mTabView;
     }
 
     /**
@@ -96,6 +108,19 @@ public abstract class CloudUiTabHostFragmentReward implements IUiTabHostRewardIn
     @Override
     public boolean isDefaultSelect() {
         return false;
+    }
+
+    /**
+     * 选中进度变化
+     *
+     * @param progress : 选中进度
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/16 3:41 PM
+     */
+    @Override
+    public void onSelectProgress(float progress) {
+
     }
 
     /**
