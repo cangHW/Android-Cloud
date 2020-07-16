@@ -37,6 +37,20 @@ public class ContentFragmentPagerAdapter extends FragmentPagerAdapter implements
     }
 
     /**
+     * 查询目标在数组中的位置
+     *
+     * @param fragment : 准备查询的目标
+     * @return 获取到的位置
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/15 10:26 PM
+     */
+    @Override
+    public int getIndex(Fragment fragment) {
+        return mFragments.indexOf(fragment);
+    }
+
+    /**
      * 获取 fragment
      *
      * @param position : 目标位置
@@ -53,55 +67,41 @@ public class ContentFragmentPagerAdapter extends FragmentPagerAdapter implements
         return mFragments.get(position);
     }
 
-//    @Override
-//    public int getItemPosition(@NonNull Object object) {
-//        return POSITION_NONE;
-//    }
+    /**
+     * 检查 fragment 数组，并按需刷新页面
+     *
+     * @param fragments : 发生改变后的 fragment 数组
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/14 6:52 PM
+     */
+    @Override
+    public void changeFragment(@NonNull List<Fragment> fragments) {
+        boolean flag = false;
+        for (int i = 0; i < fragments.size(); i++) {
+            Fragment fragment = fragments.get(i);
+            if (i >= mFragments.size()) {
+                mFragments.add(fragment);
+                flag = true;
+                continue;
+            }
+            if (mFragments.get(i) != fragment) {
+                mFragments.set(i, fragment);
+                flag = true;
+            }
+        }
+        if (flag) {
+            notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        return POSITION_NONE;
+    }
 
     @Override
     public long getItemId(int position) {
         return mFragments.get(position).hashCode();
-    }
-
-    /**
-     * 添加 fragment 并刷新页面
-     *
-     * @param index    : 目标位置
-     * @param fragment : 准备添加的 fragment
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020/7/14 6:52 PM
-     */
-    @Override
-    public void addFragment(int index, @NonNull Fragment fragment) {
-        Fragment nowFragment = this.mFragments.get(index);
-        Logger.Info("addFragment  fragment  :  " + fragment.toString());
-        Logger.Info("addFragment  nowFragment  :  " + nowFragment.toString());
-        if (nowFragment != fragment) {
-            Logger.Info("addFragment  index  :  " + index);
-            this.mFragments.add(index, fragment);
-            this.notifyDataSetChanged();
-        }
-        Logger.Info("  ");
-    }
-
-    /**
-     * 移除 fragment 并刷新页面
-     *
-     * @param index    : 目标位置
-     * @param fragment : 准备移除的 fragment
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020/7/14 6:52 PM
-     */
-    @Override
-    public void removeFragment(int index, @NonNull Fragment fragment) {
-        Fragment nowFragment = this.mFragments.get(index);
-        Logger.Info("removeFragment");
-        if (nowFragment == fragment) {
-            Logger.Info("removeFragment  2");
-            this.mFragments.remove(index);
-            this.notifyDataSetChanged();
-        }
     }
 }

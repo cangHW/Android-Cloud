@@ -110,6 +110,8 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
         }
         this.mContext = fragmentActivity;
         this.mFragmentManager = fragmentActivity.getSupportFragmentManager();
+
+        Logger.Info("Helper start setActivity. fragmentActivity : " + fragmentActivity);
         return this;
     }
 
@@ -132,6 +134,8 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
         }
         this.mContext = fragment.getContext();
         this.mFragmentManager = fragment.getChildFragmentManager();
+
+        Logger.Info("Helper start setFragment. fragment : " + fragment);
         return this;
     }
 
@@ -194,6 +198,8 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
         this.mContentHelper.setCallback(this);
         this.mContentHelper.setData(this.mFragmentsTemp);
         this.mContentHelper.setViewGroup(viewGroup);
+
+        Logger.Info("Helper setContentSpace end. ViewGroup : " + viewGroup.toString());
         return this;
     }
 
@@ -248,6 +254,8 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
         this.mTabHelper.setCallback(this);
         this.mTabHelper.setData(this.mViewsTemp);
         this.mTabHelper.setViewGroup(viewGroup);
+
+        Logger.Info("Helper setTabSpace end. ViewGroup : " + viewGroup.toString());
         return this;
     }
 
@@ -261,6 +269,8 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
      * @date: 2020-07-01 10:08
      */
     public TabHostHelper setUiTabHostRewardInterfaces(List<IUiTabHostRewardInterface<?>> list) {
+        Logger.Info("Helper start to check data.");
+
         this.mTabHostRewardInterfaceList = new ArrayList<>(list.size());
         CollectionUtils.fullValue(this.mTabHostRewardInterfaceList, list.size(), null);
 
@@ -344,7 +354,10 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
     @Override
     public TabHostHelper addEventCallback(CloudUiEventCallback cloudUiEventCallback) {
         if (cloudUiEventCallback != null) {
+            Logger.Info("Helper start to addEventCallback. cloudUiEventCallback : " + cloudUiEventCallback);
             this.mCloudUiEventCallbacks.add(cloudUiEventCallback);
+        } else {
+            Logger.Info("The CloudUiEventCallback cannot be null.");
         }
         return this;
     }
@@ -360,17 +373,17 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
      */
     @NonNull
     @Override
-    public TabHostHelper setSelect(int tabIndex) {
+    public synchronized TabHostHelper setSelect(int tabIndex) {
+        Logger.Info("Helper start to setSelect. tabIndex : " + tabIndex);
         int index = tabIndex;
         if (!isCanSelect(index)) {
             index = SELECT_NULL;
         }
 
         if (index < 0 && isLoad) {
+            Logger.Warning("This index : " + index + " cannot be selected");
             return this;
         }
-
-        isLoad = true;
 
         index = index < 0 ? mSelectIndex : index;
 
@@ -378,8 +391,18 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
             index = 0;
         }
 
-        if (!isCanSelect(index)) {
-            return this;
+        if (isLoad) {
+            if (!isCanSelect(index)) {
+                Logger.Warning("Please check your select index");
+                return this;
+            }
+        } else {
+            index = getCanSelectIndex();
+            if (index < 0) {
+                Logger.Warning("There has no index can select");
+                return this;
+            }
+            Logger.Warning("Intelligent recommendations can be selected index with " + index);
         }
 
         select(index, TabHostRewardSelectFrom.FROM_HELPER);
@@ -387,8 +410,49 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
         if (mSelectIndex >= 0 && index != mSelectIndex) {
             unSelect(mSelectIndex, TabHostRewardSelectFrom.FROM_HELPER);
         }
-
+        isLoad = true;
         return this;
+    }
+
+    /**
+     * 刷新数据
+     * 针对某些特殊情况，例如：viewpager 默认需要触发滑动才会刷新是否可以选中，
+     * 在临界值时会出现第一次无法滑动选中，第二次可以滑动选中
+     *
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/16 1:22 PM
+     */
+    @Override
+    public void refresh() {
+        if (this.mContentHelper != null) {
+            Logger.Info("Helper start to refresh");
+            this.mContentHelper.refresh();
+        } else {
+            Logger.Info(CloudApiError.UNKNOWN_ERROR.build());
+        }
+    }
+
+    /**
+     * 获取一个可以选中的坐标
+     *
+     * @return 获取到的可以选中的坐标
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/16 1:51 PM
+     */
+    private int getCanSelectIndex() {
+        if (mTabHostRewardInterfaceList.size() <= 0) {
+            return -1;
+        }
+
+        for (IUiTabHostRewardInterface<?> rewardInterface : mTabHostRewardInterfaceList) {
+            if (rewardInterface.isCanSelect()) {
+                return rewardInterface.getIndex();
+            }
+        }
+
+        return -1;
     }
 
     /**
@@ -409,7 +473,14 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
         if (rewardInterface == null) {
             return false;
         }
-        return rewardInterface.isCanSelect();
+        Logger.Info("Helper check can select with " + rewardInterface.getClass().getCanonicalName() + " and index : " + index);
+        boolean flag = rewardInterface.isCanSelect();
+        if (flag) {
+            Logger.Info("Helper find the index : " + index + " can be select");
+        } else {
+            Logger.Info("Helper find the index : " + index + " cannot be select");
+        }
+        return flag;
     }
 
     /**
@@ -440,6 +511,7 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
 
         IUiTabHostRewardInterface<?> rewardInterface = mTabHostRewardInterfaceList.get(index);
         try {
+            Logger.Info("Helper select with " + rewardInterface.getClass().getCanonicalName());
             rewardInterface.onSelect(from);
         } catch (Throwable throwable) {
             Logger.Error(throwable);
@@ -460,6 +532,7 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
     public void unSelect(int index, String from) {
         IUiTabHostRewardInterface<?> rewardInterface = mTabHostRewardInterfaceList.get(index);
         try {
+            Logger.Info("Helper unSelect with " + rewardInterface.getClass().getCanonicalName());
             rewardInterface.onUnSelect(from);
         } catch (Throwable throwable) {
             Logger.Error(throwable);
@@ -482,9 +555,11 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
         switch (helper) {
             case CONTEXT:
                 object = mContext;
+                Logger.Info("Start get context");
                 break;
             case SELECT_INDEX:
                 object = mSelectIndex;
+                Logger.Info("Start get select index");
                 break;
             default:
                 object = null;
@@ -512,9 +587,11 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
     public void set(Set helper, int index, Object tag) {
         switch (helper) {
             case UI_EVENT:
+                Logger.Info("Start send a ui event");
                 sendMessage(index, tag);
                 break;
             case SELECT_INDEX:
+                Logger.Info("Start send a select event");
                 setSelect(index);
                 break;
             default:

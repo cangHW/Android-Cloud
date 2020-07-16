@@ -23,10 +23,6 @@ public class NetWorkRewardImpl extends CloudUiTabHostFragmentReward {
 
     private boolean isSelect = false;
 
-    @Override
-    public boolean isCanSelect() {
-        return MainActivity.isCanSelect;
-    }
     /**
      * 获取显示内容
      *

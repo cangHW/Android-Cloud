@@ -10,6 +10,7 @@ public interface CloudUiLifeCallback {
 
     /**
      * onResume
+     * 不会同时回调 onUiVisible
      *
      * @version: 1.0
      * @author: cangHX
@@ -19,6 +20,7 @@ public interface CloudUiLifeCallback {
 
     /**
      * onStop
+     * 不会同时回调 onUiInVisible
      *
      * @version: 1.0
      * @author: cangHX

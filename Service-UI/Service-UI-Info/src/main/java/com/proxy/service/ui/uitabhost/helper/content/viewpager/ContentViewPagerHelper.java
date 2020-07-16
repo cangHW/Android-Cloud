@@ -15,7 +15,6 @@ import com.proxy.service.api.context.listener.CloudLifecycleListener;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.ui.uitabhost.helper.content.base.AbstractContentHelper;
 import com.proxy.service.ui.uitabhost.helper.content.viewpager.adapter.ContentFragmentPagerAdapter;
-import com.proxy.service.ui.uitabhost.helper.content.viewpager.adapter.ContentFragmentStatePagerAdapter;
 import com.proxy.service.ui.uitabhost.helper.content.viewpager.listeners.AdapterSettingListener;
 
 import java.util.ArrayList;
@@ -35,14 +34,6 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
      * 滑动中
      */
     private static final int SCROLL_PROGRESS = 1;
-    /**
-     * viewpager 滑动方向计算的中位数
-     */
-    private static final float DIRECTION_MEDIAN = 0.5f;
-    /**
-     * 切换 adapter 的临界值
-     */
-    private static final int MAX = 5;
 
     private ViewPager mViewPager;
     private AdapterSettingListener mAdapterSetting;
@@ -58,7 +49,6 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
             if (fragment instanceof CloudUiLifeCallback) {
                 CloudUiLifeCallback uiLifeCallback = (CloudUiLifeCallback) fragment;
                 uiLifeCallback.onUiResume();
-                uiLifeCallback.onUiVisible();
             }
         }
 
@@ -71,7 +61,6 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
             if (fragment instanceof CloudUiLifeCallback) {
                 CloudUiLifeCallback uiLifeCallback = (CloudUiLifeCallback) fragment;
                 uiLifeCallback.onUiStop();
-                uiLifeCallback.onUiInVisible();
             }
         }
     };
@@ -97,25 +86,6 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
      */
     @Override
     protected synchronized void changSelect(int old, int now, @TabHostRewardSelectFrom String from) {
-        switch (from) {
-            case TabHostRewardSelectFrom.FROM_HELPER:
-            case TabHostRewardSelectFrom.FROM_TAB:
-                if (mViewPager != null) {
-                    mViewPager.setCurrentItem(now);
-                }
-                break;
-            case TabHostRewardSelectFrom.FROM_CONTENT:
-                if (this.mCallback != null) {
-                    if (old >= 0 && old < mList.size() && old != now) {
-                        this.mCallback.unSelect(old, from);
-                    }
-                    this.mCallback.select(now, from);
-                }
-                break;
-            default:
-                break;
-        }
-
         if (this.mSelect != now) {
             Fragment fragment;
             if (old >= 0 && old < mList.size() && old != now) {
@@ -133,6 +103,34 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
         }
 
         this.mSelect = now;
+        switch (from) {
+            case TabHostRewardSelectFrom.FROM_HELPER:
+            case TabHostRewardSelectFrom.FROM_TAB:
+                try {
+                    Fragment fragment = this.mList.get(now);
+                    if (mAdapterSetting == null) {
+                        return;
+                    }
+                    int index = mAdapterSetting.getIndex(fragment);
+                    if (mViewPager == null) {
+                        return;
+                    }
+                    mViewPager.setCurrentItem(index);
+                } catch (Throwable throwable) {
+                    Logger.Debug(throwable);
+                }
+                break;
+            case TabHostRewardSelectFrom.FROM_CONTENT:
+                if (this.mCallback != null) {
+                    if (old >= 0 && old < mList.size() && old != now) {
+                        this.mCallback.unSelect(old, from);
+                    }
+                    this.mCallback.select(now, from);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -160,56 +158,19 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
             }
         }
 
-        PagerAdapter adapter;
-//        if (this.mList.size() < MAX) {
-        adapter = new ContentFragmentPagerAdapter(this.mFragmentManager, fragments);
-//        } else {
-//            adapter = new ContentFragmentStatePagerAdapter(this.mFragmentManager, this.mList);
-//        }
+        PagerAdapter adapter = new ContentFragmentPagerAdapter(this.mFragmentManager, fragments);
         mAdapterSetting = (AdapterSettingListener) adapter;
         mViewPager.setAdapter(adapter);
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        Logger.Info("onPageScrolled  position  :  " + position);
-        Logger.Info("onPageScrolled  positionOffset  :  " + positionOffset);
-        Logger.Info("onPageScrolled  positionOffsetPixels  :  " + positionOffsetPixels);
         if (mScrollState != SCROLL_IDLE) {
             return;
         }
         mScrollState = SCROLL_PROGRESS;
 
-        Fragment fragment = mAdapterSetting.getFragment(position);
-        if (fragment == null) {
-            return;
-        }
-        int index = this.mList.indexOf(fragment);
-
-        if (positionOffset < DIRECTION_MEDIAN) {
-            //向左滑动
-            index++;
-        }
-//        else {
-//            //向右滑动
-//            //do nothing
-//        }
-        if (index >= this.mList.size()) {
-            return;
-        }
-        boolean isCanSelect = this.mCallback.isCanSelect(index);
-        Logger.Info("index  :  " + index);
-        Logger.Info("this.mList  start");
-        for (Fragment fragment1 : mList) {
-            Logger.Info("this.mList  :  " + fragment1.toString());
-        }
-        Logger.Info("this.mList  end");
-        Logger.Info("  ");
-        if (isCanSelect) {
-            mAdapterSetting.addFragment(index, this.mList.get(index));
-            return;
-        }
-        mAdapterSetting.removeFragment(index, this.mList.get(index));
+        refresh();
     }
 
     @Override
@@ -239,6 +200,39 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
                 break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * 刷新数据
+     * 针对某些特殊情况，例如：viewpager 默认需要触发滑动才会刷新是否可以选中，
+     * 在临界值时会出现第一次无法滑动选中，第二次可以滑动选中
+     *
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/16 1:22 PM
+     */
+    @Override
+    public synchronized void refresh() {
+        List<Fragment> fragments = new ArrayList<>();
+        for (int i = 0; i < this.mList.size(); i++) {
+            boolean isCanSelect = this.mCallback.isCanSelect(i);
+            if (isCanSelect) {
+                fragments.add(this.mList.get(i));
+            }
+        }
+        int nowIndex = mViewPager.getCurrentItem();
+        Fragment fragment = mAdapterSetting.getFragment(nowIndex);
+        int index = fragments.indexOf(fragment);
+        if (index < 0) {
+            index = --nowIndex;
+        }
+        if (index < 0) {
+            index = 0;
+        }
+        mAdapterSetting.changeFragment(fragments);
+        if (index != nowIndex) {
+            mViewPager.setCurrentItem(index, false);
         }
     }
 }

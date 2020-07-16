@@ -93,4 +93,14 @@ public interface IUiTabHostHelper<T> extends BaseService {
     @NonNull
     T setSelect(int tabIndex);
 
+    /**
+     * 刷新数据
+     * 针对某些特殊情况，例如：viewpager 默认需要触发滑动才会刷新是否可以选中，
+     * 在临界值时会出现第一次无法滑动选中，第二次可以滑动选中
+     *
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/16 1:22 PM
+     */
+    void refresh();
 }
