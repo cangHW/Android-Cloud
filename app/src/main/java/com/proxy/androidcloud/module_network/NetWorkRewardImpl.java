@@ -64,6 +64,15 @@ public class NetWorkRewardImpl extends CloudUiTabHostFragmentReward {
     }
 
     @Override
+    public void onSelectProgressEnd() {
+        if (isSelect) {
+            mTextView.setAlpha(1);
+        } else {
+            mTextView.setAlpha(0);
+        }
+    }
+
+    @Override
     public void onUnSelect(String from) {
         isSelect = false;
     }

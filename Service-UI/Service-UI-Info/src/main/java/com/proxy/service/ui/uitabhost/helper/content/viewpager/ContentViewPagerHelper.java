@@ -31,19 +31,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ContentViewPagerHelper extends AbstractContentHelper implements ViewPager.OnPageChangeListener {
 
     /**
-     * 方向--未知
-     */
-    private static final int DIRECTION_IDLE = 0;
-    /**
-     * 方向--左
-     */
-    private static final int DIRECTION_LEFT = 1;
-    /**
-     * 方向--右
-     */
-    private static final int DIRECTION_RIGHT = 2;
-
-    /**
      * 未滑动
      */
     private static final int SCROLL_IDLE = 0;
@@ -56,8 +43,6 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
      */
     private static final float DIRECTION_MEDIAN = 0.5f;
 
-    private int mDirection = DIRECTION_IDLE;
-    private int mDirectionPosition = -1;
     private ViewPager mViewPager;
     private AdapterSettingListener mAdapterSetting;
     private int mScrollState = SCROLL_IDLE;
@@ -230,7 +215,7 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
             case ViewPager.SCROLL_STATE_IDLE:
                 //未滑动
                 mScrollState = SCROLL_IDLE;
-                mDirection = DIRECTION_IDLE;
+                mCallback.onSelectProgressEnd();
                 break;
             case ViewPager.SCROLL_STATE_DRAGGING:
                 //开始滑动

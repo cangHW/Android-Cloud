@@ -87,6 +87,15 @@ public interface IUiTabHostRewardInterface<C> {
     void onSelectProgress(float progress);
 
     /**
+     * 进度结束，可以在这个回调中对一些操作做还原处理
+     *
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/17 9:58 AM
+     */
+    void onSelectProgressEnd();
+
+    /**
      * 状态选中
      *
      * @param from : 选中状态来源，{@link TabHostRewardSelectFrom}

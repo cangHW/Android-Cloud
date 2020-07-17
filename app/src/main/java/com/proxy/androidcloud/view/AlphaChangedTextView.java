@@ -44,6 +44,7 @@ public class AlphaChangedTextView extends androidx.appcompat.widget.AppCompatTex
 
         mTextPaint = getPaint();
         mTextPaint.setColor(mAlphaTextColorStart);
+        mTextPaint.setTextAlign(Paint.Align.CENTER);
     }
 
     private void init(Context context, AttributeSet attrs) {
@@ -69,30 +70,36 @@ public class AlphaChangedTextView extends androidx.appcompat.widget.AppCompatTex
 
     @Override
     public void setAlpha(float alpha) {
-        if (alpha >= 0.05) {
-            int alphas = (int) Math.ceil(255 * alpha);
-            mBgPaint.setColor(mAlphaBgColorEnd);
-            mBgPaint.setAlpha(alphas);
-
-            mTextPaint.setColor(mAlphaTextColorEnd);
-            mTextPaint.setAlpha(alphas);
-        } else {
-            mBgPaint.setColor(mAlphaBgColorStart);
-            mBgPaint.setAlpha(255);
-
-            mTextPaint.setColor(mAlphaTextColorStart);
-            mTextPaint.setAlpha(255);
+        int r = (int) Math.ceil(255 * alpha);
+        if (r < 10) {
+            r = 0;
+        } else if (r > 230) {
+            r = 255;
         }
+
+        int g = (int) Math.ceil(255 * alpha);
+        if (g < 10) {
+            g = 0;
+        } else if (g > 230) {
+            g = 255;
+        }
+
+        int b = 255;
+        int textColor = Color.rgb(r, g, b);
+        int bgColor = Color.rgb(255 - r, 255 - g, b);
+        mBgPaint.setColor(bgColor);
+        mTextPaint.setColor(textColor);
+
         invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawPaint(mBgPaint);
-//        mTextPaint.setColor(mColor);
-//        mTextPaint.setAlpha(alpha);
-        int x = mRect.width() / 2;
-        int y = mRect.height() / 2;
-        canvas.drawText(getText().toString(), x, y, mTextPaint);
+
+        Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
+        float distance = (fontMetrics.bottom - fontMetrics.top) / 2 - fontMetrics.bottom;
+        float baseline = mRect.centerY() + distance;
+        canvas.drawText(getText().toString(), mRect.centerX(), baseline, mTextPaint);
     }
 }

@@ -18,4 +18,13 @@ public interface ContentCallback extends BaseUiTabHostCallback {
      * @date: 2020/7/16 3:41 PM
      */
     void onSelectProgress(int index, float progress);
+
+    /**
+     * 进度结束，可以在这个回调中对一些操作做还原处理
+     *
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/17 9:58 AM
+     */
+    void onSelectProgressEnd();
 }

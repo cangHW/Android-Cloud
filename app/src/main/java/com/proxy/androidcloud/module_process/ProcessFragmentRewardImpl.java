@@ -1,7 +1,6 @@
 package com.proxy.androidcloud.module_process;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -60,6 +59,15 @@ public class ProcessFragmentRewardImpl extends CloudUiTabHostFragmentReward {
     @Override
     public void onSelectProgress(float progress) {
         mTextView.setAlpha(progress);
+    }
+
+    @Override
+    public void onSelectProgressEnd() {
+        if (isSelect) {
+            mTextView.setAlpha(1);
+        } else {
+            mTextView.setAlpha(0);
+        }
     }
 
     @Override
