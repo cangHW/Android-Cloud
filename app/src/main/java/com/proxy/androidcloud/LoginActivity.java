@@ -39,7 +39,7 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
             @CloudUiCheckString(markId = ACCOUNT, minLength = 4, notBlank = true, message = "用户名太短"),
             @CloudUiCheckString(markId = ACCOUNT, notWithRegex = "[01abc]", message = "用户名不能包含 01abc")
     })
-    private String mAccountText = "qwee";
+    private String mAccountText;
 
     @CloudUiCheckStrings({
             @CloudUiCheckString(markId = PASSWORD, notEmpty = true, message = "请输入密码"),
@@ -48,10 +48,10 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
             @CloudUiCheckString(markId = PASSWORD, shouldWithRegex = "[1]", message = "密码必须包含 1"),
             @CloudUiCheckString(markId = PASSWORD, notWithRegex = "(1111|1234|1222|1333|1444|1324|1432|1423)", message = "密码太简单")
     })
-    private String mPasswordText = "1233";
+    private String mPasswordText;
 
     @CloudUiCheckBoolean(markId = PROTOCOL, isValue = true, message = "需要同意用户协议")
-    private boolean mProtocolReady = true;
+    private boolean mProtocolReady;
 
     private EditText mInputAccountView;
     private EditText mInputPasswordView;
