@@ -53,7 +53,7 @@ ext {
     artifact = bintrayName
     libraryName = 'Cloud ui module'
     libraryDescription = 'The perfect framework for Android'
-    libraryVersion = service_utils_info
+    libraryVersion = service_utils_info_version
 }
 
 apply from: '../../install.gradle'
