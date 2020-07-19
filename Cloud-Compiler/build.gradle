@@ -6,11 +6,11 @@ dependencies {
     implementation 'com.squareup:javapoet:1.12.1'
 
     if (Boolean.parseBoolean(isFromMaven)) {
-        api "com.proxy.service:Cloud-Annotations:${cloud_annotations_version}"
+        implementation "com.proxy.service:Cloud-Annotations:${cloud_annotations_version}"
         implementation "com.proxy.service:Cloud-Base:${cloud_base_version}"
     } else {
-        api project(path: ':Cloud-Annotations')
-        api project(path: ':Cloud-Base')
+        implementation project(path: ':Cloud-Annotations')
+        implementation project(path: ':Cloud-Base')
     }
 }
 
@@ -26,4 +26,6 @@ ext {
     libraryVersion = cloud_compiler_version
 }
 
+apply from: '../install.gradle'
+apply from: '../bintray.gradle'
 apply from: '../upload.gradle'

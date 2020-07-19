@@ -50,4 +50,6 @@ ext {
     libraryVersion = cloud_api_version
 }
 
+apply from: '../install.gradle'
+apply from: '../bintray.gradle'
 apply from: '../upload.gradle'

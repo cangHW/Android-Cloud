@@ -57,7 +57,6 @@ public enum ServiceManager {
             Logger.Error(CloudApiError.NO_INIT.build());
             return Collections.emptyList();
         }
-        //安全性处理，防止在使用的过程中，mServices 的长度被恶意修改
         final List<ServiceNode> services = ServiceCache.getAll();
         List<T> list = new ArrayList<>();
         for (ServiceNode node : services) {
@@ -89,7 +88,6 @@ public enum ServiceManager {
             Logger.Error(CloudApiError.NO_INIT.build());
             return Collections.emptyList();
         }
-        //安全性处理，防止在使用的过程中，mServices 的长度被恶意修改
         final List<ServiceNode> services = ServiceCache.getAll();
         List<T> list = new ArrayList<>();
         for (ServiceNode node : services) {

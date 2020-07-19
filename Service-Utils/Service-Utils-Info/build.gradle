@@ -41,9 +41,21 @@ dependencies {
 
     if (Boolean.parseBoolean(isFromMaven)) {
         annotationProcessor "com.proxy.service:Cloud-Compiler:${cloud_compiler_version}"
-        api project(path: ':Service-Utils:Service-Utils-Base')
+        api "com.proxy.service:Service-Utils-Base:${service_utils_base}"
     } else {
         annotationProcessor project(path: ':Cloud-Compiler')
         api project(path: ':Service-Utils:Service-Utils-Base')
     }
 }
+
+ext {
+    bintrayName = 'Service-Utils-Info'
+    artifact = bintrayName
+    libraryName = 'Cloud ui module'
+    libraryDescription = 'The perfect framework for Android'
+    libraryVersion = service_utils_info
+}
+
+apply from: '../../install.gradle'
+apply from: '../../bintray.gradle'
+apply from: '../../upload.gradle'

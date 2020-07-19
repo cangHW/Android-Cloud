@@ -1,17 +1,20 @@
-apply from: '../install.gradle'
-apply from: '../bintray.gradle'
 
+Task task
+if (project.hasProperty("android")) {
+    task =tasks.getByName("assemble")
+}else {
+    task =tasks.getByName("clean")
+}
 
-
-Task bintrayUpload =tasks.getByName("bintrayUpload")
-Task clean =tasks.getByName("clean")
 Task install =tasks.getByName("install")
+Task bintrayUpload =tasks.getByName("bintrayUpload")
 Task upload =tasks.create("upload")
+
 upload.setGroup("upload")
 upload.doLast {
     println("上传成功")
 }
 
-install.dependsOn(clean)
+install.dependsOn(task)
 bintrayUpload.dependsOn(install)
 upload.dependsOn(bintrayUpload)

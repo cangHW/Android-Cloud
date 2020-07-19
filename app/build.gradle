@@ -38,10 +38,19 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation project(path: ':Service-Utils:Service-Utils-Info')
+    if (Boolean.parseBoolean(isFromMaven)) {
+        implementation "com.proxy.service:Service-Utils-Info:${service_utils_info}"
+        implementation "com.proxy.service:Service-NetWork-OkHttp:0.0.1"
+        implementation "com.proxy.service:Service-UI-Info:${service_ui_info}"
+
+        annotationProcessor "com.proxy.service:Cloud-Compiler:${cloud_compiler_version}"
+    } else {
+        implementation project(path: ':Service-Utils:Service-Utils-Info')
 //    implementation project(path: ':Service-NetWork:Service-NetWork-OkHttp')
-    implementation project(path: ':Service-UI:Service-UI-Info')
+//        implementation project(path: ':Service-UI:Service-UI-Info')
+        implementation "com.proxy.service:Service-UI-Info:${service_ui_info}"
 
+        annotationProcessor project(path: ':Cloud-Compiler')
+    }
 
-    annotationProcessor project(path: ':Cloud-Compiler')
 }

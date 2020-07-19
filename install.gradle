@@ -1,5 +1,6 @@
 apply plugin: 'com.github.dcendents.android-maven'
-
+def EMPTY = 'unspecified'
+def NULL = null
 group = publishedGroupId
 
 install {
@@ -37,29 +38,33 @@ install {
                     developerConnection gitUrl
                     url siteUrl
                 }
-
-//                dependencies{
-//                    dependency{
-//                        groupId "com.proxy.service"
-//                        artifactId "Cloud-Annotations"
-//                        version "0.0.1"
-//                        scope "api"
-//                    }
-//                    dependency{
-//                        groupId "com.proxy.service"
-//                        artifactId "Cloud-Base"
-//                        version "0.0.1"
-//                        scope "implementation"
-//                    }
-//
-//                    dependency{
-//                        groupId "com.squareup"
-//                        artifactId "javapoet"
-//                        version "1.12.1"
-//                        scope "implementation"
-//                    }
-//                }
-
+            }
+        }.withXml {
+            def containers = [configurations.api, configurations.implementation]
+            def dependenciesNode = asNode().appendNode('dependencies')
+            containers.each { container ->
+                container.dependencies.each { dependency ->
+                    //通过本地引用的不要打进去
+                    if (dependency.group == NULL || dependency.group == EMPTY) {
+                        return
+                    }
+                    if (dependency.name == NULL || dependency.name == EMPTY) {
+                        return
+                    }
+                    if (dependency.version == NULL || dependency.version == EMPTY) {
+                        return
+                    }
+                    if (dependency.group.startsWith("androidx") || dependency.group.startsWith("androidx")) {
+                        //android 的东西不打进去
+                        return
+                    }
+                    println("pom 清单包含：   ${dependency.group}:${dependency.name}:${dependency.version}")
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', dependency.group)
+                    dependencyNode.appendNode('artifactId', dependency.name)
+                    dependencyNode.appendNode('version', dependency.version)
+                    dependencyNode.appendNode('scope', container.name)
+                }
             }
         }
     }
