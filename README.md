@@ -7,9 +7,19 @@
 
 <br/>
 
+[![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
+一套快速开发架构，致力于在最短时间内从0到1的完成一个Android工程
+
+<br/>
+
+<br/>
+
 ## 基础库
 
-如果要定制自己的扩展能力，请关注这个基础库
+[<font size='6' color='#528DFB' >基础库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Cloud-Api/README.md)
+
+如果要定制自己的扩展能力，请关注这个基础库，例如：组件化、插件化等等
 
 <br/>
 
@@ -20,6 +30,8 @@
 
 
 ## 网络库
+
+<font size='4' color='F00' >开发中</font>
 
 [<font size='6' color='#528DFB' >网络库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Service-NetWork/README.md)
 
@@ -48,6 +60,7 @@
 
 
 ## 进程库
+<font size='4' color='f00' >开发中</font>
 
 [<font size='6' color='#528DFB' >进程库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Service-Process/README.md)
 
