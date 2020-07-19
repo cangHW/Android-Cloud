@@ -15,8 +15,8 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :--: | :--: |
-| 基础库 | 0.0.1 | com.proxy.service:Cloud-Api:“版本号” | api |
-| 编译库 | 0.0.2 | com.proxy.service:Cloud-Compiler:“版本号” | annotationProcessor |
+| 基础库 | 0.0.2 | com.proxy.service:Cloud-Api:“版本号” | api |
+| 编译库 | 0.0.3 | com.proxy.service:Cloud-Compiler:“版本号” | annotationProcessor |
 
 
 ## 网络库
@@ -44,7 +44,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :--: | :--: |
-| UI | 0.0.1 | com.proxy.service:Service-UI:“版本号” | api |
+| UI | 0.0.1 | com.proxy.service:Service-UI-Info:“版本号” | api |
 
 
 ## 进程库
@@ -70,7 +70,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :--: | :--: |
-| Library | 0.0.1 | com.proxy.service:Service-Library:“版本号” | api |
+| Library | 0.0.1 | com.proxy.service:Service-Utils-Info:“版本号” | api |
 
 
 
