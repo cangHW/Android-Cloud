@@ -14,7 +14,7 @@
 <br/>
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
-| :--: | :--: | :--: | :--: |
+| :--: | :--: | :-- | :--: |
 | 基础库 | 0.0.2 | com.proxy.service:Cloud-Api:“版本号” | api |
 | 编译库 | 0.0.3 | com.proxy.service:Cloud-Compiler:“版本号” | annotationProcessor |
 
