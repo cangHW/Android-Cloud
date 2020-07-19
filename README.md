@@ -70,7 +70,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :--: | :--: |
-| Library | 0.0.1 | com.proxy.service:Service-Utils-Info:“版本号” | api |
+| Utils | 0.0.1 | com.proxy.service:Service-Utils-Info:“版本号” | api |
 
 
 
