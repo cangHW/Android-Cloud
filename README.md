@@ -28,7 +28,7 @@
 <br/>
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
-| :--: | :--: | :--: | :--: |
+| :--: | :--: | :-- | :--: |
 | OkHttp | 0.0.1 | com.proxy.service:Service-OkHttp:“版本号” | api |
 | Volley | 0.0.1 | com.proxy.service:Service-Volley:“版本号” | api |
 | Retrofit | 0.0.1 | com.proxy.service:Service-Retrofit:“版本号” | api |
@@ -43,7 +43,7 @@
 <br/>
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
-| :--: | :--: | :--: | :--: |
+| :--: | :--: | :-- | :--: |
 | UI | 0.0.1 | com.proxy.service:Service-UI-Info:“版本号” | api |
 
 
@@ -56,7 +56,7 @@
 <br/>
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
-| :--: | :--: | :--: | :--: |
+| :--: | :--: | :-- | :--: |
 | Process | 0.0.1 | com.proxy.service:Service-Process:“版本号” | api |
 
 
@@ -69,7 +69,7 @@
 <br/>
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
-| :--: | :--: | :--: | :--: |
+| :--: | :--: | :-- | :--: |
 | Utils | 0.0.1 | com.proxy.service:Service-Utils-Info:“版本号” | api |
 
 
