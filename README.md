@@ -31,7 +31,7 @@
 
 ## 网络库
 
-<font size='4' color='#FF0000' >开发中</font>
+<font size='4' color='F00' >开发中</font>
 
 [<font size='6' color='#528DFB' >网络库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Service-NetWork/README.md)
 
@@ -60,7 +60,7 @@
 
 
 ## 进程库
-(<font color='#ff0000' >开发中</font>)
+<font size='4' color='f00' >开发中</font>
 
 [<font size='6' color='#528DFB' >进程库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Service-Process/README.md)
 
