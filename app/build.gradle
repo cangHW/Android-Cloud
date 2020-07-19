@@ -47,8 +47,7 @@ dependencies {
     } else {
         implementation project(path: ':Service-Utils:Service-Utils-Info')
 //    implementation project(path: ':Service-NetWork:Service-NetWork-OkHttp')
-//        implementation project(path: ':Service-UI:Service-UI-Info')
-        implementation "com.proxy.service:Service-UI-Info:${service_ui_info}"
+        implementation project(path: ':Service-UI:Service-UI-Info')
 
         annotationProcessor project(path: ':Cloud-Compiler')
     }
