@@ -7,11 +7,14 @@
 
 <br/>
 
+
+
+
 ## 基础库
 
 [<font size='6' color='#528DFB' >基础库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Cloud-Api/README.md)
 
-如果要定制自己的扩展能力，请关注这个基础库
+如果要定制自己的扩展能力，请关注这个基础库，例如：组件化、插件化等等
 
 <br/>
 
