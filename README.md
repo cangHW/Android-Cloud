@@ -9,6 +9,7 @@
 
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
+一套快速开发架构，致力于在最短时间内从0到1的完成一个Android工程
 
 ## 基础库
 
