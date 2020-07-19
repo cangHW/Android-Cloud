@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 用于标示自动装载
+ * 用于标示自动装载，ui 模块
  * {@link com.proxy.service.api.services.CloudUiTabHostService}
  *
  * @author: cangHX
