@@ -7,6 +7,7 @@ include ':Service-Process:Service-Process-Base'
 
 include ':Service-NetWork:Service-NetWork-Base'
 include ':Service-NetWork:Service-NetWork-OkHttp'
+include ':Service-NetWork:Service-NetWork-Retrofit'
 
 include ':Service-Utils:Service-Utils-Base'
 include ':Service-Utils:Service-Utils-Info'

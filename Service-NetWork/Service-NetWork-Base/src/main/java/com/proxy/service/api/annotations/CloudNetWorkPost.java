@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 设置本次请求为 post 请求
+ * 设置本次请求为 post 请求，并传入 url path
  *
  * @author : cangHX
  * on 2020/07/19  5:41 PM
@@ -16,4 +16,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CloudNetWorkPost {
+
+    /**
+     * url path
+     */
+    String path();
+
 }

@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/Service-NetWork" />
             <option value="$PROJECT_DIR$/Service-NetWork/Service-NetWork-Base" />
             <option value="$PROJECT_DIR$/Service-NetWork/Service-NetWork-OkHttp" />
+            <option value="$PROJECT_DIR$/Service-NetWork/Service-NetWork-Retrofit" />
             <option value="$PROJECT_DIR$/Service-Process" />
             <option value="$PROJECT_DIR$/Service-Process/Service-Process-Base" />
             <option value="$PROJECT_DIR$/Service-UI" />

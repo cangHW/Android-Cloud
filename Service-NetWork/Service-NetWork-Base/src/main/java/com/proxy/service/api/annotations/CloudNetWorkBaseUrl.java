@@ -16,4 +16,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CloudNetWorkBaseUrl {
+
+    /**
+     * BaseUrl
+     */
+    String url();
+
 }

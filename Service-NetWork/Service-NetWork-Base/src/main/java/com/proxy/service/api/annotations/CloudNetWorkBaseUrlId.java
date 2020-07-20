@@ -7,13 +7,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 置本次请求的 UrlPath
+ * 设置本次请求的 BaseUrl 的 id，方便对 BaseUrl 进行动态替换
  *
  * @author : cangHX
- * on 2020/07/19  5:43 PM
+ * on 2020/07/19  5:39 PM
  */
 @Documented
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CloudNetWorkUrlPath {
+public @interface CloudNetWorkBaseUrlId {
+
+    /**
+     * BaseUrl 的 id
+     */
+    String urlId();
+
 }

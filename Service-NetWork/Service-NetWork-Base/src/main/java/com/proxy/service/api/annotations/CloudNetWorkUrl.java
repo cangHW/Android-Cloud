@@ -7,19 +7,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 为本次请求添加自定义 tag
+ * 设置本次请求完整的 url
  *
  * @author : cangHX
- * on 2020/07/19  5:49 PM
+ * on 2020/07/19  5:43 PM
  */
 @Documented
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CloudNetWorkTag {
+public @interface CloudNetWorkUrl {
 
     /**
-     * 自定义 tag
+     * url
      */
-    String tag();
+    String url();
 
 }

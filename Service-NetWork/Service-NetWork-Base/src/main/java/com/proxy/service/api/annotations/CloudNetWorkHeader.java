@@ -16,4 +16,15 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CloudNetWorkHeader {
+
+    /**
+     * key 值
+     */
+    String key();
+
+    /**
+     * value 值
+     */
+    String value();
+
 }

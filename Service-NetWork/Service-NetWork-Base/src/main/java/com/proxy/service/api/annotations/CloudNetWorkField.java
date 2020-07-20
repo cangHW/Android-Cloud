@@ -16,4 +16,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CloudNetWorkField {
+
+    /**
+     * 参数字段
+     */
+    String value();
+
 }
