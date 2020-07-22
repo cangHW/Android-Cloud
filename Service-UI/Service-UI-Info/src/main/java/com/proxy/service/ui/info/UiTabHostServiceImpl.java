@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import com.proxy.service.annotations.CloudNewInstance;
-import com.proxy.service.annotations.CloudService;
+import com.proxy.service.annotations.CloudApiNewInstance;
+import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.annotations.CloudUiTabHostReward;
 import com.proxy.service.api.callback.CloudUiEventCallback;
 import com.proxy.service.api.error.CloudApiError;
@@ -25,8 +25,8 @@ import java.util.List;
  * @author: cangHX
  * on 2020/06/29  14:57
  */
-@CloudNewInstance
-@CloudService(serviceTag = CloudServiceTagUi.UI_TAB_HOST)
+@CloudApiNewInstance
+@CloudApiService(serviceTag = CloudServiceTagUi.UI_TAB_HOST)
 public class UiTabHostServiceImpl implements CloudUiTabHostService {
 
     private TabHostHelper mTabHostHelper;

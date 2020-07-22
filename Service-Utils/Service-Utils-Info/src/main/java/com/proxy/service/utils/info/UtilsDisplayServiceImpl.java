@@ -2,7 +2,7 @@ package com.proxy.service.utils.info;
 
 import android.content.Context;
 
-import com.proxy.service.annotations.CloudService;
+import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsDisplayService;
@@ -13,7 +13,7 @@ import com.proxy.service.api.utils.Logger;
  * @author: cangHX
  * on 2020/06/11  12:12
  */
-@CloudService(serviceTag = CloudServiceTagUtils.UTILS_DISPLAY)
+@CloudApiService(serviceTag = CloudServiceTagUtils.UTILS_DISPLAY)
 public class UtilsDisplayServiceImpl implements CloudUtilsDisplayService {
 
     /**

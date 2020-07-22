@@ -11,7 +11,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.proxy.service.annotations.CloudService;
+import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsAppService;
@@ -25,7 +25,7 @@ import java.util.List;
  * @author: cangHX
  * on 2020/06/11  12:10
  */
-@CloudService(serviceTag = CloudServiceTagUtils.UTILS_APP)
+@CloudApiService(serviceTag = CloudServiceTagUtils.UTILS_APP)
 public class UtilsAppServiceImpl implements CloudUtilsAppService {
 
     /**

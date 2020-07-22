@@ -4,7 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 
-import com.proxy.service.annotations.CloudService;
+import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.services.CloudUtilsSystemInfoService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
 import com.proxy.service.api.utils.Logger;
@@ -15,7 +15,7 @@ import com.proxy.service.utils.oaid.callback.OaidRequestCallback;
  * @author: cangHX
  * on 2020/06/11  12:45
  */
-@CloudService(serviceTag = CloudServiceTagUtils.UTILS_SYSTEM_INFO)
+@CloudApiService(serviceTag = CloudServiceTagUtils.UTILS_SYSTEM_INFO)
 public class UtilsSystemInfoServiceImpl implements CloudUtilsSystemInfoService {
 
     /**

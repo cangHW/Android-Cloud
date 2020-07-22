@@ -13,7 +13,7 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.proxy.service.annotations.CloudService;
+import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.callback.CloudInstallCallback;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.enums.CloudInstallStatusEnum;
@@ -38,7 +38,7 @@ import java.util.List;
  * @author: cangHX
  * on 2020/06/11  12:41
  */
-@CloudService(serviceTag = CloudServiceTagUtils.UTILS_INSTALL)
+@CloudApiService(serviceTag = CloudServiceTagUtils.UTILS_INSTALL)
 public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
 
     /**

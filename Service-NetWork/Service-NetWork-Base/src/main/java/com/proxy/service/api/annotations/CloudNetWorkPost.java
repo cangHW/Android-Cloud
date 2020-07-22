@@ -20,6 +20,6 @@ public @interface CloudNetWorkPost {
     /**
      * url path
      */
-    String path();
+    String value();
 
 }

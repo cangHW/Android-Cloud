@@ -20,6 +20,6 @@ public @interface CloudNetWorkBaseUrl {
     /**
      * BaseUrl
      */
-    String url();
+    String value();
 
 }

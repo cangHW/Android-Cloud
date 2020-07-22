@@ -13,7 +13,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.proxy.service.annotations.CloudService;
+import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.interfaces.IEditTextHelper;
 import com.proxy.service.api.services.CloudUtilsEditTextService;
@@ -25,7 +25,7 @@ import com.proxy.service.utils.edittext.EditTextHelperImpl;
  * @author: cangHX
  * on 2020/07/09  18:42
  */
-@CloudService(serviceTag = CloudServiceTagUtils.UTILS_EDIT_TEXT)
+@CloudApiService(serviceTag = CloudServiceTagUtils.UTILS_EDIT_TEXT)
 public class UtilsEditTextServiceImpl implements CloudUtilsEditTextService {
     /**
      * 设置输入框属性

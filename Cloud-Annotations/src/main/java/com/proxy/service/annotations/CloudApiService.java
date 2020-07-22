@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CloudService {
+public @interface CloudApiService {
 
     /**
      * 服务的 tag

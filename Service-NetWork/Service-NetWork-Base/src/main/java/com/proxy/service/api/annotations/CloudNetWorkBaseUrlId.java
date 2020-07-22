@@ -18,8 +18,8 @@ import java.lang.annotation.Target;
 public @interface CloudNetWorkBaseUrlId {
 
     /**
-     * BaseUrl 的 id
+     * BaseUrl Id
      */
-    String urlId();
+    String value();
 
 }

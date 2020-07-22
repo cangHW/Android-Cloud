@@ -1,7 +1,7 @@
 package com.proxy.service.compiler.handler;
 
-import com.proxy.service.annotations.CloudNewInstance;
-import com.proxy.service.annotations.CloudService;
+import com.proxy.service.annotations.CloudApiNewInstance;
+import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.compiler.node.NodeOther;
 import com.proxy.service.compiler.node.NodeService;
 import com.proxy.service.consts.ClassConstants;
@@ -54,7 +54,7 @@ public class ServiceHandlerImpl extends AbstractHandler {
      */
     @Override
     public List<String> getSupportedAnnotationTypes() {
-        return Collections.singletonList(CloudService.class.getCanonicalName());
+        return Collections.singletonList(CloudApiService.class.getCanonicalName());
     }
 
     /**
@@ -66,7 +66,7 @@ public class ServiceHandlerImpl extends AbstractHandler {
      */
     @Override
     protected void run() {
-        Set<? extends Element> elements = mRoundEnvironment.getElementsAnnotatedWith(CloudService.class);
+        Set<? extends Element> elements = mRoundEnvironment.getElementsAnnotatedWith(CloudApiService.class);
         if (elements != null && elements.size() > 0) {
             traverseElement(elements);
         }
@@ -87,11 +87,11 @@ public class ServiceHandlerImpl extends AbstractHandler {
 
     private void traverseElement(Set<? extends Element> elements) {
         for (Element element : elements) {
-            CloudService cloudService = element.getAnnotation(CloudService.class);
-            CloudNewInstance cloudNewInstance = element.getAnnotation(CloudNewInstance.class);
+            CloudApiService cloudApiService = element.getAnnotation(CloudApiService.class);
+            CloudApiNewInstance cloudApiNewInstance = element.getAnnotation(CloudApiNewInstance.class);
             TypeElement typeElement = (TypeElement) element;
             String value = typeElement.getQualifiedName().toString();
-            mServiceNodes.add(NodeService.create(cloudService.serviceTag(), cloudNewInstance != null, value));
+            mServiceNodes.add(NodeService.create(cloudApiService.serviceTag(), cloudApiNewInstance != null, value));
         }
     }
 

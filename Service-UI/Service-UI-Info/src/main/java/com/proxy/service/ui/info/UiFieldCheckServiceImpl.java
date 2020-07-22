@@ -2,8 +2,8 @@ package com.proxy.service.ui.info;
 
 import androidx.annotation.NonNull;
 
-import com.proxy.service.annotations.CloudNewInstance;
-import com.proxy.service.annotations.CloudService;
+import com.proxy.service.annotations.CloudApiNewInstance;
+import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.callback.CloudUiFieldCheckErrorCallback;
 import com.proxy.service.api.interfaces.IReallyUiFieldCheck;
 import com.proxy.service.api.services.CloudUiFieldCheckService;
@@ -16,8 +16,8 @@ import com.proxy.service.ui.fieldcheck.UiFieldCheckErrorCallbackDefaultImpl;
  * @author: cangHX
  * on 2020/07/07  19:12
  */
-@CloudNewInstance()
-@CloudService(serviceTag = CloudServiceTagUi.UI_FIELD_CHECK)
+@CloudApiNewInstance()
+@CloudApiService(serviceTag = CloudServiceTagUi.UI_FIELD_CHECK)
 public class UiFieldCheckServiceImpl implements CloudUiFieldCheckService {
 
     /**

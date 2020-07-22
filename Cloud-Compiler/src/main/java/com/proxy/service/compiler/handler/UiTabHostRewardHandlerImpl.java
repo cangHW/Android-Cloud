@@ -1,6 +1,6 @@
 package com.proxy.service.compiler.handler;
 
-import com.proxy.service.annotations.CloudNewInstance;
+import com.proxy.service.annotations.CloudApiNewInstance;
 import com.proxy.service.annotations.CloudUiTabHostReward;
 import com.proxy.service.compiler.node.NodeOther;
 
@@ -69,10 +69,10 @@ public class UiTabHostRewardHandlerImpl extends AbstractHandler {
 
     private void traverseElement(Set<? extends Element> elements) {
         for (Element element : elements) {
-            CloudNewInstance cloudNewInstance = element.getAnnotation(CloudNewInstance.class);
+            CloudApiNewInstance cloudApiNewInstance = element.getAnnotation(CloudApiNewInstance.class);
             TypeElement typeElement = (TypeElement) element;
             String value = typeElement.getQualifiedName().toString();
-            mOtherNodes.add(NodeOther.create(cloudNewInstance != null, value));
+            mOtherNodes.add(NodeOther.create(cloudApiNewInstance != null, value));
         }
     }
 

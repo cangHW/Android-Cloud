@@ -20,6 +20,6 @@ public @interface CloudNetWorkGet {
     /**
      * url path
      */
-    String path();
+    String value();
 
 }

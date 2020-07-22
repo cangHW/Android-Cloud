@@ -7,7 +7,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
-import com.proxy.service.annotations.CloudService;
+import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsAppService;
@@ -19,7 +19,7 @@ import com.proxy.service.api.utils.Logger;
  * @author: cangHX
  * on 2020/06/18  13:49
  */
-@CloudService(serviceTag = CloudServiceTagUtils.UTILS_SYSTEM_PAGE)
+@CloudApiService(serviceTag = CloudServiceTagUtils.UTILS_SYSTEM_PAGE)
 public class UtilsSystemPageServiceImpl implements CloudUtilsSystemPageService {
 
     /**

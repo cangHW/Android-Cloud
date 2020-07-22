@@ -2,8 +2,8 @@ package com.proxy.service.api.service.cache;
 
 import androidx.annotation.NonNull;
 
-import com.proxy.service.annotations.CloudNewInstance;
-import com.proxy.service.annotations.CloudService;
+import com.proxy.service.annotations.CloudApiNewInstance;
+import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.base.BaseService;
 import com.proxy.service.node.ServiceNode;
@@ -56,13 +56,13 @@ public class ServiceCache {
                 continue;
             }
             Class<?> tClass = service.getClass();
-            CloudService cloudService = tClass.getAnnotation(CloudService.class);
-            CloudNewInstance cloudNewInstance = tClass.getAnnotation(CloudNewInstance.class);
-            if (cloudService == null) {
+            CloudApiService cloudApiService = tClass.getAnnotation(CloudApiService.class);
+            CloudApiNewInstance cloudApiNewInstance = tClass.getAnnotation(CloudApiNewInstance.class);
+            if (cloudApiService == null) {
                 Logger.Error(tClass.getSimpleName() + "缺少 CloudService 注解");
                 continue;
             }
-            list.add(new ServiceNode(cloudService.serviceTag(), cloudNewInstance != null, service));
+            list.add(new ServiceNode(cloudApiService.serviceTag(), cloudApiNewInstance != null, service));
         }
         add(0, list);
     }

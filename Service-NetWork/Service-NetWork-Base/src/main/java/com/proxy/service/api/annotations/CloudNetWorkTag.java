@@ -20,6 +20,6 @@ public @interface CloudNetWorkTag {
     /**
      * 自定义 tag
      */
-    String tag();
+    String value();
 
 }

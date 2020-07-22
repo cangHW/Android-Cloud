@@ -52,6 +52,11 @@ public enum CloudApiError {
      */
     ACTIVITY_MANAGER_ERROR(20101, "The ActivityManager is error"),
 
+    /**
+     * 时间错误
+     */
+    TIME_ERROR(20200, "The time is error"),
+
     /******************  权限问题  *************************/
     /**
      * 安装过程存在安全隐患

@@ -1,14 +1,21 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion Integer.parseInt(Compile_Sdk_Version)
+    buildToolsVersion Build_Tools_Version
+
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 29
+        minSdkVersion Integer.parseInt(Min_Sdk_Version)
+        targetSdkVersion Integer.parseInt(Target_Sdk_Version)
         versionCode 1
         versionName "1.0"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [CLOUD_MODULE_NAME: project.getName()]
+            }
+        }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -24,9 +31,22 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    implementation "androidx.appcompat:appcompat:${Support_Lib_Version}"
+
+    if (Boolean.parseBoolean(isFromMaven)) {
+        annotationProcessor "com.proxy.service:Cloud-Compiler:${cloud_compiler_version}"
+        implementation "com.proxy.service:Service-UI-Info:${service_ui_info}"
+
+        api project(path: ':Service-NetWork:Service-NetWork-Base')
+    } else {
+        implementation "com.squareup.retrofit2:retrofit:2.5.0"
+
+        annotationProcessor project(path: ':Cloud-Compiler')
+        implementation project(path: ':Service-Utils:Service-Utils-Info')
+        api project(path: ':Service-NetWork:Service-NetWork-Base')
+    }
 }

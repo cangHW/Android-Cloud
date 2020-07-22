@@ -6,7 +6,7 @@ import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
-import com.proxy.service.annotations.CloudService;
+import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsShareService;
@@ -21,7 +21,7 @@ import java.util.List;
  * @author: cangHX
  * on 2020/06/11  12:42
  */
-@CloudService(serviceTag = CloudServiceTagUtils.UTILS_SHARE)
+@CloudApiService(serviceTag = CloudServiceTagUtils.UTILS_SHARE)
 public class UtilsShareServiceImpl implements CloudUtilsShareService {
 
     /**
