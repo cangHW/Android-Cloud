@@ -7,18 +7,23 @@ import com.proxy.service.api.base.CloudNetWorkCache;
 import com.proxy.service.api.base.CloudNetWorkCookieJar;
 import com.proxy.service.api.base.CloudNetWorkInterceptor;
 import com.proxy.service.api.base.CloudNetWorkMock;
-import com.proxy.service.api.base.CloudNetWorkProxy;
-import com.proxy.service.api.base.CloudNetWorkSslSocket;
 import com.proxy.service.api.cache.BaseUrlCache;
 import com.proxy.service.api.services.CloudNetWorkInitService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
 import com.proxy.service.network.cache.RequestInfo;
 import com.proxy.service.network.factory.OkHttpFactory;
 import com.proxy.service.network.factory.RetrofitFactory;
-import com.proxy.service.network.interceptors.DefaultInterceptor;
+import com.proxy.service.network.conversion.CacheConversion;
+import com.proxy.service.network.conversion.CookieJarConversion;
+import com.proxy.service.network.conversion.InterceptorConversion;
+import com.proxy.service.network.mock.MockManager;
 import com.proxy.service.network.utils.TimeUtils;
 
+import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * @author : cangHX
@@ -143,7 +148,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @NonNull
     @Override
     public CloudNetWorkInitService addInterceptor(@NonNull CloudNetWorkInterceptor interceptor) {
-        mOkHttpBuilder.addInterceptor(new DefaultInterceptor(interceptor));
+        mOkHttpBuilder.addInterceptor(InterceptorConversion.create(interceptor));
         return this;
     }
 
@@ -158,8 +163,8 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
      */
     @NonNull
     @Override
-    public CloudNetWorkInitService setProxy(@NonNull CloudNetWorkProxy proxy) {
-        //todo
+    public CloudNetWorkInitService setProxy(@NonNull Proxy proxy) {
+        mOkHttpBuilder.setProxy(proxy);
         return this;
     }
 
@@ -175,7 +180,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @NonNull
     @Override
     public CloudNetWorkInitService setCookieJar(@NonNull CloudNetWorkCookieJar cookieJar) {
-        //todo
+        mOkHttpBuilder.setCookieJar(CookieJarConversion.create(cookieJar));
         return this;
     }
 
@@ -191,7 +196,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @NonNull
     @Override
     public CloudNetWorkInitService setCache(@NonNull CloudNetWorkCache cache) {
-        //todo
+        mOkHttpBuilder.setCache(CacheConversion.create(cache));
         return this;
     }
 
@@ -207,7 +212,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @NonNull
     @Override
     public CloudNetWorkInitService setMock(@NonNull CloudNetWorkMock mock) {
-        //todo
+        MockManager.INSTANCE.setCloudNetWorkMock(mock);
         return this;
     }
 
@@ -215,6 +220,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
      * 设置 https 安全套接层
      *
      * @param sslSocket : 安全套接层
+     * @param manager   : 信任证书
      * @return 当前对象
      * @version: 1.0
      * @author: cangHX
@@ -222,8 +228,9 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
      */
     @NonNull
     @Override
-    public CloudNetWorkInitService setSslSocket(@NonNull CloudNetWorkSslSocket sslSocket) {
-        //todo
+    public CloudNetWorkInitService setSslSocket(@NonNull SSLSocketFactory sslSocket, @NonNull X509TrustManager manager) {
+        mOkHttpBuilder.setSslSocketFactory(sslSocket);
+        mOkHttpBuilder.setX509TrustManager(manager);
         return this;
     }
 

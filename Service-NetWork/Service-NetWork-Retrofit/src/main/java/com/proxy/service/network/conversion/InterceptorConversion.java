@@ -1,4 +1,4 @@
-package com.proxy.service.network.interceptors;
+package com.proxy.service.network.conversion;
 
 import androidx.annotation.NonNull;
 
@@ -14,10 +14,15 @@ import okhttp3.Response;
  * @author : cangHX
  * on 2020/07/21  5:59 PM
  */
-public class DefaultInterceptor implements Interceptor {
+public final class InterceptorConversion implements Interceptor {
 
-    public DefaultInterceptor(CloudNetWorkInterceptor interceptor) {
+    private InterceptorConversion(CloudNetWorkInterceptor interceptor) {
 
+    }
+
+    public static InterceptorConversion create(CloudNetWorkInterceptor interceptor){
+
+        return new InterceptorConversion(interceptor);
     }
 
     @Override

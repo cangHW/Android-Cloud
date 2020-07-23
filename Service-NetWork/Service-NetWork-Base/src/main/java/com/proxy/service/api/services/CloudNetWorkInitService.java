@@ -6,11 +6,13 @@ import com.proxy.service.api.base.CloudNetWorkCache;
 import com.proxy.service.api.base.CloudNetWorkCookieJar;
 import com.proxy.service.api.base.CloudNetWorkInterceptor;
 import com.proxy.service.api.base.CloudNetWorkMock;
-import com.proxy.service.api.base.CloudNetWorkProxy;
-import com.proxy.service.api.base.CloudNetWorkSslSocket;
 import com.proxy.service.base.BaseService;
 
+import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * 网络模块初始化服务
@@ -119,7 +121,7 @@ public interface CloudNetWorkInitService extends BaseService {
      * @date: 2020/7/20 9:07 PM
      */
     @NonNull
-    CloudNetWorkInitService setProxy(@NonNull CloudNetWorkProxy proxy);
+    CloudNetWorkInitService setProxy(@NonNull Proxy proxy);
 
     /**
      * 设置 cookie
@@ -161,13 +163,14 @@ public interface CloudNetWorkInitService extends BaseService {
      * 设置 https 安全套接层
      *
      * @param sslSocket : 安全套接层
+     * @param manager   : 信任证书
      * @return 当前对象
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/7/20 9:17 PM
      */
     @NonNull
-    CloudNetWorkInitService setSslSocket(@NonNull CloudNetWorkSslSocket sslSocket);
+    CloudNetWorkInitService setSslSocket(@NonNull SSLSocketFactory sslSocket, @NonNull X509TrustManager manager);
 
     /**
      * 设置重试次数，请求失败自动重试，默认不重试
