@@ -1,6 +1,7 @@
 package com.proxy.service.api.service.node;
 
 import com.proxy.service.api.service.listener.Converter;
+import com.proxy.service.base.BaseService;
 
 import java.util.ArrayList;
 
@@ -36,7 +37,7 @@ public class ListNode {
      * @author: cangHX
      * @date: 2020-05-22 17:45
      */
-    public synchronized boolean add(String uuid, Converter converter) {
+    public synchronized <T extends BaseService> boolean add(String uuid, Converter<T> converter) {
         if (contains(uuid)) {
             return false;
         }
@@ -53,6 +54,7 @@ public class ListNode {
      * @author: cangHX
      * @date: 2020-05-22 17:48
      */
+    @SuppressWarnings("UnusedReturnValue")
     public synchronized boolean remove(String uuid) {
         for (Node node : nodes) {
             if (node.getUuid().equals(uuid)) {

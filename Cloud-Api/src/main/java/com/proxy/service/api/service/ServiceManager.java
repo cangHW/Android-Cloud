@@ -162,7 +162,7 @@ public enum ServiceManager {
                     continue;
                 }
 
-                Converter converter = node.getConverter();
+                Converter<BaseService> converter = (Converter<BaseService>) node.getConverter();
                 if (converter == null) {
                     listNode.remove(node);
                     continue;

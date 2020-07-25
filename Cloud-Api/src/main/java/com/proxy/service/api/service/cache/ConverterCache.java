@@ -64,7 +64,7 @@ public class ConverterCache {
      * @author: cangHX
      * @date: 2020-06-08 17:57
      */
-    public synchronized static <T extends BaseService> void remove(@NonNull String uuid) {
+    public synchronized static void remove(@NonNull String uuid) {
         for (ListNode listNode : CONVERTERS_MAPPER.values()) {
             listNode.remove(uuid);
         }
