@@ -1,5 +1,7 @@
 package com.proxy.service.network.retrofit;
 
+import android.os.Build;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -7,8 +9,14 @@ import com.proxy.service.annotations.CloudApiNewInstance;
 import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.base.CloudNetWorkCookieJar;
 import com.proxy.service.api.impl.CloudNetWorkCookieJarEmpty;
+import com.proxy.service.api.method.ServiceMethodCache;
 import com.proxy.service.api.services.CloudNetWorkRequestService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
+import com.proxy.service.api.utils.ServiceUtils;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 /**
  * @author : cangHX
@@ -50,7 +58,7 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
     /**
      * 创建网络请求
      *
-     * @param t : 请求接口类 class 对象
+     * @param service : 请求接口类 class 对象
      * @return 接口类对象
      * @version: 1.0
      * @author: cangHX
@@ -58,24 +66,39 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
      */
     @NonNull
     @Override
-    public <T> T create(@NonNull Class<T> t) {
-        return null;
+    public <T> T create(@NonNull Class<T> service) {
+        return create("", service);
     }
 
     /**
      * 创建网络请求，并绑定 tag
      *
-     * @param tag : 身份信息，用于标示本次请求，一对多，一个 tag 可以绑定多个请求
-     * @param t   : 请求接口类 class 对象
+     * @param tag     : 身份信息，用于标示本次请求，一对多，一个 tag 可以绑定多个请求
+     * @param service : 请求接口类 class 对象
      * @return 接口类对象
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/7/20 8:57 PM
      */
+    @SuppressWarnings("unchecked")
     @NonNull
     @Override
-    public <T> T create(@NonNull String tag, @NonNull Class<T> t) {
-        return null;
+    public <T> T create(@NonNull String tag, @NonNull Class<T> service) {
+        boolean flag = ServiceUtils.checkServiceInterface(service);
+        return (T) Proxy.newProxyInstance(service.getClassLoader(), new Class[]{service}, new InvocationHandler() {
+            @Override
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                if (method.getDeclaringClass() == Object.class) {
+                    return method.invoke(this, args);
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    if (method.isDefault()) {
+                        return method.invoke(this, args);
+                    }
+                }
+                return ServiceMethodCache.loadServiceMethod(method).invoke(args);
+            }
+        });
     }
 
     /**

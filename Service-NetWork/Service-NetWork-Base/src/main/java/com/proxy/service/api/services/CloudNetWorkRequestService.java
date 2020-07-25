@@ -41,27 +41,27 @@ public interface CloudNetWorkRequestService extends BaseService {
     /**
      * 创建网络请求
      *
-     * @param t : 请求接口类 class 对象
+     * @param service : 请求接口类 class 对象
      * @return 接口类对象
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/7/20 8:57 PM
      */
     @NonNull
-    <T> T create(@NonNull Class<T> t);
+    <T> T create(@NonNull Class<T> service);
 
     /**
      * 创建网络请求，并绑定 tag
      *
      * @param tag : 身份信息，用于标示本次请求，一对多，一个 tag 可以绑定多个请求
-     * @param t   : 请求接口类 class 对象
+     * @param service   : 请求接口类 class 对象
      * @return 接口类对象
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/7/20 8:57 PM
      */
     @NonNull
-    <T> T create(@NonNull String tag, @NonNull Class<T> t);
+    <T> T create(@NonNull String tag, @NonNull Class<T> service);
 
     /**
      * 通过 tag 取消请求
