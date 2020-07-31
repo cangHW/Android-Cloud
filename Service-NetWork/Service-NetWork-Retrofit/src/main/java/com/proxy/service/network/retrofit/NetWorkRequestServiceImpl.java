@@ -8,15 +8,26 @@ import androidx.annotation.Nullable;
 import com.proxy.service.annotations.CloudApiNewInstance;
 import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.base.CloudNetWorkCookieJar;
+import com.proxy.service.api.callback.request.CallAdapter;
+import com.proxy.service.api.callback.request.CloudNetWorkCall;
+import com.proxy.service.api.callback.request.NetWorkCallback;
+import com.proxy.service.api.error.CloudApiError;
+import com.proxy.service.api.impl.BodyNetWorkCall;
 import com.proxy.service.api.impl.CloudNetWorkCookieJarEmpty;
+import com.proxy.service.api.method.ServiceMethod;
 import com.proxy.service.api.method.ServiceMethodCache;
+import com.proxy.service.api.method.ServiceReturnHandler;
 import com.proxy.service.api.services.CloudNetWorkRequestService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
+import com.proxy.service.api.utils.Logger;
 import com.proxy.service.api.utils.ServiceUtils;
+import com.proxy.service.network.factory.RequestManager;
+import com.proxy.service.network.factory.RetrofitManager;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.HashMap;
 
 /**
  * @author : cangHX
@@ -83,8 +94,8 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
     @SuppressWarnings("unchecked")
     @NonNull
     @Override
-    public <T> T create(@NonNull String tag, @NonNull Class<T> service) {
-        boolean flag = ServiceUtils.checkServiceInterface(service);
+    public <T> T create(@NonNull final String tag, @NonNull final Class<T> service) {
+        final boolean isService = ServiceUtils.checkServiceInterface(service);
         return (T) Proxy.newProxyInstance(service.getClassLoader(), new Class[]{service}, new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -96,7 +107,34 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
                         return method.invoke(this, args);
                     }
                 }
-                return ServiceMethodCache.loadServiceMethod(method).invoke(args);
+
+                if (!isService) {
+                    Logger.Error(CloudApiError.DATA_TYPE_ERROR.setMsg("You need to use the interface type here. with : " + service.getCanonicalName()).build());
+                    return null;
+                }
+                ServiceMethod serviceMethod = ServiceMethodCache.loadServiceMethod(method);
+                if (serviceMethod == null) {
+                    Logger.Error(CloudApiError.UNKNOWN_ERROR.build());
+                    return null;
+                }
+                if (serviceMethod.isRequestBodyError()) {
+                    Logger.Error(CloudApiError.DATA_ERROR.setMsg("There has some error to check. with : " + service.getCanonicalName()).build());
+                    return null;
+                }
+                ServiceReturnHandler returnHandler = serviceMethod.getServiceReturnHandler();
+                if (returnHandler == null) {
+                    Logger.Error(CloudApiError.DATA_EMPTY.setMsg("There needs to be a return object. with : " + service.getCanonicalName()).build());
+                    return null;
+                }
+                CallAdapter<?, Object> callAdapter = (CallAdapter<?, Object>) returnHandler.getAdapter();
+                if (callAdapter == null) {
+                    Logger.Error(CloudApiError.DATA_TYPE_ERROR.setMsg("Return types are not supported. with : " + service.getCanonicalName()).build());
+                    return null;
+                }
+                BodyNetWorkCall<Object> bodyNetWorkCall = new BodyNetWorkCall<>(serviceMethod.request(args), RequestManager.builder().build());
+                return callAdapter.adapt(bodyNetWorkCall);
+
+//                return RetrofitManager.INSTANCE.startRequest(isService, serviceMethod, NetWorkRequestServiceImpl.this, tag);
             }
         });
     }

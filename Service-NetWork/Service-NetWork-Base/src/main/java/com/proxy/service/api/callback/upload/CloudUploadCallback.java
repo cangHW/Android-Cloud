@@ -1,4 +1,4 @@
-package com.proxy.service.api.callback;
+package com.proxy.service.api.callback.upload;
 
 /**
  * 上传回调

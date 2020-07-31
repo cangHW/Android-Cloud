@@ -1,4 +1,4 @@
-package com.proxy.service.api.callback;
+package com.proxy.service.api.callback.download;
 
 /**
  * 下载回调

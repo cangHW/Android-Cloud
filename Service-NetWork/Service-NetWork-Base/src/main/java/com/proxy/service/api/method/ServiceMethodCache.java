@@ -10,10 +10,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ServiceMethodCache {
 
-    private static final Map<Method, ServiceMethod<?>> SERVICE_METHOD_CACHE = new ConcurrentHashMap<>();
+    private static final Map<Method, ServiceMethod> SERVICE_METHOD_CACHE = new ConcurrentHashMap<>();
 
-    public static ServiceMethod<?> loadServiceMethod(Method method) {
-        ServiceMethod<?> serviceMethod = SERVICE_METHOD_CACHE.get(method);
+    public static ServiceMethod loadServiceMethod(Method method) {
+        ServiceMethod serviceMethod = SERVICE_METHOD_CACHE.get(method);
         if (serviceMethod != null) {
             return serviceMethod;
         }

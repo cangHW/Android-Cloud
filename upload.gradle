@@ -1,4 +1,3 @@
-
 Task task
 if (project.hasProperty("android")) {
     task =tasks.getByName("assemble")

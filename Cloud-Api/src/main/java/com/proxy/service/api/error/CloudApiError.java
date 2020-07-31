@@ -57,6 +57,11 @@ public enum CloudApiError {
      */
     TIME_ERROR(20200, "The time is error"),
 
+    /**
+     * 数组越界
+     */
+    INDEX_OUT_OF_BOUNDS(20300, "Index out of bounds"),
+
     /******************  权限问题  *************************/
     /**
      * 安装过程存在安全隐患

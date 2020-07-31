@@ -43,4 +43,9 @@ public class CloudServiceTagUtils {
      */
     public static final String UTILS_EDIT_TEXT = "utils_edit_text";
 
+    /**
+     * 线程 task 相关
+     */
+    public static final String UTILS_TASK = "utils_task";
+
 }

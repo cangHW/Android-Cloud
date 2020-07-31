@@ -54,7 +54,7 @@ install {
                     if (dependency.version == NULL || dependency.version == EMPTY) {
                         return
                     }
-                    if (dependency.group.startsWith("androidx") || dependency.group.startsWith("androidx")) {
+                    if (dependency.group.startsWith("android") || dependency.group.startsWith("androidx")) {
                         //android 的东西不打进去
                         return
                     }
