@@ -27,16 +27,15 @@ public interface CloudNetWorkRequestService extends BaseService {
     CloudNetWorkRequestService setRetryCount(int count);
 
     /**
-     * 设置本次请求 cookie，传入 null 或者 {@link com.proxy.service.api.impl.CloudNetWorkCookieJarEmpty}，则取消本次请求的cookie
+     * 移除本次请求的 cookie
      *
-     * @param cookieJar : 网络 cookie
      * @return 当前对象
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/7/20 9:09 PM
      */
     @NonNull
-    CloudNetWorkRequestService setCookieJar(@Nullable CloudNetWorkCookieJar cookieJar);
+    CloudNetWorkRequestService removeCookie();
 
     /**
      * 创建网络请求
@@ -53,8 +52,8 @@ public interface CloudNetWorkRequestService extends BaseService {
     /**
      * 创建网络请求，并绑定 tag
      *
-     * @param tag : 身份信息，用于标示本次请求，一对多，一个 tag 可以绑定多个请求
-     * @param service   : 请求接口类 class 对象
+     * @param tag     : 身份信息，用于标示本次请求，一对多，一个 tag 可以绑定多个请求
+     * @param service : 请求接口类 class 对象
      * @return 接口类对象
      * @version: 1.0
      * @author: cangHX

@@ -1,6 +1,6 @@
 package com.proxy.service.api.impl;
 
-import com.proxy.service.api.callback.request.CallAdapter;
+import com.proxy.service.api.callback.request.CloudNetWorkCallAdapter;
 import com.proxy.service.api.callback.request.CloudNetWorkCall;
 
 import java.lang.reflect.Type;
@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
  * @author : cangHX
  * on 2020/07/30  5:24 PM
  */
-public class DefaultCallAdapter implements CallAdapter<CloudNetWorkCall<?>, Object> {
+public class DefaultCallAdapter implements CloudNetWorkCallAdapter<CloudNetWorkCall<?>, Object> {
 
     private Type mType;
 

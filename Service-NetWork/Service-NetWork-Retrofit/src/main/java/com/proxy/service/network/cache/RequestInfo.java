@@ -4,33 +4,68 @@ package com.proxy.service.network.cache;
  * @author : cangHX
  * on 2020/07/21  9:23 PM
  */
-public enum RequestInfo {
+public final class RequestInfo {
 
     /**
-     * 单例
+     * 请求超时，毫秒
      */
-    INSTANCE;
+    private static int mRequestTimeout = -1;
 
     /**
-     * 毫秒
+     * 重试次数
      */
-    private int mRequestTimeout;
+    private static int mRetryCount = 0;
 
-    private int mRetryCount = 0;
+    /**
+     * 读取超时
+     */
+    private static int mReadTimeout = -1;
 
-    public int getRequestTimeout() {
-        return mRequestTimeout;
+    /**
+     * 写入超时
+     */
+    private static int mWriteTimeout = -1;
+
+    /**
+     * 连接超时
+     */
+    private static int mConnectTimeout = -1;
+
+    /**
+     * 请求超时，毫秒
+     */
+    public static int getRequestTimeout() {
+        int timeOut = -1;
+        if (mRequestTimeout == -1) {
+            timeOut = mReadTimeout + mWriteTimeout + mConnectTimeout;
+        }
+        if (timeOut <= 0) {
+            timeOut = -1;
+        }
+        return timeOut;
     }
 
-    public void setRequestTimeout(int requestTimeout) {
-        this.mRequestTimeout = requestTimeout;
+    public static void setRequestTimeout(int requestTimeout) {
+        mRequestTimeout = requestTimeout;
     }
 
-    public int getRetryCount() {
+    public static int getRetryCount() {
         return mRetryCount;
     }
 
-    public void setRetryCount(int retryCount) {
-        this.mRetryCount = retryCount;
+    public static void setRetryCount(int retryCount) {
+        mRetryCount = retryCount;
+    }
+
+    public static void setReadTimeout(int readTimeout) {
+        mReadTimeout = readTimeout;
+    }
+
+    public static void setWriteTimeout(int writeTimeout) {
+        mWriteTimeout = writeTimeout;
+    }
+
+    public static void setConnectTimeout(int connectTimeout) {
+        mConnectTimeout = connectTimeout;
     }
 }

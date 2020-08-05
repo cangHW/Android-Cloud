@@ -3,31 +3,29 @@ package com.proxy.service.network.retrofit;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.proxy.service.annotations.CloudApiNewInstance;
 import com.proxy.service.annotations.CloudApiService;
-import com.proxy.service.api.base.CloudNetWorkCookieJar;
-import com.proxy.service.api.callback.request.CallAdapter;
+import com.proxy.service.api.cache.ConverterCache;
+import com.proxy.service.api.callback.converter.CloudNetWorkConverter;
+import com.proxy.service.api.callback.request.CloudNetWorkCallAdapter;
 import com.proxy.service.api.callback.request.CloudNetWorkCall;
-import com.proxy.service.api.callback.request.NetWorkCallback;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.impl.BodyNetWorkCall;
-import com.proxy.service.api.impl.CloudNetWorkCookieJarEmpty;
 import com.proxy.service.api.method.ServiceMethod;
-import com.proxy.service.api.method.ServiceMethodCache;
+import com.proxy.service.api.cache.ServiceMethodCache;
 import com.proxy.service.api.method.ServiceReturnHandler;
 import com.proxy.service.api.services.CloudNetWorkRequestService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.api.utils.ServiceUtils;
+import com.proxy.service.network.cache.CallCache;
+import com.proxy.service.network.cache.RequestInfo;
 import com.proxy.service.network.factory.RequestManager;
-import com.proxy.service.network.factory.RetrofitManager;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.HashMap;
 
 /**
  * @author : cangHX
@@ -36,6 +34,10 @@ import java.util.HashMap;
 @CloudApiNewInstance
 @CloudApiService(serviceTag = CloudServiceTagNetWork.NET_WORK_REQUEST)
 public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
+
+    private int mRetryCount = -1;
+    private boolean isHasCookie = true;
+
     /**
      * 设置本次请求重试次数
      *
@@ -48,13 +50,13 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
     @NonNull
     @Override
     public CloudNetWorkRequestService setRetryCount(int count) {
+        this.mRetryCount = count;
         return this;
     }
 
     /**
-     * 设置本次请求 cookie，传入 null 或者 {@link CloudNetWorkCookieJarEmpty}，则取消本次请求的cookie
+     * 移除本次请求的 cookie
      *
-     * @param cookieJar : 网络 cookie
      * @return 当前对象
      * @version: 1.0
      * @author: cangHX
@@ -62,7 +64,8 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
      */
     @NonNull
     @Override
-    public CloudNetWorkRequestService setCookieJar(@Nullable CloudNetWorkCookieJar cookieJar) {
+    public CloudNetWorkRequestService removeCookie() {
+        this.isHasCookie = false;
         return this;
     }
 
@@ -97,6 +100,8 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
     public <T> T create(@NonNull final String tag, @NonNull final Class<T> service) {
         final boolean isService = ServiceUtils.checkServiceInterface(service);
         return (T) Proxy.newProxyInstance(service.getClassLoader(), new Class[]{service}, new InvocationHandler() {
+            private final Object[] objects = new Object[0];
+
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 if (method.getDeclaringClass() == Object.class) {
@@ -126,14 +131,32 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
                     Logger.Error(CloudApiError.DATA_EMPTY.setMsg("There needs to be a return object. with : " + service.getCanonicalName()).build());
                     return null;
                 }
-                CallAdapter<?, Object> callAdapter = (CallAdapter<?, Object>) returnHandler.getAdapter();
+                CloudNetWorkCallAdapter<?, Object> callAdapter = (CloudNetWorkCallAdapter<?, Object>) returnHandler.getAdapter();
                 if (callAdapter == null) {
                     Logger.Error(CloudApiError.DATA_TYPE_ERROR.setMsg("Return types are not supported. with : " + service.getCanonicalName()).build());
                     return null;
                 }
-                BodyNetWorkCall<Object> bodyNetWorkCall = new BodyNetWorkCall<>(serviceMethod.request(args), RequestManager.builder().build());
-                return callAdapter.adapt(bodyNetWorkCall);
+                CloudNetWorkConverter<Object> converter = (CloudNetWorkConverter<Object>) ConverterCache.getConverter(callAdapter.responseType());
+                int timeOut = RequestInfo.getRequestTimeout();
+                int retryCount = RequestInfo.getRetryCount();
+                if (mRetryCount >= 0) {
+                    retryCount = mRetryCount;
+                }
+                BodyNetWorkCall<Object> bodyNetWorkCall = new BodyNetWorkCall<>(
+                        timeOut,
+                        serviceMethod.request(args != null ? args : objects),
+                        RequestManager.builder()
+                                .setHasCookie(isHasCookie)
+                                .setRetryCount(retryCount)
+                                .build(),
+                        converter);
+                Object object = callAdapter.adapt(bodyNetWorkCall);
+                if (object instanceof CloudNetWorkCall) {
+                    CallCache.put(tag, NetWorkRequestServiceImpl.this, (CloudNetWorkCall<?>) object);
+                }
+                return object;
 
+                //todo
 //                return RetrofitManager.INSTANCE.startRequest(isService, serviceMethod, NetWorkRequestServiceImpl.this, tag);
             }
         });
@@ -149,7 +172,7 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
      */
     @Override
     public void cancelByTag(@NonNull String tag) {
-
+        CallCache.cancelByTag(tag);
     }
 
     /**
@@ -161,7 +184,7 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
      */
     @Override
     public void cancelAllOfApp() {
-
+        CallCache.cancelAll();
     }
 
     /**
@@ -173,6 +196,6 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
      */
     @Override
     public void cancelAllOfService() {
-
+        CallCache.cancelByService(this);
     }
 }

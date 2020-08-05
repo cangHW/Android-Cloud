@@ -6,6 +6,9 @@ import com.proxy.service.api.base.CloudNetWorkCache;
 import com.proxy.service.api.base.CloudNetWorkCookieJar;
 import com.proxy.service.api.base.CloudNetWorkInterceptor;
 import com.proxy.service.api.base.CloudNetWorkMock;
+import com.proxy.service.api.callback.converter.CloudNetWorkConverter;
+import com.proxy.service.api.callback.request.CloudNetWorkCallAdapter;
+import com.proxy.service.api.callback.request.CloudNetWorkGlobalCallback;
 import com.proxy.service.base.BaseService;
 
 import java.net.Proxy;
@@ -98,6 +101,42 @@ public interface CloudNetWorkInitService extends BaseService {
      */
     @NonNull
     CloudNetWorkInitService setConnectTimeout(long timeout, @NonNull TimeUnit unit);
+
+    /**
+     * 设置全局请求回调
+     *
+     * @param callback : 全局回调接口
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/5 10:55 PM
+     */
+    @NonNull
+    CloudNetWorkInitService setGlobalRequestCallback(@NonNull CloudNetWorkGlobalCallback callback);
+
+    /**
+     * 设置自定义转换器工厂
+     *
+     * @param factory : 转换器工厂对象
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/5 10:55 PM
+     */
+    @NonNull
+    CloudNetWorkInitService setConverterFactory(CloudNetWorkConverter.Factory factory);
+
+    /**
+     * 设置回调接口适配器工厂
+     *
+     * @param factory : 回调接口适配器工厂对象
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/5 10:55 PM
+     */
+    @NonNull
+    CloudNetWorkInitService setCallAdapterFactory(CloudNetWorkCallAdapter.Factory factory);
 
     /**
      * 添加拦截器

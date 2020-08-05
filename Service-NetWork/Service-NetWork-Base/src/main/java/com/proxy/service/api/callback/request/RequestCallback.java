@@ -1,22 +1,23 @@
 package com.proxy.service.api.callback.request;
 
-import com.proxy.service.api.callback.response.CloudNetWorkResponse;
+import androidx.annotation.Nullable;
 
 /**
  * @author : cangHX
- * on 2020/07/31  11:53 AM
+ * on 2020/08/03  10:58 PM
  */
-public interface CloudNetWorkCallback<T> {
+public interface RequestCallback {
 
     /**
      * 请求完成
      *
-     * @param response : 返回值
+     * @param code       : 请求返回码
+     * @param jsonString : 返回值
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/8/3 4:59 PM
      */
-    void onResponse(CloudNetWorkResponse<T> response);
+    void onResponse(int code, @Nullable String jsonString);
 
     /**
      * 请求失败
@@ -26,6 +27,6 @@ public interface CloudNetWorkCallback<T> {
      * @author: cangHX
      * @date: 2020/8/3 4:59 PM
      */
-    void onFailure(Throwable t);
+    void onFailure(@Nullable Throwable t);
 
 }

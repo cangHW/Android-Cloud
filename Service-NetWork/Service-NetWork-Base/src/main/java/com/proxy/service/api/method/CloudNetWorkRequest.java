@@ -1,4 +1,6 @@
-package com.proxy.service.api.callback.request;
+package com.proxy.service.api.method;
+
+import com.proxy.service.api.annotations.HttpMethod;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -14,6 +16,7 @@ public final class CloudNetWorkRequest {
     private final CloudNetWorkHeaders headers;
     private final CloudNetWorkParameter parameter;
     private final Method method;
+    @HttpMethod
     private final String httpMethod;
     private final Map<Object, Object> tags;
 
@@ -36,6 +39,11 @@ public final class CloudNetWorkRequest {
 
     public CloudNetWorkParameter parameter() {
         return parameter;
+    }
+
+    @HttpMethod
+    public String httpMethod() {
+        return httpMethod;
     }
 
     public <T extends Annotation> T annotation(Class<T> annotationClass) {
@@ -72,14 +80,16 @@ public final class CloudNetWorkRequest {
         private CloudNetWorkParameter parameter;
         private Method method;
         private String httpMethod;
+        private boolean isFormEncoded;
         private Map<Object, Object> tags;
 
-        public Builder(CloudNetWorkHttpUrl httpUrl, CloudNetWorkHeaders headers, CloudNetWorkParameter parameter, Method method, String httpMethod, Map<Object, Object> tags) {
+        public Builder(CloudNetWorkHttpUrl httpUrl, CloudNetWorkHeaders headers, CloudNetWorkParameter parameter, Method method, String httpMethod, boolean isFormEncoded, Map<Object, Object> tags) {
             this.httpUrl = httpUrl;
             this.headers = headers;
             this.parameter = parameter;
             this.method = method;
             this.httpMethod = httpMethod;
+            this.isFormEncoded = isFormEncoded;
             this.tags = tags;
         }
 

@@ -18,8 +18,8 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HttpMethod {
 
-    String GET = "get";
+    String GET = "GET";
 
-    String POST = "post";
+    String POST = "POST";
 
 }

@@ -1,6 +1,6 @@
 package com.proxy.service.api.impl;
 
-import com.proxy.service.api.callback.request.CallAdapter;
+import com.proxy.service.api.callback.request.CloudNetWorkCallAdapter;
 import com.proxy.service.api.callback.request.CloudNetWorkCall;
 
 import java.lang.reflect.ParameterizedType;
@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
  * @author : cangHX
  * on 2020/07/30  5:25 PM
  */
-public class DefaultCallFactory extends CallAdapter.CallFactory {
+public class DefaultCallAdapterFactory extends CloudNetWorkCallAdapter.Factory {
 
     /**
      * 获取支持当前返回类型的 adapter
@@ -24,7 +24,7 @@ public class DefaultCallFactory extends CallAdapter.CallFactory {
      * @date: 2020/7/30 9:59 PM
      */
     @Override
-    public CallAdapter<?, ?> get(Type returnType) {
+    public CloudNetWorkCallAdapter<?, ?> get(Type returnType) {
         Class<?> tClass = getRawType(returnType);
         if (tClass == CloudNetWorkCall.class && returnType instanceof ParameterizedType) {
             Type type = getParameterUpperBound(0, (ParameterizedType) returnType);

@@ -1,7 +1,5 @@
 package com.proxy.service.network.factory;
 
-import android.text.TextUtils;
-
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
@@ -20,12 +18,7 @@ public enum RetrofitFactory {
 
     RetrofitFactory() {
         mBuilder = new Retrofit.Builder();
-    }
-
-    public void setBuilder(Builder builder) {
-        if (!TextUtils.isEmpty(builder.baseUrl)) {
-            mBuilder.baseUrl(builder.baseUrl);
-        }
+        mBuilder.baseUrl("");
     }
 
     public void setClient(OkHttpClient client) {
@@ -34,14 +27,6 @@ public enum RetrofitFactory {
 
     public Retrofit getRetrofit() {
         return mBuilder.build();
-    }
-
-    public static class Builder {
-        String baseUrl;
-
-        public void setBaseUrl(String baseUrl) {
-            this.baseUrl = baseUrl;
-        }
     }
 
 }

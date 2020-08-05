@@ -7,70 +7,57 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.proxy.androidcloud.R;
 import com.proxy.androidcloud.base.BaseFragment;
+import com.proxy.androidcloud.module_network.request.TestBean;
+import com.proxy.androidcloud.module_network.request.TestRequestService;
+import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.callback.CloudUiLifeCallback;
+import com.proxy.service.api.callback.request.CloudNetWorkCallback;
+import com.proxy.service.api.callback.response.CloudNetWorkResponse;
+import com.proxy.service.api.services.CloudNetWorkRequestService;
+import com.proxy.service.api.tag.CloudServiceTagNetWork;
 import com.proxy.service.api.utils.Logger;
 
 /**
  * @author: cangHX
  * on 2020/07/06  10:21
  */
-public class NetWorkFragment extends BaseFragment implements CloudUiLifeCallback {
+public class NetWorkFragment extends BaseFragment implements View.OnClickListener {
+
+    private AppCompatButton mRequestView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_net_work,container,false);
+        View view = inflater.inflate(R.layout.fragment_net_work, container, false);
+        init(view);
         return view;
     }
 
-    /**
-     * onResume
-     *
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020/7/15 1:33 PM
-     */
-    @Override
-    public void onUiResume() {
-        Logger.Info("NetWorkFragment  :  onUiResume");
+    private void init(View view) {
+        mRequestView = view.findViewById(R.id.request);
+        mRequestView.setOnClickListener(this);
     }
 
-    /**
-     * onStop
-     *
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020/7/15 1:34 PM
-     */
     @Override
-    public void onUiStop() {
-        Logger.Info("NetWorkFragment  :  onUiStop");
-    }
+    public void onClick(View v) {
+        CloudNetWorkRequestService service = CloudSystem.getService(CloudServiceTagNetWork.NET_WORK_REQUEST);
+        if (service != null) {
+            TestRequestService requestService = service.create(TestRequestService.class);
+            requestService.test().enqueue(new CloudNetWorkCallback<TestBean>() {
+                @Override
+                public void onResponse(CloudNetWorkResponse<TestBean> response) {
+                    Logger.Error("onResponse : " + response.response().name);
+                }
 
-    /**
-     * 显示
-     *
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020/7/15 1:34 PM
-     */
-    @Override
-    public void onUiVisible() {
-        Logger.Info("NetWorkFragment  :  onUiVisible");
-    }
-
-    /**
-     * 隐藏
-     *
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020/7/15 1:34 PM
-     */
-    @Override
-    public void onUiInVisible() {
-        Logger.Info("NetWorkFragment  :  onUiInVisible");
+                @Override
+                public void onFailure(Throwable t) {
+                    Logger.Error("onFailure : " + t.getMessage());
+                }
+            });
+        }
     }
 }

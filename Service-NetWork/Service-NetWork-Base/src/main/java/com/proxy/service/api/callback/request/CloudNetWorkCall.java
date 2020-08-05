@@ -3,8 +3,7 @@ package com.proxy.service.api.callback.request;
 import androidx.annotation.NonNull;
 
 import com.proxy.service.api.callback.response.CloudNetWorkResponse;
-
-import java.io.IOException;
+import com.proxy.service.api.method.CloudNetWorkRequest;
 
 /**
  * 默认请求回调
@@ -18,13 +17,12 @@ public interface CloudNetWorkCall<T> {
      * 同步请求
      *
      * @return 请求结果
-     * @throws IOException 请求过程中异常
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/7/31 10:29 PM
      */
     @NonNull
-    CloudNetWorkResponse<T> execute() throws IOException;
+    CloudNetWorkResponse<T> execute();
 
     /**
      * 异步请求

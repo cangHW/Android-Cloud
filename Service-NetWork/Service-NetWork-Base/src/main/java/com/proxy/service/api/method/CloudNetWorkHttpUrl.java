@@ -1,4 +1,4 @@
-package com.proxy.service.api.callback.request;
+package com.proxy.service.api.method;
 
 import android.text.TextUtils;
 
@@ -22,6 +22,10 @@ public final class CloudNetWorkHttpUrl {
         return url;
     }
 
+    public Builder newBuilder() {
+        return new Builder(this);
+    }
+
     public static class Builder {
         private String baseUrl;
         private String pathUrl;
@@ -30,7 +34,7 @@ public final class CloudNetWorkHttpUrl {
         public Builder() {
         }
 
-        public Builder(CloudNetWorkHttpUrl httpUrl) {
+        private Builder(CloudNetWorkHttpUrl httpUrl) {
             this.baseUrl = httpUrl.baseUrl;
             this.pathUrl = httpUrl.pathUrl;
             this.url = httpUrl.url;

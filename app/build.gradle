@@ -46,7 +46,7 @@ dependencies {
         annotationProcessor "com.proxy.service:Cloud-Compiler:${cloud_compiler_version}"
     } else {
         implementation project(path: ':Service-Utils:Service-Utils-Info')
-//      implementation project(path: ':Service-NetWork:Service-NetWork-OkHttp')
+        implementation project(path: ':Service-NetWork:Service-NetWork-Retrofit')
         implementation project(path: ':Service-UI:Service-UI-Info')
 
         annotationProcessor project(path: ':Cloud-Compiler')

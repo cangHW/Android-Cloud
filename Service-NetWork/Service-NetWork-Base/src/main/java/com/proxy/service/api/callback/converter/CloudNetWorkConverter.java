@@ -1,49 +1,43 @@
-package com.proxy.service.api.callback.request;
+package com.proxy.service.api.callback.converter;
+
+import androidx.annotation.Nullable;
 
 import com.proxy.service.api.utils.ServiceUtils;
 
+import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
  * @author : cangHX
- * on 2020/07/27  7:26 PM
+ * on 2020/08/03  7:33 PM
  */
-public interface CallAdapter<A, T> {
+public interface CloudNetWorkConverter<T> {
 
     /**
-     * 获取真实返回值类型
+     * 数据转换
      *
-     * @return 真实返回值类型
+     * @param value : 待转换数据
+     * @return 转换后的数据
+     * @throws IOException 转换过程中的异常
      * @version: 1.0
      * @author: cangHX
-     * @date: 2020/7/31 10:24 PM
+     * @date: 2020/8/3 7:36 PM
      */
-    Type responseType();
+    @Nullable
+    T convert(@Nullable String value) throws IOException;
 
-    /**
-     * 获取返回类型
-     *
-     * @param call : 请求接口
-     * @return 返回类型
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020/7/31 10:24 PM
-     */
-    A adapt(CloudNetWorkCall<T> call);
-
-    abstract class CallFactory {
-
+    abstract class Factory {
         /**
-         * 获取支持当前返回类型的 adapter
+         * response 转换器
          *
-         * @param returnType : 返回值类型
-         * @return 支持的 adapter 对象
+         * @param type : 数据类型
+         * @return 支持的转换器
          * @version: 1.0
          * @author: cangHX
-         * @date: 2020/7/30 9:59 PM
+         * @date: 2020/8/3 7:54 PM
          */
-        public abstract CallAdapter<?, ?> get(Type returnType);
+        public abstract CloudNetWorkConverter<?> responseBodyConverter(Type type);
 
         /**
          * 根据返回数据格式，获取参数格式
@@ -72,4 +66,5 @@ public interface CallAdapter<A, T> {
             return ServiceUtils.getRawType(type);
         }
     }
+
 }

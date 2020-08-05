@@ -1,4 +1,4 @@
-package com.proxy.service.api.callback.request;
+package com.proxy.service.api.method;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,9 +15,26 @@ public final class CloudNetWorkHeaders {
         this.headersMapper = builder.headersMapper;
     }
 
+    public Map<String, String> getHeadersMapper() {
+        return headersMapper;
+    }
+
+    public Builder newBuilder() {
+        return new Builder(this);
+    }
 
     public static class Builder {
         private Map<String, String> headersMapper = new HashMap<>();
+
+        public Builder() {
+        }
+
+        private Builder(CloudNetWorkHeaders headers) {
+            this.headersMapper = headers.headersMapper;
+            if (this.headersMapper == null) {
+                this.headersMapper = new HashMap<>();
+            }
+        }
 
         public Builder addHeader(String key, String value) {
             this.headersMapper.put(key, value);

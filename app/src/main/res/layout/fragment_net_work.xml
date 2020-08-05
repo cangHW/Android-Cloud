@@ -4,12 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/request"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="网络"
-        android:textColor="#000000"
-        android:textSize="20dp" />
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:text="发起请求" />
+
 
 </LinearLayout>

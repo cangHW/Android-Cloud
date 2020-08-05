@@ -144,4 +144,38 @@ public class ServiceUtils {
         Logger.Warning(CloudApiError.DATA_EMPTY.append("with : type = null").build());
         return null;
     }
+
+    /**
+     * 是否基础类型或字符串
+     *
+     * @param type : 类型
+     * @return true 是，false 不是
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/3 10:41 AM
+     */
+    public static boolean isBasicTypes(Type type) {
+        Class<?> tClass = getRawType(type);
+        if (tClass == boolean.class) {
+            return true;
+        } else if (tClass == byte.class) {
+            return true;
+        } else if (tClass == char.class) {
+            return true;
+        } else if (tClass == double.class) {
+            return true;
+        } else if (tClass == float.class) {
+            return true;
+        } else if (tClass == int.class) {
+            return true;
+        } else if (tClass == long.class) {
+            return true;
+        } else if (tClass == short.class) {
+            return true;
+        } else if (tClass == String.class) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

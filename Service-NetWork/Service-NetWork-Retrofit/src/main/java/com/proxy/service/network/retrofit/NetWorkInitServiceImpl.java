@@ -8,15 +8,21 @@ import com.proxy.service.api.base.CloudNetWorkCookieJar;
 import com.proxy.service.api.base.CloudNetWorkInterceptor;
 import com.proxy.service.api.base.CloudNetWorkMock;
 import com.proxy.service.api.cache.BaseUrlCache;
+import com.proxy.service.api.cache.CallFactoryCache;
+import com.proxy.service.api.cache.CallbackManager;
+import com.proxy.service.api.cache.ConverterCache;
+import com.proxy.service.api.cache.CookieCache;
+import com.proxy.service.api.cache.InterceptorCache;
+import com.proxy.service.api.cache.MockCache;
+import com.proxy.service.api.callback.converter.CloudNetWorkConverter;
+import com.proxy.service.api.callback.request.CloudNetWorkCallAdapter;
+import com.proxy.service.api.callback.request.CloudNetWorkGlobalCallback;
 import com.proxy.service.api.services.CloudNetWorkInitService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
 import com.proxy.service.network.cache.RequestInfo;
 import com.proxy.service.network.factory.OkHttpFactory;
-import com.proxy.service.network.factory.RetrofitFactory;
 import com.proxy.service.network.conversion.CacheConversion;
-import com.proxy.service.network.conversion.CookieJarConversion;
-import com.proxy.service.network.conversion.InterceptorConversion;
-import com.proxy.service.network.mock.MockManager;
+import com.proxy.service.network.impl.GlobalRequestCallbackImpl;
 import com.proxy.service.network.utils.TimeUtils;
 
 import java.net.Proxy;
@@ -32,8 +38,11 @@ import javax.net.ssl.X509TrustManager;
 @CloudApiService(serviceTag = CloudServiceTagNetWork.NET_WORK_INIT)
 public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
 
-    private RetrofitFactory.Builder mRetrofitBuilder = new RetrofitFactory.Builder();
     private OkHttpFactory.Builder mOkHttpBuilder = new OkHttpFactory.Builder();
+
+    public NetWorkInitServiceImpl() {
+        CallbackManager.addGlobalCallback(new GlobalRequestCallbackImpl());
+    }
 
     /**
      * 设置 BaseUrl
@@ -47,7 +56,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @NonNull
     @Override
     public CloudNetWorkInitService setBaseUrl(@NonNull String baseUrl) {
-        mRetrofitBuilder.setBaseUrl(baseUrl);
+        BaseUrlCache.setBaseUrl(baseUrl);
         return this;
     }
 
@@ -81,7 +90,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @NonNull
     @Override
     public CloudNetWorkInitService setRequestTimeout(long timeout, @NonNull TimeUnit unit) {
-        RequestInfo.INSTANCE.setRequestTimeout(TimeUtils.toMillis("RequestTimeout", timeout, unit));
+        RequestInfo.setRequestTimeout(TimeUtils.toMillis("RequestTimeout", timeout, unit));
         return this;
     }
 
@@ -98,6 +107,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @NonNull
     @Override
     public CloudNetWorkInitService setReadTimeout(long timeout, @NonNull TimeUnit unit) {
+        RequestInfo.setReadTimeout(TimeUtils.toMillis("ReadTimeout", timeout, unit));
         mOkHttpBuilder.setReadTimeout(TimeUtils.toMillis("ReadTimeout", timeout, unit));
         return this;
     }
@@ -115,6 +125,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @NonNull
     @Override
     public CloudNetWorkInitService setWriteTimeout(long timeout, @NonNull TimeUnit unit) {
+        RequestInfo.setWriteTimeout(TimeUtils.toMillis("WriteTimeout", timeout, unit));
         mOkHttpBuilder.setWriteTimeout(TimeUtils.toMillis("WriteTimeout", timeout, unit));
         return this;
     }
@@ -132,7 +143,56 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @NonNull
     @Override
     public CloudNetWorkInitService setConnectTimeout(long timeout, @NonNull TimeUnit unit) {
+        RequestInfo.setConnectTimeout(TimeUtils.toMillis("ConnectTimeout", timeout, unit));
         mOkHttpBuilder.setConnectTimeout(TimeUtils.toMillis("ConnectTimeout", timeout, unit));
+        return this;
+    }
+
+    /**
+     * 设置全局请求回调
+     *
+     * @param callback : 全局回调接口
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/5 10:55 PM
+     */
+    @NonNull
+    @Override
+    public CloudNetWorkInitService setGlobalRequestCallback(@NonNull CloudNetWorkGlobalCallback callback) {
+        CallbackManager.addGlobalCallback(callback);
+        return this;
+    }
+
+    /**
+     * 设置自定义转换器
+     *
+     * @param factory : 转换器工厂对象
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/5 10:55 PM
+     */
+    @NonNull
+    @Override
+    public CloudNetWorkInitService setConverterFactory(CloudNetWorkConverter.Factory factory) {
+        ConverterCache.addConverter(factory);
+        return this;
+    }
+
+    /**
+     * 设置回调接口适配器工厂
+     *
+     * @param factory : 回调接口适配器工厂对象
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/5 10:55 PM
+     */
+    @NonNull
+    @Override
+    public CloudNetWorkInitService setCallAdapterFactory(CloudNetWorkCallAdapter.Factory factory) {
+        CallFactoryCache.addCallFactory(factory);
         return this;
     }
 
@@ -148,7 +208,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @NonNull
     @Override
     public CloudNetWorkInitService addInterceptor(@NonNull CloudNetWorkInterceptor interceptor) {
-        mOkHttpBuilder.addInterceptor(InterceptorConversion.create(interceptor));
+        InterceptorCache.putInterceptor(interceptor);
         return this;
     }
 
@@ -180,7 +240,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @NonNull
     @Override
     public CloudNetWorkInitService setCookieJar(@NonNull CloudNetWorkCookieJar cookieJar) {
-        mOkHttpBuilder.setCookieJar(CookieJarConversion.create(cookieJar));
+        CookieCache.putCookieJar(cookieJar);
         return this;
     }
 
@@ -212,7 +272,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @NonNull
     @Override
     public CloudNetWorkInitService setMock(@NonNull CloudNetWorkMock mock) {
-        MockManager.INSTANCE.setCloudNetWorkMock(mock);
+        MockCache.putMock(mock);
         return this;
     }
 
@@ -246,7 +306,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @NonNull
     @Override
     public CloudNetWorkInitService setRetryCount(int count) {
-        RequestInfo.INSTANCE.setRetryCount(count);
+        RequestInfo.setRetryCount(count);
         return this;
     }
 
@@ -259,7 +319,6 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
      */
     @Override
     public void build() {
-        RetrofitFactory.INSTANCE.setBuilder(mRetrofitBuilder);
         OkHttpFactory.INSTANCE.setBuilder(mOkHttpBuilder);
     }
 }

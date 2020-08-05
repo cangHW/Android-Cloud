@@ -1,10 +1,9 @@
 package com.proxy.service.api.method;
 
-import com.proxy.service.api.callback.request.CallAdapter;
-import com.proxy.service.api.impl.DefaultCallFactory;
+import com.proxy.service.api.cache.CallFactoryCache;
+import com.proxy.service.api.callback.request.CloudNetWorkCallAdapter;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 /**
  * @author : cangHX
@@ -12,33 +11,14 @@ import java.util.ArrayList;
  */
 public class ServiceReturnHandler {
 
-    private static final ArrayList<CallAdapter.CallFactory> CALL_FACTORIES = new ArrayList<>();
-
-    static {
-        CALL_FACTORIES.add(new DefaultCallFactory());
-    }
-
     private Type mType;
 
     public ServiceReturnHandler(Type type) {
         this.mType = type;
     }
 
-    public CallAdapter<?, ?> getAdapter() {
-        for (CallAdapter.CallFactory factory : CALL_FACTORIES) {
-            CallAdapter<?, ?> adapter = factory.get(mType);
-            if (adapter == null) {
-                continue;
-            }
-            return adapter;
-        }
-        return null;
+    public CloudNetWorkCallAdapter<?, ?> getAdapter() {
+        return CallFactoryCache.getAdapter(mType);
     }
 
-    public static void addCallFactory(CallAdapter.CallFactory callFactory) {
-        if (callFactory == null) {
-            return;
-        }
-        CALL_FACTORIES.add(0, callFactory);
-    }
 }

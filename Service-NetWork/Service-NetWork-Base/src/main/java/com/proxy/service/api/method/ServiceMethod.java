@@ -16,9 +16,6 @@ import com.proxy.service.api.annotations.CloudNetWorkTag;
 import com.proxy.service.api.annotations.CloudNetWorkUrl;
 import com.proxy.service.api.annotations.HttpMethod;
 import com.proxy.service.api.cache.BaseUrlCache;
-import com.proxy.service.api.callback.request.CloudNetWorkHttpUrl;
-import com.proxy.service.api.callback.request.CloudNetWorkParameter;
-import com.proxy.service.api.callback.request.CloudNetWorkRequest;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.api.utils.ServiceUtils;
@@ -47,7 +44,7 @@ public class ServiceMethod {
     private final String httpMethod;
     private final boolean isFormEncoded;
     private final Map<String, String> headersMapper;
-    private final ServiceParameterHandler[] serviceParameterHandlers;
+    private final ServiceParameterHandler<?>[] serviceParameterHandlers;
     private final ServiceReturnHandler serviceReturnHandler;
 
     private final String tag;
@@ -70,71 +67,35 @@ public class ServiceMethod {
         return isRequestBodyError;
     }
 
-//    @NonNull
-//    public Method getMethod() {
-//        return method;
-//    }
-//
-//    public String getBaseUrl() {
-//        return baseUrl;
-//    }
-//
-//    public String getUrlPath() {
-//        return urlPath;
-//    }
-//
-//    public String getUrl() {
-//        return url;
-//    }
-//
-//    public String getHttpMethod() {
-//        return httpMethod;
-//    }
-//
-//    public boolean isFormEncoded() {
-//        return isFormEncoded;
-//    }
-//
-//    @NonNull
-//    public Map<String, String> getHeadersMapper() {
-//        return headersMapper;
-//    }
-//
-//    @Nullable
-//    public ServiceParameterHandler[] getServiceParameterHandlers() {
-//        return serviceParameterHandlers;
-//    }
-
     @Nullable
     public ServiceReturnHandler getServiceReturnHandler() {
         return serviceReturnHandler;
     }
-//
-//    public String getTag() {
-//        return tag;
-//    }
 
+    @SuppressWarnings("unchecked")
     public CloudNetWorkRequest request(Object[] args) {
         CloudNetWorkHttpUrl.Builder httpUrlBuilder = new CloudNetWorkHttpUrl.Builder();
         httpUrlBuilder.baseUrl(this.baseUrl);
         httpUrlBuilder.pathUrl(this.pathUrl);
         httpUrlBuilder.url(this.url);
 
-        com.proxy.service.api.callback.request.CloudNetWorkHeaders.Builder headersBuilder = new com.proxy.service.api.callback.request.CloudNetWorkHeaders.Builder();
+        com.proxy.service.api.method.CloudNetWorkHeaders.Builder headersBuilder = new com.proxy.service.api.method.CloudNetWorkHeaders.Builder();
         for (Map.Entry<String, String> entry : headersMapper.entrySet()) {
             headersBuilder.addHeader(entry.getKey(), entry.getValue());
         }
 
-        //todo 构造请求体   参数
         CloudNetWorkParameter.Builder parameterBuilder = new CloudNetWorkParameter.Builder();
+        int count = args.length;
+        for (int i = 0; i < count; i++) {
+            Object object = args[i];
+            ServiceParameterHandler<Object> parameterHandler = (ServiceParameterHandler<Object>) serviceParameterHandlers[i];
+            parameterHandler.apply(parameterBuilder.getMap(), object);
+        }
 
-
-        Method method = this.method;
-        String httpMethod = this.httpMethod;
         Map<Object, Object> tags = new HashMap<>();
         tags.put(Object.class, this.tag);
 
-        return new CloudNetWorkRequest.Builder(httpUrlBuilder.build(), headersBuilder.build(), parameterBuilder.build(), method, httpMethod, tags).build();
+        return new CloudNetWorkRequest.Builder(httpUrlBuilder.build(), headersBuilder.build(), parameterBuilder.build(), this.method, this.httpMethod, this.isFormEncoded, tags).build();
     }
 
     public static ServiceMethod parseAnnotations(Method method) {
@@ -145,7 +106,7 @@ public class ServiceMethod {
 
     private static final class Builder {
         private static final String PARAM = "[a-zA-Z][a-zA-Z0-9_-]*";
-        private static final Pattern PARAM_URL_REGEX = Pattern.compile("\\{(" + PARAM + ")}");
+        private static final Pattern PARAM_URL_REGEX = Pattern.compile("\\{(" + PARAM + ")\\}");
 
         private final Method method;
         private final Annotation[] methodAnnotations;
@@ -161,7 +122,7 @@ public class ServiceMethod {
         private String httpMethod;
         private boolean isFormEncoded;
         private Map<String, String> headersMapper = new HashMap<>();
-        private ServiceParameterHandler[] serviceParameterHandlers;
+        private ServiceParameterHandler<?>[] serviceParameterHandlers;
         private ServiceReturnHandler serviceReturnHandler;
 
         private String tag;
@@ -185,7 +146,7 @@ public class ServiceMethod {
             }
 
             int parameterCount = parameterAnnotationsArray.length;
-            serviceParameterHandlers = new ServiceParameterHandler[parameterCount];
+            serviceParameterHandlers = new ServiceParameterHandler<?>[parameterCount];
             for (int i = 0; i < parameterCount; i++) {
                 serviceParameterHandlers[i] = parseParameter(i, parameterTypes[i], parameterAnnotationsArray[i]);
             }
@@ -227,9 +188,6 @@ public class ServiceMethod {
         }
 
         private void parseHttpMethodAndPath(String httpMethod, String urlPath) {
-            if (!TextUtils.isEmpty(httpMethod)) {
-                Logger.Warning(CloudApiError.DATA_DUPLICATION.setMsg("HttpMethod " + this.httpMethod + " is replaced with " + httpMethod).build());
-            }
             this.httpMethod = httpMethod;
             //todo 动态替换 url 一部分
 
@@ -241,7 +199,7 @@ public class ServiceMethod {
                 this.baseUrl = BaseUrlCache.getBaseUrl(urlId);
             } else if (!TextUtils.isEmpty(baseUrl)) {
                 this.baseUrl = baseUrl;
-            }else {
+            } else {
                 this.baseUrl = BaseUrlCache.getBaseUrl();
             }
         }
@@ -272,17 +230,17 @@ public class ServiceMethod {
             this.isFormEncoded = true;
         }
 
-        private ServiceParameterHandler parseParameter(int position, Type parameterType, Annotation[] annotations) {
+        private ServiceParameterHandler<?> parseParameter(int position, Type parameterType, Annotation[] annotations) {
             if (annotations == null) {
                 return null;
             }
-            ServiceParameterHandler parameter = null;
+            ServiceParameterHandler<?> parameter = null;
             for (Annotation annotation : annotations) {
                 if (parameter != null) {
                     Logger.Debug(CloudApiError.DATA_DUPLICATION.setMsg("Multiple CloudNetWork annotations found, only one allowed. with parameter : " + (position + 1)).build());
                     continue;
                 }
-                ServiceParameterHandler result = parseParameterAnnotation(position, parameterType, annotation);
+                ServiceParameterHandler<?> result = parseParameterAnnotation(position, parameterType, annotation);
                 if (result == null) {
                     continue;
                 }
@@ -296,12 +254,14 @@ public class ServiceMethod {
             return parameter;
         }
 
-        private ServiceParameterHandler parseParameterAnnotation(int position, Type parameterType, Annotation annotation) {
+        private ServiceParameterHandler<?> parseParameterAnnotation(int position, Type parameterType, Annotation annotation) {
             if (annotation == null) {
                 return null;
             }
             if (annotation instanceof CloudNetWorkField) {
-                return new ServiceParameterHandler.CloudNetWorkFieldHandler(parameterType, (CloudNetWorkField) annotation);
+                if (ServiceUtils.isBasicTypes(parameterType)) {
+                    return new ServiceParameterHandler.CloudNetWorkFieldHandler(parameterType, (CloudNetWorkField) annotation);
+                }
             }
             Logger.Debug(CloudApiError.DATA_ERROR.setMsg("The type of annotation is error. with parameter : " + (position + 1) + ", and annotation : " + annotation.toString()).build());
             return null;
