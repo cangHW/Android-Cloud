@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
-import com.proxy.service.api.callback.CloudInstallCallback;
-import com.proxy.service.api.enums.CloudInstallStatusEnum;
+import com.proxy.service.api.install.CloudInstallCallback;
+import com.proxy.service.api.install.CloudInstallStatusEnum;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.utils.receiver.UtilsBroadcastReceiver;
 import com.proxy.service.utils.util.HandleUtils;

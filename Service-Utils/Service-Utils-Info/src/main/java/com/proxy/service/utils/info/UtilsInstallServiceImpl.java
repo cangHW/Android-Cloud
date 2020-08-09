@@ -14,11 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.proxy.service.annotations.CloudApiService;
-import com.proxy.service.api.callback.CloudInstallCallback;
+import com.proxy.service.api.install.CloudInstallCallback;
 import com.proxy.service.api.context.ContextManager;
-import com.proxy.service.api.enums.CloudInstallStatusEnum;
+import com.proxy.service.api.install.CloudInstallStatusEnum;
 import com.proxy.service.api.error.CloudApiError;
-import com.proxy.service.api.info.CloudAppInfo;
+import com.proxy.service.api.install.CloudAppInfo;
 import com.proxy.service.api.services.CloudUtilsAppService;
 import com.proxy.service.api.services.CloudUtilsInstallService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;

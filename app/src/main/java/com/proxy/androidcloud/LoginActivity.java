@@ -15,7 +15,7 @@ import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.annotations.CloudUiCheckBoolean;
 import com.proxy.service.api.annotations.CloudUiCheckString;
 import com.proxy.service.api.annotations.CloudUiCheckStrings;
-import com.proxy.service.api.callback.CloudTextChangedCallback;
+import com.proxy.service.api.edittext.CloudTextChangedCallback;
 import com.proxy.service.api.services.CloudUiFieldCheckService;
 import com.proxy.service.api.services.CloudUtilsEditTextService;
 import com.proxy.service.api.tag.CloudServiceTagUi;

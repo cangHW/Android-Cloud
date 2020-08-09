@@ -1,4 +1,4 @@
-package com.proxy.service.api.callback;
+package com.proxy.service.api.edittext;
 
 import android.text.Editable;
 import android.view.View;

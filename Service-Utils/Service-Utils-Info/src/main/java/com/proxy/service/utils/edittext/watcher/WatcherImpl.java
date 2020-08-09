@@ -6,7 +6,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 
-import com.proxy.service.api.callback.CloudTextChangedCallback;
+import com.proxy.service.api.edittext.CloudTextChangedCallback;
 import com.proxy.service.api.utils.Logger;
 
 import java.util.Set;

@@ -43,6 +43,11 @@ public enum CloudApiError {
     DATA_DUPLICATION(20003, "The data is duplication"),
 
     /**
+     * 数据过多
+     */
+    DATA_TO_MORE(20004, "The data is to more"),
+
+    /**
      * 获取PackageManager失败
      */
     PACKAGE_MANAGER_ERROR(20100, "The PackageManager is error"),

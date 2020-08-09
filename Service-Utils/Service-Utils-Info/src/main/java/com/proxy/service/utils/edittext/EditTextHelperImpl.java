@@ -4,10 +4,10 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 
-import com.proxy.service.api.callback.CloudTextChangedCallback;
-import com.proxy.service.api.interfaces.IEditTextAllowHelper;
-import com.proxy.service.api.interfaces.IEditTextBanHelper;
-import com.proxy.service.api.interfaces.IEditTextHelper;
+import com.proxy.service.api.edittext.CloudTextChangedCallback;
+import com.proxy.service.api.edittext.IEditTextAllowHelper;
+import com.proxy.service.api.edittext.IEditTextBanHelper;
+import com.proxy.service.api.edittext.IEditTextHelper;
 import com.proxy.service.utils.edittext.helper.EditTextAllowHelperImpl;
 import com.proxy.service.utils.edittext.helper.EditTextBanHelperImpl;
 import com.proxy.service.utils.edittext.watcher.WatcherImpl;

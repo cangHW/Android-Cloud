@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 
 import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.context.ContextManager;
-import com.proxy.service.api.interfaces.IEditTextHelper;
+import com.proxy.service.api.edittext.IEditTextHelper;
 import com.proxy.service.api.services.CloudUtilsEditTextService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
 import com.proxy.service.api.utils.Logger;

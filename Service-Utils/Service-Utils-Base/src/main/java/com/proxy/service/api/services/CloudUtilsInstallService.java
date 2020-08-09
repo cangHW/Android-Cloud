@@ -4,9 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 
-import com.proxy.service.api.callback.CloudInstallCallback;
-import com.proxy.service.api.enums.CloudInstallStatusEnum;
-import com.proxy.service.api.info.CloudAppInfo;
+import com.proxy.service.api.install.CloudInstallCallback;
+import com.proxy.service.api.install.CloudInstallStatusEnum;
+import com.proxy.service.api.install.CloudAppInfo;
 import com.proxy.service.base.BaseService;
 
 import java.util.List;

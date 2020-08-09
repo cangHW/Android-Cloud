@@ -1,4 +1,4 @@
-package com.proxy.service.api.info;
+package com.proxy.service.api.install;
 
 import android.graphics.drawable.Drawable;
 import android.os.Build;

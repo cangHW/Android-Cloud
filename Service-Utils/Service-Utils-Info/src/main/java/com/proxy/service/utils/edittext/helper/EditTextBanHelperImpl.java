@@ -7,8 +7,8 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 
-import com.proxy.service.api.callback.CloudTextChangedCallback;
-import com.proxy.service.api.interfaces.IEditTextBanHelper;
+import com.proxy.service.api.edittext.CloudTextChangedCallback;
+import com.proxy.service.api.edittext.IEditTextBanHelper;
 import com.proxy.service.utils.edittext.node.EditTextTypeInfo;
 import com.proxy.service.utils.util.StringUtils;
 

@@ -1,8 +1,6 @@
-package com.proxy.service.api.interfaces;
+package com.proxy.service.api.edittext;
 
 import androidx.annotation.NonNull;
-
-import com.proxy.service.api.callback.CloudTextChangedCallback;
 
 /**
  * @author: cangHX

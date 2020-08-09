@@ -6,7 +6,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.proxy.service.api.interfaces.IEditTextHelper;
+import com.proxy.service.api.edittext.IEditTextHelper;
 import com.proxy.service.base.BaseService;
 
 /**

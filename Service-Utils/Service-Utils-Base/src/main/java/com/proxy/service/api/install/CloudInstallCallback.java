@@ -1,6 +1,4 @@
-package com.proxy.service.api.callback;
-
-import com.proxy.service.api.enums.CloudInstallStatusEnum;
+package com.proxy.service.api.install;
 
 /**
  * 安装回调接口

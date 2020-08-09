@@ -1,4 +1,4 @@
-package com.proxy.service.api.enums;
+package com.proxy.service.api.install;
 
 import android.content.Intent;
 
