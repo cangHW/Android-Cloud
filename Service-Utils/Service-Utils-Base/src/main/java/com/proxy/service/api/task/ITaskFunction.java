@@ -1,5 +1,7 @@
 package com.proxy.service.api.task;
 
+import androidx.annotation.NonNull;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
@@ -12,6 +14,29 @@ import java.util.concurrent.TimeUnit;
 public interface ITaskFunction<RESPONSE> {
 
     /**
+     * 等待执行
+     *
+     * @param callback : 回调接口，返回 true 继续向下执行，false 任务结束
+     * @return 任务对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/6 6:49 PM
+     */
+    ITaskConditions<RESPONSE> await(Callable<Boolean> callback);
+
+    /**
+     * 等待执行
+     *
+     * @param timeOut : 等待时间
+     * @param unit    : 时间格式
+     * @return 任务对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/6 6:49 PM
+     */
+    ITaskConditions<RESPONSE> await(long timeOut, TimeUnit unit);
+
+    /**
      * 当前置任务全部返回后继续执行
      *
      * @param functions : 前置任务
@@ -20,44 +45,48 @@ public interface ITaskFunction<RESPONSE> {
      * @author: cangHX
      * @date: 2020/8/6 6:50 PM
      */
-    ITaskConditions<RESPONSE> whenAll(ITaskFunction<?>... functions);
+    @NonNull
+    ITaskConditions<Object> whenAll(@NonNull ITaskFunction<?>... functions);
 
     /**
      * 当前置任务全部返回，或达到最大等待时间后继续执行
      *
-     * @param timeOut  : 等待时间
-     * @param unit     : 时间格式
-     * @param services : 前置任务
+     * @param timeOut   : 等待时间
+     * @param unit      : 时间格式
+     * @param functions : 前置任务
      * @return 任务对象
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/8/6 6:52 PM
      */
-    ITaskConditions<RESPONSE> whenAll(long timeOut, TimeUnit unit, ITaskFunction<?>... functions);
+    @NonNull
+    ITaskConditions<Object> whenAll(long timeOut, TimeUnit unit, @NonNull ITaskFunction<?>... functions);
 
     /**
      * 当前置任务其中一个返回后继续执行
      *
-     * @param services : 前置任务
+     * @param functions : 前置任务
      * @return 任务对象
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/8/6 6:50 PM
      */
-    ITaskConditions<RESPONSE> whenAny(ITaskFunction<?>... functions);
+    @NonNull
+    ITaskConditions<Object> whenAny(@NonNull ITaskFunction<?>... functions);
 
     /**
      * 当前置任务其中一个返回，或达到最大等待时间后继续执行
      *
-     * @param timeOut  : 等待时间
-     * @param unit     : 时间格式
-     * @param services : 前置任务
+     * @param timeOut   : 等待时间
+     * @param unit      : 时间格式
+     * @param functions : 前置任务
      * @return 任务对象
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/8/6 6:52 PM
      */
-    ITaskConditions<RESPONSE> whenAny(long timeOut, TimeUnit unit, ITaskFunction<?>... functions);
+    @NonNull
+    ITaskConditions<Object> whenAny(long timeOut, TimeUnit unit, @NonNull ITaskFunction<?>... functions);
 
     /**
      * 循环执行
@@ -69,10 +98,11 @@ public interface ITaskFunction<RESPONSE> {
      * @author: cangHX
      * @date: 2020/8/6 6:53 PM
      */
-    <RESULT> ITaskConditions<RESULT> continueWhile(Callable<Boolean> callable, TaskCallable<RESPONSE, RESULT> task);
+    @NonNull
+    <RESULT> ITaskConditions<RESULT> continueWhile(@NonNull Callable<Boolean> callable, @NonNull TaskCallable<RESPONSE, RESULT> task);
 
     /**
-     * 运行任务
+     * 运行任务，接收所有数据
      *
      * @param task : 任务体
      * @return 任务对象
@@ -80,15 +110,27 @@ public interface ITaskFunction<RESPONSE> {
      * @author: cangHX
      * @date: 2020/8/7 11:09 PM
      */
-    <RESULT> ITaskConditions<RESULT> call(TaskCallable<RESPONSE, RESULT> task);
+    @NonNull
+    <RESULT> ITaskConditions<RESULT> call(@NonNull TaskCallable<RESPONSE, RESULT> task);
+
+    /**
+     * 运行任务，接收单个数据
+     *
+     * @param task : 任务体
+     * @return 任务对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/7 11:09 PM
+     */
+    @NonNull
+    <RESULT> ITaskConditions<RESULT> call(@NonNull OneTaskCallable<RESPONSE, RESULT> task);
 
     /**
      * 取消当前任务
      *
-     * @return true 取消成功，false 取消失败
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/8/7 11:10 PM
      */
-    boolean cancel();
+    void cancel();
 }

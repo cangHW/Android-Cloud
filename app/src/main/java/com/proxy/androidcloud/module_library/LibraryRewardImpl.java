@@ -36,7 +36,9 @@ public class LibraryRewardImpl extends CloudUiTabHostFragmentReward {
     @NonNull
     @Override
     public Fragment getContent(Context context) {
-        return new LibraryFragment();
+        Fragment fragment = new LibraryFragment();
+        mRewardHelper.set(IRewardHelper.Set.UI_EVENT, getIndex(), fragment);
+        return fragment;
     }
 
     /**

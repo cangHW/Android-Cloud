@@ -1,5 +1,7 @@
 package com.proxy.service.api.task;
 
+import com.proxy.service.api.utils.Logger;
+
 import java.util.concurrent.FutureTask;
 
 /**
@@ -30,33 +32,73 @@ public class TaskHelper<RESULT> extends FutureTask<RESULT> {
         void failed(Throwable throwable);
     }
 
-    private TaskCallback<RESULT> mCallback;
+    public interface TaskCancelCallback {
+
+        /**
+         * 任务取消
+         *
+         * @version: 1.0
+         * @author: cangHX
+         * @date: 2020/8/12 9:28 PM
+         */
+        void cancel();
+
+    }
+
+    private TaskCallback<RESULT> mTaskCallback;
+    private TaskCancelCallback mCancelCallback;
 
     public TaskHelper(Task<RESULT> task) {
         super(new ResultCallable<>(task));
     }
 
-    public <RESPONSE> TaskHelper(TaskCallable<RESPONSE, RESULT> task, ITask<RESPONSE>[] iTasks) {
-        super(new ResponseCallable<>(task, iTasks));
+    /**
+     * 设置回调，监听任务执行情况
+     *
+     * @param callback : 回调对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/10 9:16 PM
+     */
+    public void setTaskCallback(TaskCallback<RESULT> callback) {
+        this.mTaskCallback = callback;
     }
 
-    public void setCallback(TaskCallback<RESULT> callback) {
-        this.mCallback = callback;
+    /**
+     * 设置回调，监听任务取消情况
+     *
+     * @param cancelCallback : 回调对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/10 9:16 PM
+     */
+    public void setCancelCallback(TaskCancelCallback cancelCallback) {
+        this.mCancelCallback = cancelCallback;
     }
 
     @Override
     protected void set(RESULT response) {
         super.set(response);
-        if (mCallback != null) {
-            mCallback.success(response);
+        if (mTaskCallback != null) {
+            mTaskCallback.success(response);
         }
     }
 
     @Override
     protected void setException(Throwable t) {
         super.setException(t);
-        if (mCallback != null) {
-            mCallback.failed(t);
+        Logger.Debug(t);
+        if (mTaskCallback != null) {
+            mTaskCallback.failed(t);
         }
+    }
+
+    @Override
+    public boolean cancel(boolean mayInterruptIfRunning) {
+        boolean cancel = super.cancel(mayInterruptIfRunning);
+        if (mCancelCallback != null) {
+            mCancelCallback.cancel();
+        }
+        return cancel;
     }
 }

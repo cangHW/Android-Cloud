@@ -1,7 +1,10 @@
 package com.proxy.service.utils.lock;
 
+import androidx.annotation.NonNull;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author : cangHX
@@ -9,12 +12,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class TaskLock<RESPONSE> extends AbstractLock {
 
-    private AtomicBoolean isCancel = new AtomicBoolean(false);
-    private AtomicInteger count = new AtomicInteger(0);
+    public static class Response<RESPONSE> {
+        public boolean isSuccess = false;
+        public RESPONSE response;
+        public Throwable throwable;
+    }
 
-    private boolean isSuccess = false;
-    private RESPONSE mResponse;
-    private Throwable mThrowable;
+    private AtomicBoolean isCancel = new AtomicBoolean(false);
+    private AtomicBoolean isLock = new AtomicBoolean(false);
+    private List<Response<RESPONSE>> responseList = new ArrayList<>();
 
     /**
      * 申请锁
@@ -24,33 +30,30 @@ public class TaskLock<RESPONSE> extends AbstractLock {
      * @author: cangHX
      * @date: 2020/8/7 11:23 PM
      */
+    @SuppressWarnings("UnusedReturnValue")
     public boolean lock() {
-        if (count.get() != 0) {
-            return false;
-        }
-        count.incrementAndGet();
-        return true;
+        return isLock.compareAndSet(false, true);
     }
 
     /**
      * 尝试并等待申请共享锁，直到成功
      *
      * @param runnable : 申请成功回调
-     * @return 是否排队申请成功，true 成功，false 失败
+     * @return 是否排队成功，true 成功，false 失败
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/8/7 11:24 PM
      */
+    @SuppressWarnings("UnusedReturnValue")
     public boolean trySharedLock(final Runnable runnable) {
-        Info info = new Info();
-        info.atomicInteger = count;
-        info.runnable = new Runnable() {
+        LockInfo info = new LockInfo();
+        info.isLock = isLock;
+        info.task = new Runnable() {
             @Override
             public void run() {
                 if (isCancel.get()) {
                     return;
                 }
-                //todo 线程切换
                 runnable.run();
             }
         };
@@ -61,22 +64,22 @@ public class TaskLock<RESPONSE> extends AbstractLock {
      * 尝试并等待申请独占锁，直到成功
      *
      * @param runnable : 申请成功回调
-     * @return 是否排队申请成功，true 成功，false 失败
+     * @return 是否排队成功，true 成功，false 失败
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/8/7 11:24 PM
      */
+    @SuppressWarnings("UnusedReturnValue")
     public boolean tryLock(final Runnable runnable) {
-        Info info = new Info();
-        info.atomicInteger = count;
-        info.runnable = new Runnable() {
+        LockInfo info = new LockInfo();
+        info.isLock = isLock;
+        info.task = new Runnable() {
             @Override
             public void run() {
                 if (isCancel.get()) {
                     return;
                 }
                 lock();
-                //todo 线程切换
                 runnable.run();
             }
         };
@@ -91,12 +94,7 @@ public class TaskLock<RESPONSE> extends AbstractLock {
      * @date: 2020/8/7 11:24 PM
      */
     public void unLock() {
-        if (count.get() == 0) {
-            return;
-        }
-        if (count.getAndDecrement() <= 0) {
-            count.incrementAndGet();
-        }
+        isLock.set(false);
     }
 
     /**
@@ -108,28 +106,33 @@ public class TaskLock<RESPONSE> extends AbstractLock {
      */
     public void cancel() {
         isCancel.set(true);
-        count.set(0);
-    }
-
-    public boolean isSuccess() {
-        return isSuccess;
-    }
-
-    public RESPONSE getResponse() {
-        return mResponse;
+        unLock();
     }
 
     public void setResponse(RESPONSE response) {
-        this.mResponse = response;
-        this.isSuccess = true;
-    }
-
-    public Throwable getThrowable() {
-        return mThrowable;
+        Response<RESPONSE> responseResponse = new Response<>();
+        responseResponse.response = response;
+        responseResponse.isSuccess = true;
+        responseList.add(responseResponse);
     }
 
     public void setThrowable(Throwable throwable) {
-        this.mThrowable = throwable;
-        this.isSuccess = false;
+        Response<RESPONSE> responseResponse = new Response<>();
+        responseResponse.throwable = throwable;
+        responseResponse.isSuccess = true;
+        responseList.add(responseResponse);
     }
+
+    public void setResponseList(List<Response<RESPONSE>> responseList) {
+        this.responseList = responseList;
+    }
+
+    @NonNull
+    public List<Response<RESPONSE>> getResponseList() {
+        if (responseList == null) {
+            responseList = new ArrayList<>();
+        }
+        return responseList;
+    }
+
 }

@@ -1,9 +1,9 @@
 package com.proxy.service.utils.pool.thread;
 
-import com.proxy.service.api.task.Task;
 import com.proxy.service.utils.pool.thread.runtime.ExecutorCore;
 
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 线程管理类
@@ -13,16 +13,20 @@ import java.util.concurrent.FutureTask;
  */
 public class ThreadManager {
 
-    public static void postMain(Runnable runnable){
+    public static void postMain(Runnable runnable) {
         ExecutorCore.INSTANCE.getMainThread().post(runnable);
     }
 
-    public static void postWork(Runnable runnable){
+    public static void postWork(Runnable runnable) {
         ExecutorCore.INSTANCE.getWorkExecutorService().submit(runnable);
     }
 
-    public static void postCurrent(Runnable runnable){
+    public static void postCurrent(Runnable runnable) {
         ExecutorCore.INSTANCE.getImmediateExecutor().execute(runnable);
+    }
+
+    public static void postScheduled(Runnable runnable, long timeOut, TimeUnit unit) {
+        ExecutorCore.INSTANCE.getScheduledExecutorService().schedule(runnable, timeOut, unit);
     }
 
 }

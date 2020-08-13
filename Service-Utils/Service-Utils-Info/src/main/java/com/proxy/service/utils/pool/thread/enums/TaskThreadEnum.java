@@ -3,6 +3,8 @@ package com.proxy.service.utils.pool.thread.enums;
 import com.proxy.service.api.task.TaskHelper;
 import com.proxy.service.utils.pool.thread.ThreadManager;
 
+import java.util.concurrent.Future;
+
 /**
  * @author : cangHX
  * on 2020/08/07  5:15 PM

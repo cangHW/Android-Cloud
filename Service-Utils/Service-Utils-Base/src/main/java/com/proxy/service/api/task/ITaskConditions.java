@@ -31,27 +31,4 @@ public interface ITaskConditions<RESPONSE> extends ITaskFunction<RESPONSE> {
      */
     ITaskFunction<RESPONSE> workThread();
 
-    /**
-     * 等待执行
-     *
-     * @param callback : 回调接口，返回 true 继续向下执行，false 任务结束
-     * @return 任务对象
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020/8/6 6:49 PM
-     */
-    ITaskFunction<RESPONSE> await(Callable<Boolean> callback);
-
-    /**
-     * 等待执行
-     *
-     * @param timeOut : 等待时间
-     * @param unit    : 时间格式
-     * @return 任务对象
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020/8/6 6:49 PM
-     */
-    ITaskFunction<RESPONSE> await(long timeOut, TimeUnit unit);
-
 }

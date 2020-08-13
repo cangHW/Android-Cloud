@@ -8,7 +8,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author : cangHX
@@ -16,36 +15,36 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public abstract class AbstractLock {
 
-    protected static class Info {
-        public AtomicInteger atomicInteger;
-        public Runnable runnable;
+    protected static class LockInfo {
+        public AtomicBoolean isLock;
+        public Runnable task;
     }
 
-    private static final LinkedBlockingQueue<Info> INFO_QUEUE = new LinkedBlockingQueue<>();
-    private static final ArrayBlockingQueue<Integer> INTEGERS = new ArrayBlockingQueue<>(1);
+    private static final LinkedBlockingQueue<LockInfo> LOCK_INFO_QUEUE = new LinkedBlockingQueue<>();
+    private static final ArrayBlockingQueue<Integer> LOOP_QUEUE = new ArrayBlockingQueue<>(1);
     private static final AtomicBoolean IS_RUNNING = new AtomicBoolean(false);
 
-    protected boolean add(Info info) {
-        if (INFO_QUEUE.size() >= Integer.MAX_VALUE) {
+    protected boolean add(LockInfo info) {
+        if (LOCK_INFO_QUEUE.size() >= Integer.MAX_VALUE) {
             Logger.Error(CloudApiError.DATA_TO_MORE.build());
             return false;
         }
         try {
-            INFO_QUEUE.put(info);
+            LOCK_INFO_QUEUE.put(info);
         } catch (InterruptedException e) {
             Logger.Error(e);
             return false;
         }
-        INTEGERS.offer(1);
+        LOOP_QUEUE.offer(1);
         loop();
         return true;
     }
 
-    protected void loop() {
+    private void loop() {
         if (!IS_RUNNING.compareAndSet(false, true)) {
             return;
         }
-        Integer id = INTEGERS.poll();
+        Integer id = LOOP_QUEUE.poll();
         if (id == null) {
             IS_RUNNING.set(false);
             return;
@@ -53,14 +52,14 @@ public abstract class AbstractLock {
         ThreadManager.postWork(new Runnable() {
             @Override
             public void run() {
-                while (INFO_QUEUE.size() != 0) {
+                while (LOCK_INFO_QUEUE.size() != 0) {
                     try {
-                        Info info = INFO_QUEUE.poll(1, TimeUnit.SECONDS);
+                        LockInfo info = LOCK_INFO_QUEUE.poll(1, TimeUnit.SECONDS);
                         if (info == null) {
                             continue;
                         }
-                        AtomicInteger atomicInteger = info.atomicInteger;
-                        if (atomicInteger == null) {
+                        AtomicBoolean isLock = info.isLock;
+                        if (isLock == null) {
                             //数据缺失，抛弃本次回调
 //                            Runnable runnable = info.runnable;
 //                            if (runnable != null) {
@@ -68,11 +67,11 @@ public abstract class AbstractLock {
 //                            }
                             continue;
                         }
-                        if (atomicInteger.get() > 0) {
-                            INFO_QUEUE.put(info);
+                        if (isLock.get()) {
+                            LOCK_INFO_QUEUE.put(info);
                             continue;
                         }
-                        Runnable runnable = info.runnable;
+                        Runnable runnable = info.task;
                         if (runnable != null) {
                             runnable.run();
                         }

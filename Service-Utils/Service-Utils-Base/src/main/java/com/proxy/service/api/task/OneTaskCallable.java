@@ -4,7 +4,7 @@ package com.proxy.service.api.task;
  * @author : cangHX
  * on 2020/08/09  2:50 PM
  */
-public interface TaskCallable<RESPONSE, RESULT> {
+public interface OneTaskCallable<RESPONSE, RESULT> {
 
     /**
      * 后续执行
@@ -16,6 +16,6 @@ public interface TaskCallable<RESPONSE, RESULT> {
      * @author: cangHX
      * @date: 2020/8/9 3:11 PM
      */
-    RESULT then(ITask<RESPONSE>[] iTasks) throws Exception;
+    RESULT then(ITask<RESPONSE> iTasks) throws Exception;
 
 }

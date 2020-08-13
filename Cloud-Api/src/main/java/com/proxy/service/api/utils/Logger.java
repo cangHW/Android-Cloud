@@ -32,7 +32,7 @@ public class Logger {
         return new Logger(tag);
     }
 
-    public static void setDebug(boolean debug){
+    public static void setDebug(boolean debug) {
         isDebug = debug;
     }
 
@@ -142,14 +142,12 @@ public class Logger {
 
 
     private static synchronized void println(LogType logType, String tag, String msg, Throwable throwable) {
-        if (!isDebug){
+        if (!isDebug) {
             return;
         }
         StringBuilder builder = new StringBuilder();
 
         builder.delete(0, builder.length());
-        builder.append("***** ");
-        builder.append("START ");
         builder.append("[ ");
         builder.append("Process");
         builder.append(" : ");
@@ -158,25 +156,16 @@ public class Logger {
         builder.append(Thread.currentThread().getName());
         builder.append(" : ");
         builder.append(Thread.currentThread().getId());
-        builder.append(" ]");
-        builder.append(" *****");
+        builder.append(" ]  ");
         String startLog = builder.toString();
-
-        builder.delete(0, builder.length());
-        builder.append("***** ");
-        builder.append("END");
-        builder.append(" *****");
-        String endLog = builder.toString();
 
         switch (logType) {
             case D:
-                Log.d(tag, startLog);
                 if (throwable == null) {
-                    Log.d(tag, msg);
+                    Log.d(tag, startLog + msg);
                 } else {
-                    Log.d(tag, msg, throwable);
+                    Log.d(tag, startLog + msg, throwable);
                 }
-                Log.d(tag, endLog);
                 break;
             case I:
                 if (throwable == null) {
@@ -186,21 +175,18 @@ public class Logger {
                 }
                 break;
             case W:
-                Log.w(tag, startLog);
                 if (throwable == null) {
-                    Log.w(tag, msg);
+                    Log.w(tag, startLog + msg);
                 } else {
-                    Log.w(tag, msg, throwable);
+                    Log.w(tag, startLog + msg, throwable);
                 }
                 break;
             case E:
-                Log.e(tag, startLog);
                 if (throwable == null) {
-                    Log.e(tag, msg);
+                    Log.e(tag, startLog + msg);
                 } else {
-                    Log.e(tag, msg, throwable);
+                    Log.e(tag, startLog + msg, throwable);
                 }
-                Log.e(tag, endLog);
                 break;
             default:
         }

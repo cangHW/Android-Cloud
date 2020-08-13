@@ -6,7 +6,6 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.SynchronousQueue;
@@ -20,13 +19,12 @@ import java.util.concurrent.TimeUnit;
  * on 2020/08/07  11:34 PM
  */
 public class ExecutorCore {
-
-    public static ExecutorCore INSTANCE = new ExecutorCore();
-
     private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
     private static final int CORE_POOL_SIZE = CPU_COUNT + 1;
     private static final int MAX_POOL_SIZE = CPU_COUNT * 2 + 1;
     private static final long KEEP_ALIVE_TIME = 1L;
+
+    public static ExecutorCore INSTANCE = new ExecutorCore();
 
     /**
      * UI 线程
@@ -35,7 +33,7 @@ public class ExecutorCore {
     /**
      * 工作线程
      */
-    private final ExecutorService WORK_EXECUTOR_SERVICE;
+    private final ThreadPoolExecutor WORK_EXECUTOR_SERVICE;
     /**
      * 延时线程
      */
@@ -78,7 +76,7 @@ public class ExecutorCore {
      * @author: cangHX
      * @date: 2020/8/8 10:12 AM
      */
-    public ExecutorService getWorkExecutorService() {
+    public ThreadPoolExecutor getWorkExecutorService() {
         return WORK_EXECUTOR_SERVICE;
     }
 
@@ -131,6 +129,7 @@ public class ExecutorCore {
          *
          * @return 返回线程调用栈深度值
          */
+        @SuppressWarnings("UnusedReturnValue")
         private int decrementDepth() {
             Integer oldDepth = executionDepth.get();
             if (oldDepth == null) {

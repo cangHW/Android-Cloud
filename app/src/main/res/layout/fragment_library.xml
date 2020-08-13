@@ -4,11 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/mThreadPool"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
         android:gravity="center"
-        android:text="工具"
+        android:onClick="onClick"
+        android:tag="library"
+        android:text="线程池"
         android:textColor="#000000"
         android:textSize="20dp" />
 
