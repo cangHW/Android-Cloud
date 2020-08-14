@@ -35,7 +35,11 @@ dependencies {
 
     if (Boolean.parseBoolean(isFromMaven)) {
         api "com.proxy.service:Cloud-Api:${cloud_api_version}"
+
+        implementation "com.proxy.service:Service-Utils-Info:${service_utils_info}"
     } else {
         api project(path: ':Cloud-Api')
+
+        implementation project(path: ':Service-Utils:Service-Utils-Info')
     }
 }

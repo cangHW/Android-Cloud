@@ -16,12 +16,12 @@ public interface CloudUiFieldCheckService extends IUiFieldCheck {
     /**
      * 初始化
      *
-     * @param aClass : 申请检测的 class
+     * @param object : 申请检测的类对象
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-07-08 09:27
      */
-    void init(@NonNull Class<?> aClass);
+    void init(@NonNull Object object);
 
     /**
      * 设置全局检查失败回调，强引用，需要注意 context 泄漏

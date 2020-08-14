@@ -7,7 +7,7 @@ import com.proxy.service.api.task.ITaskConditions;
 import com.proxy.service.api.task.ITaskFunction;
 import com.proxy.service.api.task.Task;
 import com.proxy.service.api.task.TaskCallable;
-import com.proxy.service.api.task.OneTaskCallable;
+import com.proxy.service.api.task.TaskCallableOnce;
 import com.proxy.service.api.task.TaskHelper;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.utils.lock.TaskLock;
@@ -62,6 +62,16 @@ public class TaskFunctionImpl<RESPONSE> implements ITaskFunction<RESPONSE> {
                 return null;
             }
         });
+        taskHelper.setTaskCallback(new TaskHelper.TaskCallback<Object>() {
+            @Override
+            public void success(Object response) {
+            }
+
+            @Override
+            public void failed(Throwable throwable) {
+                taskLock.cancel();
+            }
+        });
         taskHelper.setCancelCallback(new TaskHelper.TaskCancelCallback() {
             @Override
             public void cancel() {
@@ -103,6 +113,22 @@ public class TaskFunctionImpl<RESPONSE> implements ITaskFunction<RESPONSE> {
                 Thread.sleep(unit.toMillis(timeOut));
                 taskLock.unLock();
                 return null;
+            }
+        });
+        taskHelper.setTaskCallback(new TaskHelper.TaskCallback<Object>() {
+            @Override
+            public void success(Object response) {
+            }
+
+            @Override
+            public void failed(Throwable throwable) {
+                taskLock.cancel();
+            }
+        });
+        taskHelper.setCancelCallback(new TaskHelper.TaskCancelCallback() {
+            @Override
+            public void cancel() {
+                taskLock.cancel();
             }
         });
         TASK_HELPERS.add(taskHelper);
@@ -219,8 +245,6 @@ public class TaskFunctionImpl<RESPONSE> implements ITaskFunction<RESPONSE> {
                 list.clear();
                 while (callable.call()) {
                     RESULT result = task.then(iTasks);
-
-                    //todo 会有 1到2毫秒耗时，后续优化
                     if (result == null) {
                         Logger.Warning("The result is null, but result in continue mode can not be null, so missing this result. with task : " + task);
                         continue;
@@ -232,6 +256,24 @@ public class TaskFunctionImpl<RESPONSE> implements ITaskFunction<RESPONSE> {
                 }
                 taskLock.unLock();
                 return null;
+            }
+        });
+        taskHelper.setTaskCallback(new TaskHelper.TaskCallback<RESULT>() {
+            @Override
+            public void success(RESULT response) {
+            }
+
+            @Override
+            public void failed(Throwable throwable) {
+                if (taskLock.getResponseList().size() == 0) {
+                    taskLock.setThrowable(throwable);
+                }
+            }
+        });
+        taskHelper.setCancelCallback(new TaskHelper.TaskCancelCallback() {
+            @Override
+            public void cancel() {
+                taskLock.cancel();
             }
         });
         TASK_HELPERS.add(taskHelper);
@@ -283,6 +325,12 @@ public class TaskFunctionImpl<RESPONSE> implements ITaskFunction<RESPONSE> {
                 taskLock.unLock();
             }
         });
+        taskHelper.setCancelCallback(new TaskHelper.TaskCancelCallback() {
+            @Override
+            public void cancel() {
+                taskLock.cancel();
+            }
+        });
         TASK_HELPERS.add(taskHelper);
 
         mLock.trySharedLock(new Runnable() {
@@ -307,7 +355,7 @@ public class TaskFunctionImpl<RESPONSE> implements ITaskFunction<RESPONSE> {
      */
     @NonNull
     @Override
-    public <RESULT> ITaskConditions<RESULT> call(@NonNull final OneTaskCallable<RESPONSE, RESULT> task) {
+    public <RESULT> ITaskConditions<RESULT> call(@NonNull final TaskCallableOnce<RESPONSE, RESULT> task) {
         final TaskLock<RESULT> taskLock = new TaskLock<>();
         taskLock.lock();
 
@@ -336,6 +384,12 @@ public class TaskFunctionImpl<RESPONSE> implements ITaskFunction<RESPONSE> {
             public void failed(Throwable throwable) {
                 taskLock.setThrowable(throwable);
                 taskLock.unLock();
+            }
+        });
+        taskHelper.setCancelCallback(new TaskHelper.TaskCancelCallback() {
+            @Override
+            public void cancel() {
+                taskLock.cancel();
             }
         });
         TASK_HELPERS.add(taskHelper);

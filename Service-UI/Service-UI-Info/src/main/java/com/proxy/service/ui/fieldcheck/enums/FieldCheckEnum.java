@@ -43,7 +43,7 @@ public enum FieldCheckEnum {
             try {
                 CloudUiCheckNumber checkNumber = field.getAnnotation(CloudUiCheckNumber.class);
                 if (checkNumber != null) {
-                    list.add(getNodeFromAnnotation(checkNumber));
+                    list.add(getNodeFromAnnotation(checkNumber, field));
                 }
             } catch (Throwable ignored) {
             }
@@ -54,7 +54,7 @@ public enum FieldCheckEnum {
                     return list;
                 }
                 for (CloudUiCheckNumber checkNumber : checkNumbers.value()) {
-                    list.add(getNodeFromAnnotation(checkNumber));
+                    list.add(getNodeFromAnnotation(checkNumber, field));
                 }
             } catch (Throwable ignored) {
             }
@@ -62,8 +62,9 @@ public enum FieldCheckEnum {
             return list;
         }
 
-        private NumberFieldCheckNode getNodeFromAnnotation(CloudUiCheckNumber checkNumber) {
+        private NumberFieldCheckNode getNodeFromAnnotation(CloudUiCheckNumber checkNumber, Field field) {
             NumberFieldCheckNode node = new NumberFieldCheckNode();
+            node.field = field;
             node.markId = checkNumber.markId();
             node.max = checkNumber.max();
             node.maxNotSame = checkNumber.maxNotSame();
@@ -108,7 +109,7 @@ public enum FieldCheckEnum {
             try {
                 CloudUiCheckString checkString = field.getAnnotation(CloudUiCheckString.class);
                 if (checkString != null) {
-                    list.add(getNodeFromAnnotation(checkString));
+                    list.add(getNodeFromAnnotation(checkString, field));
                 }
             } catch (Throwable ignored) {
             }
@@ -119,7 +120,7 @@ public enum FieldCheckEnum {
                     return list;
                 }
                 for (CloudUiCheckString checkString : checkStrings.value()) {
-                    list.add(getNodeFromAnnotation(checkString));
+                    list.add(getNodeFromAnnotation(checkString, field));
                 }
             } catch (Throwable ignored) {
             }
@@ -127,8 +128,9 @@ public enum FieldCheckEnum {
             return list;
         }
 
-        private StringFieldCheckNode getNodeFromAnnotation(CloudUiCheckString checkString) {
+        private StringFieldCheckNode getNodeFromAnnotation(CloudUiCheckString checkString, Field field) {
             StringFieldCheckNode node = new StringFieldCheckNode();
+            node.field = field;
             node.markId = checkString.markId();
             node.maxLength = checkString.maxLength();
             node.maxLengthNotSame = checkString.maxLengthNotSame();
@@ -177,7 +179,7 @@ public enum FieldCheckEnum {
             try {
                 CloudUiCheckBoolean checkBoolean = field.getAnnotation(CloudUiCheckBoolean.class);
                 if (checkBoolean != null) {
-                    list.add(getNodeFromAnnotation(checkBoolean));
+                    list.add(getNodeFromAnnotation(checkBoolean, field));
                 }
             } catch (Throwable ignored) {
             }
@@ -188,7 +190,7 @@ public enum FieldCheckEnum {
                     return list;
                 }
                 for (CloudUiCheckBoolean checkBoolean : checkBooleans.value()) {
-                    list.add(getNodeFromAnnotation(checkBoolean));
+                    list.add(getNodeFromAnnotation(checkBoolean, field));
                 }
             } catch (Throwable ignored) {
             }
@@ -196,8 +198,9 @@ public enum FieldCheckEnum {
             return list;
         }
 
-        private BooleanFieldCheckNode getNodeFromAnnotation(CloudUiCheckBoolean checkBoolean) {
+        private BooleanFieldCheckNode getNodeFromAnnotation(CloudUiCheckBoolean checkBoolean, Field field) {
             BooleanFieldCheckNode node = new BooleanFieldCheckNode();
+            node.field = field;
             node.markId = checkBoolean.markId();
             node.isValue = checkBoolean.isValue();
             if (!TextUtils.isEmpty(checkBoolean.message())) {

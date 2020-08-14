@@ -17,8 +17,8 @@ import org.json.JSONObject;
  */
 public class RequestManager implements NetWorkCallback {
 
-    private int mRetryCount = -1;
-    private boolean isHasCookie = true;
+    private final int mRetryCount;
+    private final boolean isHasCookie;
 
     private Logger mLogger = Logger.create("RequestManager");
 

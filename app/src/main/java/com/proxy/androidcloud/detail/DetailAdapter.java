@@ -5,11 +5,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.proxy.androidcloud.R;
@@ -62,15 +62,17 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
 
         private onItemClickListener listener;
 
-        private TextView mContent;
+        private AppCompatButton mContent;
+        private AppCompatTextView mContent2;
         private RelativeLayout mLayout;
-        private Button mLeft;
-        private Button mCenter;
-        private Button mRight;
+        private AppCompatButton mLeft;
+        private AppCompatButton mCenter;
+        private AppCompatButton mRight;
 
         public DetailViewHolder(@NonNull View itemView) {
             super(itemView);
             mContent = itemView.findViewById(R.id.content);
+            mContent2 = itemView.findViewById(R.id.content2);
             mLayout = itemView.findViewById(R.id.layout);
             mLeft = itemView.findViewById(R.id.left);
             mCenter = itemView.findViewById(R.id.center);
@@ -87,7 +89,6 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
         }
 
         public void reset() {
-            mContent.setClickable(true);
             mLayout.setVisibility(View.GONE);
             mLeft.setVisibility(View.GONE);
             mCenter.setVisibility(View.GONE);
@@ -99,36 +100,46 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
                 return;
             }
             mContent.setText(text);
+            mContent2.setText(text);
+
+            mContent.setVisibility(View.VISIBLE);
+            mContent2.setVisibility(View.GONE);
         }
 
         public void setLeftButton(String text) {
             if (TextUtils.isEmpty(text)) {
                 return;
             }
-            mContent.setClickable(false);
             mLayout.setVisibility(View.VISIBLE);
             mLeft.setText(text);
             mLeft.setVisibility(View.VISIBLE);
+
+            mContent.setVisibility(View.GONE);
+            mContent2.setVisibility(View.VISIBLE);
         }
 
         public void setCenterButton(String text) {
             if (TextUtils.isEmpty(text)) {
                 return;
             }
-            mContent.setClickable(false);
             mLayout.setVisibility(View.VISIBLE);
             mCenter.setText(text);
             mCenter.setVisibility(View.VISIBLE);
+
+            mContent.setVisibility(View.GONE);
+            mContent2.setVisibility(View.VISIBLE);
         }
 
         public void setRightButton(String text) {
             if (TextUtils.isEmpty(text)) {
                 return;
             }
-            mContent.setClickable(false);
             mLayout.setVisibility(View.VISIBLE);
             mRight.setText(text);
             mRight.setVisibility(View.VISIBLE);
+
+            mContent.setVisibility(View.GONE);
+            mContent2.setVisibility(View.VISIBLE);
         }
 
         public void setListener(onItemClickListener listener) {

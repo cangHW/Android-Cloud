@@ -123,7 +123,7 @@ public interface ITaskFunction<RESPONSE> {
      * @date: 2020/8/7 11:09 PM
      */
     @NonNull
-    <RESULT> ITaskConditions<RESULT> call(@NonNull OneTaskCallable<RESPONSE, RESULT> task);
+    <RESULT> ITaskConditions<RESULT> call(@NonNull TaskCallableOnce<RESPONSE, RESULT> task);
 
     /**
      * 取消当前任务

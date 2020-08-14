@@ -55,7 +55,7 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
 
     private EditText mInputAccountView;
     private EditText mInputPasswordView;
-    private CloudUiFieldCheckService mService;
+    private CloudUiFieldCheckService mFieldCheckService;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,10 +82,10 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
                     .addTextChangedCallback(this);
         }
 
-        mService = CloudSystem.getService(CloudServiceTagUi.UI_FIELD_CHECK);
-        if (mService != null) {
+        mFieldCheckService = CloudSystem.getService(CloudServiceTagUi.UI_FIELD_CHECK);
+        if (mFieldCheckService != null) {
             //初始化
-            mService.init(LoginActivity.class);
+            mFieldCheckService.init(this);
         }
         //设置全局吐司
 //        mService.setGlobalErrorToastCallback();
@@ -94,11 +94,15 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
     }
 
     public void onClick(View view) {
-        if (mService != null) {
-            mService.of(ACCOUNT, mAccountText)
-                    .of(PASSWORD, mPasswordText)
-                    .of(PROTOCOL, mProtocolReady)
-                    .runUi(() -> MainActivity.launch(LoginActivity.this));
+        if (mFieldCheckService != null) {
+            mFieldCheckService
+                    .check(ACCOUNT)
+                    .check(PASSWORD)
+                    .check(PROTOCOL)
+                    .runUi(() -> {
+                        MainActivity.launch(LoginActivity.this);
+                        finish();
+                    });
         }
     }
 

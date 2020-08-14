@@ -21,7 +21,7 @@ public abstract class BaseFieldCheckNode {
     /**
      * 检测是否符合要求
      *
-     * @param object   : 待检测数据
+     * @param object   : 数据包装对象
      * @param callback : 变量信息检查回调接口
      * @return true 有错误，false 没有错误
      * @version: 1.0

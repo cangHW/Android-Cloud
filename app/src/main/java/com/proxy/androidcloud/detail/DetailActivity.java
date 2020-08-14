@@ -3,6 +3,7 @@ package com.proxy.androidcloud.detail;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,6 +42,8 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void initView() {
+        showTitle(mHelperType.serviceName());
+
         RecyclerView recycler = findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(this));
         DetailAdapter adapter = new DetailAdapter();

@@ -6,6 +6,7 @@ import com.proxy.service.api.callback.CloudUiFieldCheckErrorCallback;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.utils.Logger;
 
+import java.lang.reflect.Field;
 import java.util.regex.Pattern;
 
 /**
@@ -13,6 +14,11 @@ import java.util.regex.Pattern;
  * on 2020/07/08  15:12
  */
 public class StringFieldCheckNode extends BaseFieldCheckNode {
+
+    /**
+     * 变量对象
+     */
+    public Field field;
 
     /**
      * 最大长度，<=
@@ -57,7 +63,7 @@ public class StringFieldCheckNode extends BaseFieldCheckNode {
     /**
      * 检测是否符合要求
      *
-     * @param object   : 待检测数据
+     * @param object   : 数据包装对象
      * @param callback : 变量信息检查回调接口
      * @return true 有错误，false 没有错误
      * @version: 1.0
@@ -66,14 +72,26 @@ public class StringFieldCheckNode extends BaseFieldCheckNode {
      */
     @Override
     public boolean isHasError(Object object, CloudUiFieldCheckErrorCallback callback) {
-        boolean isString = object instanceof String;
+        Object value = null;
 
-        if (object != null && !isString) {
+        if (field != null) {
+            field.setAccessible(true);
+            try {
+                value = field.get(object);
+            } catch (Throwable e) {
+                Logger.Debug(e);
+            }
+        }
+
+
+        boolean isString = value instanceof String;
+
+        if (value != null && !isString) {
             Logger.Error(CloudApiError.DATA_TYPE_ERROR.setMsg("The data type is error with markId : " + markId + ", this is not a String.").build());
             return true;
         }
 
-        String string = (String) object;
+        String string = (String) value;
 
         if (notEmpty) {
             if (TextUtils.isEmpty(string)) {

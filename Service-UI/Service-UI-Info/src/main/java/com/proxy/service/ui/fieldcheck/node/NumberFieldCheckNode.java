@@ -4,6 +4,7 @@ import com.proxy.service.api.callback.CloudUiFieldCheckErrorCallback;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.utils.Logger;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -12,6 +13,11 @@ import java.math.RoundingMode;
  * on 2020/07/08  13:26
  */
 public class NumberFieldCheckNode extends BaseFieldCheckNode {
+
+    /**
+     * 变量对象
+     * */
+    public Field field;
 
     /**
      * 最大值，<=
@@ -41,7 +47,7 @@ public class NumberFieldCheckNode extends BaseFieldCheckNode {
     /**
      * 检测是否符合要求
      *
-     * @param object   : 待检测数据
+     * @param object   : 数据包装对象
      * @param callback : 变量信息检查回调接口
      * @return true 有错误，false 没有错误
      * @version: 1.0
@@ -50,17 +56,29 @@ public class NumberFieldCheckNode extends BaseFieldCheckNode {
      */
     @Override
     public boolean isHasError(Object object, CloudUiFieldCheckErrorCallback callback) {
-        boolean isInt = object instanceof Integer;
-        boolean isLong = object instanceof Long;
-        boolean isDouble = object instanceof Double;
-        boolean isFloat = object instanceof Float;
+        Object value = null;
+
+        if (field != null) {
+            field.setAccessible(true);
+            try {
+                value = field.get(object);
+            } catch (Throwable e) {
+                Logger.Debug(e);
+            }
+        }
+
+
+        boolean isInt = value instanceof Integer;
+        boolean isLong = value instanceof Long;
+        boolean isDouble = value instanceof Double;
+        boolean isFloat = value instanceof Float;
 
         if (!isInt && !isLong && !isDouble && !isFloat) {
             Logger.Error(CloudApiError.DATA_TYPE_ERROR.setMsg("The data type is error with markId : " + markId + ", this is not a Number.").build());
             return true;
         }
 
-        BigDecimal nowDecimal = new BigDecimal(String.valueOf(object));
+        BigDecimal nowDecimal = new BigDecimal(String.valueOf(value));
 
         BigDecimal formalDecimal;
 

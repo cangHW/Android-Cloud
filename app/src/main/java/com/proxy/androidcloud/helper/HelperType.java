@@ -13,11 +13,17 @@ public enum HelperType {
      */
     THREAD_POOL {
         @Override
+        public String serviceName() {
+            return "CloudUtilsTaskService";
+        }
+
+        @Override
         public AbstractHelper create() {
             return new ThreadPoolHelper();
         }
     };
 
+    public abstract String serviceName();
 
     public abstract AbstractHelper create();
 }

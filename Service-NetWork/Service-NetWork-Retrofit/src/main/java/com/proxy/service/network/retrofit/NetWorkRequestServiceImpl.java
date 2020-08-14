@@ -112,7 +112,6 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
                         return method.invoke(this, args);
                     }
                 }
-
                 if (!isService) {
                     Logger.Error(CloudApiError.DATA_TYPE_ERROR.setMsg("You need to use the interface type here. with : " + service.getCanonicalName()).build());
                     return null;
@@ -155,9 +154,6 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
                     CallCache.put(tag, NetWorkRequestServiceImpl.this, (CloudNetWorkCall<?>) object);
                 }
                 return object;
-
-                //todo
-//                return RetrofitManager.INSTANCE.startRequest(isService, serviceMethod, NetWorkRequestServiceImpl.this, tag);
             }
         });
     }

@@ -2,11 +2,13 @@ package com.proxy.service.ui.fieldcheck;
 
 import androidx.annotation.NonNull;
 
+import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.callback.CloudUiFieldCheckErrorCallback;
 import com.proxy.service.api.interfaces.IReallyUiFieldCheck;
+import com.proxy.service.api.services.CloudUtilsTaskService;
+import com.proxy.service.api.tag.CloudServiceTagUtils;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.ui.fieldcheck.node.BaseFieldCheckNode;
-import com.proxy.service.ui.util.TaskUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,13 +25,22 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
 
     private final Map<String, List<BaseFieldCheckNode>> mNodeMapper = new HashMap<>();
     private final CloudUiFieldCheckErrorCallback mCallback;
+    private final Object mObject;
+    private final CloudUtilsTaskService mTaskService;
 
     private boolean isError = false;
 
-    public RealUiFieldCheckImpl(Class<?> aClass, CloudUiFieldCheckErrorCallback callback) {
+    public RealUiFieldCheckImpl(Object object, CloudUiFieldCheckErrorCallback callback) {
+        this.mObject = object;
         this.mCallback = callback;
+        this.mTaskService = CloudSystem.getService(CloudServiceTagUtils.UTILS_TASK);
 
-        List<BaseFieldCheckNode> nodeList = FieldCheckDataManager.init(aClass);
+        if (object instanceof Class<?>) {
+            isError = true;
+            return;
+        }
+
+        List<BaseFieldCheckNode> nodeList = FieldCheckDataManager.init(object.getClass());
         for (BaseFieldCheckNode node : nodeList) {
             List<BaseFieldCheckNode> list = mNodeMapper.get(node.markId);
             if (list == null) {
@@ -53,10 +64,13 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
         if (isError) {
             return;
         }
-        if (TaskUtils.isMainThread()) {
+        if (mTaskService.isMainThread()) {
             runnable.run();
         } else {
-            TaskUtils.postUi(runnable);
+            mTaskService.callUiThread(() -> {
+                runnable.run();
+                return null;
+            });
         }
     }
 
@@ -73,18 +87,20 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
         if (isError) {
             return;
         }
-        if (TaskUtils.isMainThread()) {
-            TaskUtils.postBg(runnable);
+        if (mTaskService.isMainThread()) {
+            mTaskService.callWorkThread(() -> {
+                runnable.run();
+                return null;
+            });
         } else {
             runnable.run();
         }
     }
 
     /**
-     * 添加一个待检测的 String 数据
+     * 发起检测
      *
-     * @param markId : 标记id，标记当前变量
-     * @param s      : 内容
+     * @param markId : 标记id，标记当前检测条件
      * @return 当前对象
      * @version: 1.0
      * @author: cangHX
@@ -92,7 +108,7 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
      */
     @NonNull
     @Override
-    public IReallyUiFieldCheck of(String markId, String s) {
+    public IReallyUiFieldCheck check(String markId) {
         if (isError) {
             return this;
         }
@@ -104,172 +120,7 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
         }
 
         for (BaseFieldCheckNode node : list) {
-            isError = node.isHasError(s, mCallback);
-            if (isError) {
-                break;
-            }
-        }
-
-        return this;
-    }
-
-    /**
-     * 添加一个待检测的 double 数据
-     *
-     * @param markId : 标记id，标记当前变量
-     * @param d      : 内容
-     * @return 当前对象
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-07 17:19
-     */
-    @NonNull
-    @Override
-    public IReallyUiFieldCheck of(String markId, double d) {
-        if (isError) {
-            return this;
-        }
-
-        List<BaseFieldCheckNode> list = mNodeMapper.get(markId);
-        if (list == null || list.size() == 0) {
-            Logger.Debug("The judgment condition does not exist. markId : " + markId);
-            return this;
-        }
-
-        for (BaseFieldCheckNode node : list) {
-            isError = node.isHasError(d, mCallback);
-            if (isError) {
-                break;
-            }
-        }
-
-        return this;
-    }
-
-    /**
-     * 添加一个待检测的 float 数据
-     *
-     * @param markId : 标记id，标记当前变量
-     * @param f      : 内容
-     * @return 当前对象
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-07 17:19
-     */
-    @NonNull
-    @Override
-    public IReallyUiFieldCheck of(String markId, float f) {
-        if (isError) {
-            return this;
-        }
-
-        List<BaseFieldCheckNode> list = mNodeMapper.get(markId);
-        if (list == null || list.size() == 0) {
-            Logger.Debug("The judgment condition does not exist. markId : " + markId);
-            return this;
-        }
-
-        for (BaseFieldCheckNode node : list) {
-            isError = node.isHasError(f, mCallback);
-            if (isError) {
-                break;
-            }
-        }
-
-        return this;
-    }
-
-    /**
-     * 添加一个待检测的 int 数据
-     *
-     * @param markId : 标记id，标记当前变量
-     * @param i      : 内容
-     * @return 当前对象
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-07 17:19
-     */
-    @NonNull
-    @Override
-    public IReallyUiFieldCheck of(String markId, int i) {
-        if (isError) {
-            return this;
-        }
-
-        List<BaseFieldCheckNode> list = mNodeMapper.get(markId);
-        if (list == null || list.size() == 0) {
-            Logger.Debug("The judgment condition does not exist. markId : " + markId);
-            return this;
-        }
-
-        for (BaseFieldCheckNode node : list) {
-            isError = node.isHasError(i, mCallback);
-            if (isError) {
-                break;
-            }
-        }
-
-        return this;
-    }
-
-    /**
-     * 添加一个待检测的 long 数据
-     *
-     * @param markId : 标记id，标记当前变量
-     * @param l      : 内容
-     * @return 当前对象
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-07 17:19
-     */
-    @NonNull
-    @Override
-    public IReallyUiFieldCheck of(String markId, long l) {
-        if (isError) {
-            return this;
-        }
-
-        List<BaseFieldCheckNode> list = mNodeMapper.get(markId);
-        if (list == null || list.size() == 0) {
-            Logger.Debug("The judgment condition does not exist. markId : " + markId);
-            return this;
-        }
-
-        for (BaseFieldCheckNode node : list) {
-            isError = node.isHasError(l, mCallback);
-            if (isError) {
-                break;
-            }
-        }
-
-        return this;
-    }
-
-    /**
-     * 添加一个待检测的 boolean 数据
-     *
-     * @param markId : 标记id，标记当前变量
-     * @param b      : 内容
-     * @return 当前对象
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-07-07 17:19
-     */
-    @NonNull
-    @Override
-    public IReallyUiFieldCheck of(String markId, boolean b) {
-        if (isError) {
-            return this;
-        }
-
-        List<BaseFieldCheckNode> list = mNodeMapper.get(markId);
-        if (list == null || list.size() == 0) {
-            Logger.Debug("The judgment condition does not exist. markId : " + markId);
-            return this;
-        }
-
-        for (BaseFieldCheckNode node : list) {
-            isError = node.isHasError(b, mCallback);
+            isError = node.isHasError(mObject, mCallback);
             if (isError) {
                 break;
             }

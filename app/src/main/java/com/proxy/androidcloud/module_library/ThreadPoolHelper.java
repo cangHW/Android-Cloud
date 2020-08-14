@@ -7,7 +7,7 @@ import com.proxy.androidcloud.helper.AbstractHelper;
 import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.services.CloudUtilsTaskService;
 import com.proxy.service.api.task.ITask;
-import com.proxy.service.api.task.OneTaskCallable;
+import com.proxy.service.api.task.TaskCallableOnce;
 import com.proxy.service.api.task.Task;
 import com.proxy.service.api.task.TaskCallable;
 import com.proxy.service.api.utils.Logger;
@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author : cangHX
@@ -100,9 +101,9 @@ public class ThreadPoolHelper extends AbstractHelper {
     private AtomicBoolean doubleClick = new AtomicBoolean(false);
 
     public void currentThread(Context context) {
-        service.call(new Task<Object>() {
+        service.call(new Task<String>() {
             @Override
-            public Object call() throws Exception {
+            public String call() throws Exception {
                 logger.debug("当前线程");
                 service.callUiThread(new Task<Object>() {
                     @Override
@@ -111,15 +112,21 @@ public class ThreadPoolHelper extends AbstractHelper {
                         return null;
                     }
                 });
+                return "当前线程";
+            }
+        }).call(new TaskCallableOnce<String, Object>() {
+            @Override
+            public Object then(ITask<String> iTask) throws Exception {
+                logger.debug(iTask.getResponse());
                 return null;
             }
         });
     }
 
     public void workThread(Context context) {
-        service.callWorkThread(new Task<Object>() {
+        service.callWorkThread(new Task<String>() {
             @Override
-            public Object call() throws Exception {
+            public String call() throws Exception {
                 logger.debug("工作线程");
                 service.callUiThread(new Task<Object>() {
                     @Override
@@ -128,17 +135,29 @@ public class ThreadPoolHelper extends AbstractHelper {
                         return null;
                     }
                 });
+                return "asd";
+            }
+        }).call(new TaskCallableOnce<String, Object>() {
+            @Override
+            public Object then(ITask<String> iTask) throws Exception {
+                logger.debug(iTask.getResponse());
                 return null;
             }
         });
     }
 
     public void mainThread(Context context) {
-        service.callUiThread(new Task<Object>() {
+        service.callUiThread(new Task<String>() {
             @Override
-            public Object call() throws Exception {
+            public String call() throws Exception {
                 logger.debug("主线程");
                 Toast.makeText(context, "主线程", Toast.LENGTH_SHORT).show();
+                return "qwe";
+            }
+        }).call(new TaskCallableOnce<String, Object>() {
+            @Override
+            public Object then(ITask<String> iTask) throws Exception {
+                logger.debug(iTask.getResponse());
                 return null;
             }
         });
@@ -156,19 +175,19 @@ public class ThreadPoolHelper extends AbstractHelper {
         Toast.makeText(context, "计时3秒", Toast.LENGTH_SHORT).show();
         service.delay(3000, TimeUnit.MILLISECONDS)
                 .mainThread()
-                .call(new OneTaskCallable<Object, String>() {
+                .call(new TaskCallableOnce<Object, String>() {
                     @Override
                     public String then(ITask<Object> iTasks) throws Exception {
                         logger.debug(System.currentTimeMillis() - time + "");
                         Toast.makeText(context, "3秒时间到", Toast.LENGTH_SHORT).show();
-                        return null;
+                        return "time";
                     }
                 })
                 .workThread()
-                .call(new OneTaskCallable<String, Integer>() {
+                .call(new TaskCallableOnce<String, Integer>() {
                     @Override
-                    public Integer then(ITask<String> iTasks) throws Exception {
-                        logger.debug("当前线程 : " + Thread.currentThread().getName() + " : " + Thread.currentThread().getId());
+                    public Integer then(ITask<String> iTask) throws Exception {
+                        logger.debug(iTask.getResponse());
                         doubleClick.set(false);
                         return null;
                     }
@@ -185,33 +204,47 @@ public class ThreadPoolHelper extends AbstractHelper {
             return;
         }
 
-        long time = System.currentTimeMillis();
+        AtomicInteger count = new AtomicInteger(0);
         Toast.makeText(context, "开始循环任务", Toast.LENGTH_SHORT).show();
         service.workThread()
                 .continueWhile(new Callable<Boolean>() {
                     @Override
                     public Boolean call() throws Exception {
                         Thread.sleep(1000);
-                        return true;
+                        return count.incrementAndGet() <= 10;
                     }
                 }, new TaskCallable<Object, String>() {
                     @Override
                     public String then(ITask<Object>[] iTasks) throws Exception {
-                        long timeDiff = System.currentTimeMillis() - time;
                         service.callUiThread(new Task<Object>() {
                             @Override
                             public Object call() throws Exception {
-                                logger.debug("timeDiff : " + timeDiff);
-                                Toast.makeText(context, timeDiff / 1000 + " 秒", Toast.LENGTH_SHORT).show();
+                                logger.debug("timeDiff : " + count.get());
+                                Toast.makeText(context, count.get() + " 秒", Toast.LENGTH_SHORT).show();
                                 return null;
                             }
                         });
+                        return count.get() + "";
+                    }
+                })
+                .call(new TaskCallable<String, Object>() {
+                    @Override
+                    public Object then(ITask<String>[] iTasks) throws Exception {
+                        for (ITask<String> iTask : iTasks) {
+                            logger.debug(iTask.getResponse());
+                        }
+                        doubleClick.set(false);
                         return null;
                     }
                 });
     }
 
     public void parallel(Context context) {
+        if (!doubleClick.compareAndSet(false, true)) {
+            Toast.makeText(context, "正在执行中...", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Toast.makeText(context, "开始并行四个任务，串行两个任务", Toast.LENGTH_SHORT).show();
         service.whenAll(
                 service.callWorkThread(new Task<Object>() {
                     @Override
@@ -219,12 +252,12 @@ public class ThreadPoolHelper extends AbstractHelper {
                         Thread.sleep(1000);
                         return null;
                     }
-                }).mainThread().call(new TaskCallable<Object, Object>() {
+                }).mainThread().call(new TaskCallable<Object, String>() {
                     @Override
-                    public Object then(ITask<Object>[] iTasks) throws Exception {
+                    public String then(ITask<Object>[] iTasks) throws Exception {
                         logger.debug("任务一执行完毕");
                         Toast.makeText(context, "任务一执行完毕", Toast.LENGTH_SHORT).show();
-                        return null;
+                        return "一";
                     }
                 }),
                 service.callWorkThread(new Task<Object>() {
@@ -233,12 +266,12 @@ public class ThreadPoolHelper extends AbstractHelper {
                         Thread.sleep(2000);
                         return null;
                     }
-                }).mainThread().call(new TaskCallable<Object, Object>() {
+                }).mainThread().call(new TaskCallable<Object, String>() {
                     @Override
-                    public Object then(ITask<Object>[] iTasks) throws Exception {
+                    public String then(ITask<Object>[] iTasks) throws Exception {
                         logger.debug("任务二执行完毕");
                         Toast.makeText(context, "任务二执行完毕", Toast.LENGTH_SHORT).show();
-                        return null;
+                        return "二";
                     }
                 }),
                 service.callWorkThread(new Task<Object>() {
@@ -247,12 +280,12 @@ public class ThreadPoolHelper extends AbstractHelper {
                         Thread.sleep(3000);
                         return null;
                     }
-                }).mainThread().call(new TaskCallable<Object, Object>() {
+                }).mainThread().call(new TaskCallable<Object, String>() {
                     @Override
-                    public Object then(ITask<Object>[] iTasks) throws Exception {
+                    public String then(ITask<Object>[] iTasks) throws Exception {
                         logger.debug("任务三执行完毕");
                         Toast.makeText(context, "任务三执行完毕", Toast.LENGTH_SHORT).show();
-                        return null;
+                        return "三";
                     }
                 }),
                 service.callWorkThread(new Task<Object>() {
@@ -261,29 +294,33 @@ public class ThreadPoolHelper extends AbstractHelper {
                         Thread.sleep(4000);
                         return null;
                     }
-                }).mainThread().call(new TaskCallable<Object, Object>() {
+                }).mainThread().call(new TaskCallable<Object, String>() {
                     @Override
-                    public Object then(ITask<Object>[] iTasks) throws Exception {
+                    public String then(ITask<Object>[] iTasks) throws Exception {
                         logger.debug("任务四执行完毕");
                         Toast.makeText(context, "任务四执行完毕", Toast.LENGTH_SHORT).show();
-                        return null;
+                        return "四";
                     }
                 })
         )
                 .workThread()
-                .call(new TaskCallable<Object, Object>() {
+                .call(new TaskCallable<Object, String>() {
                     @Override
-                    public Object then(ITask<Object>[] iTasks) throws Exception {
+                    public String then(ITask<Object>[] iTasks) throws Exception {
+                        for (ITask<Object> iTask : iTasks) {
+                            logger.debug((String) iTask.getResponse());
+                        }
                         Thread.sleep(1000);
                         return null;
                     }
                 })
                 .mainThread()
-                .call(new TaskCallable<Object, Object>() {
+                .call(new TaskCallable<String, Object>() {
                     @Override
-                    public Object then(ITask<Object>[] iTasks) throws Exception {
+                    public Object then(ITask<String>[] iTasks) throws Exception {
                         logger.debug("四个任务全部执行完毕");
                         Toast.makeText(context, "四个任务全部执行完毕", Toast.LENGTH_SHORT).show();
+                        doubleClick.set(false);
                         return null;
                     }
                 });

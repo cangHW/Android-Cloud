@@ -59,26 +59,14 @@ public class LibraryRewardImpl extends CloudUiTabHostFragmentReward {
     }
 
     @Override
-    public void onSelectProgress(float progress) {
-        mTextView.setAlpha(progress);
-    }
-
-    @Override
-    public void onSelectProgressEnd() {
-        if (isSelect) {
-            mTextView.setAlpha(1);
-        } else {
-            mTextView.setAlpha(0);
-        }
-    }
-
-    @Override
     public void onUnSelect(String from) {
         isSelect = false;
+        mTextView.setAlpha(0);
     }
 
     @Override
     public void onSelect(String from) {
+        mTextView.setAlpha(1);
         switch (from) {
             case TabHostRewardSelectFrom.FROM_TAB:
                 if (isSelect) {

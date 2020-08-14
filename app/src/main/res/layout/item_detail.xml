@@ -4,21 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="#1A94d9"
+    android:background="@drawable/shape_function"
     android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingTop="5dp"
     android:paddingRight="10dp"
     android:paddingBottom="5dp">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/content"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:textSize="20sp"
-        tools:text="测试" />
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            tools:text="测试" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/content2"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:textColor="#8E8E93"
+            android:visibility="gone"
+            android:gravity="center"
+            android:textSize="17sp"
+            tools:text="测试" />
+    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/layout"

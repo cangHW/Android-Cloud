@@ -20,6 +20,16 @@ import java.util.concurrent.TimeUnit;
 public interface CloudUtilsTaskService extends BaseService {
 
     /**
+     * 是否在主线程
+     *
+     * @return true 是，false 不是
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/6 6:47 PM
+     */
+    boolean isMainThread();
+
+    /**
      * 切换线程为主线程
      *
      * @return 任务对象

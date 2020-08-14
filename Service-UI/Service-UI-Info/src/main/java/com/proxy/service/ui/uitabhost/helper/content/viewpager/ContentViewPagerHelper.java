@@ -16,13 +16,11 @@ import com.proxy.service.api.utils.Logger;
 import com.proxy.service.ui.uitabhost.helper.content.base.AbstractContentHelper;
 import com.proxy.service.ui.uitabhost.helper.content.viewpager.adapter.ContentFragmentPagerAdapter;
 import com.proxy.service.ui.uitabhost.helper.content.viewpager.listeners.AdapterSettingListener;
-import com.proxy.service.ui.util.TaskUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author: cangHX
@@ -38,10 +36,6 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
      * 滑动中
      */
     private static final int SCROLL_PROGRESS = 1;
-    /**
-     * 计算 viewpager 滑动方向的中位数
-     */
-    private static final float DIRECTION_MEDIAN = 0.5f;
 
     private ViewPager mViewPager;
     private AdapterSettingListener mAdapterSetting;

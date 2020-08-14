@@ -131,6 +131,8 @@ public class TaskUtils {
     @SuppressWarnings("unchecked")
     private void checkTaskFinishState(final boolean isFinishAll, final TaskState taskState, final TaskLock<Object> taskLock, final ITaskFunction<?>... functions) {
         final AtomicInteger responseCount = new AtomicInteger(0);
+        final ArrayList<String> responseIndex = new ArrayList<>(functions.length);
+        Utils.fill(responseIndex, null, functions.length);
         for (int i = 0; i < functions.length; i++) {
             ITaskFunction<Object> taskFunction = (ITaskFunction<Object>) functions[i];
             final int finalI = i;
@@ -145,19 +147,29 @@ public class TaskUtils {
                         if (taskState.isTasksFinish.get()) {
                             return null;
                         }
-                        List<TaskLock.Response<Object>> list = new ArrayList<>(iTasks == null ? 0 : iTasks.length);
-                        for (int k = 0; k < list.size(); k++) {
+                        int count = iTasks == null ? 0 : iTasks.length;
+                        List<TaskLock.Response<Object>> list = new ArrayList<>(count);
+                        for (int k = 0; k < count; k++) {
                             ITask<Object> iTask = iTasks[k];
 
                             TaskLock.Response<Object> response = new TaskLock.Response<>();
                             response.isSuccess = iTask.isSuccess();
                             response.response = iTask.getResponse();
                             response.throwable = iTask.getThrowable();
-                            list.set(k, response);
+                            list.add(response);
                         }
+
                         if (list.size() > 0) {
-                            Utils.fill(taskLock.getResponseList(), list, finalI, null);
+                            int index = -1;
+                            for (int i1 = 0; i1 <= finalI; i1++) {
+                                if (responseIndex.get(i1) == null) {
+                                    index++;
+                                }
+                            }
+                            Utils.fill(taskLock.getResponseList(), list, index, null);
+                            responseIndex.set(finalI, "");
                         }
+
                         if (!isFinishAll) {
                             taskState.isTasksFinish.set(true);
                             if (taskState.isHasSharedLock.get()) {

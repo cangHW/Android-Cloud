@@ -46,9 +46,11 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     if (Boolean.parseBoolean(isFromMaven)) {
+        implementation "com.proxy.service:Service-Utils-Info:${service_utils_info}"
         annotationProcessor "com.proxy.service:Cloud-Compiler:${cloud_compiler_version}"
         api project(path: ':Service-UI:Service-UI-Base')
     } else {
+        implementation project(path: ':Service-Utils:Service-Utils-Info')
         annotationProcessor project(path: ':Cloud-Compiler')
         api project(path: ':Service-UI:Service-UI-Base')
     }

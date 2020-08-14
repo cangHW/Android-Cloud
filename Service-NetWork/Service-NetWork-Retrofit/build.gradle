@@ -36,17 +36,16 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation "androidx.appcompat:appcompat:${Support_Lib_Version}"
+    implementation "com.squareup.retrofit2:retrofit:2.5.0"
 
     if (Boolean.parseBoolean(isFromMaven)) {
+        implementation "com.proxy.service:Service-Utils-Info:${service_utils_info}"
         annotationProcessor "com.proxy.service:Cloud-Compiler:${cloud_compiler_version}"
-        implementation "com.proxy.service:Service-UI-Info:${service_ui_info}"
 
         api project(path: ':Service-NetWork:Service-NetWork-Base')
     } else {
-        implementation "com.squareup.retrofit2:retrofit:2.5.0"
-
-        annotationProcessor project(path: ':Cloud-Compiler')
         implementation project(path: ':Service-Utils:Service-Utils-Info')
+        annotationProcessor project(path: ':Cloud-Compiler')
         api project(path: ':Service-NetWork:Service-NetWork-Base')
     }
 }

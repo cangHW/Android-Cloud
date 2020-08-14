@@ -2,6 +2,7 @@ package com.proxy.service.api.impl;
 
 import androidx.annotation.NonNull;
 
+import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.base.CloudNetWorkInterceptor;
 import com.proxy.service.api.cache.CallbackManager;
 import com.proxy.service.api.cache.InterceptorCache;
@@ -12,6 +13,11 @@ import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.method.CloudNetWorkRequest;
 import com.proxy.service.api.callback.request.NetWorkCallback;
 import com.proxy.service.api.callback.response.CloudNetWorkResponse;
+import com.proxy.service.api.services.CloudUtilsTaskService;
+import com.proxy.service.api.tag.CloudServiceTagUtils;
+import com.proxy.service.api.task.ITask;
+import com.proxy.service.api.task.Task;
+import com.proxy.service.api.task.TaskCallableOnce;
 
 import java.util.ArrayList;
 
@@ -19,7 +25,7 @@ import java.util.ArrayList;
  * @author : cangHX
  * on 2020/07/30  10:23 PM
  */
-public class BodyNetWorkCall<T> implements CloudNetWorkCall<T> {
+public final class BodyNetWorkCall<T> implements CloudNetWorkCall<T> {
 
     /**
      * 就绪
@@ -34,10 +40,11 @@ public class BodyNetWorkCall<T> implements CloudNetWorkCall<T> {
      */
     private static final int STATUS_CANCEL = 2;
 
-    private int mTimeoutMillis;
-    private CloudNetWorkRequest mRequest;
-    private NetWorkCallback mCallback;
-    private CloudNetWorkConverter<T> mConverter;
+    private final CloudUtilsTaskService mTaskService;
+    private final int mTimeoutMillis;
+    private final CloudNetWorkRequest mRequest;
+    private final NetWorkCallback mCallback;
+    private final CloudNetWorkConverter<T> mConverter;
     private int mRequestStatus = STATUS_DEFAULT;
 
     public BodyNetWorkCall(int timeoutMillis, CloudNetWorkRequest request, NetWorkCallback callback, CloudNetWorkConverter<T> converter) {
@@ -45,6 +52,7 @@ public class BodyNetWorkCall<T> implements CloudNetWorkCall<T> {
         this.mRequest = request;
         this.mCallback = callback;
         this.mConverter = converter;
+        this.mTaskService = CloudSystem.getService(CloudServiceTagUtils.UTILS_TASK);
     }
 
     /**
@@ -102,48 +110,70 @@ public class BodyNetWorkCall<T> implements CloudNetWorkCall<T> {
      */
     @Override
     public void enqueue(@NonNull final CloudNetWorkCallback<T> callback) {
-        if (mRequestStatus != STATUS_DEFAULT) {
-            //只允许执行一次
-            callback.onFailure(new IllegalAccessException("It can only run once"));
+        if (mTaskService == null) {
+            CallbackManager.failure(BodyNetWorkCall.this, new IllegalAccessException(CloudApiError.UNKNOWN_ERROR.setMsg("Please check whether to use \"exclude\" to remove partial dependencies").build()), callback);
             return;
         }
-        mRequestStatus = STATUS_EXECUTED;
-        CallbackManager.start(this);
-        if (mRequest == null || mCallback == null) {
-            mRequestStatus = STATUS_CANCEL;
-            CallbackManager.failure(this, new IllegalAccessException(CloudApiError.UNKNOWN_ERROR.build()), callback);
-            CallbackManager.finish(this);
-            return;
-        }
-        //todo 线程切换，子线程
-        ArrayList<CloudNetWorkInterceptor> arrayList = InterceptorCache.getInterceptors();
-        arrayList.add(new ConverterInterceptor(mConverter));
-        arrayList.add(new MockInterceptor());
-        arrayList.add(new RealRequestInterceptor(false, mCallback, mTimeoutMillis));
 
-        RequestChain requestChain = new RequestChain(mRequest, this, arrayList, 0);
-        CloudNetWorkResponse<T> response = null;
-        try {
-            response = requestChain.proceed(mRequest);
-        } catch (Throwable ignored) {
-        }
-        if (mRequestStatus != STATUS_EXECUTED) {
-            return;
-        }
-        if (response == null) {
-            response = CloudNetWorkResponse.error(new NullPointerException("no data"));
-        }
-        if (response.isSuccessful()) {
-            //todo 线程切换，主线程
-//            callback.onResponse(response);
-            CallbackManager.response(this, response, callback);
-        } else {
-            //todo 线程切换，主线程
-//            callback.onFailure(response.throwable());
-            CallbackManager.failure(this, response.throwable(), callback);
-        }
-        mRequestStatus = STATUS_CANCEL;
-        CallbackManager.finish(this);
+        mTaskService.callUiThread(new Task<Boolean>() {
+            @Override
+            public Boolean call() {
+                if (mRequestStatus != STATUS_DEFAULT) {
+                    //只允许执行一次
+                    CallbackManager.failure(BodyNetWorkCall.this, new IllegalAccessException("It can only run once"), callback);
+                    return false;
+                }
+                mRequestStatus = STATUS_EXECUTED;
+                if (mRequest == null || mCallback == null) {
+                    mRequestStatus = STATUS_CANCEL;
+                    CallbackManager.failure(BodyNetWorkCall.this, new IllegalAccessException(CloudApiError.UNKNOWN_ERROR.build()), callback);
+                    return false;
+                }
+                CallbackManager.start(BodyNetWorkCall.this);
+                return true;
+            }
+        }).workThread().call(new TaskCallableOnce<Boolean, CloudNetWorkResponse<T>>() {
+            @Override
+            public CloudNetWorkResponse<T> then(ITask<Boolean> iTask) {
+                if (!iTask.isSuccess() || !iTask.getResponse()) {
+                    return null;
+                }
+
+                ArrayList<CloudNetWorkInterceptor> arrayList = InterceptorCache.getInterceptors();
+                arrayList.add(new ConverterInterceptor(mConverter));
+                arrayList.add(new MockInterceptor());
+                arrayList.add(new RealRequestInterceptor(false, mCallback, mTimeoutMillis));
+
+                RequestChain requestChain = new RequestChain(mRequest, BodyNetWorkCall.this, arrayList, 0);
+                CloudNetWorkResponse<T> response = null;
+                try {
+                    response = requestChain.proceed(mRequest);
+                } catch (Throwable ignored) {
+                }
+                if (mRequestStatus != STATUS_EXECUTED) {
+                    return null;
+                }
+                if (response == null) {
+                    response = CloudNetWorkResponse.error(new NullPointerException("no data"));
+                }
+                return response;
+            }
+        }).mainThread().call(new TaskCallableOnce<CloudNetWorkResponse<T>, Object>() {
+            @Override
+            public Object then(ITask<CloudNetWorkResponse<T>> iTask) {
+                CloudNetWorkResponse<T> response = iTask.getResponse();
+                if (iTask.isSuccess() && response != null) {
+                    if (response.isSuccessful()) {
+                        CallbackManager.response(BodyNetWorkCall.this, response, callback);
+                    } else {
+                        CallbackManager.failure(BodyNetWorkCall.this, response.throwable(), callback);
+                    }
+                }
+                mRequestStatus = STATUS_CANCEL;
+                CallbackManager.finish(BodyNetWorkCall.this);
+                return null;
+            }
+        });
     }
 
     /**
@@ -170,6 +200,9 @@ public class BodyNetWorkCall<T> implements CloudNetWorkCall<T> {
     public void cancel() {
         if (mRequestStatus == STATUS_EXECUTED) {
             mCallback.cancel();
+        }
+        if (mTaskService != null) {
+            mTaskService.cancel();
         }
         mRequestStatus = STATUS_CANCEL;
     }

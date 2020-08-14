@@ -10,19 +10,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.proxy.androidcloud.MainActivity">
+        <activity
+            android:name="com.proxy.androidcloud.MainActivity"
+            android:theme="@style/NoActionBar" />
 
-        </activity>
-
-        <activity android:name=".LoginActivity">
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".detail.DetailActivity"/>
+        <activity android:name=".detail.DetailActivity" />
 
     </application>
 

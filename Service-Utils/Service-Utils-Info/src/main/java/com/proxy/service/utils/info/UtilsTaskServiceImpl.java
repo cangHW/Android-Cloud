@@ -1,5 +1,7 @@
 package com.proxy.service.utils.info;
 
+import android.os.Looper;
+
 import androidx.annotation.NonNull;
 
 import com.proxy.service.annotations.CloudApiNewInstance;
@@ -34,6 +36,19 @@ public class UtilsTaskServiceImpl implements CloudUtilsTaskService {
 
     private final List<Future<?>> TASK_HELPERS = new ArrayList<>();
     private final List<ITaskFunction<?>> TASK_FUNCTIONS = new ArrayList<>();
+
+    /**
+     * 是否在主线程
+     *
+     * @return true 是，false 不是
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/6 6:47 PM
+     */
+    @Override
+    public boolean isMainThread() {
+        return Looper.myLooper() == Looper.getMainLooper();
+    }
 
     /**
      * 切换线程为主线程
@@ -81,11 +96,27 @@ public class UtilsTaskServiceImpl implements CloudUtilsTaskService {
         final TaskLock<Object> taskLock = new TaskLock<>();
         taskLock.lock();
 
-        TaskHelper<?> taskHelper = new TaskHelper<>(new Task<Object>() {
+        TaskHelper<Object> taskHelper = new TaskHelper<>(new Task<Object>() {
             @Override
             public Object call() {
                 taskLock.unLock();
                 return null;
+            }
+        });
+        taskHelper.setTaskCallback(new TaskHelper.TaskCallback<Object>() {
+            @Override
+            public void success(Object response) {
+            }
+
+            @Override
+            public void failed(Throwable throwable) {
+                taskLock.cancel();
+            }
+        });
+        taskHelper.setCancelCallback(new TaskHelper.TaskCancelCallback() {
+            @Override
+            public void cancel() {
+                taskLock.cancel();
             }
         });
         TASK_HELPERS.add(taskHelper);
@@ -194,8 +225,6 @@ public class UtilsTaskServiceImpl implements CloudUtilsTaskService {
             public RESULT call() throws Exception {
                 while (callable.call()) {
                     RESULT result = task.call();
-
-                    //todo 会有 1到2毫秒耗时，后续优化
                     if (result == null) {
                         Logger.Warning("The result is null, but result in continue mode can not be null, so missing this result. with task : " + task);
                         continue;
@@ -207,6 +236,24 @@ public class UtilsTaskServiceImpl implements CloudUtilsTaskService {
                 }
                 taskLock.unLock();
                 return null;
+            }
+        });
+        taskHelper.setTaskCallback(new TaskHelper.TaskCallback<RESULT>() {
+            @Override
+            public void success(RESULT response) {
+            }
+
+            @Override
+            public void failed(Throwable throwable) {
+                if (taskLock.getResponseList().size() == 0) {
+                    taskLock.setThrowable(throwable);
+                }
+            }
+        });
+        taskHelper.setCancelCallback(new TaskHelper.TaskCancelCallback() {
+            @Override
+            public void cancel() {
+                taskLock.cancel();
             }
         });
         TASK_HELPERS.add(taskHelper);
@@ -300,6 +347,12 @@ public class UtilsTaskServiceImpl implements CloudUtilsTaskService {
             public void failed(Throwable throwable) {
                 taskLock.setThrowable(throwable);
                 taskLock.unLock();
+            }
+        });
+        taskHelper.setCancelCallback(new TaskHelper.TaskCancelCallback() {
+            @Override
+            public void cancel() {
+                taskLock.cancel();
             }
         });
         TASK_HELPERS.add(taskHelper);

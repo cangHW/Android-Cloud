@@ -35,9 +35,11 @@ public final class RequestInfo {
      * 请求超时，毫秒
      */
     public static int getRequestTimeout() {
-        int timeOut = -1;
+        int timeOut;
         if (mRequestTimeout == -1) {
             timeOut = mReadTimeout + mWriteTimeout + mConnectTimeout;
+        } else {
+            timeOut = mRequestTimeout;
         }
         if (timeOut <= 0) {
             timeOut = -1;
