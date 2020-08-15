@@ -30,10 +30,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-
     implementation "androidx.appcompat:appcompat:${Support_Lib_Version}"
 
-    if (Boolean.parseBoolean(isFromMaven)) {
+    if (Boolean.parseBoolean(cloud_api_isFromMaven)) {
         api "com.proxy.service:Cloud-Api:${cloud_api_version}"
     } else {
         api project(path: ':Cloud-Api')

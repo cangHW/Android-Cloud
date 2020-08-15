@@ -39,11 +39,15 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:${Support_Lib_Version}"
 
-    if (Boolean.parseBoolean(isFromMaven)) {
+    if (Boolean.parseBoolean(cloud_compiler_isFromMaven)) {
         annotationProcessor "com.proxy.service:Cloud-Compiler:${cloud_compiler_version}"
-        api project(path: ':Service-NetWork:Service-NetWork-Base')
     } else {
         annotationProcessor project(path: ':Cloud-Compiler')
+    }
+
+    if (Boolean.parseBoolean(isFromMaven)) {
+        api project(path: ':Service-NetWork:Service-NetWork-Base')
+    } else {
         api project(path: ':Service-NetWork:Service-NetWork-Base')
     }
 }

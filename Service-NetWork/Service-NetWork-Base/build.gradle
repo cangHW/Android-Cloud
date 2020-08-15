@@ -33,13 +33,15 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.5"
     implementation "androidx.appcompat:appcompat:${Support_Lib_Version}"
 
-    if (Boolean.parseBoolean(isFromMaven)) {
+    if (Boolean.parseBoolean(cloud_api_isFromMaven)) {
         api "com.proxy.service:Cloud-Api:${cloud_api_version}"
-
-        implementation "com.proxy.service:Service-Utils-Info:${service_utils_info}"
     } else {
         api project(path: ':Cloud-Api')
+    }
 
+    if (Boolean.parseBoolean(service_utils_info_isFromMaven)) {
+        implementation "com.proxy.service:Service-Utils-Info:${service_utils_info_version}"
+    } else {
         implementation project(path: ':Service-Utils:Service-Utils-Info')
     }
 }
