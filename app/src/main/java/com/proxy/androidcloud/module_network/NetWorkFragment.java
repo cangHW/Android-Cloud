@@ -7,16 +7,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
 
 import com.proxy.androidcloud.R;
+import com.proxy.androidcloud.base.BaseApplication;
 import com.proxy.androidcloud.base.BaseFragment;
-import com.proxy.androidcloud.module_network.request.TestBean;
-import com.proxy.androidcloud.module_network.request.TestRequestService;
+import com.proxy.androidcloud.module_network.request.KuaiDiBean;
+import com.proxy.androidcloud.module_network.request.RequestService;
+import com.proxy.androidcloud.module_network.request.WeatherBean;
 import com.proxy.service.api.CloudSystem;
-import com.proxy.service.api.callback.CloudUiLifeCallback;
 import com.proxy.service.api.callback.request.CloudNetWorkCallback;
 import com.proxy.service.api.callback.response.CloudNetWorkResponse;
+import com.proxy.service.api.services.CloudNetWorkInitService;
 import com.proxy.service.api.services.CloudNetWorkRequestService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
 import com.proxy.service.api.utils.Logger;
@@ -27,7 +28,9 @@ import com.proxy.service.api.utils.Logger;
  */
 public class NetWorkFragment extends BaseFragment implements View.OnClickListener {
 
-    private AppCompatButton mRequestView;
+    public static final String BASE_URL_ID = "change_base_url";
+
+    private CloudNetWorkRequestService mRequestService;
 
     @Nullable
     @Override
@@ -37,27 +40,96 @@ public class NetWorkFragment extends BaseFragment implements View.OnClickListene
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mRequestService = CloudSystem.getService(CloudServiceTagNetWork.NET_WORK_REQUEST);
+    }
+
     private void init(View view) {
-        mRequestView = view.findViewById(R.id.request);
-        mRequestView.setOnClickListener(this);
+        view.findViewById(R.id.normal_request).setOnClickListener(this);
+        view.findViewById(R.id.mock_request).setOnClickListener(this);
+        view.findViewById(R.id.change_base_url_request).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        CloudNetWorkRequestService service = CloudSystem.getService(CloudServiceTagNetWork.NET_WORK_REQUEST);
-        if (service != null) {
-            TestRequestService requestService = service.create(TestRequestService.class);
-            requestService.test().enqueue(new CloudNetWorkCallback<TestBean>() {
-                @Override
-                public void onResponse(CloudNetWorkResponse<TestBean> response) {
-                    Logger.Error("onResponse : " + response.response().name);
-                }
-
-                @Override
-                public void onFailure(Throwable t) {
-                    Logger.Error("onFailure : " + t.getMessage());
-                }
-            });
+        if (mRequestService == null) {
+            return;
         }
+        switch (v.getId()) {
+            case R.id.normal_request:
+                normalRequest();
+                break;
+            case R.id.mock_request:
+                mockRequest();
+                break;
+            case R.id.change_base_url_request:
+                changeBaseUrlRequest();
+                break;
+            default:
+        }
+    }
+
+    private void normalRequest() {
+        RequestService requestService = mRequestService.create(RequestService.class);
+        requestService.normal("390011492112").enqueue(new CloudNetWorkCallback<KuaiDiBean>() {
+            @Override
+            public void onResponse(CloudNetWorkResponse<KuaiDiBean> response) {
+                if (response.isSuccessful()) {
+                    Logger.Error("onResponse 成功 : " + response.response().getCom());
+                } else {
+                    Logger.Error("onResponse 失败");
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Logger.Error("onFailure : " + t.getMessage());
+            }
+        });
+    }
+
+    private void mockRequest() {
+        RequestService requestService = mRequestService.create(RequestService.class);
+        requestService.mock("390011492112").enqueue(new CloudNetWorkCallback<KuaiDiBean>() {
+            @Override
+            public void onResponse(CloudNetWorkResponse<KuaiDiBean> response) {
+                if (response.isSuccessful()) {
+                    Logger.Error("onResponse 成功 : " + response.response().getCom());
+                } else {
+                    Logger.Error("onResponse 失败");
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Logger.Error("onFailure : " + t.getMessage());
+            }
+        });
+    }
+
+    private void changeBaseUrlRequest() {
+        CloudNetWorkInitService initService = CloudSystem.getService(CloudNetWorkInitService.class);
+        if (initService == null) {
+            return;
+        }
+        initService.setBaseUrls(BASE_URL_ID, BaseApplication.BASE_URL_1);
+        RequestService requestService = mRequestService.create(RequestService.class);
+        requestService.baseUrl("北京", "json", "11ffd27d38deda622f51c9d314d46b17").enqueue(new CloudNetWorkCallback<WeatherBean>() {
+            @Override
+            public void onResponse(CloudNetWorkResponse<WeatherBean> response) {
+                if (response.isSuccessful()) {
+                    Logger.Error("onResponse 成功 : " + response.response().getMessage());
+                } else {
+                    Logger.Error("onResponse 失败");
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Logger.Error("onFailure : " + t.getMessage());
+            }
+        });
     }
 }

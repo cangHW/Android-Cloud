@@ -2,31 +2,22 @@ package com.proxy.service.api.context.listener;
 
 import android.app.Activity;
 
+import com.proxy.service.api.context.LifecycleState;
+
 /**
  * @author : cangHX
  * on 2020/07/15  2:11 PM
  */
-public class CloudLifecycleListener {
+public interface CloudLifecycleListener {
 
-    public void onActivityCreated(Activity activity) {
-    }
-
-    public void onActivityStarted(Activity activity) {
-    }
-
-    public void onActivityResumed(Activity activity) {
-    }
-
-    public void onActivityPaused(Activity activity) {
-    }
-
-    public void onActivityStopped(Activity activity) {
-    }
-
-    public void onActivitySaveInstanceState(Activity activity) {
-    }
-
-    public void onActivityDestroyed(Activity activity) {
-    }
-
+    /**
+     * 回调生命周期
+     *
+     * @param activity       : 准备观察生命周期的对象
+     * @param lifecycleState : 生命周期状态回调
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/07/15  2:11 PM
+     */
+    void onLifecycleChanged(Activity activity, LifecycleState lifecycleState);
 }

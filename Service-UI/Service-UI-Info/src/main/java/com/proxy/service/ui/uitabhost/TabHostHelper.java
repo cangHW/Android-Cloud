@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
+import com.proxy.service.api.request.annotations.TabHostRewardSelectFrom;
 import com.proxy.service.api.callback.CloudUiEventCallback;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.interfaces.IRewardHelper;

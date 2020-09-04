@@ -25,7 +25,7 @@ public class UiFieldCheckErrorCallbackDefaultImpl implements CloudUiFieldCheckEr
     public void onError(String msg) {
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return;
         }
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();

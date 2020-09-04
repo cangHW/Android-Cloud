@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment;
 import com.proxy.androidcloud.R;
 import com.proxy.androidcloud.view.AlphaChangedTextView;
 import com.proxy.service.annotations.CloudUiTabHostReward;
-import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
-import com.proxy.service.api.base.CloudUiTabHostFragmentReward;
+import com.proxy.service.api.request.annotations.TabHostRewardSelectFrom;
+import com.proxy.service.api.request.base.CloudUiTabHostFragmentReward;
 import com.proxy.service.api.interfaces.IRewardHelper;
 
 /**

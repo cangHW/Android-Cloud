@@ -1,33 +1,29 @@
 package com.proxy.service.network.factory;
 
-import androidx.annotation.NonNull;
-
-import com.proxy.service.api.method.ServiceMethod;
-import com.proxy.service.api.services.CloudNetWorkRequestService;
-
 import retrofit2.Retrofit;
 
 /**
  * @author : cangHX
  * on 2020/07/21  7:51 PM
  */
-public enum RetrofitManager {
-
-    /**
-     * 单例
-     */
-    INSTANCE;
+public class RetrofitManager {
 
     private Retrofit mRetrofit;
 
-    RetrofitManager() {
-        RetrofitFactory.INSTANCE.setClient(OkHttpFactory.INSTANCE.getOkHttpClient());
-        mRetrofit = RetrofitFactory.INSTANCE.getRetrofit();
+    private RetrofitManager() {
+        RetrofitFactory.getInstance().setClient(OkHttpFactory.getInstance().getOkHttpClient());
+        mRetrofit = RetrofitFactory.getInstance().getRetrofit();
     }
 
-    @NonNull
-    public Object startRequest(boolean isService, ServiceMethod serviceMethod, CloudNetWorkRequestService service, String tag) {
-        //todo 发起请求
-        return null;
+    private static class Factory {
+        private static final RetrofitManager INSTANCE = new RetrofitManager();
+    }
+
+    public static RetrofitManager getInstance() {
+        return Factory.INSTANCE;
+    }
+
+    public Retrofit getRetrofit() {
+        return mRetrofit;
     }
 }

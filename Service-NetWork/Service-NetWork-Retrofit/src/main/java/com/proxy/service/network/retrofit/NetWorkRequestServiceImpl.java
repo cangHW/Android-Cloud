@@ -6,15 +6,15 @@ import androidx.annotation.NonNull;
 
 import com.proxy.service.annotations.CloudApiNewInstance;
 import com.proxy.service.annotations.CloudApiService;
-import com.proxy.service.api.cache.ConverterCache;
+import com.proxy.service.api.request.cache.ConverterCache;
 import com.proxy.service.api.callback.converter.CloudNetWorkConverter;
 import com.proxy.service.api.callback.request.CloudNetWorkCallAdapter;
 import com.proxy.service.api.callback.request.CloudNetWorkCall;
 import com.proxy.service.api.error.CloudApiError;
-import com.proxy.service.api.impl.BodyNetWorkCall;
-import com.proxy.service.api.method.ServiceMethod;
-import com.proxy.service.api.cache.ServiceMethodCache;
-import com.proxy.service.api.method.ServiceReturnHandler;
+import com.proxy.service.api.request.impl.BodyNetWorkCall;
+import com.proxy.service.api.request.method.ServiceMethod;
+import com.proxy.service.api.request.cache.ServiceMethodCache;
+import com.proxy.service.api.request.method.ServiceReturnHandler;
 import com.proxy.service.api.services.CloudNetWorkRequestService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
 import com.proxy.service.api.utils.Logger;
@@ -36,7 +36,7 @@ import java.lang.reflect.Proxy;
 public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
 
     private int mRetryCount = -1;
-    private boolean isHasCookie = true;
+    private boolean isUseCookie = true;
 
     /**
      * 设置本次请求重试次数
@@ -65,7 +65,7 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
     @NonNull
     @Override
     public CloudNetWorkRequestService removeCookie() {
-        this.isHasCookie = false;
+        this.isUseCookie = false;
         return this;
     }
 
@@ -145,7 +145,7 @@ public class NetWorkRequestServiceImpl implements CloudNetWorkRequestService {
                         timeOut,
                         serviceMethod.request(args != null ? args : objects),
                         RequestManager.builder()
-                                .setHasCookie(isHasCookie)
+                                .isUseCookie(isUseCookie)
                                 .setRetryCount(retryCount)
                                 .build(),
                         converter);

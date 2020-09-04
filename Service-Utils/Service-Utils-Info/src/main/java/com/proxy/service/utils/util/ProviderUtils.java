@@ -28,7 +28,7 @@ public class ProviderUtils {
         String authorities = "";
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return authorities;
         }
         PackageManager packageManager = Cache.getPackageManager(context);

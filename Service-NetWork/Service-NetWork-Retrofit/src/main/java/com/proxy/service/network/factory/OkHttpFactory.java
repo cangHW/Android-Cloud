@@ -13,17 +13,20 @@ import okhttp3.OkHttpClient;
  * @author : cangHX
  * on 2020/07/21  8:28 PM
  */
-public enum OkHttpFactory {
-
-    /**
-     * 单例
-     */
-    INSTANCE;
+public class OkHttpFactory {
 
     private OkHttpClient.Builder mBuilder;
 
-    OkHttpFactory() {
+    private OkHttpFactory() {
         mBuilder = new OkHttpClient.Builder();
+    }
+
+    private static class Factory {
+        private static final OkHttpFactory INSTANCE = new OkHttpFactory();
+    }
+
+    public static OkHttpFactory getInstance() {
+        return Factory.INSTANCE;
     }
 
     public void setBuilder(Builder builder) {
@@ -45,6 +48,7 @@ public enum OkHttpFactory {
         if (builder.sslSocketFactory != null && builder.manager != null) {
             mBuilder.sslSocketFactory(builder.sslSocketFactory, builder.manager);
         }
+        mBuilder.cookieJar(new CookieJarImpl());
     }
 
     public OkHttpClient getOkHttpClient() {

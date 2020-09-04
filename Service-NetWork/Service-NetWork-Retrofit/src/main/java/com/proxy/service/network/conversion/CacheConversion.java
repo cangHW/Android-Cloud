@@ -1,6 +1,6 @@
 package com.proxy.service.network.conversion;
 
-import com.proxy.service.api.base.CloudNetWorkCache;
+import com.proxy.service.api.request.base.CloudNetWorkCache;
 
 import okhttp3.Cache;
 
@@ -10,8 +10,8 @@ import okhttp3.Cache;
  */
 public final class CacheConversion {
 
-    public static Cache create(CloudNetWorkCache cache){
-        return new Cache(null,0);
+    public static Cache create(CloudNetWorkCache cache) {
+        return new Cache(cache.getDirectory(), cache.getMaxSize());
     }
 
 }

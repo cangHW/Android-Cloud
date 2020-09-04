@@ -12,9 +12,9 @@ import androidx.annotation.Nullable;
 
 import com.proxy.androidcloud.base.BaseActivity;
 import com.proxy.service.api.CloudSystem;
-import com.proxy.service.api.annotations.CloudUiCheckBoolean;
-import com.proxy.service.api.annotations.CloudUiCheckString;
-import com.proxy.service.api.annotations.CloudUiCheckStrings;
+import com.proxy.service.api.request.annotations.CloudUiCheckBoolean;
+import com.proxy.service.api.request.annotations.CloudUiCheckString;
+import com.proxy.service.api.request.annotations.CloudUiCheckStrings;
 import com.proxy.service.api.edittext.CloudTextChangedCallback;
 import com.proxy.service.api.services.CloudUiFieldCheckService;
 import com.proxy.service.api.services.CloudUtilsEditTextService;

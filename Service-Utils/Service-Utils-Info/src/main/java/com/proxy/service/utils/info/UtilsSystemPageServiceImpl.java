@@ -34,7 +34,7 @@ public class UtilsSystemPageServiceImpl implements CloudUtilsSystemPageService {
     public void openAppSetting(@Nullable String packageName) {
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return;
         }
         Intent intent = new Intent();
@@ -61,7 +61,7 @@ public class UtilsSystemPageServiceImpl implements CloudUtilsSystemPageService {
     public void openNotificationSetting(@Nullable String packageName, @Nullable String uid) {
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return;
         }
         Intent intent = new Intent();
@@ -96,7 +96,7 @@ public class UtilsSystemPageServiceImpl implements CloudUtilsSystemPageService {
     public void openCall(@Nullable String phoneNumber) {
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return;
         }
         Intent intent = new Intent();

@@ -3,12 +3,12 @@ package com.proxy.service.ui.fieldcheck.enums;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.proxy.service.api.annotations.CloudUiCheckBoolean;
-import com.proxy.service.api.annotations.CloudUiCheckBooleans;
-import com.proxy.service.api.annotations.CloudUiCheckNumber;
-import com.proxy.service.api.annotations.CloudUiCheckNumbers;
-import com.proxy.service.api.annotations.CloudUiCheckString;
-import com.proxy.service.api.annotations.CloudUiCheckStrings;
+import com.proxy.service.api.request.annotations.CloudUiCheckBoolean;
+import com.proxy.service.api.request.annotations.CloudUiCheckBooleans;
+import com.proxy.service.api.request.annotations.CloudUiCheckNumber;
+import com.proxy.service.api.request.annotations.CloudUiCheckNumbers;
+import com.proxy.service.api.request.annotations.CloudUiCheckString;
+import com.proxy.service.api.request.annotations.CloudUiCheckStrings;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.utils.Logger;
@@ -78,7 +78,7 @@ public enum FieldCheckEnum {
             int stringId = checkNumber.stringId();
             Context context = ContextManager.getApplication();
             if (context == null) {
-                Logger.Error(CloudApiError.NO_INIT.build());
+                Logger.Error(CloudApiError.INIT_EMPTY.build());
                 node.message = "";
                 return node;
             }
@@ -147,7 +147,7 @@ public enum FieldCheckEnum {
             int stringId = checkString.stringId();
             Context context = ContextManager.getApplication();
             if (context == null) {
-                Logger.Error(CloudApiError.NO_INIT.build());
+                Logger.Error(CloudApiError.INIT_EMPTY.build());
                 node.message = "";
                 return node;
             }
@@ -210,7 +210,7 @@ public enum FieldCheckEnum {
             int stringId = checkBoolean.stringId();
             Context context = ContextManager.getApplication();
             if (context == null) {
-                Logger.Error(CloudApiError.NO_INIT.build());
+                Logger.Error(CloudApiError.INIT_EMPTY.build());
                 node.message = "";
                 return node;
             }

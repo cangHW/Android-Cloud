@@ -41,7 +41,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
         int targetSdkVersion = -1;
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return targetSdkVersion;
         }
         try {
@@ -69,7 +69,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
     public String getUid() {
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return "";
         }
         ApplicationInfo applicationInfo = context.getApplicationInfo();
@@ -88,7 +88,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
     public String getPackageName() {
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return "";
         }
         return context.getPackageName();
@@ -107,7 +107,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
         int versionCode = -1;
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return versionCode;
         }
         try {
@@ -137,7 +137,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
         long versionCode = -1;
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return versionCode;
         }
         try {
@@ -166,7 +166,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
         String versionName = "";
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return "";
         }
         try {
@@ -196,7 +196,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
 
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return isInBackground;
         }
 

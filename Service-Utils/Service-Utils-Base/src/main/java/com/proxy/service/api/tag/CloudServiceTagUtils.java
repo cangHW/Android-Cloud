@@ -48,4 +48,14 @@ public class CloudServiceTagUtils {
      */
     public static final String UTILS_TASK = "utils_task";
 
+    /**
+     * 网络状态相关
+     */
+    public static final String UTILS_NET_WORK = "utils_net_work";
+
+    /**
+     * 权限相关
+     */
+    public static final String UTILS_PERMISSION = "utils_permission";
+
 }

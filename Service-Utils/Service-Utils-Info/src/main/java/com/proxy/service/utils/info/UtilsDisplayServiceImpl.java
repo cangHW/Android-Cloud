@@ -30,7 +30,7 @@ public class UtilsDisplayServiceImpl implements CloudUtilsDisplayService {
         int value = 0;
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return value;
         }
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -52,7 +52,7 @@ public class UtilsDisplayServiceImpl implements CloudUtilsDisplayService {
         int value = 0;
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return value;
         }
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -74,7 +74,7 @@ public class UtilsDisplayServiceImpl implements CloudUtilsDisplayService {
         int value = 0;
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return value;
         }
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
@@ -96,7 +96,7 @@ public class UtilsDisplayServiceImpl implements CloudUtilsDisplayService {
         int value = 0;
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return value;
         }
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;

@@ -5,13 +5,30 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/request"
+        android:id="@+id/normal_request"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:text="发起请求" />
+        android:text="普通请求" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/mock_request"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:text="mock请求" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/change_base_url_request"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:text="动态改变BaseUrl" />
 
 </LinearLayout>

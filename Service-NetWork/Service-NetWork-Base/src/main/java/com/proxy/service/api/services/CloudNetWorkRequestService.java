@@ -1,9 +1,7 @@
 package com.proxy.service.api.services;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import com.proxy.service.api.base.CloudNetWorkCookieJar;
 import com.proxy.service.base.BaseService;
 
 /**

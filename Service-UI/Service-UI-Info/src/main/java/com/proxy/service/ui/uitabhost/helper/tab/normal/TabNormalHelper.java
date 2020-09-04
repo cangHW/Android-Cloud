@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.LinearLayoutCompat;
 
-import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
+import com.proxy.service.api.request.annotations.TabHostRewardSelectFrom;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.ui.annotations.ViewGroupType;
 import com.proxy.service.ui.uitabhost.helper.tab.base.AbstractTabHelper;

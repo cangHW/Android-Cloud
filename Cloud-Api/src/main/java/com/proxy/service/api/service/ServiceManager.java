@@ -54,7 +54,7 @@ public enum ServiceManager {
     @NonNull
     public synchronized <T extends BaseService> List<T> getService(@NonNull String uuid, @NonNull String tag, @NonNull String type) {
         if (!CloudSystem.isInit()) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return Collections.emptyList();
         }
         final List<ServiceNode> services = ServiceCache.getAll();
@@ -85,7 +85,7 @@ public enum ServiceManager {
     @NonNull
     public synchronized <T extends BaseService> List<T> getService(@NonNull String uuid, @NonNull Class<T> tClass, @NonNull String type) {
         if (!CloudSystem.isInit()) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return Collections.emptyList();
         }
         final List<ServiceNode> services = ServiceCache.getAll();

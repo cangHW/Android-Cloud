@@ -55,17 +55,13 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
             return;
         }
         HashMap<String, CloudInstallCallback> hashMap = new HashMap<>(statusEnums.length);
-        IntentFilter intentFilter = new IntentFilter();
         for (CloudInstallStatusEnum statusEnum : statusEnums) {
             if (statusEnum == null) {
                 continue;
             }
-            intentFilter.addAction(statusEnum.getValue());
             hashMap.put(statusEnum.getValue(), cloudInstallCallback);
         }
-        intentFilter.addDataScheme("package");
-
-        UtilsBroadcastReceiver.getInstance().addIntentFilter(intentFilter, InstallReceiverListenerManager.getInstance().addMap(hashMap));
+        UtilsBroadcastReceiver.getInstance().addIntentFilter(InstallReceiverListenerManager.getInstance().getIntentFilter(), InstallReceiverListenerManager.getInstance().addMap(hashMap));
     }
 
     /**
@@ -81,7 +77,7 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
     public boolean isInstallApp(@NonNull String packageName) {
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return false;
         }
         PackageManager packageManager = Cache.getPackageManager(context);
@@ -128,7 +124,7 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
         }
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return;
         }
         Intent intent = new Intent();
@@ -177,7 +173,7 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
     public String getPackageName(@NonNull String apkPath) {
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return "";
         }
         PackageManager packageManager = Cache.getPackageManager(context);
@@ -209,7 +205,7 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
     public void unInstallApp(@NonNull String packageName) {
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return;
         }
         Intent intent = new Intent();
@@ -233,7 +229,7 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
         List<CloudAppInfo> infoList = new ArrayList<>();
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return infoList;
         }
         PackageManager packageManager = Cache.getPackageManager(context);
@@ -283,7 +279,7 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
     public boolean openApp(@NonNull String packageName) {
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return false;
         }
         PackageManager packageManager = Cache.getPackageManager(context);

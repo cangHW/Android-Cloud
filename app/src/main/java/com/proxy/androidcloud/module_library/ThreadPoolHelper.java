@@ -55,10 +55,14 @@ public class ThreadPoolHelper extends AbstractHelper {
                 .build());
         list.add(HelperItemInfo.builder()
                 .setId(5)
-                .setTitle("并行任务")
+                .setTitle("当前线程循环任务")
                 .build());
         list.add(HelperItemInfo.builder()
                 .setId(6)
+                .setTitle("并行任务")
+                .build());
+        list.add(HelperItemInfo.builder()
+                .setId(7)
                 .setTitle("更多高级用法")
                 .build());
         return list;
@@ -89,9 +93,12 @@ public class ThreadPoolHelper extends AbstractHelper {
                 continueTask(context, button);
                 break;
             case 5:
-                parallel(context);
+                continueTask();
                 break;
             case 6:
+                parallel(context);
+                break;
+            case 7:
                 Toast.makeText(context, "通过组合，可以完成各种各样复杂的串行、并行都存在的任务流，以及随时切换主、子线程", Toast.LENGTH_LONG).show();
                 break;
             default:
@@ -108,11 +115,11 @@ public class ThreadPoolHelper extends AbstractHelper {
                 service.callUiThread(new Task<Object>() {
                     @Override
                     public Object call() throws Exception {
-                        Toast.makeText(context, "当前线程", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "主线程吐司", Toast.LENGTH_SHORT).show();
                         return null;
                     }
                 });
-                return "当前线程";
+                return "后续任务";
             }
         }).call(new TaskCallableOnce<String, Object>() {
             @Override
@@ -239,6 +246,25 @@ public class ThreadPoolHelper extends AbstractHelper {
                 });
     }
 
+    public void continueTask() {
+        AtomicInteger count = new AtomicInteger(0);
+        logger.debug("开始循环任务");
+        service.continueWhile(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                Thread.sleep(200);
+                return count.incrementAndGet() <= 10;
+            }
+        }, new Task<Object>() {
+            @Override
+            public Object call() throws Exception {
+                logger.debug("count : " + count.get());
+                return null;
+            }
+        });
+        logger.debug("结束任务");
+    }
+
     public void parallel(Context context) {
         if (!doubleClick.compareAndSet(false, true)) {
             Toast.makeText(context, "正在执行中...", Toast.LENGTH_SHORT).show();
@@ -302,27 +328,23 @@ public class ThreadPoolHelper extends AbstractHelper {
                         return "四";
                     }
                 })
-        )
-                .workThread()
-                .call(new TaskCallable<Object, String>() {
-                    @Override
-                    public String then(ITask<Object>[] iTasks) throws Exception {
-                        for (ITask<Object> iTask : iTasks) {
-                            logger.debug((String) iTask.getResponse());
-                        }
-                        Thread.sleep(1000);
-                        return null;
-                    }
-                })
-                .mainThread()
-                .call(new TaskCallable<String, Object>() {
-                    @Override
-                    public Object then(ITask<String>[] iTasks) throws Exception {
-                        logger.debug("四个任务全部执行完毕");
-                        Toast.makeText(context, "四个任务全部执行完毕", Toast.LENGTH_SHORT).show();
-                        doubleClick.set(false);
-                        return null;
-                    }
-                });
+        ).workThread().call(new TaskCallable<Object, String>() {
+            @Override
+            public String then(ITask<Object>[] iTasks) throws Exception {
+                for (ITask<Object> iTask : iTasks) {
+                    logger.debug((String) iTask.getResponse());
+                }
+                Thread.sleep(1000);
+                return null;
+            }
+        }).mainThread().call(new TaskCallable<String, Object>() {
+            @Override
+            public Object then(ITask<String>[] iTasks) throws Exception {
+                logger.debug("四个任务全部执行完毕");
+                Toast.makeText(context, "四个任务全部执行完毕", Toast.LENGTH_SHORT).show();
+                doubleClick.set(false);
+                return null;
+            }
+        });
     }
 }

@@ -3,7 +3,7 @@ package com.proxy.service.ui.uitabhost.helper.tab.base;
 import android.content.Context;
 import android.view.View;
 
-import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
+import com.proxy.service.api.request.annotations.TabHostRewardSelectFrom;
 import com.proxy.service.ui.uitabhost.TabHostHelper;
 import com.proxy.service.ui.uitabhost.listener.TabCallback;
 

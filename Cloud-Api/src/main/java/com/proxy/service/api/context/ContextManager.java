@@ -3,12 +3,16 @@ package com.proxy.service.api.context;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.ContextWrapper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.proxy.service.api.context.cache.ActivityStack;
 import com.proxy.service.api.context.listener.CloudLifecycleListener;
+import com.proxy.service.api.error.CloudApiError;
+import com.proxy.service.api.utils.ApiUtils;
+import com.proxy.service.api.utils.Logger;
 
 /**
  * context管理类
@@ -30,10 +34,17 @@ public class ContextManager {
         Application application;
         if (context instanceof Application) {
             application = (Application) context;
-        } else {
+        } else if (context instanceof Activity) {
             application = (Application) context.getApplicationContext();
+        } else {
+            Activity activity = ApiUtils.getActivityFromContext(context);
+            if (activity == null) {
+                Logger.Error(CloudApiError.UNKNOWN_ERROR.build());
+                return;
+            }
+            application = activity.getApplication();
         }
-        application.registerActivityLifecycleCallbacks(ActivityLifecycleCallbackManager.create());
+        application.registerActivityLifecycleCallbacks(ActivityLifecycleCallbackManager.INSTANCE);
         ActivityStack.setApplication(application);
 
         if (context instanceof Activity) {
@@ -100,8 +111,7 @@ public class ContextManager {
      * @author: cangHX
      * @date: 2020/7/15 2:12 PM
      */
-    public static void addLifecycleListener(Activity activity, CloudLifecycleListener lifecycleListener) {
-        String canonicalName = activity.getClass().getCanonicalName();
-        ActivityLifecycleCallbackManager.addLifecycleListener(canonicalName, lifecycleListener);
+    public static void addLifecycleListener(Activity activity, CloudLifecycleListener lifecycleListener, LifecycleState... states) {
+        ActivityLifecycleCallbackManager.addLifecycleListener(activity, lifecycleListener, states);
     }
 }

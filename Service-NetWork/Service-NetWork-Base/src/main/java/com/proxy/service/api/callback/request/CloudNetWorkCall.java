@@ -3,7 +3,7 @@ package com.proxy.service.api.callback.request;
 import androidx.annotation.NonNull;
 
 import com.proxy.service.api.callback.response.CloudNetWorkResponse;
-import com.proxy.service.api.method.CloudNetWorkRequest;
+import com.proxy.service.api.request.method.CloudNetWorkRequest;
 
 /**
  * 默认请求回调

@@ -36,7 +36,7 @@ public class UtilsShareServiceImpl implements CloudUtilsShareService {
     public void openSystemShareTxt(@Nullable String info) {
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return;
         }
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -57,7 +57,7 @@ public class UtilsShareServiceImpl implements CloudUtilsShareService {
     public void openSystemShareImg(@Nullable List<String> imgPaths) {
         Context context = ContextManager.getApplication();
         if (context == null) {
-            Logger.Error(CloudApiError.NO_INIT.build());
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
             return;
         }
         ArrayList<Uri> imageUris = new ArrayList<>();

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.proxy.service.api.context.ContextManager;
+import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.service.DataManager;
 import com.proxy.service.api.service.ServiceManager;
 import com.proxy.service.api.service.cache.ConverterCache;
@@ -16,6 +17,7 @@ import com.proxy.service.api.utils.Logger;
 import com.proxy.service.base.BaseService;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 微服务，对外管理类
@@ -25,7 +27,7 @@ import java.util.List;
  */
 public final class CloudSystem {
 
-    private volatile static boolean isInit = false;
+    private static final AtomicBoolean IS_INIT = new AtomicBoolean(false);
 
     /**
      * 判断是否初始化
@@ -36,7 +38,7 @@ public final class CloudSystem {
      * @date: 2020-06-11 12:00
      */
     public synchronized static boolean isInit() {
-        return isInit;
+        return IS_INIT.get();
     }
 
     /**
@@ -49,13 +51,13 @@ public final class CloudSystem {
      * @date: 2019/10/31 15:53
      */
     public synchronized static void init(@NonNull Context context, boolean isDebug) {
-        if (isInit) {
-            return;
+        if (IS_INIT.compareAndSet(false, true)) {
+            DataManager.INSTANCE.registerAllServices(context);
+            ContextManager.init(context);
+            Logger.setDebug(isDebug);
+        } else {
+            Logger.Debug(CloudApiError.INIT_ONCE.build());
         }
-        isInit = true;
-        DataManager.INSTANCE.registerAllServices(context);
-        ContextManager.init(context);
-        Logger.setDebug(isDebug);
     }
 
 
@@ -70,7 +72,6 @@ public final class CloudSystem {
     public static void registerServices(@NonNull List<BaseService> services) {
         ServiceCache.addAllAtFirst(services);
     }
-
 
     /**
      * 根据传入 tag 值，返回符合条件的 service 实例

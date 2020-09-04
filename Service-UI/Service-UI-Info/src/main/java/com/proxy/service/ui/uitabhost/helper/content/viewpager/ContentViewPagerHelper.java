@@ -8,9 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
+import com.proxy.service.api.request.annotations.TabHostRewardSelectFrom;
 import com.proxy.service.api.callback.CloudUiLifeCallback;
 import com.proxy.service.api.context.ContextManager;
+import com.proxy.service.api.context.LifecycleState;
 import com.proxy.service.api.context.listener.CloudLifecycleListener;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.ui.uitabhost.helper.content.base.AbstractContentHelper;
@@ -42,27 +43,35 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
     private int mScrollState = SCROLL_IDLE;
 
     private CloudLifecycleListener mLifecycleListener = new CloudLifecycleListener() {
+        /**
+         * 回调生命周期
+         *
+         * @param activity       : 准备观察生命周期的对象
+         * @param lifecycleState : 生命周期状态回调
+         * @version: 1.0
+         * @author: cangHX
+         * @date: 2020/07/15  2:11 PM
+         */
         @Override
-        public void onActivityResumed(Activity activity) {
-            if (mSelect < 0 || mSelect >= mList.size()) {
-                return;
-            }
-            Fragment fragment = mList.get(mSelect);
-            if (fragment instanceof CloudUiLifeCallback) {
-                CloudUiLifeCallback uiLifeCallback = (CloudUiLifeCallback) fragment;
-                uiLifeCallback.onUiResume();
-            }
-        }
-
-        @Override
-        public void onActivityStopped(Activity activity) {
-            if (mSelect < 0 || mSelect >= mList.size()) {
-                return;
-            }
-            Fragment fragment = mList.get(mSelect);
-            if (fragment instanceof CloudUiLifeCallback) {
-                CloudUiLifeCallback uiLifeCallback = (CloudUiLifeCallback) fragment;
-                uiLifeCallback.onUiStop();
+        public void onLifecycleChanged(Activity activity, LifecycleState lifecycleState) {
+            if (lifecycleState.code() == LifecycleState.LIFECYCLE_RESUME.code()) {
+                if (mSelect < 0 || mSelect >= mList.size()) {
+                    return;
+                }
+                Fragment fragment = mList.get(mSelect);
+                if (fragment instanceof CloudUiLifeCallback) {
+                    CloudUiLifeCallback uiLifeCallback = (CloudUiLifeCallback) fragment;
+                    uiLifeCallback.onUiResume();
+                }
+            } else if (lifecycleState.code() == LifecycleState.LIFECYCLE_STOP.code()) {
+                if (mSelect < 0 || mSelect >= mList.size()) {
+                    return;
+                }
+                Fragment fragment = mList.get(mSelect);
+                if (fragment instanceof CloudUiLifeCallback) {
+                    CloudUiLifeCallback uiLifeCallback = (CloudUiLifeCallback) fragment;
+                    uiLifeCallback.onUiStop();
+                }
             }
         }
     };
@@ -72,7 +81,7 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
         super.setContext(context);
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
-            ContextManager.addLifecycleListener(activity, mLifecycleListener);
+            ContextManager.addLifecycleListener(activity, mLifecycleListener, LifecycleState.LIFECYCLE_STOP, LifecycleState.LIFECYCLE_RESUME);
         }
     }
 

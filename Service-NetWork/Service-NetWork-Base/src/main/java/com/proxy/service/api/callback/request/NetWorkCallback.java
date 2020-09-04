@@ -3,7 +3,7 @@ package com.proxy.service.api.callback.request;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.proxy.service.api.method.CloudNetWorkRequest;
+import com.proxy.service.api.request.method.CloudNetWorkRequest;
 
 /**
  * @author : cangHX

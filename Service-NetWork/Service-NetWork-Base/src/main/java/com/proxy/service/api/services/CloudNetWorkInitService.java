@@ -2,10 +2,10 @@ package com.proxy.service.api.services;
 
 import androidx.annotation.NonNull;
 
-import com.proxy.service.api.base.CloudNetWorkCache;
-import com.proxy.service.api.base.CloudNetWorkCookieJar;
-import com.proxy.service.api.base.CloudNetWorkInterceptor;
-import com.proxy.service.api.base.CloudNetWorkMock;
+import com.proxy.service.api.request.base.CloudNetWorkCache;
+import com.proxy.service.api.request.base.CloudNetWorkCookieJar;
+import com.proxy.service.api.request.base.CloudNetWorkInterceptor;
+import com.proxy.service.api.request.base.CloudNetWorkMock;
 import com.proxy.service.api.callback.converter.CloudNetWorkConverter;
 import com.proxy.service.api.callback.request.CloudNetWorkCallAdapter;
 import com.proxy.service.api.callback.request.CloudNetWorkGlobalCallback;
@@ -124,7 +124,7 @@ public interface CloudNetWorkInitService extends BaseService {
      * @date: 2020/8/5 10:55 PM
      */
     @NonNull
-    CloudNetWorkInitService setConverterFactory(CloudNetWorkConverter.Factory factory);
+    CloudNetWorkInitService addConverterFactory(CloudNetWorkConverter.Factory factory);
 
     /**
      * 设置回调接口适配器工厂
@@ -136,7 +136,7 @@ public interface CloudNetWorkInitService extends BaseService {
      * @date: 2020/8/5 10:55 PM
      */
     @NonNull
-    CloudNetWorkInitService setCallAdapterFactory(CloudNetWorkCallAdapter.Factory factory);
+    CloudNetWorkInitService addCallAdapterFactory(CloudNetWorkCallAdapter.Factory factory);
 
     /**
      * 添加拦截器
@@ -149,6 +149,18 @@ public interface CloudNetWorkInitService extends BaseService {
      */
     @NonNull
     CloudNetWorkInitService addInterceptor(@NonNull CloudNetWorkInterceptor interceptor);
+
+    /**
+     * 添加网络拦截器，生效于真实请求之前与真实请求之后
+     *
+     * @param interceptor : 拦截器对象
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/20 9:04 PM
+     */
+    @NonNull
+    CloudNetWorkInitService addNetWorkInterceptor(@NonNull CloudNetWorkInterceptor interceptor);
 
     /**
      * 设置代理
@@ -187,7 +199,7 @@ public interface CloudNetWorkInitService extends BaseService {
     CloudNetWorkInitService setCache(@NonNull CloudNetWorkCache cache);
 
     /**
-     * 设置网络模拟
+     * 设置 mock 数据
      *
      * @param mock : 网络模拟
      * @return 当前对象

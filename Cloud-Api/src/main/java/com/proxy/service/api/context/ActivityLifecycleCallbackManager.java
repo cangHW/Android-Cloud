@@ -9,9 +9,13 @@ import androidx.annotation.Nullable;
 
 import com.proxy.service.api.context.cache.ActivityStack;
 import com.proxy.service.api.context.listener.CloudLifecycleListener;
+import com.proxy.service.api.utils.WeakReferenceUtils;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.WeakHashMap;
 
 /**
  * activity生命周期管理
@@ -19,138 +23,97 @@ import java.util.HashMap;
  * @author: cangHX
  * on 2020/06/11  11:14
  */
-class ActivityLifecycleCallbackManager implements Application.ActivityLifecycleCallbacks {
-
-    private interface CheckListener {
-        /**
-         * 检测是否存在目标 listener
-         *
-         * @param activity : 申请检测的参数
-         * @param listener : 检测后的 listener
-         * @version: 1.0
-         * @author: cangHX
-         * @date: 2020/7/15 5:05 PM
-         */
-        void hasListener(Activity activity, CloudLifecycleListener listener);
-    }
-
-    private static final HashMap<String, WeakReference<CloudLifecycleListener>> LIFECYCLE_MAPPER = new HashMap<>();
-
-    static ActivityLifecycleCallbackManager create() {
-        return new ActivityLifecycleCallbackManager();
-    }
+enum ActivityLifecycleCallbackManager implements Application.ActivityLifecycleCallbacks {
 
     /**
-     * 注册生命周期观察者
+     * 单例
+     */
+    INSTANCE;
+
+    private static final WeakHashMap<CloudLifecycleListener, Activity> ACTIVITY_MAPPER = new WeakHashMap<>();
+    private static final HashMap<String, List<WeakReference<CloudLifecycleListener>>> LIFECYCLE_MAPPER = new HashMap<>();
+
+    /**
+     * 注册生命周期回调，弱引用，所以调用方需要保证对象没有回收，防止接收不到回调
      *
-     * @param canonicalName     : 准备观察的 activity 的全路径名称，activity.getClass().getCanonicalName()
+     * @param activity          : 准备观察的 activity
      * @param lifecycleListener : 生命周期回调对象
+     * @param states            : 准备观察的生命周期状态
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/7/15 5:11 PM
      */
-    static void addLifecycleListener(String canonicalName, CloudLifecycleListener lifecycleListener) {
-        LIFECYCLE_MAPPER.put(canonicalName, new WeakReference<>(lifecycleListener));
+    static void addLifecycleListener(Activity activity, CloudLifecycleListener lifecycleListener, LifecycleState... states) {
+        if (states == null || states.length == 0) {
+            return;
+        }
+        for (LifecycleState state : states) {
+            if (state == null) {
+                continue;
+            }
+            List<WeakReference<CloudLifecycleListener>> list = LIFECYCLE_MAPPER.get(state.state());
+            if (list == null) {
+                list = new ArrayList<>();
+                LIFECYCLE_MAPPER.put(state.state(), list);
+            }
+            list.add(new WeakReference<>(lifecycleListener));
+        }
+        ACTIVITY_MAPPER.put(lifecycleListener, activity);
     }
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
         ActivityStack.add(activity);
-        doCheck(activity, new CheckListener() {
-            @Override
-            public void hasListener(Activity activity1, CloudLifecycleListener listener) {
-                listener.onActivityCreated(activity1);
-            }
-        });
+        notify(activity, LifecycleState.LIFECYCLE_CREATE);
     }
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
-        doCheck(activity, new CheckListener() {
-            @Override
-            public void hasListener(Activity activity1, CloudLifecycleListener listener) {
-                listener.onActivityStarted(activity1);
-            }
-        });
+        notify(activity, LifecycleState.LIFECYCLE_START);
     }
 
     @Override
     public void onActivityResumed(@NonNull Activity activity) {
         ActivityStack.resume();
-        doCheck(activity, new CheckListener() {
-            @Override
-            public void hasListener(Activity activity1, CloudLifecycleListener listener) {
-                listener.onActivityResumed(activity1);
-            }
-        });
+        notify(activity, LifecycleState.LIFECYCLE_RESUME);
     }
 
     @Override
     public void onActivityPaused(@NonNull Activity activity) {
-        doCheck(activity, new CheckListener() {
-            @Override
-            public void hasListener(Activity activity1, CloudLifecycleListener listener) {
-                listener.onActivityPaused(activity1);
-            }
-        });
+        notify(activity, LifecycleState.LIFECYCLE_PAUSE);
     }
 
     @Override
     public void onActivityStopped(@NonNull Activity activity) {
         ActivityStack.stop();
-        doCheck(activity, new CheckListener() {
-            @Override
-            public void hasListener(Activity activity1, CloudLifecycleListener listener) {
-                listener.onActivityStopped(activity1);
-            }
-        });
+        notify(activity, LifecycleState.LIFECYCLE_STOP);
     }
 
     @Override
     public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
-        doCheck(activity, new CheckListener() {
-            @Override
-            public void hasListener(Activity activity1, CloudLifecycleListener listener) {
-                listener.onActivitySaveInstanceState(activity1);
-            }
-        });
+
     }
 
     @Override
     public void onActivityDestroyed(@NonNull Activity activity) {
         ActivityStack.remove(activity);
-        doCheck(activity, new CheckListener() {
+        notify(activity, LifecycleState.LIFECYCLE_DESTROY);
+    }
+
+    private static void notify(final Activity activity, final LifecycleState state) {
+        final List<WeakReference<CloudLifecycleListener>> list = LIFECYCLE_MAPPER.get(state.state());
+        WeakReferenceUtils.checkValueIsEmpty(list, new WeakReferenceUtils.Callback<CloudLifecycleListener>() {
             @Override
-            public void hasListener(Activity activity1, CloudLifecycleListener listener) {
-                listener.onActivityDestroyed(activity1);
+            public void onCallback(CloudLifecycleListener lifecycleChangedCallback) {
+                Activity activity1 = ACTIVITY_MAPPER.get(lifecycleChangedCallback);
+                if (activity1 == null) {
+                    return;
+                }
+                if (activity != activity1) {
+                    return;
+                }
+                lifecycleChangedCallback.onLifecycleChanged(activity, state);
             }
         });
-        doDelete(activity);
-    }
-
-    private void doDelete(Activity activity) {
-        String canonicalName = activity.getClass().getCanonicalName();
-        if (!LIFECYCLE_MAPPER.containsKey(canonicalName)) {
-            return;
-        }
-        LIFECYCLE_MAPPER.remove(canonicalName);
-    }
-
-    private void doCheck(Activity activity, CheckListener checkListener) {
-        String canonicalName = activity.getClass().getCanonicalName();
-        if (!LIFECYCLE_MAPPER.containsKey(canonicalName)) {
-            return;
-        }
-        WeakReference<CloudLifecycleListener> weakReference = LIFECYCLE_MAPPER.get(canonicalName);
-        if (weakReference == null) {
-            LIFECYCLE_MAPPER.remove(canonicalName);
-            return;
-        }
-        CloudLifecycleListener listener = weakReference.get();
-        if (listener == null) {
-            LIFECYCLE_MAPPER.remove(canonicalName);
-            return;
-        }
-        checkListener.hasListener(activity, listener);
     }
 }

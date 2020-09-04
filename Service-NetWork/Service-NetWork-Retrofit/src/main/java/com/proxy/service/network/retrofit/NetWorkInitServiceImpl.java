@@ -3,17 +3,18 @@ package com.proxy.service.network.retrofit;
 import androidx.annotation.NonNull;
 
 import com.proxy.service.annotations.CloudApiService;
-import com.proxy.service.api.base.CloudNetWorkCache;
-import com.proxy.service.api.base.CloudNetWorkCookieJar;
-import com.proxy.service.api.base.CloudNetWorkInterceptor;
-import com.proxy.service.api.base.CloudNetWorkMock;
-import com.proxy.service.api.cache.BaseUrlCache;
-import com.proxy.service.api.cache.CallFactoryCache;
-import com.proxy.service.api.cache.CallbackManager;
-import com.proxy.service.api.cache.ConverterCache;
-import com.proxy.service.api.cache.CookieCache;
-import com.proxy.service.api.cache.InterceptorCache;
-import com.proxy.service.api.cache.MockCache;
+import com.proxy.service.api.request.base.CloudNetWorkCache;
+import com.proxy.service.api.request.base.CloudNetWorkCookieJar;
+import com.proxy.service.api.request.base.CloudNetWorkInterceptor;
+import com.proxy.service.api.request.base.CloudNetWorkMock;
+import com.proxy.service.api.request.cache.BaseUrlCache;
+import com.proxy.service.api.request.cache.CallFactoryCache;
+import com.proxy.service.api.request.cache.CallbackManager;
+import com.proxy.service.api.request.cache.ConverterCache;
+import com.proxy.service.api.request.cache.CookieCache;
+import com.proxy.service.api.request.cache.InterceptorCache;
+import com.proxy.service.api.request.cache.MockCache;
+import com.proxy.service.api.request.cache.NetWorkInterceptorCache;
 import com.proxy.service.api.callback.converter.CloudNetWorkConverter;
 import com.proxy.service.api.callback.request.CloudNetWorkCallAdapter;
 import com.proxy.service.api.callback.request.CloudNetWorkGlobalCallback;
@@ -41,7 +42,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     private OkHttpFactory.Builder mOkHttpBuilder = new OkHttpFactory.Builder();
 
     public NetWorkInitServiceImpl() {
-        CallbackManager.addGlobalCallback(new GlobalRequestCallbackImpl());
+        CallbackManager.setGlobalCallback(new GlobalRequestCallbackImpl());
     }
 
     /**
@@ -160,7 +161,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @NonNull
     @Override
     public CloudNetWorkInitService setGlobalRequestCallback(@NonNull CloudNetWorkGlobalCallback callback) {
-        CallbackManager.addGlobalCallback(callback);
+        CallbackManager.setGlobalCallback(callback);
         return this;
     }
 
@@ -175,7 +176,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
      */
     @NonNull
     @Override
-    public CloudNetWorkInitService setConverterFactory(CloudNetWorkConverter.Factory factory) {
+    public CloudNetWorkInitService addConverterFactory(CloudNetWorkConverter.Factory factory) {
         ConverterCache.addConverter(factory);
         return this;
     }
@@ -191,7 +192,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
      */
     @NonNull
     @Override
-    public CloudNetWorkInitService setCallAdapterFactory(CloudNetWorkCallAdapter.Factory factory) {
+    public CloudNetWorkInitService addCallAdapterFactory(CloudNetWorkCallAdapter.Factory factory) {
         CallFactoryCache.addCallFactory(factory);
         return this;
     }
@@ -209,6 +210,22 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     @Override
     public CloudNetWorkInitService addInterceptor(@NonNull CloudNetWorkInterceptor interceptor) {
         InterceptorCache.putInterceptor(interceptor);
+        return this;
+    }
+
+    /**
+     * 添加网络拦截器，生效于真实请求之前与真实请求之后
+     *
+     * @param interceptor : 拦截器对象
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/7/20 9:04 PM
+     */
+    @NonNull
+    @Override
+    public CloudNetWorkInitService addNetWorkInterceptor(@NonNull CloudNetWorkInterceptor interceptor) {
+        NetWorkInterceptorCache.putInterceptor(interceptor);
         return this;
     }
 
@@ -261,7 +278,7 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
     }
 
     /**
-     * 设置网络模拟
+     * 设置 mock 数据
      *
      * @param mock : 网络模拟
      * @return 当前对象
@@ -319,6 +336,6 @@ public class NetWorkInitServiceImpl implements CloudNetWorkInitService {
      */
     @Override
     public void build() {
-        OkHttpFactory.INSTANCE.setBuilder(mOkHttpBuilder);
+        OkHttpFactory.getInstance().setBuilder(mOkHttpBuilder);
     }
 }

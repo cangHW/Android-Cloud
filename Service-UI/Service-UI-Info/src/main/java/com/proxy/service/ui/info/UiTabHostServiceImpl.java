@@ -11,6 +11,7 @@ import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.annotations.CloudUiTabHostReward;
 import com.proxy.service.api.callback.CloudUiEventCallback;
 import com.proxy.service.api.error.CloudApiError;
+import com.proxy.service.api.interfaces.IUiTabHostHelper;
 import com.proxy.service.api.interfaces.IUiTabHostRewardInterface;
 import com.proxy.service.api.service.OtherManager;
 import com.proxy.service.api.services.CloudUiTabHostService;
@@ -29,7 +30,7 @@ import java.util.List;
 @CloudApiService(serviceTag = CloudServiceTagUi.UI_TAB_HOST)
 public class UiTabHostServiceImpl implements CloudUiTabHostService {
 
-    private TabHostHelper mTabHostHelper;
+    private IUiTabHostHelper<TabHostHelper> mTabHostHelper;
     private FragmentActivity mFragmentActivity;
     private Fragment mFragment;
     private ViewGroup mContentViewGroup;
@@ -216,8 +217,7 @@ public class UiTabHostServiceImpl implements CloudUiTabHostService {
         }
         isLoadUi = true;
 
-        mTabHostHelper
-                .setFragment(mFragment)
+        mTabHostHelper.setFragment(mFragment)
                 .setActivity(mFragmentActivity)
                 .addEventCallback(mCloudUiEventCallback)
                 .setUiTabHostRewardInterfaces(getData(rewardTag))

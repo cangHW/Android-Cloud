@@ -1,6 +1,6 @@
 package com.proxy.service.ui.uitabhost.listener;
 
-import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
+import com.proxy.service.api.request.annotations.TabHostRewardSelectFrom;
 
 /**
  * @author: cangHX
