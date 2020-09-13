@@ -10,8 +10,8 @@ import android.os.IBinder;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.utils.Logger;
-import com.proxy.service.network.download.DownloadManager;
 import com.proxy.service.network.download.info.DownloadInfo;
+import com.proxy.service.network.download.services.DownloadService;
 import com.proxy.service.network.download.services.TaskProcessService;
 import com.proxy.service.network.download.services.TaskService;
 import com.proxy.service.network.retrofit.DownloadSeverInterface;
@@ -68,7 +68,7 @@ public class ServiceUtils {
             return;
         }
         Intent intent = new Intent(application, service);
-        intent.putExtra(DownloadManager.KEY, info);
+        intent.putExtra(DownloadService.KEY, info);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
             application.startForegroundService(intent);
         } else {

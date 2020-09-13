@@ -1,5 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.proxy.service.network.retrofit">
 
-    /
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
+    <application>
+
+        <service android:name="com.proxy.service.network.download.services.TaskService"/>
+        <service android:name="com.proxy.service.network.download.services.TaskProcessService"
+            android:process=":download"/>
+
+    </application>
 </manifest>

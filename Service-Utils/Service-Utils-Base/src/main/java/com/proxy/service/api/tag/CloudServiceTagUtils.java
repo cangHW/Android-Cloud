@@ -58,4 +58,14 @@ public class CloudServiceTagUtils {
      */
     public static final String UTILS_PERMISSION = "utils_permission";
 
+    /**
+     * 文件相关
+     */
+    public static final String UTILS_FILE = "utils_file";
+
+    /**
+     * 加解密相关
+     */
+    public static final String UTILS_SECURITY = "utils_security";
+
 }

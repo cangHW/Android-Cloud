@@ -1,6 +1,7 @@
 package com.proxy.androidcloud.helper;
 
 import com.proxy.androidcloud.module_library.ThreadPoolHelper;
+import com.proxy.androidcloud.module_network.DownloadHelper;
 
 /**
  * @author : cangHX
@@ -20,6 +21,21 @@ public enum HelperType {
         @Override
         public AbstractHelper create() {
             return new ThreadPoolHelper();
+        }
+    },
+
+    /**
+     * 下载
+     */
+    DOWNLOAD {
+        @Override
+        public String serviceName() {
+            return "CloudNetWorkDownloadService";
+        }
+
+        @Override
+        public AbstractHelper create() {
+            return new DownloadHelper();
         }
     };
 

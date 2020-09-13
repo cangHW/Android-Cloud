@@ -28,6 +28,10 @@ public class ThreadPoolHelper extends AbstractHelper {
     private Logger logger = Logger.create("thread-pool");
     private CloudUtilsTaskService service;
 
+    public ThreadPoolHelper() {
+        service = CloudSystem.getService(CloudUtilsTaskService.class);
+    }
+
     @Override
     public List<HelperItemInfo> createItems() {
         List<HelperItemInfo> list = new ArrayList<>();
@@ -70,9 +74,6 @@ public class ThreadPoolHelper extends AbstractHelper {
 
     @Override
     public void onItemClick(Context context, HelperItemInfo itemInfo, int button) {
-        if (service == null) {
-            service = CloudSystem.getService(CloudUtilsTaskService.class);
-        }
         if (service == null) {
             return;
         }

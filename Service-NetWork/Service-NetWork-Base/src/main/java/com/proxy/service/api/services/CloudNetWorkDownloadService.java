@@ -124,7 +124,7 @@ public interface CloudNetWorkDownloadService extends BaseService {
      * @author: cangHX
      * @date: 2020/9/2 7:30 PM
      */
-    int start(@NonNull CloudNetWorkDownloadInfo info);
+    long start(@NonNull CloudNetWorkDownloadInfo info);
 
     /**
      * 暂停下载

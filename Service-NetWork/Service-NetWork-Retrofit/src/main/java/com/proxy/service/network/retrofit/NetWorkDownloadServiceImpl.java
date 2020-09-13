@@ -1,5 +1,7 @@
 package com.proxy.service.network.retrofit;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 
 import com.proxy.service.annotations.CloudApiService;
@@ -8,7 +10,11 @@ import com.proxy.service.api.download.CloudNetWorkDownloadInfo;
 import com.proxy.service.api.download.CloudNetWorkNotificationInfo;
 import com.proxy.service.api.services.CloudNetWorkDownloadService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
+import com.proxy.service.api.utils.Logger;
 import com.proxy.service.network.download.DownloadManager;
+import com.proxy.service.network.download.db.DbHelper;
+import com.proxy.service.network.download.db.TableDownloadInfo;
+import com.proxy.service.network.download.info.DownloadInfo;
 import com.proxy.service.network.download.network.NetWorkStateManager;
 import com.proxy.service.network.download.notification.INotificationImpl;
 
@@ -16,7 +22,7 @@ import com.proxy.service.network.download.notification.INotificationImpl;
  * @author : cangHX
  * on 2020/09/03  8:03 PM
  */
-@CloudApiService(serviceTag = CloudServiceTagNetWork.NET_WORK_DOWN_LOAD)
+@CloudApiService(serviceTag = CloudServiceTagNetWork.NET_WORK_DOWNLOAD)
 public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
 
     private String mFileDir;
@@ -166,8 +172,40 @@ public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
      * @date: 2020/9/2 7:30 PM
      */
     @Override
-    public int start(@NonNull CloudNetWorkDownloadInfo info) {
-        return 0;
+    public long start(@NonNull CloudNetWorkDownloadInfo info) {
+        if (TextUtils.isEmpty(info.getFileUrl())) {
+            Logger.Debug("The download missing url");
+            return -1;
+        }
+
+        CloudNetWorkDownloadInfo.Builder builder = info.build();
+        if (info.getDownloadCallback() == null) {
+            builder.setDownloadCallback(mGlobalCallback);
+        }
+        if (TextUtils.isEmpty(info.getFileDir())) {
+            builder.setFilePath(mFileDir);
+        }
+        if (TextUtils.isEmpty(info.getFileCachePath())) {
+            builder.setFileCachePath(mFileCacheDir);
+        }
+        if (info.getNotificationEnable() == null) {
+            builder.setNotificationEnable(mNotificationEnable);
+        }
+        builder.checkFilePath();
+        info = builder.build();
+        DownloadInfo downloadInfo = DbHelper.getInstance().query(TableDownloadInfo.COLUMN_FILE_URL + "=?", new String[]{info.getFileUrl()});
+        if (downloadInfo != null) {
+            info.downloadId = downloadInfo.downloadId;
+            DownloadManager.getInstance().start(info);
+            return downloadInfo.downloadId;
+        }
+        downloadInfo = DownloadInfo.getDownloadInfo(info);
+        long id = DbHelper.getInstance().insert(downloadInfo);
+        if (id >= 0) {
+            info.downloadId = (int) id;
+            DownloadManager.getInstance().start(info);
+        }
+        return id;
     }
 
     /**
@@ -180,7 +218,7 @@ public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
      */
     @Override
     public void pause(int downloadId) {
-
+        DownloadManager.getInstance().pause(downloadId);
     }
 
     /**
@@ -193,7 +231,7 @@ public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
      */
     @Override
     public void continues(int downloadId) {
-
+        DownloadManager.getInstance().continues(downloadId);
     }
 
     /**
@@ -206,7 +244,7 @@ public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
      */
     @Override
     public void cancel(int downloadId) {
-
+        DownloadManager.getInstance().cancel(downloadId);
     }
 
     /**
@@ -219,6 +257,7 @@ public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
      */
     @Override
     public void delete(int downloadId) {
-
+        DownloadManager.getInstance().cancel(downloadId);
+        DbHelper.getInstance().delete(TableDownloadInfo.COLUMN_DOWNLOAD_ID + "=?", new String[]{String.valueOf(downloadId)});
     }
 }

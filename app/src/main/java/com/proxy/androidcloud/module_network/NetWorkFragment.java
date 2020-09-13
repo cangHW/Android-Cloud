@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import com.proxy.androidcloud.R;
 import com.proxy.androidcloud.base.BaseApplication;
 import com.proxy.androidcloud.base.BaseFragment;
+import com.proxy.androidcloud.detail.DetailActivity;
+import com.proxy.androidcloud.helper.HelperType;
 import com.proxy.androidcloud.module_network.request.KuaiDiBean;
 import com.proxy.androidcloud.module_network.request.RequestService;
 import com.proxy.androidcloud.module_network.request.WeatherBean;
@@ -50,6 +52,7 @@ public class NetWorkFragment extends BaseFragment implements View.OnClickListene
         view.findViewById(R.id.normal_request).setOnClickListener(this);
         view.findViewById(R.id.mock_request).setOnClickListener(this);
         view.findViewById(R.id.change_base_url_request).setOnClickListener(this);
+        view.findViewById(R.id.download).setOnClickListener(this);
     }
 
     @Override
@@ -66,6 +69,9 @@ public class NetWorkFragment extends BaseFragment implements View.OnClickListene
                 break;
             case R.id.change_base_url_request:
                 changeBaseUrlRequest();
+                break;
+            case R.id.download:
+                DetailActivity.launch(getContext(), HelperType.DOWNLOAD);
                 break;
             default:
         }

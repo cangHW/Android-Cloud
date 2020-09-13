@@ -13,6 +13,8 @@ interface DownloadClientInterface {
 
     void onSuccess(int downloadId);
 
-    void onFailed(int downloadId, String errType);
+    void onWarning(int downloadId, String warningMsg);
+
+    void onFailed(int downloadId, String errorMsg);
 
 }

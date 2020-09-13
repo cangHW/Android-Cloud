@@ -23,29 +23,29 @@ public @interface DownloadState {
     /**
      * 添加
      */
-    int ADD = 0;
+    int ADD = 1;
     /**
      * 开始
      */
-    int START = 1;
+    int START = 2;
     /**
      * 暂停
      */
-    int PAUSE = 2;
+    int PAUSE = 3;
     /**
      * 继续
      */
-    int CONTINUES = 3;
+    int CONTINUES = 4;
     /**
      * 下载中
      */
-    int LOADING = 4;
+    int LOADING = 5;
     /**
      * 完成
      */
-    int COMPLETED = 5;
+    int COMPLETED = 6;
     /**
      * 失败
      */
-    int FAILED = 6;
+    int FAILED = 7;
 }

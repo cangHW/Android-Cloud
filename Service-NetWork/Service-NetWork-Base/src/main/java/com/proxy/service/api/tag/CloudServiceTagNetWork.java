@@ -21,7 +21,7 @@ public class CloudServiceTagNetWork {
     /**
      * 网络模块下载服务
      */
-    public static final String NET_WORK_DOWN_LOAD = "net_work_down_load";
+    public static final String NET_WORK_DOWNLOAD = "net_work_download";
 
     /**
      * 网络模块上传服务

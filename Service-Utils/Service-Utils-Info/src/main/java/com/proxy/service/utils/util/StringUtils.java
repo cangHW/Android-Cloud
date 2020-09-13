@@ -1,5 +1,7 @@
 package com.proxy.service.utils.util;
 
+import android.text.TextUtils;
+
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.utils.Logger;
 
@@ -155,5 +157,51 @@ public class StringUtils {
      */
     private static boolean isEmojiCharacter(char codePoint) {
         return codePoint == 0x0 || codePoint == 0x9 || codePoint == 0xA || codePoint == 0xD || codePoint >= 0x20 && codePoint <= 0xD7FF || codePoint >= 0xE000 && codePoint <= 0xFFFD;
+    }
+
+    /**
+     * 16 进制字符串转为 10 进制 byte 数组
+     *
+     * @param hexStr : 待转换的字符串
+     * @return 转换后的 10 进制 byte 数组
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/11 11:24 PM
+     */
+    public static byte[] parseHexStr2Byte(String hexStr) {
+        if (TextUtils.isEmpty(hexStr)) {
+            return null;
+        }
+        byte[] result = new byte[hexStr.length() / 2];
+        for (int i = 0; i < hexStr.length() / 2; i++) {
+            int high = Integer.parseInt(hexStr.substring(i * 2, i * 2 + 1), 16);
+            int low = Integer.parseInt(hexStr.substring(i * 2 + 1, i * 2 + 2), 16);
+            result[i] = (byte) (high * 16 + low);
+        }
+        return result;
+    }
+
+    /**
+     * byte 数组转为 16 进制字符串
+     *
+     * @param buffer : 待转换的 byte 数组
+     * @return 转换后的字符串
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/11 11:27 PM
+     */
+    public static String parseByte2HexStr(byte[] buffer) {
+        if (buffer == null) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (byte b : buffer) {
+            String hex = Integer.toHexString(b & 0xFF);
+            if (hex.length() == 1) {
+                hex = '0' + hex;
+            }
+            sb.append(hex.toUpperCase());
+        }
+        return sb.toString();
     }
 }
