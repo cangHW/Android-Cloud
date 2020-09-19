@@ -9,21 +9,21 @@
 
 ## 一、服务
 
-| 类名 | tag | 说明 |
-| :-- | :-- | :-- |
-| CloudUtilsTaskService | CloudServiceTagUtils.UTILS_TASK | 线程切换相关操作 |
-| CloudUtilsAppService | CloudServiceTagUtils.UTILS_APP | 获取当前应用相关信息 |
-| CloudUtilsBitmapService | CloudServiceTagUtils.UTILS_BITMAP | bitmap 相关操作 |
-| CloudUtilsDisplayService | CloudServiceTagUtils.UTILS_DISPLAY | 获取像素转换相关信息 |
-| CloudUtilsEditTextService | CloudServiceTagUtils.UTILS_EDIT_TEXT | 控制输入框相关功能 |
-| CloudUtilsFileService | CloudServiceTagUtils.UTILS_FILE | 文件操作相关功能 |
-| CloudUtilsInstallService | CloudServiceTagUtils.UTILS_INSTALL | 应用安装相关操作 |
-| CloudUtilsNetWorkService | CloudServiceTagUtils.UTILS_NET_WORK | 网络状态相关操作 |
-| CloudUtilsPermissionService | CloudServiceTagUtils.UTILS_PERMISSION | 权限管理相关操作 |
-| CloudUtilsSecurityService | CloudServiceTagUtils.UTILS_SECURITY | 加解密相关操作 |
-| CloudUtilsShareService | CloudServiceTagUtils.UTILS_SHARE | 系统分享相关功能 |
-| CloudUtilsSystemInfoService | CloudServiceTagUtils.UTILS_SYSTEM_INFO | 获取设备相关信息 |
-| CloudUtilsSystemPageService | CloudServiceTagUtils.UTILS_SYSTEM_PAGE | 跳转常用系统页面 |
+| | 类名 | tag | 说明 |
+| :--: | :-- | :-- | :-- |
+| 1 | CloudUtilsTaskService | CloudServiceTagUtils.UTILS_TASK | 线程切换相关操作 |
+| 2 | CloudUtilsAppService | CloudServiceTagUtils.UTILS_APP | 获取当前应用相关信息 |
+| 3 | CloudUtilsBitmapService | CloudServiceTagUtils.UTILS_BITMAP | bitmap 相关操作 |
+| 4 | CloudUtilsDisplayService | CloudServiceTagUtils.UTILS_DISPLAY | 获取像素转换相关信息 |
+| 5 | CloudUtilsEditTextService | CloudServiceTagUtils.UTILS_EDIT_TEXT | 控制输入框相关功能 |
+| 6 | CloudUtilsFileService | CloudServiceTagUtils.UTILS_FILE | 文件操作相关功能 |
+| 7 | CloudUtilsInstallService | CloudServiceTagUtils.UTILS_INSTALL | 应用安装相关操作 |
+| 8 | CloudUtilsNetWorkService | CloudServiceTagUtils.UTILS_NET_WORK | 网络状态相关操作 |
+| 9 | CloudUtilsPermissionService | CloudServiceTagUtils.UTILS_PERMISSION | 权限管理相关操作 |
+| 10 | CloudUtilsSecurityService | CloudServiceTagUtils.UTILS_SECURITY | 加解密相关操作 |
+| 11 | CloudUtilsShareService | CloudServiceTagUtils.UTILS_SHARE | 系统分享相关功能 |
+| 12 | CloudUtilsSystemInfoService | CloudServiceTagUtils.UTILS_SYSTEM_INFO | 获取设备相关信息 |
+| 13 | CloudUtilsSystemPageService | CloudServiceTagUtils.UTILS_SYSTEM_PAGE | 跳转常用系统页面 |
 
 
 ## 二、介绍
