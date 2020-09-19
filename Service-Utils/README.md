@@ -45,7 +45,7 @@
 | callWorkThread | task：任务体 | 在工作线程执行 |
 | cancel |  | 取消未执行与正在执行的任务 |
 
-返回对象中特有方法
+    返回对象中特有方法
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | isSuccess |  | 上一个任务是否执行成功 |
@@ -70,7 +70,7 @@
 | toBitmap | Drawable：准备转换成 bitmap 的 drawable 对象 | Drawable 转 bitmap |
 | toBitmap | @DrawableRes drawableId：准备转换成 bitmap 的 drawable id | Drawable 转 bitmap |
 
-3、CloudUtilsDisplayService  获取像素转换相关信息
+4、CloudUtilsDisplayService  获取像素转换相关信息
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | px2dp | pxValue：需要转化的px数值 | px转dp |
