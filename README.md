@@ -86,6 +86,44 @@
 | Utils | 0.0.2 | com.proxy.service:Service-Utils-Info:“版本号” | api |
 
 
+## 基本用法
+
+### 一、初始化
+通过 CloudSystem.init(@NonNull Context context, boolean isDebug) 进行初始化，初始化之后即可正常使用本框架
+
+### 二、服务
+本框架中的服务代表一个个的功能，例如：file文件处理、bitmap图片处理、数据校验、网络请求等等。具体的服务对应的 class 类型与 tag 值，请查看对应的文档
+<br/>
+
+而获取服务的方式有以下几种：
+
+| 方法 | 参数 | 效果 |
+| :--: | :--: | :-- |
+| CloudSystem.getService() | tag：服务对应的 tag | 通过 tag 获取单个/多个服务 |
+| CloudSystem.getServiceWithUuid() | 1、uuid：唯一ID，用于触发对应拦截器。 2、tag：服务对应的 tag | 通过 tag 获取单个/多个服务 |
+| CloudSystem.getService() | tClass：服务的 class 类型 | 通过 class 类型获取单个/多个服务 |
+| CloudSystem.getServiceWithUuid() | 1、uuid：唯一ID，用于触发对应拦截器。 2、tClass：服务的 class 类型 | 通过 class 类型获取单个/多个服务 |
+
+
+### 三、拦截器
+拦截器分为两种，全局拦截器与定向拦截器
+<br/>
+
+1、全局拦截器
+| 方法 | 参数 | 效果 |
+| :--: | :--: | :-- |
+| CloudSystem.addConverter() | 1、tClass：服务的 class 类型。 2、converter：拦截器接口对象 | 注册完成拦截器之后，只要通过 CloudSystem 获取服务就会触发注册好的拦截器(获取的服务类型必须和拦截器准备拦截的类型相同) |
+
+
+1、定向拦截器
+| 方法 | 参数 | 效果 |
+| :--: | :--: | :-- |
+| CloudSystem.addConverter() | 1、uuid：唯一ID，用于匹配在获取服务时传入的 uuid。 2、tClass：服务的 class 类型。 3、converter：拦截器接口对象 | 注册完成拦截器之后，只要通过 CloudSystem 获取服务，并且 uuid 相同就会触发注册好的拦截器(获取的服务类型必须和拦截器准备拦截的类型相同) |
+
+
+
+
+
 
 
 
