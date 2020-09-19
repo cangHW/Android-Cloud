@@ -51,6 +51,7 @@
 | isSuccess |  | 上一个任务是否执行成功 |
 | getResponse |  | 获取上一个任务返回值 |
 | getThrowable |  | 获取上一个任务异常信息(如果存在异常) |
+</br>
 
 2、CloudUtilsAppService   获取当前应用相关信息
 | 方法名 | 参数 | 说明 |
@@ -63,12 +64,14 @@
 | getLongVersionCode |  | 获取当前app版本code |
 | getVersionName |  | 获取当前app版本name |
 | isBackground |  | 判断当前app是否处于后台 |
+</br>
 
 3、CloudUtilsBitmapService  bitmap 相关操作
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | toBitmap | Drawable：准备转换成 bitmap 的 drawable 对象 | Drawable 转 bitmap |
 | toBitmap | @DrawableRes drawableId：准备转换成 bitmap 的 drawable id | Drawable 转 bitmap |
+</br>
 
 4、CloudUtilsDisplayService  获取像素转换相关信息
 | 方法名 | 参数 | 说明 |
