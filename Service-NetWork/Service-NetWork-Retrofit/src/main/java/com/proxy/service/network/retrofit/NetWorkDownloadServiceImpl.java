@@ -15,8 +15,7 @@ import com.proxy.service.network.download.DownloadManager;
 import com.proxy.service.network.download.db.DbHelper;
 import com.proxy.service.network.download.db.TableDownloadInfo;
 import com.proxy.service.network.download.info.DownloadInfo;
-import com.proxy.service.network.download.network.NetWorkStateManager;
-import com.proxy.service.network.download.notification.INotificationImpl;
+import com.proxy.service.network.download.notification.NotificationImpl;
 
 /**
  * @author : cangHX
@@ -141,24 +140,8 @@ public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
      */
     @NonNull
     @Override
-    public CloudNetWorkDownloadService setGlobalNotification(@NonNull CloudNetWorkNotificationInfo info) {
-        INotificationImpl.getInstance().setNotificationBuilder(info);
-        return this;
-    }
-
-    /**
-     * 设置是否观察网络状态，自动更改下载状态，默认不观察
-     *
-     * @param enable : 是否观察网络状态，自动更改下载状态
-     * @return 当前对象
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020/9/2 6:38 PM
-     */
-    @NonNull
-    @Override
-    public CloudNetWorkDownloadService setGlobalNetworkStateWatchEnable(boolean enable) {
-        NetWorkStateManager.getInstance().setNetworkStateWatchEnable(enable);
+    public CloudNetWorkDownloadService setGlobalNotificationBuilder(@NonNull CloudNetWorkNotificationInfo info) {
+        NotificationImpl.getInstance().setNotificationBuilder(info);
         return this;
     }
 

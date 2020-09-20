@@ -65,7 +65,7 @@ public class PathUtils {
             return "";
         }
         try {
-            return path.substring(path.lastIndexOf(File.separator));
+            return path.substring(path.lastIndexOf(File.separator) + 1);
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         }
@@ -77,7 +77,7 @@ public class PathUtils {
             return "";
         }
         try {
-            return path.substring(0, path.lastIndexOf(File.separator));
+            return path.substring(0, path.lastIndexOf(File.separator) + 1);
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         }

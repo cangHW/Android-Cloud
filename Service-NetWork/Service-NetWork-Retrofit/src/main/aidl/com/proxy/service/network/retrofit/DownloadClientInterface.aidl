@@ -9,8 +9,6 @@ interface DownloadClientInterface {
 
     void onProgress(int downloadId, long progress, long total);
 
-    void onPause(int downloadId);
-
     void onSuccess(int downloadId);
 
     void onWarning(int downloadId, String warningMsg);

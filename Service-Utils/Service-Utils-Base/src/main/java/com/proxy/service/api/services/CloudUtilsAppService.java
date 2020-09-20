@@ -1,7 +1,11 @@
 package com.proxy.service.api.services;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.proxy.service.base.BaseService;
@@ -32,6 +36,7 @@ public interface CloudUtilsAppService extends BaseService {
      * @author: cangHX
      * @date: 2020-06-10 19:04
      */
+    @NonNull
     String getUid();
 
     /**
@@ -42,16 +47,28 @@ public interface CloudUtilsAppService extends BaseService {
      * @author: cangHX
      * @date: 2020-06-10 19:04
      */
+    @NonNull
     String getPackageName();
 
     /**
+     * 获取当前app图标
+     *
+     * @return 图标
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-10 19:04
+     */
+    @Nullable
+    Bitmap getIcon();
+
+    /**
      * 获取当前app版本code
-     * @see #getLongVersionCode
      *
      * @return 版本code
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-06-11 09:52
+     * @see #getLongVersionCode
      */
     @Deprecated
     int getVersionCode();
@@ -75,6 +92,7 @@ public interface CloudUtilsAppService extends BaseService {
      * @author: cangHX
      * @date: 2020-06-11 09:53
      */
+    @NonNull
     String getVersionName();
 
     /**

@@ -60,7 +60,7 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
      * @date: 2020-07-07 18:45
      */
     @Override
-    public void runUi(Runnable runnable) {
+    public void runMain(Runnable runnable) {
         if (isError) {
             return;
         }
@@ -83,7 +83,7 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
      * @date: 2020-07-07 18:45
      */
     @Override
-    public void runBg(Runnable runnable) {
+    public void runWork(Runnable runnable) {
         if (isError) {
             return;
         }

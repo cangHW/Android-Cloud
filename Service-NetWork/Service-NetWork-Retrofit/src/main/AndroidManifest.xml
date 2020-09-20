@@ -5,7 +5,6 @@
 
     <application>
 
-        <service android:name="com.proxy.service.network.download.services.TaskService"/>
         <service android:name="com.proxy.service.network.download.services.TaskProcessService"
             android:process=":download"/>
 

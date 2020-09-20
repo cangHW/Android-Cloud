@@ -38,7 +38,7 @@ public class DownloadService extends Service {
 
     private static final String TAG = "DownloadService";
 
-    private static final String CHANNEL_ID = "download";
+    private static final String CHANNEL_ID = "cloud_service_download";
     private static final String CHANNEL_NAME = "下载";
 
     public static final String KEY = "INFO";
@@ -73,7 +73,7 @@ public class DownloadService extends Service {
                     manager.createNotificationChannel(channel);
                     Notification notification = new Notification.Builder(getApplicationContext(), CHANNEL_ID).build();
                     startForeground(1, notification);
-//                    stopForeground(true);
+                    stopForeground(true);
                 }
             } catch (Throwable throwable) {
                 Logger.Debug(throwable);
@@ -100,6 +100,10 @@ public class DownloadService extends Service {
     }
 
     private void startTask(final DownloadInfo info, int startId) {
+        if (mTaskService == null) {
+            Logger.Debug("Please check whether to use \"exclude\" to remove partial dependencies");
+            return;
+        }
         mTaskCount.incrementAndGet();
         info.serviceId = startId;
         mTaskService.callWorkThread(new Task<Object>() {

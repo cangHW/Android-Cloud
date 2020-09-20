@@ -7,14 +7,19 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.proxy.service.annotations.CloudApiService;
+import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsAppService;
+import com.proxy.service.api.services.CloudUtilsBitmapService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.utils.cache.Cache;
@@ -65,6 +70,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
      * @author: cangHX
      * @date: 2020-06-10 19:04
      */
+    @NonNull
     @Override
     public String getUid() {
         Context context = ContextManager.getApplication();
@@ -84,6 +90,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
      * @author: cangHX
      * @date: 2020-06-10 19:04
      */
+    @NonNull
     @Override
     public String getPackageName() {
         Context context = ContextManager.getApplication();
@@ -92,6 +99,34 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
             return "";
         }
         return context.getPackageName();
+    }
+
+    /**
+     * 获取当前app图标
+     *
+     * @return 图标
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-10 19:04
+     */
+    @Override
+    public Bitmap getIcon() {
+        Context context = ContextManager.getApplication();
+        if (context == null) {
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
+            return null;
+        }
+        Bitmap bitmap = null;
+        try {
+            Drawable drawable = context.getApplicationInfo().loadIcon(Cache.getPackageManager(context));
+            CloudUtilsBitmapService bitmapService = CloudSystem.getService(CloudServiceTagUtils.UTILS_BITMAP);
+            if (bitmapService != null) {
+                bitmap = bitmapService.toBitmap(drawable);
+            }
+        } catch (Throwable throwable) {
+            Logger.Debug(throwable);
+        }
+        return bitmap;
     }
 
     /**
@@ -161,6 +196,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
      * @author: cangHX
      * @date: 2020-06-11 09:53
      */
+    @NonNull
     @Override
     public String getVersionName() {
         String versionName = "";

@@ -6,6 +6,7 @@ import com.proxy.androidcloud.helper.AbstractHelper;
 import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.callback.download.CloudDownloadCallback;
 import com.proxy.service.api.download.CloudNetWorkDownloadInfo;
+import com.proxy.service.api.download.CloudNetWorkNotificationInfo;
 import com.proxy.service.api.services.CloudNetWorkDownloadService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
 import com.proxy.service.api.utils.Logger;
@@ -27,7 +28,14 @@ public class DownloadHelper extends AbstractHelper {
         if (service == null) {
             return;
         }
-        service.setGlobalMultiProcessEnable(false);
+
+        service.setGlobalNotificationBuilder(
+                CloudNetWorkNotificationInfo.builder()
+                        .setChannelId("1222")
+                        .setChannelName("下载")
+                        .setChannelLevel(CloudNetWorkNotificationInfo.ChannelLevel.LOW)
+                        .build()
+        ).setGlobalMultiProcessEnable(true);
     }
 
     @Override
@@ -50,6 +58,7 @@ public class DownloadHelper extends AbstractHelper {
             case 0:
                 CloudNetWorkDownloadInfo.Builder builder = CloudNetWorkDownloadInfo.builder()
                         .setDownloadCallback(downloadCallback)
+                        .setNotificationEnable(true)
                         .setFileName("app-develop-release.apk")
                         .setFileUrl("https://test-mclient.e.360.cn/app-develop-release.apk");
                 service.start(builder.build());
@@ -87,7 +96,7 @@ public class DownloadHelper extends AbstractHelper {
 
         @Override
         public void onSuccess(CloudNetWorkDownloadInfo info) {
-            logger.debug("onSuccess");
+            logger.debug("onSuccess. with : " + info.getFileDir() + info.getFileName());
         }
 
         @Override

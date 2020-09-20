@@ -5,8 +5,6 @@ import android.text.TextUtils;
 import com.proxy.service.api.callback.download.CloudDownloadCallback;
 import com.proxy.service.api.utils.PathUtils;
 
-import java.io.File;
-
 /**
  * @author : cangHX
  * on 2020/09/02  7:54 PM
@@ -14,10 +12,12 @@ import java.io.File;
 public final class CloudNetWorkDownloadInfo {
 
     public int downloadId = -1;
-    public boolean enable = true;
+    public boolean isPause = false;
+
+    private String taskName;
 
     private String fileDir;
-    private String fileCacheFile;
+    private String fileCachePath;
     private String fileName;
     private String fileUrl;
     private String fileMd5;
@@ -26,15 +26,15 @@ public final class CloudNetWorkDownloadInfo {
 
     private CloudDownloadCallback downloadCallback;
     private Boolean isNotificationEnable;
-    private Boolean isNetworkStateWatchEnable;
 
     private CloudNetWorkDownloadInfo(Builder builder) {
+        this.taskName = builder.taskName;
         if (TextUtils.isEmpty(builder.filePath)) {
             this.fileDir = "";
         } else {
-            this.fileDir = PathUtils.getDirFromPath(builder.filePath + File.separator);
+            this.fileDir = PathUtils.getDirFromPath(builder.filePath);
         }
-        this.fileCacheFile = builder.fileCachePath;
+        this.fileCachePath = builder.fileCachePath;
         this.fileName = builder.fileName;
         this.fileUrl = builder.fileUrl;
         this.fileMd5 = builder.fileMd5;
@@ -43,7 +43,13 @@ public final class CloudNetWorkDownloadInfo {
 
         this.downloadCallback = builder.downloadCallback;
         this.isNotificationEnable = builder.isNotificationEnable;
-        this.isNetworkStateWatchEnable = builder.isNetworkStateWatchEnable;
+    }
+
+    public String getTaskName() {
+        if (TextUtils.isEmpty(taskName)) {
+            return getFileName();
+        }
+        return taskName;
     }
 
     public String getFileDir() {
@@ -54,10 +60,10 @@ public final class CloudNetWorkDownloadInfo {
     }
 
     public String getFileCachePath() {
-        if (TextUtils.isEmpty(fileCacheFile)) {
+        if (TextUtils.isEmpty(fileCachePath)) {
             return "";
         }
-        return fileCacheFile;
+        return fileCachePath;
     }
 
     public String getFileName() {
@@ -100,10 +106,6 @@ public final class CloudNetWorkDownloadInfo {
         return isNotificationEnable;
     }
 
-    public Boolean getNetworkStateWatchEnable() {
-        return isNetworkStateWatchEnable;
-    }
-
     public Builder build() {
         return new Builder(this);
     }
@@ -113,6 +115,8 @@ public final class CloudNetWorkDownloadInfo {
     }
 
     public static class Builder {
+
+        private String taskName;
 
         private String filePath;
         private String fileCachePath;
@@ -124,11 +128,11 @@ public final class CloudNetWorkDownloadInfo {
 
         private CloudDownloadCallback downloadCallback;
         private Boolean isNotificationEnable;
-        private Boolean isNetworkStateWatchEnable;
 
         private Builder(CloudNetWorkDownloadInfo info) {
+            this.taskName = info.taskName;
             this.filePath = info.fileDir;
-            this.fileCachePath = info.fileCacheFile;
+            this.fileCachePath = info.fileCachePath;
             this.fileName = info.fileName;
             this.fileUrl = info.fileUrl;
             this.fileMd5 = info.fileMd5;
@@ -136,10 +140,14 @@ public final class CloudNetWorkDownloadInfo {
             this.tag = info.tag;
             this.downloadCallback = info.downloadCallback;
             this.isNotificationEnable = info.isNotificationEnable;
-            this.isNetworkStateWatchEnable = info.isNetworkStateWatchEnable;
         }
 
         private Builder() {
+        }
+
+        public Builder setTaskName(String taskName) {
+            this.taskName = taskName;
+            return this;
         }
 
         public Builder setFilePath(String filePath) {
@@ -187,11 +195,6 @@ public final class CloudNetWorkDownloadInfo {
             return this;
         }
 
-        public Builder setNetworkStateWatchEnable(boolean networkStateWatchEnable) {
-            isNetworkStateWatchEnable = networkStateWatchEnable;
-            return this;
-        }
-
         public CloudNetWorkDownloadInfo build() {
             return new CloudNetWorkDownloadInfo(this);
         }
@@ -211,6 +214,9 @@ public final class CloudNetWorkDownloadInfo {
                     fileName = PathUtils.getNameFromPath(fileCachePath);
                 }
                 if (TextUtils.isEmpty(fileName)) {
+                    fileName = PathUtils.getNameFromPath(fileUrl);
+                }
+                if (TextUtils.isEmpty(fileName)) {
                     fileName = PathUtils.CACHE_PREFIX + System.currentTimeMillis();
                 }
             }
@@ -218,7 +224,7 @@ public final class CloudNetWorkDownloadInfo {
             filePath = PathUtils.getDirFromPath(filePath);
 
             if (isFileCachePathEmpty) {
-                fileCachePath = filePath + File.separator + fileName + PathUtils.CACHE_SUFFIX;
+                fileCachePath = filePath + fileName + PathUtils.CACHE_SUFFIX;
             }
         }
     }

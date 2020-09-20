@@ -68,4 +68,9 @@ public class CloudServiceTagUtils {
      */
     public static final String UTILS_SECURITY = "utils_security";
 
+    /**
+     * Bitmap相关
+     */
+    public static final String UTILS_BITMAP = "utils_bitmap";
+
 }

@@ -14,7 +14,7 @@ public interface IReallyUiFieldCheck extends IUiFieldCheck {
      * @author: cangHX
      * @date: 2020-07-07 18:45
      */
-    void runUi(Runnable runnable);
+    void runMain(Runnable runnable);
 
     /**
      * 检测成功执行，子线程
@@ -24,5 +24,5 @@ public interface IReallyUiFieldCheck extends IUiFieldCheck {
      * @author: cangHX
      * @date: 2020-07-07 18:45
      */
-    void runBg(Runnable runnable);
+    void runWork(Runnable runnable);
 }

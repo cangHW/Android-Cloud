@@ -99,7 +99,7 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
                     .check(ACCOUNT)
                     .check(PASSWORD)
                     .check(PROTOCOL)
-                    .runUi(() -> {
+                    .runMain(() -> {
                         MainActivity.launch(LoginActivity.this);
                         finish();
                     });

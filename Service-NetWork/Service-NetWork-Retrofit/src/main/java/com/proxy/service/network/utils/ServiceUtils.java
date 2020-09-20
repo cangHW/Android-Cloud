@@ -13,7 +13,6 @@ import com.proxy.service.api.utils.Logger;
 import com.proxy.service.network.download.info.DownloadInfo;
 import com.proxy.service.network.download.services.DownloadService;
 import com.proxy.service.network.download.services.TaskProcessService;
-import com.proxy.service.network.download.services.TaskService;
 import com.proxy.service.network.retrofit.DownloadSeverInterface;
 
 /**
@@ -52,22 +51,14 @@ public class ServiceUtils {
         void onDisconnected();
     }
 
-    public static void startTaskService(DownloadInfo info, StartCallback callback) {
-        startService(TaskService.class, info, callback);
-    }
-
-    public static void startTaskProcessService(DownloadInfo info, StartCallback callback) {
-        startService(TaskProcessService.class, info, callback);
-    }
-
-    private static void startService(Class<?> service, DownloadInfo info, final StartCallback callback) {
+    public static void startTaskProcessService(DownloadInfo info, final StartCallback callback) {
         Context application = ContextManager.getApplication();
         if (application == null) {
             Logger.Error(CloudApiError.INIT_EMPTY.build());
             callback.onFailed();
             return;
         }
-        Intent intent = new Intent(application, service);
+        Intent intent = new Intent(application, TaskProcessService.class);
         intent.putExtra(DownloadService.KEY, info);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
             application.startForegroundService(intent);

@@ -1,11 +1,13 @@
 package com.proxy.service.api.services;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.proxy.service.base.BaseService;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author : cangHX
@@ -50,6 +52,54 @@ public interface CloudUtilsFileService extends BaseService {
     void deleteFile(String path);
 
     /**
+     * 读文件，同步执行
+     *
+     * @param file : 文件位置
+     * @return 文件全部内容
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/8 9:16 PM
+     */
+    @NonNull
+    String read(File file);
+
+    /**
+     * 读文件，同步执行
+     *
+     * @param file : 文件位置
+     * @return 文件每行内容
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/8 9:16 PM
+     */
+    @NonNull
+    List<String> readLines(File file);
+
+    /**
+     * 写文件，同步执行
+     *
+     * @param data   : 内容
+     * @param file   : 文件位置
+     * @param append : 是否续写
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/8 9:16 PM
+     */
+    void write(File file, String data, boolean append);
+
+    /**
+     * 写文件，同步执行
+     *
+     * @param datas  : 内容
+     * @param file   : 文件位置
+     * @param append : 是否续写
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/8 9:16 PM
+     */
+    void writeLines(File file, List<String> datas, boolean append);
+
+    /**
      * 写文件，同步执行
      *
      * @param oldFile : 旧位置或旧名称
@@ -60,6 +110,18 @@ public interface CloudUtilsFileService extends BaseService {
      * @date: 2020/9/8 9:16 PM
      */
     boolean write(File oldFile, File newFile);
+
+    /**
+     * 写文件，同步执行
+     *
+     * @param oldFile : 旧位置或旧名称
+     * @param newFile : 新位置或新名称
+     * @param append  : 是否续写
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/8 9:16 PM
+     */
+    void write(File oldFile, File newFile, boolean append);
 
     /**
      * 写文件，同步执行

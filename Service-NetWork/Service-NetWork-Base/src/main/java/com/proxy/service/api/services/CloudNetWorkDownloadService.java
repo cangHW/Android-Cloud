@@ -101,19 +101,7 @@ public interface CloudNetWorkDownloadService extends BaseService {
      * @date: 2020/9/2 7:04 PM
      */
     @NonNull
-    CloudNetWorkDownloadService setGlobalNotification(@NonNull CloudNetWorkNotificationInfo info);
-
-    /**
-     * 设置是否观察网络状态，自动更改下载状态，默认不观察
-     *
-     * @param enable : 是否观察网络状态，自动更改下载状态
-     * @return 当前对象
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020/9/2 6:38 PM
-     */
-    @NonNull
-    CloudNetWorkDownloadService setGlobalNetworkStateWatchEnable(boolean enable);
+    CloudNetWorkDownloadService setGlobalNotificationBuilder(@NonNull CloudNetWorkNotificationInfo info);
 
     /**
      * 开始下载，小于 0 代表失败
