@@ -8,7 +8,7 @@
 本文档主要介绍 UI 库中包含的功能以及用法，关于如何获取服务，请看框架整体文档
 
 ## 一、服务
-|| 服务 | tag | 说明 |
+|| 类名 | tag | 说明 |
 | :--: | :-- | :-- | :-- |
 | 1 | CloudUiFieldCheckService | CloudServiceTagUi.UI_FIELD_CHECK | 主要用于数据检测 |
 | 2 | CloudUiTabHostService | CloudServiceTagUi.UI_TAB_HOST | 主要用于 tab 切换页面 |
