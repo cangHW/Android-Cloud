@@ -249,7 +249,7 @@ public class ThreadPoolHelper extends AbstractHelper {
 
     public void continueTask() {
         AtomicInteger count = new AtomicInteger(0);
-        logger.debug("开始循环任务");
+        logger.debug("开始 10 秒循环任务");
         service.continueWhile(new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {

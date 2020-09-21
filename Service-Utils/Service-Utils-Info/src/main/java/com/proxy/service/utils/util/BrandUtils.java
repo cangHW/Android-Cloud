@@ -1,6 +1,6 @@
 package com.proxy.service.utils.util;
 
-import com.proxy.service.api.request.annotations.BRAND;
+import com.proxy.service.api.annotations.BRAND;
 import com.proxy.service.api.services.CloudUtilsSystemInfoService;
 import com.proxy.service.utils.info.UtilsSystemInfoServiceImpl;
 

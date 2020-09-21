@@ -1,4 +1,4 @@
-package com.proxy.service.api.request.annotations;
+package com.proxy.service.api.annotations;
 
 import androidx.annotation.StringDef;
 

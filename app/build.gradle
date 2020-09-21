@@ -18,8 +18,15 @@ android {
         }
     }
     buildTypes {
+        debug {
+//            minifyEnabled true//开启混淆
+//            zipAlignEnabled true
+//            shrinkResources true//资源压缩
+        }
         release {
-            minifyEnabled false
+            minifyEnabled true//开启混淆
+            zipAlignEnabled true
+            shrinkResources true//资源压缩
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
