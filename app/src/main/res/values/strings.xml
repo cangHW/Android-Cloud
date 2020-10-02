@@ -2,6 +2,7 @@
     <string name="app_name">Android Cloud</string>
     <string name="input_account">请输入用户名</string>
     <string name="input_password">请输入密码</string>
+    <string name="input_captcha">请输入图形码</string>
     <string name="login">登录</string>
     <string name="account_content">随意4到8位数字/字母，除了 0、1、a、b、c</string>
     <string name="password_content">随意4位数字，必须包含 1</string>

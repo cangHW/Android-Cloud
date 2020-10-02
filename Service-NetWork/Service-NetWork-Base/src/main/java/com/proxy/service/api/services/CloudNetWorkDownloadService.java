@@ -3,6 +3,8 @@ package com.proxy.service.api.services;
 import androidx.annotation.NonNull;
 
 import com.proxy.service.api.callback.download.CloudDownloadCallback;
+import com.proxy.service.api.callback.download.CloudNotificationCallback;
+import com.proxy.service.api.download.CloudDownloadState;
 import com.proxy.service.api.download.CloudNetWorkDownloadInfo;
 import com.proxy.service.api.download.CloudNetWorkNotificationInfo;
 import com.proxy.service.base.BaseService;
@@ -92,6 +94,19 @@ public interface CloudNetWorkDownloadService extends BaseService {
     CloudNetWorkDownloadService setGlobalNotificationEnable(boolean enable);
 
     /**
+     * 设置 Notification 回调，
+     * 可能被具体任务回调替换，如果具体任务设置了回调
+     *
+     * @param callback : Notification 回调
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/2 7:34 PM
+     */
+    @NonNull
+    CloudNetWorkDownloadService setGlobalNotificationCallback(@NonNull CloudNotificationCallback callback);
+
+    /**
      * 设置通知构建参数
      *
      * @param info : 通知构建参数
@@ -112,7 +127,7 @@ public interface CloudNetWorkDownloadService extends BaseService {
      * @author: cangHX
      * @date: 2020/9/2 7:30 PM
      */
-    long start(@NonNull CloudNetWorkDownloadInfo info);
+    int start(@NonNull CloudNetWorkDownloadInfo info);
 
     /**
      * 暂停下载
@@ -153,4 +168,17 @@ public interface CloudNetWorkDownloadService extends BaseService {
      * @date: 2020/9/2 7:29 PM
      */
     void delete(int downloadId);
+
+    /**
+     * 获取下载状态
+     * {@link com.proxy.service.api.download.CloudDownloadState}
+     *
+     * @param downloadId : 下载任务 id
+     * @return 下载状态
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/2 7:29 PM
+     */
+    @CloudDownloadState
+    int getDownloadState(int downloadId);
 }

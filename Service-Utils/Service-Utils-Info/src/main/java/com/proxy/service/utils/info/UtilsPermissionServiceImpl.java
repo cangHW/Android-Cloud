@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Process;
+import android.text.TextUtils;
 
 import androidx.core.app.AppOpsManagerCompat;
 
@@ -60,6 +61,10 @@ public class UtilsPermissionServiceImpl implements CloudUtilsPermissionService {
                 }
                 packageName = packageNames[0];
             }
+        }
+
+        if (TextUtils.isEmpty(packageName)) {
+            return false;
         }
 
         return AppOpsManagerCompat.noteProxyOp(context, op, packageName) == AppOpsManagerCompat.MODE_ALLOWED;

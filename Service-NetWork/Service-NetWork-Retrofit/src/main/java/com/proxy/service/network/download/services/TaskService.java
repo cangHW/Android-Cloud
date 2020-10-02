@@ -60,14 +60,15 @@ public class TaskService {
     }
 
     public void cancel(final int downloadId) {
-        mTaskService.callWorkThread(new Task<Object>() {
-            @Override
-            public Object call() {
-                DownloadTask task = mTaskArrays.get(downloadId);
-                task.cancel();
-                return null;
+        try {
+            DownloadTask task = mTaskArrays.get(downloadId);
+            if (task == null) {
+                return;
             }
-        });
+            task.cancel();
+        } catch (Throwable throwable) {
+            Logger.Debug(throwable);
+        }
     }
 
     private DownloadListener mDownloadListener = new DownloadListener() {

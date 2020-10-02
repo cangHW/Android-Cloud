@@ -64,13 +64,50 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/captcha_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_layout">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Input_layout"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:text="@string/input_captcha"
+            android:textSize="13sp"
+            tools:ignore="SmallSp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            style="@style/Input_layout"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/input_captcha"
+                style="@style/Input_EditText"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/password_content" />
+
+            <ImageView
+                android:id="@+id/captcha_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
     <CheckBox
         android:id="@+id/checkView"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="13dp"
         app:layout_constraintLeft_toLeftOf="@+id/login_view"
-        app:layout_constraintTop_toBottomOf="@+id/password_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/captcha_layout" />
 
     <TextView
         android:layout_width="wrap_content"

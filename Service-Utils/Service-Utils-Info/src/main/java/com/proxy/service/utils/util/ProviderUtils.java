@@ -7,6 +7,7 @@ import android.content.pm.ProviderInfo;
 
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
+import com.proxy.service.api.services.CloudUtilsAppService;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.utils.cache.Cache;
 import com.proxy.service.utils.info.UtilsAppServiceImpl;
@@ -35,7 +36,7 @@ public class ProviderUtils {
         if (packageManager == null) {
             return authorities;
         }
-        UtilsAppServiceImpl service = new UtilsAppServiceImpl();
+        CloudUtilsAppService service = new UtilsAppServiceImpl();
         try {
             PackageInfo packageInfo = packageManager.getPackageInfo(service.getPackageName(), PackageManager.GET_PROVIDERS);
             ProviderInfo[] providers = packageInfo.providers;

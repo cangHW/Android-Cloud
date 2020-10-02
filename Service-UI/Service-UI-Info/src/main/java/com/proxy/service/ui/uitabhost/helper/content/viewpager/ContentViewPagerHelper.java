@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.proxy.service.api.request.annotations.TabHostRewardSelectFrom;
+import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
 import com.proxy.service.api.callback.CloudUiLifeCallback;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.context.LifecycleState;

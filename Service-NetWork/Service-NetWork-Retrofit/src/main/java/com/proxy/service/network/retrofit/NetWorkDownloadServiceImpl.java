@@ -6,16 +6,22 @@ import androidx.annotation.NonNull;
 
 import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.callback.download.CloudDownloadCallback;
+import com.proxy.service.api.callback.download.CloudNotificationCallback;
 import com.proxy.service.api.download.CloudNetWorkDownloadInfo;
 import com.proxy.service.api.download.CloudNetWorkNotificationInfo;
 import com.proxy.service.api.services.CloudNetWorkDownloadService;
+import com.proxy.service.api.services.CloudUtilsFileService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.network.download.DownloadManager;
 import com.proxy.service.network.download.db.DbHelper;
 import com.proxy.service.network.download.db.TableDownloadInfo;
 import com.proxy.service.network.download.info.DownloadInfo;
+import com.proxy.service.api.download.CloudDownloadState;
 import com.proxy.service.network.download.notification.NotificationImpl;
+import com.proxy.service.utils.info.UtilsFileServiceImpl;
+
+import java.io.File;
 
 /**
  * @author : cangHX
@@ -27,7 +33,8 @@ public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
     private String mFileDir;
     private String mFileCacheDir;
     private boolean mNotificationEnable = true;
-    private CloudDownloadCallback mGlobalCallback;
+    private CloudDownloadCallback mGlobalDownloadCallback;
+    private CloudNotificationCallback mGlobalNotificationCallback;
 
     /**
      * 设置最大同时下载数量，默认为 5
@@ -108,7 +115,7 @@ public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
     @NonNull
     @Override
     public CloudNetWorkDownloadService setGlobalDownloadCallback(@NonNull CloudDownloadCallback callback) {
-        this.mGlobalCallback = callback;
+        this.mGlobalDownloadCallback = callback;
         return this;
     }
 
@@ -126,6 +133,23 @@ public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
     @Override
     public CloudNetWorkDownloadService setGlobalNotificationEnable(boolean enable) {
         this.mNotificationEnable = enable;
+        return this;
+    }
+
+    /**
+     * 设置 Notification 回调，
+     * 可能被具体任务回调替换，如果具体任务设置了回调
+     *
+     * @param callback : Notification 回调
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/2 7:34 PM
+     */
+    @NonNull
+    @Override
+    public CloudNetWorkDownloadService setGlobalNotificationCallback(@NonNull CloudNotificationCallback callback) {
+        this.mGlobalNotificationCallback = callback;
         return this;
     }
 
@@ -155,7 +179,7 @@ public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
      * @date: 2020/9/2 7:30 PM
      */
     @Override
-    public long start(@NonNull CloudNetWorkDownloadInfo info) {
+    public int start(@NonNull CloudNetWorkDownloadInfo info) {
         if (TextUtils.isEmpty(info.getFileUrl())) {
             Logger.Debug("The download missing url");
             return -1;
@@ -163,7 +187,7 @@ public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
 
         CloudNetWorkDownloadInfo.Builder builder = info.build();
         if (info.getDownloadCallback() == null) {
-            builder.setDownloadCallback(mGlobalCallback);
+            builder.setDownloadCallback(mGlobalDownloadCallback);
         }
         if (TextUtils.isEmpty(info.getFileDir())) {
             builder.setFilePath(mFileDir);
@@ -174,18 +198,23 @@ public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
         if (info.getNotificationEnable() == null) {
             builder.setNotificationEnable(mNotificationEnable);
         }
+        if (info.getNotificationCallback() == null) {
+            builder.setNotificationCallback(mGlobalNotificationCallback);
+        }
         builder.checkFilePath();
         info = builder.build();
         DownloadInfo downloadInfo = DbHelper.getInstance().query(TableDownloadInfo.COLUMN_FILE_URL + "=?", new String[]{info.getFileUrl()});
         if (downloadInfo != null) {
-            info.downloadId = downloadInfo.downloadId;
+            info.setDownloadId(downloadInfo.downloadId);
             DownloadManager.getInstance().start(info);
             return downloadInfo.downloadId;
         }
         downloadInfo = DownloadInfo.getDownloadInfo(info);
-        long id = DbHelper.getInstance().insert(downloadInfo);
+        downloadInfo.startTime = System.currentTimeMillis();
+        downloadInfo.state = CloudDownloadState.ADD;
+        int id = (int) DbHelper.getInstance().insert(downloadInfo);
         if (id >= 0) {
-            info.downloadId = (int) id;
+            info.setDownloadId((int) id);
             DownloadManager.getInstance().start(info);
         }
         return id;
@@ -241,6 +270,31 @@ public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
     @Override
     public void delete(int downloadId) {
         DownloadManager.getInstance().cancel(downloadId);
-        DbHelper.getInstance().delete(TableDownloadInfo.COLUMN_DOWNLOAD_ID + "=?", new String[]{String.valueOf(downloadId)});
+        DownloadInfo downloadInfo = DbHelper.getInstance().query(TableDownloadInfo.COLUMN_DOWNLOAD_ID + "=?", new String[]{String.valueOf(downloadId)});
+        if (downloadInfo != null) {
+            CloudUtilsFileService fileService = new UtilsFileServiceImpl();
+            fileService.deleteFile(downloadInfo.fileCachePath);
+            fileService.deleteFile(downloadInfo.fileDir + File.separator + downloadInfo.fileName);
+            DbHelper.getInstance().delete(TableDownloadInfo.COLUMN_DOWNLOAD_ID + "=?", new String[]{String.valueOf(downloadId)});
+        }
+    }
+
+    /**
+     * 获取下载状态
+     * {@link com.proxy.service.api.download.CloudDownloadState}
+     *
+     * @param downloadId : 下载任务 id
+     * @return 下载状态
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/2 7:29 PM
+     */
+    @Override
+    public int getDownloadState(int downloadId) {
+        DownloadInfo downloadInfo = DbHelper.getInstance().query(TableDownloadInfo.COLUMN_DOWNLOAD_ID + "=?", new String[]{String.valueOf(downloadId)});
+        if (downloadInfo != null) {
+            return downloadInfo.state;
+        }
+        return CloudDownloadState.EMPTY;
     }
 }

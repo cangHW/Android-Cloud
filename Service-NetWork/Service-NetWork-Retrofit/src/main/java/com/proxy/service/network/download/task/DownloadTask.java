@@ -129,7 +129,7 @@ public class DownloadTask {
         ResponseBody body = null;
         try {
             Logger.Info("下载请求开始执行");
-            Response<ResponseBody> bodyCall = RetrofitManager.getInstance().getRetrofit().create(RetrofitService.class).download(downloadInfo.fileUrl).execute();
+            Response<ResponseBody> bodyCall = RetrofitManager.getInstance().getRetrofit().create(RetrofitService.class).download("bytes=" + cacheLength + "-", downloadInfo.fileUrl).execute();
             body = bodyCall.body();
             Logger.Info("下载请求执行完成");
         } catch (Throwable throwable) {
@@ -142,7 +142,7 @@ public class DownloadTask {
         }
 
         if (downloadInfo.fileSize <= 0) {
-            downloadInfo.fileSize = body.contentLength();
+            downloadInfo.fileSize = cacheLength + body.contentLength();
         }
 
         if (checkLocalFile(downloadInfo, file)) {
@@ -171,17 +171,20 @@ public class DownloadTask {
             //最后判断文件完整性,未能成功获取文件总大小按文件完整处理
             if (size > 0 && (size == downloadInfo.fileSize || downloadInfo.fileSize <= 0)) {
                 mFileService.write(cacheFile, file);
+                if (TextUtils.isEmpty(downloadInfo.fileMd5)) {
+                    mDownloadListener.onSuccess(downloadInfo);
+                    return;
+                }
                 try {
                     String md5 = mSecurityService.md5Encode(new FileInputStream(file));
-                    if (!TextUtils.isEmpty(downloadInfo.fileMd5) && md5.equals(downloadInfo.fileMd5)) {
+                    if (md5.equals(downloadInfo.fileMd5)) {
                         mDownloadListener.onSuccess(downloadInfo);
-                    } else if (!TextUtils.isEmpty(downloadInfo.fileMd5)) {
+                    } else {
                         mDownloadListener.onFailed(ERROR_FILE_MD5, downloadInfo);
                     }
                 } catch (Throwable throwable) {
                     Logger.Debug(throwable);
                 }
-                mDownloadListener.onSuccess(downloadInfo);
                 return;
             }
             mFileService.deleteFile(downloadInfo.fileCachePath);

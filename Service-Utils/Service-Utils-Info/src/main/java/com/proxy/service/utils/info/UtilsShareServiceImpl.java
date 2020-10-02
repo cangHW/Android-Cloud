@@ -3,6 +3,7 @@ package com.proxy.service.utils.info;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 
 import androidx.annotation.Nullable;
 
@@ -12,6 +13,8 @@ import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsShareService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
 import com.proxy.service.api.utils.Logger;
+import com.proxy.service.utils.provider.UtilsProvider;
+import com.proxy.service.utils.util.ProviderUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,6 +26,37 @@ import java.util.List;
  */
 @CloudApiService(serviceTag = CloudServiceTagUtils.UTILS_SHARE)
 public class UtilsShareServiceImpl implements CloudUtilsShareService {
+
+    /**
+     * 获取允许共享的 uri
+     *
+     * @param file : 文件流
+     * @return 允许共享的 uri
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/27 10:18 PM
+     */
+    @Override
+    public Uri getUriForFile(@Nullable File file) {
+        if (file == null || !file.exists() || !file.isFile()) {
+            return null;
+        }
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            return Uri.fromFile(file);
+        }
+
+        String path;
+        try {
+            path = file.getCanonicalPath();
+        } catch (Throwable throwable) {
+            Logger.Debug(throwable);
+            return null;
+        }
+
+        String provider = ProviderUtils.getProviderAuthoritiesFromManifest(UtilsProvider.class.getName(), "proxy_service_provider");
+        return Uri.parse("content://" + provider + path);
+    }
 
     /**
      * 打开系统分享，文字
@@ -67,7 +101,7 @@ public class UtilsShareServiceImpl implements CloudUtilsShareService {
                     Uri imageUri = Uri.fromFile(new File(path));
                     imageUris.add(imageUri);
                 } catch (Throwable throwable) {
-                    Logger.Debug(CloudApiError.DATA_ERROR.append("the img is error on " + path).build(), throwable);
+                    Logger.Debug(CloudApiError.DATA_ERROR.setAbout("the img is error on " + path).build(), throwable);
                 }
             }
         }

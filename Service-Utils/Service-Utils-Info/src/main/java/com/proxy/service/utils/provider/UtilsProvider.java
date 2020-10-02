@@ -15,8 +15,8 @@ import com.proxy.service.api.utils.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author: cangHX
@@ -27,12 +27,15 @@ public class UtilsProvider extends ContentProvider {
     /**
      * 安全路径
      */
-    private static final List<String> SECURITY_PATHS = new ArrayList<>();
+    private static final Set<String> SECURITY_PATHS = new HashSet<>();
 
     /**
      * 添加安全路径
-     * */
-    public static void addSecurityPaths(@NonNull String filePath){
+     */
+    public static void addSecurityPaths(@NonNull String filePath) {
+        if (TextUtils.isEmpty(filePath)) {
+            return;
+        }
         SECURITY_PATHS.add(filePath);
     }
 
@@ -91,7 +94,7 @@ public class UtilsProvider extends ContentProvider {
             Logger.Warning(CloudApiError.INSTALL_SECURITY_PATH_ERROR.setMsg("Lack of security path, the current application is easy to be broken, it is recommended to set the security path to improve the security level of this application, through the \"addProviderResourcePath\" method").build());
         }
 
-        if (!isPermission){
+        if (!isPermission) {
             Logger.Error("The current path is an illegal path and is not allowed to share files，You can try to set it to a safe path by \"addProviderResourcePath\" method.");
             return null;
         }

@@ -11,11 +11,12 @@ public interface CloudUiFieldCheckErrorCallback {
     /**
      * 发现错误回调
      *
-     * @param msg : 错误信息
+     * @param markId : 标记id
+     * @param msg    : 错误信息
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-07-08 15:41
      */
-    void onError(String msg);
+    void onError(String markId, String msg);
 
 }

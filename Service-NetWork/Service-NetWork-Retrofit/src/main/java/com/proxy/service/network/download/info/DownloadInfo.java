@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.proxy.service.api.download.CloudNetWorkDownloadInfo;
+import com.proxy.service.api.download.CloudDownloadState;
 import com.proxy.service.network.download.db.TableDownloadInfo;
 
 /**
@@ -26,8 +27,8 @@ public class DownloadInfo implements Parcelable {
     public long fileSize;
     public String tag;
 
-    @DownloadState
-    public int state;
+    @CloudDownloadState
+    public int state = CloudDownloadState.EMPTY;
     public long startTime;
     public long finishTime;
 

@@ -3,23 +3,22 @@ package com.proxy.androidcloud.detail;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.proxy.androidcloud.R;
 import com.proxy.androidcloud.base.BaseActivity;
-import com.proxy.androidcloud.helper.HelperType;
+import com.proxy.androidcloud.helper.AbstractDetailHelper;
+import com.proxy.androidcloud.helper.DetailHelperType;
+import com.proxy.androidcloud.helper.ListHelperType;
 
 /**
  * @author : cangHX
- * on 2020/08/13  10:03 PM
+ * on 2020/09/23  10:03 PM
  */
 public class DetailActivity extends BaseActivity {
 
-    public static void launch(Context context, HelperType type) {
+    public static void launch(Context context, DetailHelperType type) {
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(HELPER_TYPE, type);
         context.startActivity(intent);
@@ -27,27 +26,19 @@ public class DetailActivity extends BaseActivity {
 
     private static final String HELPER_TYPE = "HelperType";
 
-    private HelperType mHelperType;
+    private DetailHelperType mDetailHelperType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
         Object object = getIntent().getSerializableExtra(HELPER_TYPE);
         if (object == null) {
             return;
         }
-        mHelperType = (HelperType) object;
-        initView();
-    }
-
-    private void initView() {
-        showTitle(mHelperType.serviceName());
-
-        RecyclerView recycler = findViewById(R.id.recycler);
-        recycler.setLayoutManager(new LinearLayoutManager(this));
-        DetailAdapter adapter = new DetailAdapter();
-        adapter.setData(mHelperType.create());
-        recycler.setAdapter(adapter);
+        mDetailHelperType = (DetailHelperType) object;
+        showTitle(mDetailHelperType.serviceName());
+        AbstractDetailHelper helper = mDetailHelperType.create();
+        setContentView(helper.getLayoutId());
+        helper.init(this);
     }
 }

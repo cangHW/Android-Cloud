@@ -21,4 +21,17 @@ public interface IUiFieldCheck extends BaseService {
      */
     @NonNull
     IReallyUiFieldCheck check(String markId);
+
+    /**
+     * 发起检测
+     *
+     * @param markId  : 标记id，标记当前检测条件
+     * @param content : 待检测的内容
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-07 17:19
+     */
+    @NonNull
+    IReallyUiFieldCheck check(String markId, Object content);
 }

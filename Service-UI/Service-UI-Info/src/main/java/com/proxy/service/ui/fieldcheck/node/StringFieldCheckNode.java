@@ -95,49 +95,49 @@ public class StringFieldCheckNode extends BaseFieldCheckNode {
 
         if (notEmpty) {
             if (TextUtils.isEmpty(string)) {
-                callback.onError(message);
+                callback.onError(markId, message);
                 return true;
             }
         }
 
         if (notBlank) {
             if (TextUtils.isEmpty(string)) {
-                callback.onError(message);
+                callback.onError(markId, message);
                 return true;
             }
 
             string = string.trim();
 
             if (TextUtils.isEmpty(string)) {
-                callback.onError(message);
+                callback.onError(markId, message);
                 return true;
             }
         }
 
         if (maxLength > -1) {
             if (string == null || string.length() > maxLength) {
-                callback.onError(message);
+                callback.onError(markId, message);
                 return true;
             }
         }
 
         if (maxLengthNotSame > -1) {
             if (string == null || string.length() >= maxLengthNotSame) {
-                callback.onError(message);
+                callback.onError(markId, message);
                 return true;
             }
         }
 
         if (minLength > -1) {
             if (string == null || string.length() < minLength) {
-                callback.onError(message);
+                callback.onError(markId, message);
                 return true;
             }
         }
 
         if (minLengthNotSame > -1) {
             if (string == null || string.length() <= minLengthNotSame) {
-                callback.onError(message);
+                callback.onError(markId, message);
                 return true;
             }
         }
@@ -146,7 +146,7 @@ public class StringFieldCheckNode extends BaseFieldCheckNode {
             try {
                 Pattern pattern = Pattern.compile(notWithRegex);
                 if (string == null || pattern.matcher(string).find()) {
-                    callback.onError(message);
+                    callback.onError(markId, message);
                     return true;
                 }
             } catch (Throwable throwable) {
@@ -158,7 +158,104 @@ public class StringFieldCheckNode extends BaseFieldCheckNode {
             try {
                 Pattern pattern = Pattern.compile(shouldWithRegex);
                 if (string == null || !pattern.matcher(string).find()) {
-                    callback.onError(message);
+                    callback.onError(markId, message);
+                    return true;
+                }
+            } catch (Throwable throwable) {
+                Logger.Error(CloudApiError.DATA_ERROR.setMsg("Regular expression format error. shouldWithRegex : " + shouldWithRegex).build(), throwable);
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 检测是否符合要求
+     *
+     * @param content  : 数据内容
+     * @param callback : 变量信息检查回调接口
+     * @return true 有错误，false 没有错误
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-08 15:26
+     */
+    @Override
+    public boolean isHasErrorWithContent(Object content, CloudUiFieldCheckErrorCallback callback) {
+        boolean isString = content instanceof String;
+
+        if (!isString) {
+            Logger.Error(CloudApiError.DATA_TYPE_ERROR.setMsg("The data type is error with markId : " + markId + ", this is not a String.").build());
+            return true;
+        }
+
+        String string = (String) content;
+
+        if (notEmpty) {
+            if (TextUtils.isEmpty(string)) {
+                callback.onError(markId, message);
+                return true;
+            }
+        }
+
+        if (notBlank) {
+            if (TextUtils.isEmpty(string)) {
+                callback.onError(markId, message);
+                return true;
+            }
+
+            string = string.trim();
+
+            if (TextUtils.isEmpty(string)) {
+                callback.onError(markId, message);
+                return true;
+            }
+        }
+
+        if (maxLength > -1) {
+            if (string.length() > maxLength) {
+                callback.onError(markId, message);
+                return true;
+            }
+        }
+
+        if (maxLengthNotSame > -1) {
+            if (string.length() >= maxLengthNotSame) {
+                callback.onError(markId, message);
+                return true;
+            }
+        }
+
+        if (minLength > -1) {
+            if (string.length() < minLength) {
+                callback.onError(markId, message);
+                return true;
+            }
+        }
+
+        if (minLengthNotSame > -1) {
+            if (string.length() <= minLengthNotSame) {
+                callback.onError(markId, message);
+                return true;
+            }
+        }
+
+        if (!TextUtils.isEmpty(notWithRegex)) {
+            try {
+                Pattern pattern = Pattern.compile(notWithRegex);
+                if (pattern.matcher(string).find()) {
+                    callback.onError(markId, message);
+                    return true;
+                }
+            } catch (Throwable throwable) {
+                Logger.Error(CloudApiError.DATA_ERROR.setMsg("Regular expression format error. notWithRegex : " + notWithRegex).build(), throwable);
+            }
+        }
+
+        if (!TextUtils.isEmpty(shouldWithRegex)) {
+            try {
+                Pattern pattern = Pattern.compile(shouldWithRegex);
+                if (!pattern.matcher(string).find()) {
+                    callback.onError(markId, message);
                     return true;
                 }
             } catch (Throwable throwable) {

@@ -8,6 +8,7 @@
         android:id="@+id/text_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:text="进程"
         android:textSize="20dp"/>
 

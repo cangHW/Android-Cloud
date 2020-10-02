@@ -11,6 +11,7 @@ import com.proxy.service.api.utils.WeakReferenceUtils;
 import com.proxy.service.network.download.db.DbHelper;
 import com.proxy.service.network.download.db.TableDownloadInfo;
 import com.proxy.service.network.download.info.DownloadInfo;
+import com.proxy.service.api.download.CloudDownloadState;
 import com.proxy.service.network.download.notification.NotificationImpl;
 import com.proxy.service.network.download.services.TaskService;
 import com.proxy.service.network.retrofit.DownloadClientInterface;
@@ -65,16 +66,19 @@ public class DownloadManager {
 
     public void start(CloudNetWorkDownloadInfo info) {
         synchronized (LOCK) {
-            boolean isHas = DownloadInfoUtils.isHasValue(mInfoList, info.downloadId);
+            boolean isHas = DownloadInfoUtils.isHasValue(mInfoList, info.getDownloadId());
             if (isHas) {
+                continues(info.getDownloadId());
                 Logger.Debug(CloudApiError.DATA_DUPLICATION.setMsg("Has been added. with : " + info.getFileUrl()).build());
                 return;
             }
-            boolean isCacheHas = DownloadInfoUtils.isHasValue(mInfoCacheList, info.downloadId);
+            boolean isCacheHas = DownloadInfoUtils.isHasValue(mInfoCacheList, info.getDownloadId());
             if (isCacheHas) {
+                continues(info.getDownloadId());
                 Logger.Debug(CloudApiError.DATA_DUPLICATION.setMsg("Has been added. with : " + info.getFileUrl()).build());
                 return;
             }
+
             if (mInfoList.size() == mMaxCount) {
                 mInfoCacheList.add(info);
                 return;
@@ -84,7 +88,7 @@ public class DownloadManager {
         }
     }
 
-    public void pause(int downloadId) {
+    public void pause(final int downloadId) {
         synchronized (LOCK) {
             boolean isHas = DownloadInfoUtils.isHasValue(mInfoList, downloadId);
             boolean isCacheHas = DownloadInfoUtils.isHasValue(mInfoCacheList, downloadId);
@@ -96,14 +100,22 @@ public class DownloadManager {
             DownloadInfoUtils.findValueById(mInfoList, downloadId, new DownloadInfoUtils.CheckedCallback() {
                 @Override
                 public void onFound(CloudNetWorkDownloadInfo info) {
-                    info.isPause = true;
+                    info.setPause(true);
+                    info.getDownloadCallback().onPause(info);
+
+                    final DownloadInfo downloadInfo = DbHelper.getInstance().query(TableDownloadInfo.COLUMN_FILE_URL + "=?", new String[]{info.getFileUrl()});
+                    if (downloadInfo != null) {
+                        downloadInfo.state = CloudDownloadState.PAUSE;
+                        DbHelper.getInstance().update(downloadInfo, TableDownloadInfo.COLUMN_FILE_URL + "=?", new String[]{info.getFileUrl()});
+                    }
+
                     NotificationImpl.getInstance().showNotification(NotificationImpl.PAUSE, info);
                 }
             });
             DownloadInfoUtils.findValueById(mInfoCacheList, downloadId, new DownloadInfoUtils.CheckedCallback() {
                 @Override
                 public void onFound(CloudNetWorkDownloadInfo info) {
-                    info.isPause = true;
+                    info.setPause(true);
                 }
             });
         }
@@ -114,13 +126,15 @@ public class DownloadManager {
             DownloadInfoUtils.findValueById(mInfoList, downloadId, new DownloadInfoUtils.CheckedCallback() {
                 @Override
                 public void onFound(CloudNetWorkDownloadInfo info) {
-                    startService(info);
+                    if (info.isPause()) {
+                        startService(info);
+                    }
                 }
             });
             DownloadInfoUtils.findValueById(mInfoCacheList, downloadId, new DownloadInfoUtils.CheckedCallback() {
                 @Override
                 public void onFound(CloudNetWorkDownloadInfo info) {
-                    info.isPause = false;
+                    info.setPause(false);
                 }
             });
         }
@@ -129,12 +143,7 @@ public class DownloadManager {
     public void cancel(int downloadId) {
         synchronized (LOCK) {
             cancelTask(downloadId);
-            DownloadInfoUtils.findValueById(mInfoList, downloadId, new DownloadInfoUtils.CheckedCallback() {
-                @Override
-                public void onFound(CloudNetWorkDownloadInfo info) {
-                    NotificationImpl.getInstance().cancelNotification(info);
-                }
-            });
+            NotificationImpl.getInstance().cancelNotification(downloadId);
             removeValue(mInfoCacheList, downloadId);
             removeValue(mInfoList, downloadId);
         }
@@ -156,17 +165,27 @@ public class DownloadManager {
                     DownloadInfoUtils.findValueById(downloadManager.mInfoList, downloadId, new DownloadInfoUtils.CheckedCallback() {
                         @Override
                         public void onFound(final CloudNetWorkDownloadInfo info) {
+                            final DownloadInfo downloadInfo = DbHelper.getInstance().query(TableDownloadInfo.COLUMN_FILE_URL + "=?", new String[]{info.getFileUrl()});
                             downloadManager.mTaskService.callUiThread(new Task<Object>() {
                                 @Override
                                 public Object call() {
-                                    if (info.isPause) {
+                                    info.setProgress(CloudNetWorkDownloadInfo.PROGRESS_EMPTY);
+                                    if (info.isPause()) {
                                         info.getDownloadCallback().onContinue(info);
+                                        if (downloadInfo != null) {
+                                            downloadInfo.state = CloudDownloadState.CONTINUES;
+                                        }
                                     } else {
                                         info.getDownloadCallback().onStart(info);
+                                        if (downloadInfo != null) {
+                                            downloadInfo.state = CloudDownloadState.START;
+                                        }
                                     }
-                                    info.isPause = false;
-
-                                    NotificationImpl.getInstance().showNotification(0, info);
+                                    info.setPause(false);
+                                    if (downloadInfo != null) {
+                                        DbHelper.getInstance().update(downloadInfo, TableDownloadInfo.COLUMN_FILE_URL + "=?", new String[]{info.getFileUrl()});
+                                    }
+                                    NotificationImpl.getInstance().showNotification(NotificationImpl.START, info);
                                     return null;
                                 }
                             });
@@ -184,6 +203,11 @@ public class DownloadManager {
                     DownloadInfoUtils.findValueById(downloadManager.mInfoList, downloadId, new DownloadInfoUtils.CheckedCallback() {
                         @Override
                         public void onFound(final CloudNetWorkDownloadInfo info) {
+                            final DownloadInfo downloadInfo = DbHelper.getInstance().query(TableDownloadInfo.COLUMN_FILE_URL + "=?", new String[]{info.getFileUrl()});
+                            if (downloadInfo != null && downloadInfo.state != CloudDownloadState.LOADING) {
+                                downloadInfo.state = CloudDownloadState.LOADING;
+                                DbHelper.getInstance().update(downloadInfo, TableDownloadInfo.COLUMN_FILE_URL + "=?", new String[]{info.getFileUrl()});
+                            }
                             downloadManager.mTaskService.callUiThread(new Task<Object>() {
                                 @Override
                                 public Object call() {
@@ -194,7 +218,14 @@ public class DownloadManager {
                                     } else if (progress > total) {
                                         NotificationImpl.getInstance().showNotification(NotificationImpl.NO_PROGRESS, info);
                                     } else {
-                                        NotificationImpl.getInstance().showNotification((int) (progress / total), info);
+                                        int p = (int) (progress * 100 / total);
+                                        if (p - 3 > info.getProgress()) {
+                                            info.setProgress(p);
+                                            NotificationImpl.getInstance().showNotification(p, info);
+                                        } else if (progress == total) {
+                                            info.setProgress(100);
+                                            NotificationImpl.getInstance().showNotification(100, info);
+                                        }
                                     }
                                     return null;
                                 }
@@ -213,6 +244,12 @@ public class DownloadManager {
                     DownloadInfoUtils.findValueById(downloadManager.mInfoList, downloadId, new DownloadInfoUtils.CheckedCallback() {
                         @Override
                         public void onFound(final CloudNetWorkDownloadInfo info) {
+                            final DownloadInfo downloadInfo = DbHelper.getInstance().query(TableDownloadInfo.COLUMN_FILE_URL + "=?", new String[]{info.getFileUrl()});
+                            if (downloadInfo != null) {
+                                downloadInfo.state = CloudDownloadState.COMPLETED;
+                                downloadInfo.finishTime = System.currentTimeMillis();
+                                DbHelper.getInstance().update(downloadInfo, TableDownloadInfo.COLUMN_FILE_URL + "=?", new String[]{info.getFileUrl()});
+                            }
                             downloadManager.mInfoList.remove(info);
                             downloadManager.mTaskService.callUiThread(new Task<Object>() {
                                 @Override
@@ -227,7 +264,7 @@ public class DownloadManager {
 
                     List<CloudNetWorkDownloadInfo> list = new ArrayList<>(downloadManager.mInfoCacheList);
                     for (CloudNetWorkDownloadInfo info : list) {
-                        if (info.isPause) {
+                        if (info.isPause()) {
                             continue;
                         }
                         downloadManager.mInfoCacheList.remove(info);
@@ -266,6 +303,11 @@ public class DownloadManager {
                     DownloadInfoUtils.findValueById(downloadManager.mInfoList, downloadId, new DownloadInfoUtils.CheckedCallback() {
                         @Override
                         public void onFound(final CloudNetWorkDownloadInfo info) {
+                            final DownloadInfo downloadInfo = DbHelper.getInstance().query(TableDownloadInfo.COLUMN_FILE_URL + "=?", new String[]{info.getFileUrl()});
+                            if (downloadInfo != null) {
+                                downloadInfo.state = CloudDownloadState.FAILED;
+                                DbHelper.getInstance().update(downloadInfo, TableDownloadInfo.COLUMN_FILE_URL + "=?", new String[]{info.getFileUrl()});
+                            }
                             downloadManager.mInfoList.remove(info);
                             downloadManager.mTaskService.callUiThread(new Task<Object>() {
                                 @Override
@@ -280,7 +322,7 @@ public class DownloadManager {
 
                     List<CloudNetWorkDownloadInfo> list = new ArrayList<>(downloadManager.mInfoCacheList);
                     for (CloudNetWorkDownloadInfo info : list) {
-                        if (info.isPause) {
+                        if (info.isPause()) {
                             continue;
                         }
                         downloadManager.mInfoCacheList.remove(info);
@@ -330,7 +372,7 @@ public class DownloadManager {
 
     private void removeValue(List<CloudNetWorkDownloadInfo> list, int id) {
         for (CloudNetWorkDownloadInfo info : new ArrayList<>(list)) {
-            if (info.downloadId != id) {
+            if (info.getDownloadId() != id) {
                 continue;
             }
             list.remove(info);
@@ -343,8 +385,7 @@ public class DownloadManager {
         if (mTaskProcessSeverInterface != null) {
             try {
                 mTaskProcessSeverInterface.cancel(downloadId);
-            } catch (Throwable throwable) {
-                Logger.Debug(throwable);
+            } catch (Throwable ignored) {
             }
         }
     }

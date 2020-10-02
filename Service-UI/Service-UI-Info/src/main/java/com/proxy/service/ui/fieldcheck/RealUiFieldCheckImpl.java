@@ -1,5 +1,7 @@
 package com.proxy.service.ui.fieldcheck;
 
+import android.util.SparseArray;
+
 import androidx.annotation.NonNull;
 
 import com.proxy.service.api.CloudSystem;
@@ -27,6 +29,7 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
     private final CloudUiFieldCheckErrorCallback mCallback;
     private final Object mObject;
     private final CloudUtilsTaskService mTaskService;
+    private Map<String, List<BaseFieldCheckNode>> mNodeMapperWithContent;
 
     private boolean isError = false;
 
@@ -48,6 +51,23 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
             }
             list.add(node);
             mNodeMapper.put(node.markId, list);
+        }
+    }
+
+    public void setCheckNodes(SparseArray<BaseFieldCheckNode> mCheckNodes) {
+        mNodeMapperWithContent = new HashMap<>();
+        if (mCheckNodes == null || mCheckNodes.size() == 0) {
+            return;
+        }
+        for (int i = 0; i < mCheckNodes.size(); i++) {
+            BaseFieldCheckNode node = mCheckNodes.valueAt(i);
+
+            List<BaseFieldCheckNode> list = mNodeMapperWithContent.get(node.markId);
+            if (list == null) {
+                list = new ArrayList<>();
+            }
+            list.add(node);
+            mNodeMapperWithContent.put(node.markId, list);
         }
     }
 
@@ -121,6 +141,52 @@ public class RealUiFieldCheckImpl implements IReallyUiFieldCheck {
 
         for (BaseFieldCheckNode node : list) {
             isError = node.isHasError(mObject, mCallback);
+            if (isError) {
+                break;
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * 发起检测
+     *
+     * @param markId  : 标记id，标记当前检测条件
+     * @param content : 待检测的内容
+     * @return 当前对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-07 17:19
+     */
+    @NonNull
+    @Override
+    public IReallyUiFieldCheck check(String markId, Object content) {
+        if (isError) {
+            return this;
+        }
+
+        List<BaseFieldCheckNode> list = mNodeMapper.get(markId);
+        if (list != null && list.size() > 0) {
+            for (BaseFieldCheckNode node : list) {
+                isError = node.isHasError(mObject, mCallback);
+                if (isError) {
+                    break;
+                }
+            }
+        }
+
+        if (isError) {
+            return this;
+        }
+
+        List<BaseFieldCheckNode> listWithContent = mNodeMapperWithContent.get(markId);
+        if (listWithContent == null || listWithContent.size() == 0) {
+            return this;
+        }
+
+        for (BaseFieldCheckNode node : listWithContent) {
+            isError = node.isHasErrorWithContent(content, mCallback);
             if (isError) {
                 break;
             }

@@ -29,4 +29,16 @@ public abstract class BaseFieldCheckNode {
      * @date: 2020-07-08 15:26
      */
     public abstract boolean isHasError(Object object, CloudUiFieldCheckErrorCallback callback);
+
+    /**
+     * 检测是否符合要求
+     *
+     * @param content  : 数据内容
+     * @param callback : 变量信息检查回调接口
+     * @return true 有错误，false 没有错误
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-08 15:26
+     */
+    public abstract boolean isHasErrorWithContent(Object content, CloudUiFieldCheckErrorCallback callback);
 }

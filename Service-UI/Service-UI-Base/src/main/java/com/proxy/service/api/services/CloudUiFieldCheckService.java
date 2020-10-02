@@ -3,6 +3,9 @@ package com.proxy.service.api.services;
 import androidx.annotation.NonNull;
 
 import com.proxy.service.api.callback.CloudUiFieldCheckErrorCallback;
+import com.proxy.service.api.impl.CloudUiCheckBooleanInfo;
+import com.proxy.service.api.impl.CloudUiCheckNumberInfo;
+import com.proxy.service.api.impl.CloudUiCheckStringInfo;
 import com.proxy.service.api.interfaces.IUiFieldCheck;
 
 /**
@@ -44,4 +47,36 @@ public interface CloudUiFieldCheckService extends IUiFieldCheck {
      */
     void setErrorToastCallback(@NonNull CloudUiFieldCheckErrorCallback callback);
 
+    /**
+     * 设置 boolean 检测条件
+     *
+     * @param id               : 同一标记下面的唯一ID，id 重复，则后一个替换前一个
+     * @param checkBooleanInfo : 检测条件
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-07 17:18
+     */
+    void setConditions(int id, CloudUiCheckBooleanInfo checkBooleanInfo);
+
+    /**
+     * 设置 number 检测条件
+     *
+     * @param id              : 同一标记下面的唯一ID，id 重复，则后一个替换前一个
+     * @param checkNumberInfo : 检测条件
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-07 17:18
+     */
+    void setConditions(int id, CloudUiCheckNumberInfo checkNumberInfo);
+
+    /**
+     * 设置 string 检测条件
+     *
+     * @param id              : 同一标记下面的唯一ID，id 重复，则后一个替换前一个
+     * @param checkStringInfo : 检测条件
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-07-07 17:18
+     */
+    void setConditions(int id, CloudUiCheckStringInfo checkStringInfo);
 }

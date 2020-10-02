@@ -22,7 +22,7 @@ public interface CloudUtilsInstallService extends BaseService {
     /**
      * 添加安装状态回调
      *
-     * @param cloudInstallCallback : 安装状态回调接口
+     * @param cloudInstallCallback : 安装状态回调接口(保存方式：弱引用，需要注意回收问题)
      * @param statusEnums          : 准备接收的状态类型
      * @version: 1.0
      * @author: cangHX

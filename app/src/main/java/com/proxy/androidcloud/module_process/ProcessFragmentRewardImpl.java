@@ -1,6 +1,7 @@
 package com.proxy.androidcloud.module_process;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -10,8 +11,8 @@ import androidx.fragment.app.Fragment;
 import com.proxy.androidcloud.R;
 import com.proxy.androidcloud.view.AlphaChangedTextView;
 import com.proxy.service.annotations.CloudUiTabHostReward;
-import com.proxy.service.api.request.annotations.TabHostRewardSelectFrom;
-import com.proxy.service.api.request.base.CloudUiTabHostFragmentReward;
+import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
+import com.proxy.service.api.base.CloudUiTabHostFragmentReward;
 import com.proxy.service.api.interfaces.IRewardHelper;
 
 /**
@@ -59,12 +60,16 @@ public class ProcessFragmentRewardImpl extends CloudUiTabHostFragmentReward {
     @Override
     public void onUnSelect(String from) {
         isSelect = false;
-        mTextView.setAlpha(0);
+//        mTextView.setAlpha(0);
+        mTextView.setBackgroundColor(Color.WHITE);
+        mTextView.setTextColor(Color.BLUE);
     }
 
     @Override
     public void onSelect(String from) {
-        mTextView.setAlpha(1);
+//        mTextView.setAlpha(1);
+        mTextView.setBackgroundColor(Color.BLUE);
+        mTextView.setTextColor(Color.WHITE);
         switch (from) {
             case TabHostRewardSelectFrom.FROM_TAB:
                 if (isSelect) {

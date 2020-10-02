@@ -28,7 +28,7 @@ public class ServiceUtils {
      */
     public static boolean checkServiceInterface(@Nullable Class<?> service) {
         if (service == null) {
-            Logger.Debug(CloudApiError.DATA_EMPTY.append("with : service").build());
+            Logger.Debug(CloudApiError.DATA_EMPTY.setAbout("with : service").build());
             return false;
         }
         if (!service.isInterface()) {
@@ -141,7 +141,7 @@ public class ServiceUtils {
             WildcardType wildcardType = (WildcardType) type;
             return getRawType(wildcardType.getUpperBounds()[0]);
         }
-        Logger.Warning(CloudApiError.DATA_EMPTY.append("with : type = null").build());
+        Logger.Warning(CloudApiError.DATA_EMPTY.setAbout("with : type = null").build());
         return null;
     }
 

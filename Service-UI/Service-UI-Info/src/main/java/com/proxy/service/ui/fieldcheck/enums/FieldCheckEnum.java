@@ -3,12 +3,12 @@ package com.proxy.service.ui.fieldcheck.enums;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.proxy.service.api.request.annotations.CloudUiCheckBoolean;
-import com.proxy.service.api.request.annotations.CloudUiCheckBooleans;
-import com.proxy.service.api.request.annotations.CloudUiCheckNumber;
-import com.proxy.service.api.request.annotations.CloudUiCheckNumbers;
-import com.proxy.service.api.request.annotations.CloudUiCheckString;
-import com.proxy.service.api.request.annotations.CloudUiCheckStrings;
+import com.proxy.service.api.annotations.CloudUiCheckBoolean;
+import com.proxy.service.api.annotations.CloudUiCheckBooleans;
+import com.proxy.service.api.annotations.CloudUiCheckNumber;
+import com.proxy.service.api.annotations.CloudUiCheckNumbers;
+import com.proxy.service.api.annotations.CloudUiCheckString;
+import com.proxy.service.api.annotations.CloudUiCheckStrings;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.utils.Logger;

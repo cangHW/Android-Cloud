@@ -1,9 +1,13 @@
 package com.proxy.service.api.services;
 
+import android.net.Uri;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.proxy.service.base.BaseService;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -13,6 +17,18 @@ import java.util.List;
  * on 2020/06/11  10:13
  */
 public interface CloudUtilsShareService extends BaseService {
+
+    /**
+     * 获取允许共享的 uri
+     *
+     * @param file : 文件流
+     * @return 允许共享的 uri
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/27 10:18 PM
+     */
+    @Nullable
+    Uri getUriForFile(@Nullable File file);
 
     /**
      * 打开系统分享，文字

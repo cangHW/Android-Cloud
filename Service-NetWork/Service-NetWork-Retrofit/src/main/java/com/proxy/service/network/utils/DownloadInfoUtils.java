@@ -33,7 +33,7 @@ public class DownloadInfoUtils {
 
     public static void findValueById(List<CloudNetWorkDownloadInfo> list, int downloadId, CheckedCallback callback) {
         for (CloudNetWorkDownloadInfo info : new ArrayList<>(list)) {
-            if (info.downloadId != downloadId) {
+            if (info.getDownloadId() != downloadId) {
                 continue;
             }
             callback.onFound(info);
@@ -42,7 +42,7 @@ public class DownloadInfoUtils {
 
     public static boolean isHasValue(List<CloudNetWorkDownloadInfo> list, int downloadId) {
         for (CloudNetWorkDownloadInfo downloadInfo : new ArrayList<>(list)) {
-            if (downloadInfo.downloadId != downloadId) {
+            if (downloadInfo.getDownloadId() != downloadId) {
                 continue;
             }
             return true;

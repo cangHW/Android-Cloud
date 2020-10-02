@@ -11,14 +11,16 @@ import androidx.annotation.Nullable;
 import com.proxy.androidcloud.R;
 import com.proxy.androidcloud.base.BaseFragment;
 import com.proxy.androidcloud.detail.DetailActivity;
-import com.proxy.androidcloud.helper.HelperType;
+import com.proxy.androidcloud.detail.ListActivity;
+import com.proxy.androidcloud.helper.DetailHelperType;
+import com.proxy.androidcloud.helper.ListHelperType;
 import com.proxy.androidcloud.listener.onViewClickListener;
 import com.proxy.service.api.callback.CloudUiLifeCallback;
 import com.proxy.service.api.utils.Logger;
 
 /**
  * @author: cangHX
- * on 2020/07/06  12:16
+ * on 2020/07/06  10:16 PM
  */
 public class LibraryFragment extends BaseFragment implements CloudUiLifeCallback, onViewClickListener {
 
@@ -32,7 +34,16 @@ public class LibraryFragment extends BaseFragment implements CloudUiLifeCallback
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.mThreadPool:
-                DetailActivity.launch(getContext(), HelperType.THREAD_POOL);
+                ListActivity.launch(getContext(), ListHelperType.THREAD_POOL);
+                break;
+            case R.id.mBitmap:
+                ListActivity.launch(getContext(), ListHelperType.BITMAP);
+                break;
+            case R.id.mInstall:
+                DetailActivity.launch(getContext(), DetailHelperType.INSTALL);
+                break;
+            case R.id.mReceiver:
+                ListActivity.launch(getContext(), ListHelperType.RECEIVER);
                 break;
             default:
         }

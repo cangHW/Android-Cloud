@@ -44,7 +44,8 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
     /**
      * 添加安装状态回调
      *
-     * @param cloudInstallCallback : 安装状态回调接口
+     * @param cloudInstallCallback : 安装状态回调接口(保存方式：弱引用，需要注意回收问题)
+     * @param statusEnums          : 准备接收的状态类型
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-06-24 17:06
@@ -55,13 +56,16 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
             return;
         }
         HashMap<String, CloudInstallCallback> hashMap = new HashMap<>(statusEnums.length);
+        IntentFilter intentFilter = new IntentFilter();
         for (CloudInstallStatusEnum statusEnum : statusEnums) {
             if (statusEnum == null) {
                 continue;
             }
             hashMap.put(statusEnum.getValue(), cloudInstallCallback);
+            intentFilter.addAction(statusEnum.getValue());
         }
-        UtilsBroadcastReceiver.getInstance().addIntentFilter(InstallReceiverListenerManager.getInstance().getIntentFilter(), InstallReceiverListenerManager.getInstance().addMap(hashMap));
+        intentFilter.addDataScheme("package");
+        UtilsBroadcastReceiver.getInstance().addIntentFilter(intentFilter, InstallReceiverListenerManager.getInstance().addMap(hashMap));
     }
 
     /**
@@ -211,6 +215,7 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_DELETE);
         intent.setData(Uri.parse("package:" + packageName));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 

@@ -9,4 +9,7 @@ import com.proxy.service.base.BaseService;
  * on 2020/07/19  6:09 PM
  */
 public interface CloudNetWorkUploadService extends BaseService {
+
+
+
 }

@@ -95,7 +95,7 @@ public interface CloudUtilsNetWorkService extends BaseService {
     List<String> getIpv6Address();
 
     /**
-     * 添加网络状态变化回调
+     * 添加网络状态变化回调(注意 context 泄漏问题，不用时需要移除监听)
      *
      * @param callback : 网络状态变化回调接口
      * @version: 1.0

@@ -1,83 +1,83 @@
 ########################   CloudUiCheckBoolean   ###########################
 # 不混淆使用了注解的类及类成员
--keep @com.proxy.service.api.request.annotations.CloudUiCheckBoolean class * {*;}
+-keep @com.proxy.service.api.annotations.CloudUiCheckBoolean class * {*;}
 # 如果类中有使用了注解的方法，则不混淆类和类成员
 -keepclasseswithmembers class * {
-    @com.proxy.service.api.request.annotations.CloudUiCheckBoolean <methods>;
+    @com.proxy.service.api.annotations.CloudUiCheckBoolean <methods>;
 }
 # 如果类中有使用了注解的字段，则不混淆类和类成员
 -keepclasseswithmembers class * {
-    @com.proxy.service.api.request.annotations.CloudUiCheckBoolean <fields>;
+    @com.proxy.service.api.annotations.CloudUiCheckBoolean <fields>;
 }
 
 ########################   CloudUiCheckBooleans   ###########################
 # 不混淆使用了注解的类及类成员
--keep @com.proxy.service.api.request.annotations.CloudUiCheckBooleans class * {*;}
+-keep @com.proxy.service.api.annotations.CloudUiCheckBooleans class * {*;}
 # 如果类中有使用了注解的方法，则不混淆类和类成员
 -keepclasseswithmembers class * {
-    @com.proxy.service.api.request.annotations.CloudUiCheckBooleans <methods>;
+    @com.proxy.service.api.annotations.CloudUiCheckBooleans <methods>;
 }
 # 如果类中有使用了注解的字段，则不混淆类和类成员
 -keepclasseswithmembers class * {
-    @com.proxy.service.api.request.annotations.CloudUiCheckBooleans <fields>;
+    @com.proxy.service.api.annotations.CloudUiCheckBooleans <fields>;
 }
 
 ########################   CloudUiCheckNumber   ###########################
 # 不混淆使用了注解的类及类成员
--keep @com.proxy.service.api.request.annotations.CloudUiCheckNumber class * {*;}
+-keep @com.proxy.service.api.annotations.CloudUiCheckNumber class * {*;}
 # 如果类中有使用了注解的方法，则不混淆类和类成员
 -keepclasseswithmembers class * {
-    @com.proxy.service.api.request.annotations.CloudUiCheckNumber <methods>;
+    @com.proxy.service.api.annotations.CloudUiCheckNumber <methods>;
 }
 # 如果类中有使用了注解的字段，则不混淆类和类成员
 -keepclasseswithmembers class * {
-    @com.proxy.service.api.request.annotations.CloudUiCheckNumber <fields>;
+    @com.proxy.service.api.annotations.CloudUiCheckNumber <fields>;
 }
 
 ########################   CloudUiCheckNumbers   ###########################
 # 不混淆使用了注解的类及类成员
--keep @com.proxy.service.api.request.annotations.CloudUiCheckNumbers class * {*;}
+-keep @com.proxy.service.api.annotations.CloudUiCheckNumbers class * {*;}
 # 如果类中有使用了注解的方法，则不混淆类和类成员
 -keepclasseswithmembers class * {
-    @com.proxy.service.api.request.annotations.CloudUiCheckNumbers <methods>;
+    @com.proxy.service.api.annotations.CloudUiCheckNumbers <methods>;
 }
 # 如果类中有使用了注解的字段，则不混淆类和类成员
 -keepclasseswithmembers class * {
-    @com.proxy.service.api.request.annotations.CloudUiCheckNumbers <fields>;
+    @com.proxy.service.api.annotations.CloudUiCheckNumbers <fields>;
 }
 
 ########################   CloudUiCheckString   ###########################
 # 不混淆使用了注解的类及类成员
--keep @com.proxy.service.api.request.annotations.CloudUiCheckString class * {*;}
+-keep @com.proxy.service.api.annotations.CloudUiCheckString class * {*;}
 # 如果类中有使用了注解的方法，则不混淆类和类成员
 -keepclasseswithmembers class * {
-    @com.proxy.service.api.request.annotations.CloudUiCheckString <methods>;
+    @com.proxy.service.api.annotations.CloudUiCheckString <methods>;
 }
 # 如果类中有使用了注解的字段，则不混淆类和类成员
 -keepclasseswithmembers class * {
-    @com.proxy.service.api.request.annotations.CloudUiCheckString <fields>;
+    @com.proxy.service.api.annotations.CloudUiCheckString <fields>;
 }
 
 ########################   CloudUiCheckStrings   ###########################
 # 不混淆使用了注解的类及类成员
--keep @com.proxy.service.api.request.annotations.CloudUiCheckStrings class * {*;}
+-keep @com.proxy.service.api.annotations.CloudUiCheckStrings class * {*;}
 # 如果类中有使用了注解的方法，则不混淆类和类成员
 -keepclasseswithmembers class * {
-    @com.proxy.service.api.request.annotations.CloudUiCheckStrings <methods>;
+    @com.proxy.service.api.annotations.CloudUiCheckStrings <methods>;
 }
 # 如果类中有使用了注解的字段，则不混淆类和类成员
 -keepclasseswithmembers class * {
-    @com.proxy.service.api.request.annotations.CloudUiCheckStrings <fields>;
+    @com.proxy.service.api.annotations.CloudUiCheckStrings <fields>;
 }
 
 ########################   TabHostRewardSelectFrom   ###########################
 # 不混淆使用了注解的类及类成员
--keep @com.proxy.service.api.request.annotations.TabHostRewardSelectFrom class * {*;}
+-keep @com.proxy.service.api.annotations.TabHostRewardSelectFrom class * {*;}
 # 如果类中有使用了注解的方法，则不混淆类和类成员
 -keepclasseswithmembers class * {
-    @com.proxy.service.api.request.annotations.TabHostRewardSelectFrom <methods>;
+    @com.proxy.service.api.annotations.TabHostRewardSelectFrom <methods>;
 }
 # 如果类中有使用了注解的字段，则不混淆类和类成员
 -keepclasseswithmembers class * {
-    @com.proxy.service.api.request.annotations.TabHostRewardSelectFrom <fields>;
+    @com.proxy.service.api.annotations.TabHostRewardSelectFrom <fields>;
 }

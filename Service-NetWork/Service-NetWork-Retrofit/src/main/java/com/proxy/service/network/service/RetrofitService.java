@@ -6,6 +6,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
@@ -63,7 +64,8 @@ public interface RetrofitService {
     /**
      * 下载任务
      *
-     * @param url : 下载地址
+     * @param start : 从哪个字节开始下载
+     * @param url   : 下载地址
      * @return 回调对象
      * @version: 1.0
      * @author: cangHX
@@ -71,5 +73,5 @@ public interface RetrofitService {
      */
     @Streaming
     @GET
-    Call<ResponseBody> download(@Url String url);
+    Call<ResponseBody> download(@Header("RANGE") String start, @Url String url);
 }

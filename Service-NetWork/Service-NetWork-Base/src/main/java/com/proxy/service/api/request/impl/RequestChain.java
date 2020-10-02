@@ -57,7 +57,7 @@ public class RequestChain implements CloudNetWorkInterceptor.Chain {
     @Override
     public <T> CloudNetWorkResponse<T> proceed(@NonNull CloudNetWorkRequest request) {
         if (index < 0 || index >= interceptors.size()) {
-            Logger.Error(CloudApiError.INDEX_OUT_OF_BOUNDS.append("total is " + interceptors.size() + " and index : " + index).build());
+            Logger.Error(CloudApiError.INDEX_OUT_OF_BOUNDS.setAbout("total is " + interceptors.size() + " and index : " + index).build());
             return CloudNetWorkResponse.error(new IndexOutOfBoundsException("total : " + interceptors.size() + " index : " + index));
         }
         CloudNetWorkInterceptor interceptor = interceptors.get(index);

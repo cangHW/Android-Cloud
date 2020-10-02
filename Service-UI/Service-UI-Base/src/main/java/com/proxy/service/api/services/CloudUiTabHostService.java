@@ -2,7 +2,7 @@ package com.proxy.service.api.services;
 
 import androidx.annotation.NonNull;
 
-import com.proxy.service.api.request.base.CloudUiTabHostFragmentReward;
+import com.proxy.service.api.base.CloudUiTabHostFragmentReward;
 import com.proxy.service.api.interfaces.IUiTabHostHelper;
 
 /**

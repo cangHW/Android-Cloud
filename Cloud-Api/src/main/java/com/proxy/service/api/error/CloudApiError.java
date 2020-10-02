@@ -143,8 +143,8 @@ public enum CloudApiError {
      * @author: cangHX
      * @date: 2020-06-11 13:01
      */
-    public CloudApiError append(String msg) {
-        this.aboutMsg += " " + msg;
+    public CloudApiError setAbout(String msg) {
+        this.aboutMsg = " " + msg;
         return this;
     }
 

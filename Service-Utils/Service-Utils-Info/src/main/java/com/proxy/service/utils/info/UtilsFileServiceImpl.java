@@ -72,16 +72,19 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
-    public void deleteFile(String path) {
+    public boolean deleteFile(String path) {
         if (TextUtils.isEmpty(path)) {
-            return;
+            Logger.Debug("path can not be null");
+            return false;
         }
         try {
             File file = new File(path);
             file.delete();
+            return true;
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         }
+        return false;
     }
 
     /**
@@ -97,6 +100,7 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
     @Override
     public String read(File file) {
         if (file == null || !file.exists() || file.isDirectory() || file.length() == 0) {
+            Logger.Debug("Please check the file first");
             return "";
         }
         StringBuilder result = new StringBuilder();
@@ -135,6 +139,7 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
     @Override
     public List<String> readLines(File file) {
         if (file == null || !file.exists() || file.isDirectory() || file.length() == 0) {
+            Logger.Debug("Please check the file first");
             return new ArrayList<>();
         }
         ArrayList<String> lines = new ArrayList<>();
@@ -179,13 +184,15 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
      * @date: 2020/9/8 9:16 PM
      */
     @Override
-    public void write(File file, String data, boolean append) {
+    public boolean write(File file, String data, boolean append) {
         if (file == null) {
-            return;
+            Logger.Debug("file can not be null");
+            return false;
         }
         createFile(file.getAbsolutePath());
         if (file.isDirectory()) {
-            return;
+            Logger.Debug("file can not be directory");
+            return false;
         }
         if (data == null) {
             data = "";
@@ -195,6 +202,7 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
             writer = new FileWriter(file, append);
             writer.write(data);
             writer.flush();
+            return true;
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         } finally {
@@ -206,6 +214,7 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
                 Logger.Debug(throwable);
             }
         }
+        return false;
     }
 
     /**
@@ -219,16 +228,15 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
      * @date: 2020/9/8 9:16 PM
      */
     @Override
-    public void writeLines(File file, List<String> datas, boolean append) {
+    public boolean writeLines(File file, List<String> datas, boolean append) {
         if (datas == null || datas.size() == 0) {
-            write(file, "", append);
-            return;
+            return write(file, "", append);
         }
         StringBuilder builder = new StringBuilder();
         for (String data : datas) {
             builder.append(data);
         }
-        write(file, builder.toString(), append);
+        return write(file, builder.toString(), append);
     }
 
     /**
@@ -244,7 +252,7 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
     @Override
     public boolean write(File oldFile, File newFile) {
         if (oldFile == null || newFile == null) {
-            Logger.Debug("oldFile or newFile can not null");
+            Logger.Debug("oldFile or newFile can not be null");
             return false;
         }
         if (!oldFile.exists() || oldFile.isDirectory()) {
@@ -307,37 +315,6 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
     /**
      * 写文件，同步执行
      *
-     * @param oldFile : 旧位置或旧名称
-     * @param newFile : 新位置或新名称
-     * @param append  : 是否续写
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020/9/8 9:16 PM
-     */
-    @Override
-    public void write(File oldFile, File newFile, boolean append) {
-        if (!append) {
-            if (newFile != null) {
-                deleteFile(newFile.getAbsolutePath());
-            }
-            write(oldFile, newFile);
-            return;
-        }
-        if (oldFile == null || !oldFile.exists() || oldFile.length() == 0) {
-            createFile(newFile.getAbsolutePath());
-            return;
-        }
-        if (oldFile.isDirectory()) {
-            Logger.Debug("The target file does not exist. with : " + oldFile.getAbsolutePath());
-            return;
-        }
-        String data = read(oldFile);
-        write(newFile, data, true);
-    }
-
-    /**
-     * 写文件，同步执行
-     *
      * @param is        : 文件流
      * @param localFile : 本地文件
      * @param seek      : 偏移位置
@@ -347,9 +324,10 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
      * @date: 2020/9/10 10:47 PM
      */
     @Override
-    public void write(InputStream is, File localFile, long seek, ProgressCallback callback) {
+    public boolean write(InputStream is, File localFile, long seek, ProgressCallback callback) {
         if (is == null || localFile == null) {
-            return;
+            Logger.Debug("inputStream or localFile can not be null");
+            return false;
         }
         if (callback == null) {
             callback = new ProgressCallback() {
@@ -363,33 +341,43 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
                 }
             };
         }
+        RandomAccessFile accessFile = null;
         try {
-            localFile = createFile(localFile.getAbsolutePath());
-            if (localFile == null || localFile.isDirectory()) {
-                return;
+            if (localFile.isDirectory()) {
+                Logger.Debug("localFile can not be directory");
+                return false;
             }
-            RandomAccessFile accessFile = new RandomAccessFile(localFile, "rw");
+            accessFile = new RandomAccessFile(localFile, "rw");
             accessFile.seek(seek);
             byte[] b = new byte[4 * 1024];
             long progress = seek;
             int len;
             while ((len = is.read(b)) != -1) {
                 if (callback.isCancel()) {
-                    return;
+                    Logger.Debug("cancel");
+                    return false;
                 }
                 accessFile.write(b, 0, len);
                 progress += len;
                 callback.onProgress(progress);
             }
-            accessFile.close();
+            return true;
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         } finally {
+            try {
+                if (accessFile != null) {
+                    accessFile.close();
+                }
+            } catch (Throwable throwable) {
+                Logger.Debug(throwable);
+            }
             try {
                 is.close();
             } catch (Throwable throwable) {
                 Logger.Debug(throwable);
             }
         }
+        return false;
     }
 }

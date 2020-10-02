@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.proxy.service.api.request.annotations.TabHostRewardSelectFrom;
+import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.ui.uitabhost.helper.content.base.AbstractContentHelper;
 

@@ -44,9 +44,13 @@ public class DbHelper {
      * @date: 2020/9/6 5:50 PM
      */
     public long insert(DownloadInfo downloadInfo) {
+        if (mDbManager == null) {
+            return -1;
+        }
+
         SQLiteDatabase writable = mDbManager.getWritableDatabase();
-        writable.beginTransaction();
         try {
+            writable.beginTransaction();
             long id = writable.insertOrThrow(TableDownloadInfo.TABLE_NAME, downloadInfo.fileUrl, DownloadInfo.getContentValues(downloadInfo));
             if (id != -1) {
                 writable.setTransactionSuccessful();
@@ -70,6 +74,10 @@ public class DbHelper {
      * @date: 2020/9/6 5:50 PM
      */
     public DownloadInfo query(String selection, String[] selectionArgs) {
+        if (mDbManager == null) {
+            return null;
+        }
+
         DownloadInfo downloadInfo = null;
 
         SQLiteDatabase readable = mDbManager.getReadableDatabase();
@@ -99,15 +107,19 @@ public class DbHelper {
      * @date: 2020/9/6 5:50 PM
      */
     public void update(DownloadInfo downloadInfo, String whereClause, String[] whereArgs) {
-        SQLiteDatabase readable = mDbManager.getReadableDatabase();
-        readable.beginTransaction();
+        if (mDbManager == null) {
+            return;
+        }
+
+        SQLiteDatabase writable = mDbManager.getWritableDatabase();
         try {
-            readable.update(TableDownloadInfo.TABLE_NAME, DownloadInfo.getContentValues(downloadInfo), whereClause, whereArgs);
-            readable.setTransactionSuccessful();
+            writable.beginTransaction();
+            writable.update(TableDownloadInfo.TABLE_NAME, DownloadInfo.getContentValues(downloadInfo), whereClause, whereArgs);
+            writable.setTransactionSuccessful();
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         } finally {
-            readable.endTransaction();
+            writable.endTransaction();
         }
     }
 
@@ -121,15 +133,19 @@ public class DbHelper {
      * @date: 2020/9/6 5:50 PM
      */
     public void delete(String whereClause, String[] whereArgs) {
-        SQLiteDatabase readable = mDbManager.getReadableDatabase();
-        readable.beginTransaction();
+        if (mDbManager == null) {
+            return;
+        }
+
+        SQLiteDatabase writable = mDbManager.getWritableDatabase();
         try {
-            readable.delete(TableDownloadInfo.TABLE_NAME, whereClause, whereArgs);
-            readable.setTransactionSuccessful();
+            writable.beginTransaction();
+            writable.delete(TableDownloadInfo.TABLE_NAME, whereClause, whereArgs);
+            writable.setTransactionSuccessful();
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         } finally {
-            readable.endTransaction();
+            writable.endTransaction();
         }
     }
 

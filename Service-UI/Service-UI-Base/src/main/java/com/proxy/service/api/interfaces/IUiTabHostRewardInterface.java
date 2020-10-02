@@ -4,7 +4,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.proxy.service.api.request.annotations.TabHostRewardSelectFrom;
+import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
 
 /**
  * android 选项卡类型页面顶级接口

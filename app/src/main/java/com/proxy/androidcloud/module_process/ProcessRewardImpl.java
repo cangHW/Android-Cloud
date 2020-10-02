@@ -8,8 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.proxy.androidcloud.R;
-import com.proxy.service.api.request.annotations.TabHostRewardSelectFrom;
-import com.proxy.service.api.request.base.CloudUiTabHostViewReward;
+import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
+import com.proxy.service.api.base.CloudUiTabHostViewReward;
 import com.proxy.service.api.interfaces.IRewardHelper;
 
 /**

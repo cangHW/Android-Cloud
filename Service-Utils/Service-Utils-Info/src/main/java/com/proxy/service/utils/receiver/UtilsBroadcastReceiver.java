@@ -67,16 +67,17 @@ public class UtilsBroadcastReceiver extends BroadcastReceiver {
      * @date: 2020-06-28 20:59
      */
     public void addIntentFilter(IntentFilter filter, ReceiverListener listener) {
-        boolean hasSame = WeakReferenceUtils.checkValueIsSame(mReceiverListeners, listener);
-        if (hasSame) {
-            return;
-        }
-        this.mReceiverListeners.add(new WeakReference<>(listener));
         Context context = ContextManager.getApplication();
         if (context == null) {
             Logger.Error(CloudApiError.INIT_EMPTY.build());
             return;
         }
+
+        boolean hasSame = WeakReferenceUtils.checkValueIsSame(mReceiverListeners, listener);
+        if (!hasSame) {
+            this.mReceiverListeners.add(new WeakReference<>(listener));
+        }
+
         context.registerReceiver(Factory.M_INSTANCE, filter);
     }
 

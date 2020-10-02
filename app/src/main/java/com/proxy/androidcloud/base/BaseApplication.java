@@ -33,9 +33,16 @@ public class BaseApplication extends Application {
     public static final String BASE_URL_1 = "http://api.map.baidu.com/";
     public static final String PATH_URL_1 = "telematics/v3/weather";
 
+    private static BaseApplication application;
+
+    public static BaseApplication getInstance() {
+        return application;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        application = this;
         CloudSystem.init(this, true);
 
         CloudNetWorkInitService initService = CloudSystem.getService(CloudServiceTagNetWork.NET_WORK_INIT);

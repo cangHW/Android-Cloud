@@ -49,7 +49,7 @@ public interface CloudUtilsFileService extends BaseService {
      * @author: cangHX
      * @date: 2020/9/10 11:03 PM
      */
-    void deleteFile(String path);
+    boolean deleteFile(String path);
 
     /**
      * 读文件，同步执行
@@ -85,7 +85,7 @@ public interface CloudUtilsFileService extends BaseService {
      * @author: cangHX
      * @date: 2020/9/8 9:16 PM
      */
-    void write(File file, String data, boolean append);
+    boolean write(File file, String data, boolean append);
 
     /**
      * 写文件，同步执行
@@ -97,7 +97,7 @@ public interface CloudUtilsFileService extends BaseService {
      * @author: cangHX
      * @date: 2020/9/8 9:16 PM
      */
-    void writeLines(File file, List<String> datas, boolean append);
+    boolean writeLines(File file, List<String> datas, boolean append);
 
     /**
      * 写文件，同步执行
@@ -114,18 +114,6 @@ public interface CloudUtilsFileService extends BaseService {
     /**
      * 写文件，同步执行
      *
-     * @param oldFile : 旧位置或旧名称
-     * @param newFile : 新位置或新名称
-     * @param append  : 是否续写
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020/9/8 9:16 PM
-     */
-    void write(File oldFile, File newFile, boolean append);
-
-    /**
-     * 写文件，同步执行
-     *
      * @param is        : 文件流
      * @param localFile : 本地文件
      * @param seek      : 偏移位置
@@ -134,5 +122,5 @@ public interface CloudUtilsFileService extends BaseService {
      * @author: cangHX
      * @date: 2020/9/10 10:47 PM
      */
-    void write(InputStream is, File localFile, long seek, ProgressCallback callback);
+    boolean write(InputStream is, File localFile, long seek, ProgressCallback callback);
 }

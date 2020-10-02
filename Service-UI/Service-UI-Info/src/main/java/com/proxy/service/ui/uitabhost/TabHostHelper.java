@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.proxy.service.api.request.annotations.TabHostRewardSelectFrom;
+import com.proxy.service.api.annotations.TabHostRewardSelectFrom;
 import com.proxy.service.api.callback.CloudUiEventCallback;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.interfaces.IRewardHelper;
@@ -293,7 +293,7 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
             Object object = this.mTabHostRewardInterfaceList.get(index);
             if (object != null) {
                 this.mTabHostRewardInterfaceList.clear();
-                Logger.Error(CloudApiError.DATA_DUPLICATION.append("Repeat for the " + object.getClass().getCanonicalName() + " and " + rewardInterface.getClass().getCanonicalName() + " index").build());
+                Logger.Error(CloudApiError.DATA_DUPLICATION.setAbout("Repeat for the " + object.getClass().getCanonicalName() + " and " + rewardInterface.getClass().getCanonicalName() + " index").build());
                 return this;
             }
             rewardInterface.setRewardHelper(this);
@@ -336,7 +336,7 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
             fragment.setArguments(bundle);
             return fragment;
         } else {
-            Logger.Error(CloudApiError.UNKNOWN_ERROR.append("Discover unknown data. " + object.getClass().getCanonicalName()).build());
+            Logger.Error(CloudApiError.UNKNOWN_ERROR.setAbout("Discover unknown data. " + object.getClass().getCanonicalName()).build());
         }
         return null;
     }
