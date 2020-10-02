@@ -119,6 +119,8 @@ public enum CloudApiError {
         if (!TextUtils.isEmpty(aboutMsg)) {
             info += " \nAbout : " + aboutMsg;
         }
+        msg = "";
+        aboutMsg = "";
         return info;
     }
 
