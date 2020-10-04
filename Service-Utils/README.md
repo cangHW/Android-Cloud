@@ -117,8 +117,9 @@
 | allowLetterLowerCase |  | 设置允许输入小写英文 |
 | allowDigits | digits：自定义内容 | 自定义允许输入的内容 |
 | allowMatcher | regex：正则表达式 | 自定义允许输入，正则 |
+</br>
 
-5、CloudUtilsFileService  文件操作相关功能
+6、CloudUtilsFileService  文件操作相关功能
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | createFile | path：文件地址 | 创建 file，自动创建相关文件夹与文件 |
@@ -129,22 +130,91 @@
 | writeLines | 1、path：文件地址。2、datas：内容。3、append：是否续写 | 写文件，同步执行 |
 | write | 1、oldFile：旧位置或旧名称。2、newFile：新位置或新名称 | 写文件，同步执行 |
 | write | 1、is：文件流。2、localFile：本地文件。3、seek：偏移位置。4、callback：进度回调 | 写文件，同步执行 |
+</br>
+
+7、CloudUtilsInstallService  应用安装相关操作
+| 方法名 | 参数 | 说明 |
+| :-- | :-- | :-- |
+| addInstallCallback | 1、cloudInstallCallback：安装状态回调接口。2、statusEnums：准备接收的状态类型 | 添加安装状态回调 |
+| isInstallApp | packageName：包名 | 对应包名的app是否安装 |
+| addProviderResourcePath | filePath：允许共享的安全路径 | 添加允许通过 provider 共享的文件路径 |
+| installApp | apkPath：安装包路径 | 安装应用 |
+| getPackageName | apkPath：安装包路径 | 获取对应apk的包名 |
+| unInstallApp | packageName：包名 | 卸载应用 |
+| getAllInstallAppsInfo |  | 获取所有已安装应用 |
+| openApp | packageName：包名 | 打开对应包名的app |
+</br>
+
+8、CloudUtilsNetWorkService  网络状态相关操作
+| 方法名 | 参数 | 说明 |
+| :-- | :-- | :-- |
+| addNetWorkStatusCallback | callback：网络状态变化回调接口 | 添加网络状态变化回调 |
+| removeNetWorkStatusCallback | callback：网络状态变化回调接口 | 移除网络状态变化回调 |
+| isConnected |  | 是否有网络 |
+| getNetworkType |  | 获取网络类型 |
+| getWifiBssId |  | 获取当前 wifi 的站点名称 |
+| getWifiRssI |  | 获取当前 wifi 的信号强度 |
+| getWifiSsId |  | 获取当前 wifi 的名称 |
+| getScanWifiInfoList |  | 获取扫描到的 Wi-Fi 信息列表 |
+| getIpv6Address |  | 获取 ipv6 地址 |
+</br>
+
+9、CloudUtilsPermissionService  权限管理相关操作
+| 方法名 | 参数 | 说明 |
+| :-- | :-- | :-- |
+| isPermissionGranted | permission：权限名称 | 是否具有对应权限 |
+| selfPermissionGranted | permission：权限名称 | 自动获取对应权限 |
+</br>
+
+10、CloudUtilsSecurityService  加解密相关操作
+| 方法名 | 参数 | 说明 |
+| :-- | :-- | :-- |
+| md5Encode | stream：准备加密的流 | md5 加密 |
+| md5Encode | string：准备加密的字符串 | md5 加密 |
+| aes |  | Aes 加密 |
+
+    返回对象中特有方法
+| 方法名 | 参数 | 说明 |
+| :-- | :-- | :-- |
+| setSecretKeySpec | key：密钥 | 设置密钥 |
+| setIvParameterSpec | spec：偏移值 | 设置偏移量 |
+| setTransFormation | formation：加密方案 | 设置加密方案 |
+| encryptString | data：待加密对象 | 加密 |
+| encryptString | bytes：待加密对象 | 加密 |
+| encryptByte | data：待加密对象 | 加密 |
+| encryptByte | bytes：待加密对象 | 加密 |
+| decryptString | data：待解密对象 | 解密 |
+| decryptString | bytes：待解密对象 | 解密 |
+| decryptByte | data：待解密对象 | 解密 |
+| decryptByte | bytes：待解密对象 | 解密 |
+</br>
 
 
+11、CloudUtilsShareService  系统分享相关功能
+| 方法名 | 参数 | 说明 |
+| :-- | :-- | :-- |
+| getUriForFile | file：文件流 | 获取允许共享的 uri |
+| openSystemShareTxt | info：分享文字内容 | 打开系统分享，文字 |
+| openSystemShareImg | imgPaths：图片地址集合 | 打开系统分享，图片 |
+</br>
 
+12、CloudUtilsReceiverService  广播接收器相关操作
+| 方法名 | 参数 | 说明 |
+| :-- | :-- | :-- |
+| addReceiverListener | 1、receiverInfo：接收器信息。2、receiverListener：接收器 | 添加全局接收器并设置接收范围 |
+| addReceiverListener | 1、sendPermission：。自定义发送方需要具有的权限。2、receiverInfo：接收器信息。3、receiverListener：接收器 | 添加全局接收器并设置接收范围 |
+| addLocalReceiverListener | 1、receiverInfo：接收器信息。2、receiverListener：接收器 | 添加本地接收器并设置接收范围 |
+| removeReceiverListener | receiverListener：接收器 | 取消接收器 |
+| sendBroadcast | intent：意图 | 发送全局广播 |
+| sendBroadcast | 1、receiverPermission：自定义接收方需要具有的权限。2、intent：意图 | 发送全局广播并对接收方权限进行校验 |
+| sendLocalBroadcast | intent：意图 | 发送本地广播 |
+</br>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+13、CloudUtilsSystemPageService  跳转常用系统页面
+| 方法名 | 参数 | 说明 |
+| :-- | :-- | :-- |
+| openAppSetting | packageName：包名 | 打开应用设置页面 |
+| openNotificationSetting | 1、packageName：包名。2、uid：应用的uid | 打开应用通知设置页面 |
+| openCall | phoneNumber：准备拨打的电话号码 | 打电话 |
+</br>
 
