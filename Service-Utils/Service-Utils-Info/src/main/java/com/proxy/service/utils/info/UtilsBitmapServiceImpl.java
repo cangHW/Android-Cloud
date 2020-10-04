@@ -148,7 +148,7 @@ public class UtilsBitmapServiceImpl implements CloudUtilsBitmapService {
      * 压缩图片,质量压缩 适用于图片上传
      *
      * @param bitmap : 准备压缩的bitmap
-     * @param maxKb  : 图片最大多少 kb
+     * @param maxKb  : 图片最大保留多少 kb
      * @return 返回压缩后的bitmap
      * @version: 1.0
      * @author: cangHX
@@ -252,7 +252,7 @@ public class UtilsBitmapServiceImpl implements CloudUtilsBitmapService {
      * @param src  : 源图片
      * @param dst  : 准备合并绘制的图片
      * @param left : 左边起点坐标
-     * @param top  : 顶部起点坐标t
+     * @param top  : 顶部起点坐标
      * @return 合成后的Bitmap
      */
     @Override

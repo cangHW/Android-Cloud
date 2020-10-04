@@ -22,7 +22,7 @@ public interface IEditTextAllowHelper {
     IEditTextAllowHelper allowNumber();
 
     /**
-     * 设置允许输入字母
+     * 设置允许输入英文
      *
      * @return 当前对象
      * @version: 1.0
@@ -33,7 +33,7 @@ public interface IEditTextAllowHelper {
     IEditTextAllowHelper allowLetter();
 
     /**
-     * 设置允许输入大写字母
+     * 设置允许输入大写英文
      *
      * @return 当前对象
      * @version: 1.0
@@ -44,7 +44,7 @@ public interface IEditTextAllowHelper {
     IEditTextAllowHelper allowLetterUpperCase();
 
     /**
-     * 设置允许输入小写字母
+     * 设置允许输入小写英文
      *
      * @return 当前对象
      * @version: 1.0

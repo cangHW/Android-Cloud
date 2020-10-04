@@ -95,8 +95,8 @@ public class DownloadListHelper extends AbstractListHelper {
                 service.cancel(mDownloadId);
                 break;
             case 4:
-//                service.delete(mDownloadId);
-                service.getDownloadState(mDownloadId);
+                service.delete(mDownloadId);
+//                service.getDownloadState(mDownloadId);
                 break;
             default:
         }
