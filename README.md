@@ -92,7 +92,7 @@
 ### 一、初始化
 通过 CloudSystem.init(@NonNull Context context, boolean isDebug) 进行初始化，初始化之后即可正常使用本框架
 
-### 二、服务
+### 二、获取服务
 本框架中的服务代表一个个的功能，例如：file文件处理、bitmap图片处理、数据校验、网络请求等等。具体的服务对应的 class 类型与 tag 值，请查看对应的文档
 <br/>
 
@@ -106,7 +106,7 @@
 | CloudSystem.getServiceWithUuid() | 1、uuid：唯一ID，用于触发对应拦截器。 2、tClass：服务的 class 类型 | 通过 class 类型获取单个/多个服务 |
 
 
-### 三、拦截器
+### 三、添加拦截器
 拦截器分为两种，全局拦截器与定向拦截器
 <br/>
 
