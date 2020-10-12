@@ -50,9 +50,21 @@ dependencies {
         implementation project(path: ':Service-Utils:Service-Utils-Info')
     }
 
-    if (Boolean.parseBoolean(isFromMaven)) {
-        api project(path: ':Service-NetWork:Service-NetWork-Base')
+    if (Boolean.parseBoolean(service_net_base_isFromMaven)) {
+        api "com.proxy.service:Service-Net-Base:${service_net_base_version}"
     } else {
         api project(path: ':Service-NetWork:Service-NetWork-Base')
     }
 }
+
+ext {
+    bintrayName = 'Service-Net-Retrofit'
+    artifact = bintrayName
+    libraryName = 'Cloud net module'
+    libraryDescription = 'The perfect framework for Android'
+    libraryVersion = service_net_retrofit_version
+}
+
+apply from: '../../install.gradle'
+apply from: '../../bintray.gradle'
+apply from: '../../upload.gradle'

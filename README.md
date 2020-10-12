@@ -31,8 +31,6 @@
 
 ## 网络库
 
-<font size='4' color='F00' >开发中</font>
-
 [<font size='6' color='#528DFB' >网络库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Service-NetWork/README.md)
 
 提供网络能力，可以自由选择底层实现方式
@@ -43,7 +41,7 @@
 | :--: | :--: | :-- | :--: |
 | OkHttp |  | com.proxy.service:Service-OkHttp:“版本号” | api |
 | Volley |  | com.proxy.service:Service-Volley:“版本号” | api |
-| Retrofit |  | com.proxy.service:Service-Retrofit:“版本号” | api |
+| Retrofit | 0.0.1 | com.proxy.service:Service-Retrofit:“版本号” | api |
 
 
 ## UI 库

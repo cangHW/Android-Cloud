@@ -45,3 +45,16 @@ dependencies {
         implementation project(path: ':Service-Utils:Service-Utils-Info')
     }
 }
+
+
+ext {
+    bintrayName = 'Service-Net-Base'
+    artifact = bintrayName
+    libraryName = 'Cloud net module'
+    libraryDescription = 'The perfect framework for Android'
+    libraryVersion = service_net_base_version
+}
+
+apply from: '../../install.gradle'
+apply from: '../../bintray.gradle'
+apply from: '../../upload.gradle'
