@@ -39,6 +39,7 @@ public class UtilsSystemPageServiceImpl implements CloudUtilsSystemPageService {
         }
         Intent intent = new Intent();
         intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (TextUtils.isEmpty(packageName)) {
             CloudUtilsAppService service = new UtilsAppServiceImpl();
             intent.setData(Uri.parse("package:" + service.getPackageName()));
@@ -80,7 +81,7 @@ public class UtilsSystemPageServiceImpl implements CloudUtilsSystemPageService {
         } else {
             intent.putExtra("app_uid", uid);
         }
-
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -106,6 +107,7 @@ public class UtilsSystemPageServiceImpl implements CloudUtilsSystemPageService {
             intent.setAction(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + phoneNumber));
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 

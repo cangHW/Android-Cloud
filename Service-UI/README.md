@@ -7,6 +7,14 @@
 # UI 库文档
 本文档主要介绍 UI 库中包含的功能以及用法，关于如何获取服务，请看框架整体文档
 
+    添加依赖和配置：
+    
+    dependencies {
+        //替换成最新版本
+        api 'com.proxy.service:Service-UI-Info:x.x.x'
+        ...
+    }    
+
 ## 一、服务
 || 类名 | tag | 说明 |
 | :--: | :-- | :-- | :-- |
@@ -42,7 +50,47 @@
 | show |  | 开始展示ui |
 | showWithTag | rewardTag：用于筛选将要进行展示的ui | 开始展示ui |
 
-
+    用法：
+    1、添加依赖和配置
+    
+    android {
+        defaultConfig {
+            ...
+            javaCompileOptions {
+                annotationProcessorOptions {
+                    arguments = [CLOUD_MODULE_NAME: project.getName()]
+                }
+            }
+        }
+    }
+    
+    dependencies {
+        // 替换成最新版本
+        annotationProcessor 'com.proxy.service:Cloud-Compiler:x.x.x'
+        ...
+    }
+    
+    2、添加注解
+    
+    //在需要使用tab切换功能的模块中，创建类并继承父类：CloudUiTabHostFragmentReward 或 CloudUiTabHostViewReward
+    //添加注解，rewardTag 主要用于筛选要展示的页面(可不传)
+    @CloudUiTabHostReward(rewardTag = "main")
+    public class LibraryRewardImpl extends CloudUiTabHostFragmentReward {
+        ...
+    }
+    
+    3、展示页面
+    
+    CloudUiTabHostService service = CloudSystem.getService(CloudServiceTagUi.UI_TAB_HOST);
+    if (service != null) {
+        service.setActivity(activity)
+                .setContentSpace(contentLayout)
+               .setTabSpace(bottomLayout)
+               .addEventCallback(this)
+               .setSelect(0)
+               .showWithTag("main");
+    }
+    
 
 
 

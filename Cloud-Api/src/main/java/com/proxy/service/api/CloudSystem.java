@@ -223,7 +223,7 @@ public final class CloudSystem {
      * 允许对CloudSystem的功能进行一定程度的扩展
      * 传入一个转换器对象，生效时机为数据返回之前
      *
-     * @param uuid      : 唯一ID，主要用于转换器
+     * @param uuid      : 唯一ID
      * @param tClass    : 当前转换器对什么类型生效
      * @param converter : 转换器对象
      * @version: 1.0
@@ -236,9 +236,9 @@ public final class CloudSystem {
 
     /**
      * 允许对CloudSystem的功能进行一定程度的扩展
-     * 根据类型移除对应的转换器对象
+     * 根据服务类型移除对应的转换器对象
      *
-     * @param tClass :  转换器类型
+     * @param tClass :  服务类型
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/03/04 15:40
@@ -249,9 +249,9 @@ public final class CloudSystem {
 
     /**
      * 允许对CloudSystem的功能进行一定程度的扩展
-     * 根据类型移除对应的转换器对象
+     * 根据唯一 ID 移除对应的转换器对象
      *
-     * @param uuid : 唯一ID，主要用于转换器
+     * @param uuid : 唯一ID
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/03/04 15:40

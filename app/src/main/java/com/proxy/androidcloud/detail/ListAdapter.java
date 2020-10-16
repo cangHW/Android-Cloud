@@ -27,10 +27,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.DetailViewHold
     private List<AbstractListHelper.HelperItemInfo> mItemInfos = new ArrayList<>();
     private AbstractListHelper mHelper;
 
-
     public void setData(AbstractListHelper helper) {
         this.mHelper = helper;
         this.mItemInfos.addAll(mHelper.createItems());
+        helper.setRefreshListener(() -> {
+            mItemInfos.clear();
+            mItemInfos.addAll(mHelper.createItems());
+            ListAdapter.this.notifyDataSetChanged();
+        });
     }
 
     @NonNull

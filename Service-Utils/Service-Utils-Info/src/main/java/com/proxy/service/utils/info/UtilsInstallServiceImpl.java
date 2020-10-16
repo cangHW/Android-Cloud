@@ -297,6 +297,7 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
                 Logger.Debug("open failed");
                 return false;
             }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
             return true;
         } catch (Throwable throwable) {

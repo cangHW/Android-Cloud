@@ -81,7 +81,7 @@ public interface CloudNetWorkDownloadService extends BaseService {
     CloudNetWorkDownloadService setGlobalDownloadCallback(@NonNull CloudDownloadCallback callback);
 
     /**
-     * 设置通知是否显示，默认显示
+     * 设置通知是否显示，默认显示，
      * 可能被具体任务设置替换，如果具体任务进行了设置
      *
      * @param enable : 通知是否显示

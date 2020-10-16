@@ -45,6 +45,9 @@ public class LibraryFragment extends BaseFragment implements CloudUiLifeCallback
             case R.id.mReceiver:
                 ListActivity.launch(getContext(), ListHelperType.RECEIVER);
                 break;
+            case R.id.mApp:
+                ListActivity.launch(getContext(), ListHelperType.APP);
+                break;
             default:
         }
     }

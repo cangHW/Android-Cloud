@@ -1,11 +1,13 @@
 package com.proxy.androidcloud.helper;
 
+import com.proxy.androidcloud.module_library.install.AppHelper;
 import com.proxy.androidcloud.module_library.receiver.ReceiverListHelper;
 import com.proxy.androidcloud.module_library.thread.ThreadPoolListHelper;
 import com.proxy.androidcloud.module_library.bitmap.BitmapListHelper;
 import com.proxy.androidcloud.module_network.DownloadListHelper;
 import com.proxy.service.api.services.CloudNetWorkDownloadService;
 import com.proxy.service.api.services.CloudUtilsBitmapService;
+import com.proxy.service.api.services.CloudUtilsInstallService;
 import com.proxy.service.api.services.CloudUtilsReceiverService;
 import com.proxy.service.api.services.CloudUtilsTaskService;
 
@@ -61,7 +63,7 @@ public enum ListHelperType {
     },
 
     /**
-     * 下载
+     * 图片
      */
     BITMAP {
         @Override
@@ -72,6 +74,21 @@ public enum ListHelperType {
         @Override
         public AbstractListHelper create() {
             return new BitmapListHelper();
+        }
+    },
+
+    /**
+     * 应用管理
+     */
+    APP {
+        @Override
+        public String serviceName() {
+            return CloudUtilsInstallService.class.getSimpleName();
+        }
+
+        @Override
+        public AbstractListHelper create() {
+            return new AppHelper();
         }
     };
 

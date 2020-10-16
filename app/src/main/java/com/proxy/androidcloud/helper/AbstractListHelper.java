@@ -10,6 +10,12 @@ import java.util.List;
  */
 public abstract class AbstractListHelper {
 
+    public interface RefreshListener {
+        void onRefresh();
+    }
+
+    private RefreshListener refreshListener;
+
     public static class HelperItemInfo {
 
         public static final int BUTTON_TITLE = 0;
@@ -73,6 +79,16 @@ public abstract class AbstractListHelper {
             public HelperItemInfo build() {
                 return new HelperItemInfo(this);
             }
+        }
+    }
+
+    public void setRefreshListener(RefreshListener refreshListener) {
+        this.refreshListener = refreshListener;
+    }
+
+    protected void refresh() {
+        if (refreshListener != null) {
+            refreshListener.onRefresh();
         }
     }
 

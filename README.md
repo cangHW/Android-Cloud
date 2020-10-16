@@ -103,8 +103,34 @@
 | CloudSystem.getService() | tClass：服务的 class 类型 | 通过 class 类型获取单个/多个服务 |
 | CloudSystem.getServiceWithUuid() | 1、uuid：唯一ID，用于触发对应拦截器。 2、tClass：服务的 class 类型 | 通过 class 类型获取单个/多个服务 |
 
+    例如：
+    CloudUtilsTaskService taskService = CloudSystem.getService(CloudUtilsTaskService.class);
+    或者
+    CloudUtilsTaskService taskService = CloudSystem.getService(CloudServiceTagUtils.UTILS_TASK);
 
-### 三、添加拦截器
+### 三、注册服务
+<br/>
+
+1、注册新服务
+支持注册一个新的服务供其他模块使用，关于如何开发一个新服务，请查看基础库文档[<font size='6' color='#528DFB' >基础库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Cloud-Api/README.md)，
+如果我们不需要服务的自动注册，那么我们只需要在服务设计并开发完成后通过以下方法进行注册即可
+
+    例如：
+    ArrayList<BaseService> services = new ArrayList<>();
+    services.add(new XXXService());
+    CloudSystem.registerServices(services);
+
+2、替换旧服务
+假如我们使用到的三方库中，有一个服务不能满足我们的需求或者存在一些问题，这时就可以通过替换服务的方式来解决，避免了因一个小的错误导致需要替换整个三方库的尴尬处境
+
+    例如：
+    ArrayList<BaseService> services = new ArrayList<>();
+    services.add(new XXXService());//继承自同一个服务接口并拥有相同服务tag的服务实现类
+    CloudSystem.registerServices(services);
+
+这时，我们获取服务时，即可获取到替换后的服务
+
+### 四、拦截器
 拦截器分为两种，全局拦截器与定向拦截器
 <br/>
 
@@ -113,13 +139,56 @@
 | :--: | :--: | :-- |
 | CloudSystem.addConverter() | 1、tClass：服务的 class 类型。 2、converter：拦截器接口对象 | 注册完成拦截器之后，只要通过 CloudSystem 获取服务就会触发注册好的拦截器(获取的服务类型必须和拦截器准备拦截的类型相同) |
 
+    例如：
+    CloudSystem.addConverter(CloudUtilsTaskService.class, new Converter<CloudUtilsTaskService>() {
+        @NonNull
+        @Override
+        public CloudUtilsTaskService converter(@NonNull CloudUtilsTaskService cloudUtilsTaskService) throws Throwable {
+            //这里需要注意，如非必要，尽量不要返回 null，否则获取当前服务时，将只能获取到 null
+            return cloudUtilsTaskService;
+        }
+    });
+    
+    CloudUtilsTaskService taskService = CloudSystem.getService(CloudUtilsTaskService.class);
 
-1、定向拦截器
+2、定向拦截器
 | 方法 | 参数 | 效果 |
 | :--: | :--: | :-- |
 | CloudSystem.addConverter() | 1、uuid：唯一ID，用于匹配在获取服务时传入的 uuid。 2、tClass：服务的 class 类型。 3、converter：拦截器接口对象 | 注册完成拦截器之后，只要通过 CloudSystem 获取服务，并且 uuid 相同就会触发注册好的拦截器(获取的服务类型必须和拦截器准备拦截的类型相同) |
 
+    例如：
+    String uuid = "自定义唯一id";
+    
+    CloudSystem.addConverter(uuid, CloudUtilsTaskService.class, new Converter<CloudUtilsTaskService>() {
+        @NonNull
+        @Override
+        public CloudUtilsTaskService converter(@NonNull CloudUtilsTaskService cloudUtilsTaskService) throws Throwable {
+            //这里需要注意，如非必要，尽量不要返回 null，否则获取当前服务时，将只能获取到 null
+            return cloudUtilsTaskService;
+        }
+    });
+    
+    CloudUtilsTaskService taskService = CloudSystem.getServiceWithUuid(uuid, CloudUtilsTaskService.class);
 
+3、移除拦截器
+
+移除拦截器将会把所有符合条件的拦截器全部移除
+<br/>
+
+| 方法 | 参数 | 效果 |
+| :--: | :--: | :-- |
+| CloudSystem.removeConverterByClass() | tClass：服务的 class 类型 | 根据服务类型移除对应的转换器对象 |
+| CloudSystem.removeConverterByUuid() | uuid：唯一ID | 根据服务类型移除对应的转换器对象 |
+
+    例如：
+    CloudSystem.removeConverterByClass(CloudUtilsTaskService.class);
+    CloudSystem.removeConverterByUuid(CloudServiceTagUtils.UTILS_TASK);
+
+
+## 五、交流学习
+
+    QQ   :  1163478116
+    微信  :  1163478116
 
 
 

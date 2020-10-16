@@ -46,7 +46,7 @@ public class CloudAppInfo {
      */
     public boolean isInstallSd;
     /**
-     * 是否是普通应用(非系统应用)
+     * 是否是系统应用
      */
     public boolean isSystemApp;
 
