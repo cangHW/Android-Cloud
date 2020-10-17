@@ -37,6 +37,53 @@
 | runWork | runnable：检测成功后执行 | 检测成功执行，子线程 |
 <br/>
 
+    例如：
+    
+    private static final String ACCOUNT = "account";
+    
+    @CloudUiCheckStrings({
+            @CloudUiCheckString(markId = ACCOUNT, notEmpty = true, message = "请输入用户名"),
+            @CloudUiCheckString(markId = ACCOUNT, notBlank = true, message = "用户名不能为空格"),
+            @CloudUiCheckString(markId = ACCOUNT, maxLength = 8, notBlank = true, stringId = R.string.long_account),
+            @CloudUiCheckString(markId = ACCOUNT, minLength = 4, notBlank = true, message = "用户名太短"),
+            @CloudUiCheckString(markId = ACCOUNT, notWithRegex = "[01abc]", message = "用户名不能包含 01abc")
+    })
+    private String mAccountText = "";
+    
+    CloudUiFieldCheckService service = CloudSystem.getService(CloudServiceTagUi.UI_FIELD_CHECK);
+    if (service == null) {
+        return;
+    }
+    //初始化
+    service.init(this);
+    service.check(ACCOUNT)
+            .runMain(() -> {
+                MainActivity.launch(LoginActivity.this);
+                finish();
+            });
+            
+    或者
+    
+    private static final String CAPTCHA = "captcha";
+    private String mCaptchaText = "";
+    
+    CloudUiFieldCheckService service = CloudSystem.getService(CloudServiceTagUi.UI_FIELD_CHECK);
+    if (service == null) {
+        return;
+    }
+    //初始化
+    service.init(this);
+    service.setConditions(1, CloudUiCheckStringInfo.builder(CAPTCHA)
+            .setNotEmpty(true)
+            .setMessage("图形验证码不能为空")
+            .build());
+            
+    service.check(CAPTCHA, mCaptchaText)
+            .runMain(() -> {
+                MainActivity.launch(LoginActivity.this);
+                finish();
+            });        
+
 2、CloudUiTabHostService    主要用于 tab 切换页面
 | 方法 | tag | 说明 |
 | :-- | :-- | :-- |

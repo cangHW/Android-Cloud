@@ -47,9 +47,8 @@ public class BaseApplication extends Application {
 
         CloudNetWorkInitService initService = CloudSystem.getService(CloudServiceTagNetWork.NET_WORK_INIT);
         if (initService != null) {
-            initService
-                    .setBaseUrl("https://www.baidu.com")
-                    .setBaseUrls(NetWorkFragment.BASE_URL_ID, "https://www.baidu.com")
+            initService.setBaseUrl("https://hao.360.com")
+                    .setBaseUrls(NetWorkFragment.BASE_URL_ID, "https://hao.360.com")
                     .setMock(mock)
                     .setGlobalRequestCallback(globalCallback)
                     .addNetWorkInterceptor(logInterceptor)

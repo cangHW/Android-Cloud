@@ -41,6 +41,18 @@
 | build |  | 构建网络模块，使设置生效 |
 </br>
 
+    例如：
+    CloudNetWorkInitService initService = CloudSystem.getService(CloudServiceTagNetWork.NET_WORK_INIT);
+    if (initService == null) {
+        return;
+    }
+    initService.setBaseUrl("https://hao.360.com")
+            .setBaseUrls(NetWorkFragment.BASE_URL_ID, "https://hao.360.com")
+            .setMock(mock)
+            .setGlobalRequestCallback(globalCallback)
+            .addNetWorkInterceptor(logInterceptor)
+            .build();
+
 2、CloudNetWorkRequestService   网络模块请求操作
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
@@ -136,8 +148,28 @@ CloudNetWorkDownloadInfo
 | setNotificationCallback | notificationCallback：通知回调 | 设置通知回调(为空则使用全局通知回调)，弱引用，注意数据回收，回收后无法接收回调 |
 | setTag | tag：任务 tag | 设置任务 tag(自定义数据) |
 
+    例如：
+    service = CloudSystem.getService(CloudServiceTagNetWork.NET_WORK_DOWNLOAD);
+    if (service == null) {
+        return;
+    }
+    
+    service.setGlobalNotificationBuilder(
+                CloudNetWorkNotificationInfo.builder()
+                .setChannelId("1222")
+                .setChannelName("下载")
+                .setChannelLevel(CloudNetWorkNotificationInfo.ChannelLevel.LOW)
+                .build()
+    ).setGlobalMultiProcessEnable(false);
 
-
+    CloudNetWorkDownloadInfo.Builder builder = CloudNetWorkDownloadInfo.builder()
+            .setDownloadCallback(downloadCallback)
+            .setNotificationEnable(true)
+            .setNotificationCallback(notificationCallback)
+            .setTaskName("手助")
+            .setFileName("app-develop-release.apk")
+            .setFileUrl("https://app.api.sj.360.cn/url/download/id/4050514/from/web_detail");
+    int downloadId = service.start(builder.build());
 
 
 

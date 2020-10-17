@@ -85,7 +85,10 @@
 
 
 ## 基本用法
-1、首先通过 CloudSystem 对框架进行初始化，2、按需注册拦截器，3、通过 CloudSystem 获取服务，4、触发拦截器，执行拦截器逻辑（如果存在对应拦截器）
+1、首先通过 CloudSystem 对框架进行初始化
+2、按需注册拦截器
+3、通过 CloudSystem 获取服务
+4、触发拦截器，执行拦截器逻辑（如果存在对应拦截器）
 
 ### 一、初始化
 通过 CloudSystem.init(@NonNull Context context, boolean isDebug) 进行初始化，初始化之后即可正常使用本框架
@@ -183,7 +186,6 @@
     例如：
     CloudSystem.removeConverterByClass(CloudUtilsTaskService.class);
     CloudSystem.removeConverterByUuid(CloudServiceTagUtils.UTILS_TASK);
-
 
 ## 五、交流学习
 
