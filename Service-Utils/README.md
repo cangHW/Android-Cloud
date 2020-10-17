@@ -28,7 +28,8 @@
 
 ## 二、介绍
 
-1、CloudUtilsTaskService   线程切换相关操作
+1. CloudUtilsTaskService   线程切换相关操作
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | isMainThread |  | 判断是否在主线程 |
@@ -53,7 +54,8 @@
 | getThrowable |  | 获取上一个任务异常信息(如果存在异常) |
 </br>
 
-2、CloudUtilsAppService   获取当前应用相关信息
+2. CloudUtilsAppService   获取当前应用相关信息
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | getTargetSdkVersion |  | 获取当前app的目标设备SDK版本 |
@@ -66,7 +68,8 @@
 | isBackground |  | 判断当前app是否处于后台 |
 </br>
 
-3、CloudUtilsBitmapService  bitmap 相关操作
+3. CloudUtilsBitmapService  bitmap 相关操作
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | toBitmap | Drawable：准备转换成 bitmap 的 drawable 对象 | Drawable 转 bitmap |
@@ -80,7 +83,8 @@
 | captcha | 1、width：图片宽度(如果小于等于0，则使用默认值：200)。2、height：图片高度(如果小于等于0，则使用默认值：80)。3、keyCode：验证码内容(如果为空，则自动生成随机内容)。4、textSize：文字大小(如果小于等于0，则使用默认值：30) | 创建图形验证码（默认 4 位数字与字母） |
 </br>
 
-4、CloudUtilsDisplayService  获取像素转换相关信息
+4. CloudUtilsDisplayService  获取像素转换相关信息
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | px2dp | pxValue：需要转化的px数值 | px转dp |
@@ -89,7 +93,8 @@
 | sp2px | spValue：需要转化的sp数值 | sp转px |
 </br>
 
-5、CloudUtilsEditTextService  EditText控件管理类
+5. CloudUtilsEditTextService  EditText控件管理类
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | with | editText：EditText | 通过 editText 对象创建管理类 |
@@ -119,7 +124,8 @@
 | allowMatcher | regex：正则表达式 | 自定义允许输入，正则 |
 </br>
 
-6、CloudUtilsFileService  文件操作相关功能
+6. CloudUtilsFileService  文件操作相关功能
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | createFile | path：文件地址 | 创建 file，自动创建相关文件夹与文件 |
@@ -132,7 +138,8 @@
 | write | 1、is：文件流。2、localFile：本地文件。3、seek：偏移位置。4、callback：进度回调 | 写文件，同步执行 |
 </br>
 
-7、CloudUtilsInstallService  应用安装相关操作
+7. CloudUtilsInstallService  应用安装相关操作
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | addInstallCallback | 1、cloudInstallCallback：安装状态回调接口。2、statusEnums：准备接收的状态类型 | 添加安装状态回调 |
@@ -145,7 +152,8 @@
 | openApp | packageName：包名 | 打开对应包名的app |
 </br>
 
-8、CloudUtilsNetWorkService  网络状态相关操作
+8. CloudUtilsNetWorkService  网络状态相关操作
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | addNetWorkStatusCallback | callback：网络状态变化回调接口 | 添加网络状态变化回调 |
@@ -159,14 +167,16 @@
 | getIpv6Address |  | 获取 ipv6 地址 |
 </br>
 
-9、CloudUtilsPermissionService  权限管理相关操作
+9. CloudUtilsPermissionService  权限管理相关操作
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | isPermissionGranted | permission：权限名称 | 是否具有对应权限 |
 | selfPermissionGranted | permission：权限名称 | 自动获取对应权限 |
 </br>
 
-10、CloudUtilsSecurityService  加解密相关操作
+10. CloudUtilsSecurityService  加解密相关操作
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | md5Encode | stream：准备加密的流 | md5 加密 |
@@ -190,7 +200,8 @@
 </br>
 
 
-11、CloudUtilsShareService  系统分享相关功能
+11. CloudUtilsShareService  系统分享相关功能
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | getUriForFile | file：文件流 | 获取允许共享的 uri |
@@ -198,7 +209,8 @@
 | openSystemShareImg | imgPaths：图片地址集合 | 打开系统分享，图片 |
 </br>
 
-12、CloudUtilsReceiverService  广播接收器相关操作
+12. CloudUtilsReceiverService  广播接收器相关操作
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | addReceiverListener | 1、receiverInfo：接收器信息。2、receiverListener：接收器 | 添加全局接收器并设置接收范围 |
@@ -210,7 +222,8 @@
 | sendLocalBroadcast | intent：意图 | 发送本地广播 |
 </br>
 
-13、CloudUtilsSystemPageService  跳转常用系统页面
+13. CloudUtilsSystemPageService  跳转常用系统页面
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | openAppSetting | packageName：包名 | 打开应用设置页面 |

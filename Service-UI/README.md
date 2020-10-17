@@ -22,7 +22,9 @@
 | 2 | CloudUiTabHostService | CloudServiceTagUi.UI_TAB_HOST | 主要用于 tab 切换页面 |
 
 ## 二、介绍
-1、CloudUiFieldCheckService   主要用于数据校验
+
+1. CloudUiFieldCheckService   主要用于数据校验
+
 | 方法 | tag | 说明 |
 | :-- | :-- | :-- |
 | init | object：申请检测的类对象  | 初始化，整理当前类所需要检测的数据 |
@@ -84,7 +86,8 @@
                 finish();
             });        
 
-2、CloudUiTabHostService    主要用于 tab 切换页面
+2. CloudUiTabHostService    主要用于 tab 切换页面
+
 | 方法 | tag | 说明 |
 | :-- | :-- | :-- |
 | setActivity | fragmentActivity：当前依赖的 Activity | 设置依赖的 Activity |

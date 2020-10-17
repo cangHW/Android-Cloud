@@ -85,10 +85,10 @@
 
 
 ## 基本用法
-1、首先通过 CloudSystem 对框架进行初始化
-2、按需注册拦截器
-3、通过 CloudSystem 获取服务
-4、触发拦截器，执行拦截器逻辑（如果存在对应拦截器）
+1. 首先通过 CloudSystem 对框架进行初始化
+2. 按需注册拦截器
+3. 通过 CloudSystem 获取服务
+4. 触发拦截器，执行拦截器逻辑（如果存在对应拦截器）
 
 ### 一、初始化
 通过 CloudSystem.init(@NonNull Context context, boolean isDebug) 进行初始化，初始化之后即可正常使用本框架
@@ -114,7 +114,8 @@
 ### 三、注册服务
 <br/>
 
-1、注册新服务
+1. 注册新服务
+
 支持注册一个新的服务供其他模块使用，关于如何开发一个新服务，请查看基础库文档[<font size='6' color='#528DFB' >基础库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Cloud-Api/README.md)，
 如果我们不需要服务的自动注册，那么我们只需要在服务设计并开发完成后通过以下方法进行注册即可
 
@@ -123,7 +124,8 @@
     services.add(new XXXService());
     CloudSystem.registerServices(services);
 
-2、替换旧服务
+2. 替换旧服务
+
 假如我们使用到的三方库中，有一个或多个服务不能满足我们的需求或者存在一些问题，这时就可以通过替换服务的方式来解决，避免了因一个小的错误导致需要替换整个三方库的尴尬处境
 
     例如：
@@ -137,7 +139,8 @@
 拦截器分为两种，全局拦截器与定向拦截器
 <br/>
 
-1、全局拦截器
+1. 全局拦截器
+
 | 方法 | 参数 | 效果 |
 | :--: | :--: | :-- |
 | CloudSystem.addConverter() | 1、tClass：服务的 class 类型。 2、converter：拦截器接口对象 | 注册完成拦截器之后，只要通过 CloudSystem 获取服务就会触发注册好的拦截器(获取的服务类型必须和拦截器准备拦截的类型相同) |
@@ -154,7 +157,8 @@
     
     CloudUtilsTaskService taskService = CloudSystem.getService(CloudUtilsTaskService.class);
 
-2、定向拦截器
+2. 定向拦截器
+
 | 方法 | 参数 | 效果 |
 | :--: | :--: | :-- |
 | CloudSystem.addConverter() | 1、uuid：唯一ID，用于匹配在获取服务时传入的 uuid。 2、tClass：服务的 class 类型。 3、converter：拦截器接口对象 | 注册完成拦截器之后，只要通过 CloudSystem 获取服务，并且 uuid 相同就会触发注册好的拦截器(获取的服务类型必须和拦截器准备拦截的类型相同) |
@@ -173,7 +177,7 @@
     
     CloudUtilsTaskService taskService = CloudSystem.getServiceWithUuid(uuid, CloudUtilsTaskService.class);
 
-3、移除拦截器
+3. 移除拦截器
 
 移除拦截器将会把所有符合条件的拦截器全部移除
 <br/>

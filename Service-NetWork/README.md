@@ -18,7 +18,8 @@
 
 ## 二、介绍
 
-1、CloudNetWorkInitService   网络模块初始化相关操作
+1. CloudNetWorkInitService   网络模块初始化相关操作
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | setBaseUrl | baseUrl：baseUrl | 设置 BaseUrl |
@@ -53,7 +54,8 @@
             .addNetWorkInterceptor(logInterceptor)
             .build();
 
-2、CloudNetWorkRequestService   网络模块请求操作
+2. CloudNetWorkRequestService   网络模块请求操作
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | setRetryCount | count：重试次数 | 设置本次请求重试次数 |
@@ -111,7 +113,8 @@
     });
 
 
-3、CloudNetWorkDownloadService   下载相关操作
+3. CloudNetWorkDownloadService   下载相关操作
+
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | setGlobalMaxConcurrent | maxCount：最大数量 | 设置最大同时下载数量，默认为 5 |
