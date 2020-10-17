@@ -116,7 +116,7 @@
 
 1. 注册新服务
 
-支持注册一个新的服务供其他模块使用，关于如何开发一个新服务，请查看基础库文档[<font size='6' color='#528DFB' >基础库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Cloud-Api/README.md)，
+支持注册一个新的服务供其他模块使用，关于如何开发一个新服务，请查看[<font size='6' color='#528DFB' >基础库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Cloud-Api/README.md)，
 如果我们不需要服务的自动注册，那么我们只需要在服务设计并开发完成后通过以下方法进行注册即可
 
     例如：
