@@ -5,19 +5,16 @@ group = publishedGroupId
 
 install {
     repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
         pom {
             project {
                 packaging 'aar'
                 groupId publishedGroupId
                 artifactId artifact
 
-                // Add your description here
                 name libraryName
                 description libraryDescription
                 url siteUrl
 
-                // Set your license
                 licenses {
                     license {
                         name licenseName
@@ -44,7 +41,6 @@ install {
             def dependenciesNode = asNode().appendNode('dependencies')
             containers.each { container ->
                 container.dependencies.each { dependency ->
-                    //通过本地引用的不要打进去
                     if (dependency.group == NULL || dependency.group == EMPTY) {
                         return
                     }
@@ -55,7 +51,6 @@ install {
                         return
                     }
                     if (dependency.group.startsWith("android") || dependency.group.startsWith("androidx")) {
-                        //android 的东西不打进去
                         return
                     }
                     println("pom 清单包含：   ${dependency.group}:${dependency.name}:${dependency.version}")
