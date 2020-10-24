@@ -23,11 +23,11 @@
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | setBaseUrl | baseUrl：baseUrl | 设置 BaseUrl |
-| setBaseUrls | 1、id：baseUrl 对应的 Id。2、baseUrl：baseUrl | 设置多个 BaseUrl，方便进行 baseUrl 的动态替换 |
-| setRequestTimeout | 1、timeout：超时时间。2、unit：时间粒度 | 设置请求超时，包括重试时间 |
-| setReadTimeout | 1、timeout：超时时间。2、unit：时间粒度 | 设置读取超时 |
-| setWriteTimeout | 1、timeout：超时时间。2、unit：时间粒度 | 设置写入超时 |
-| setConnectTimeout | 1、timeout：超时时间。2、unit：时间粒度 | 设置连接超时 |
+| setBaseUrls | 1、id：baseUrl 对应的 Id <br/> 2、baseUrl：baseUrl | 设置多个 BaseUrl，方便进行 baseUrl 的动态替换 |
+| setRequestTimeout | 1、timeout：超时时间 <br/> 2、unit：时间粒度 | 设置请求超时，包括重试时间 |
+| setReadTimeout | 1、timeout：超时时间 <br/> 2、unit：时间粒度 | 设置读取超时 |
+| setWriteTimeout | 1、timeout：超时时间 <br/> 2、unit：时间粒度 | 设置写入超时 |
+| setConnectTimeout | 1、timeout：超时时间 <br/> 2、unit：时间粒度 | 设置连接超时 |
 | setGlobalRequestCallback | callback：全局回调接口 | 设置全局请求回调 |
 | addConverterFactory | factory：转换器工厂对象 | 设置自定义转换器工厂 |
 | addCallAdapterFactory | factory：回调接口适配器工厂对象 | 设置回调接口适配器工厂 |
@@ -37,7 +37,7 @@
 | setCookieJar | cookieJar：网络 cookie | 设置 cookie |
 | setCache | cache：网络缓存 | 设置网络缓存 |
 | setMock | mock：网络模拟 | 设置 mock 数据 |
-| setSslSocket | 1、sslSocket：安全套接层。2、manager：信任证书 | 设置 https 安全套接层 |
+| setSslSocket | 1、sslSocket：安全套接层 <br/> 2、manager：信任证书 | 设置 https 安全套接层 |
 | setRetryCount | count：重试次数 | 设置重试次数，请求失败自动重试，默认不重试 |
 | build |  | 构建网络模块，使设置生效 |
 </br>
@@ -61,7 +61,7 @@
 | setRetryCount | count：重试次数 | 设置本次请求重试次数 |
 | removeCookie |  | 移除本次请求的 cookie |
 | create | service：请求接口类 class 对象 | 创建网络请求 |
-| create | 1、tag：身份信息，用于标示本次请求，一对多，一个 tag 可以绑定多个请求。2、service：请求接口类 class 对象 | 创建网络请求，并绑定 tag |
+| create | 1、tag：身份信息，用于标示本次请求，一对多，一个 tag 可以绑定多个请求 <br/> 2、service：请求接口类 class 对象 | 创建网络请求，并绑定 tag |
 | cancelByTag | tag：身份信息 | 通过 tag 取消请求 |
 | cancelAllOfApp |  | 取消所有请求 |
 | cancelAllOfService |  | 取消通过当前 service 创建的请求 |

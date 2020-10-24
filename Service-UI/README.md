@@ -30,11 +30,11 @@
 | init | object：申请检测的类对象  | 初始化，整理当前类所需要检测的数据 |
 | setGlobalErrorToastCallback | callback：检查失败回调  | 设置全局检查失败回调，注意 context 泄漏 |
 | setErrorToastCallback | object：申请检测的类对象  | 设置本次检查失败回调 |
-| setConditions | 1、id：同一标记下面的唯一ID。2、checkBooleanInfo：检测条件  | 设置 boolean 检测条件 |
-| setConditions | 1、id：同一标记下面的唯一ID。2、checkNumberInfo：检测条件  | 设置 number 检测条件 |
-| setConditions | 1、id：同一标记下面的唯一ID。2、checkStringInfo：检测条件  | 设置 string 检测条件 |
+| setConditions | 1、id：同一标记下面的唯一ID <br/> 2、checkBooleanInfo：检测条件  | 设置 boolean 检测条件 |
+| setConditions | 1、id：同一标记下面的唯一ID <br/> 2、checkNumberInfo：检测条件  | 设置 number 检测条件 |
+| setConditions | 1、id：同一标记下面的唯一ID <br/> 2、checkStringInfo：检测条件  | 设置 string 检测条件 |
 | check | markId：标记id，标记检测条件  | 发起检测 |
-| check | 1、markId：标记id，标记检测条件。2、content：待检测的内容  | 发起检测 |
+| check | 1、markId：标记id，标记检测条件 <br/> 2、content：待检测的内容  | 发起检测 |
 | runMain | runnable：检测成功后执行 | 检测成功执行，主线程 |
 | runWork | runnable：检测成功后执行 | 检测成功执行，子线程 |
 <br/>

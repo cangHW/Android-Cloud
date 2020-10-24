@@ -35,12 +35,12 @@
 | isMainThread |  | 判断是否在主线程 |
 | mainThread |  | 切换到主线程 |
 | workThread |  | 切换到子线程 |
-| delay | 1、timeOut：等待时间。2、unit：时间格式 | 等待多久时间后执行 |
+| delay | 1、timeOut：等待时间 <br/> 2、unit：时间格式 | 等待多久时间后执行 |
 | whenAll | functions：前置任务 | 等待前置任务全部执行完成后执行 |
-| whenAll | 1、timeOut：等待时间。2、unit：时间格式。3、functions：前置任务 | 等待前置任务全部执行完成或超出等待时间后执行 |
+| whenAll | 1、timeOut：等待时间 <br/> 2、unit：时间格式 <br/> 3、functions：前置任务 | 等待前置任务全部执行完成或超出等待时间后执行 |
 | whenAny | functions：前置任务 | 等待某一个前置任务执行完成后执行 |
-| whenAny | 1、timeOut：等待时间。2、unit：时间格式。3、functions：前置任务 | 等待某一个前置任务执行完成或超出等待时间后执行 |
-| continueWhile | 1、callable：回调接口，返回 true 继续执行，false 跳出循环。2、task：任务体 | 循环执行任务 |
+| whenAny | 1、timeOut：等待时间 <br/> 2、unit：时间格式 <br/> 3、functions：前置任务 | 等待某一个前置任务执行完成或超出等待时间后执行 |
+| continueWhile | 1、callable：回调接口，返回 true 继续执行，false 跳出循环 <br/> 2、task：任务体 | 循环执行任务 |
 | call | task：任务体 | 在当前线程或上一个线程执行 |
 | callUiThread | task：任务体 | 在 ui 线程执行 |
 | callWorkThread | task：任务体 | 在工作线程执行 |
@@ -74,13 +74,13 @@
 | :-- | :-- | :-- |
 | toBitmap | Drawable：准备转换成 bitmap 的 drawable 对象 | Drawable 转 bitmap |
 | toBitmap | @DrawableRes drawableId：准备转换成 bitmap 的 drawable id | Drawable 转 bitmap |
-| compressBitmapBySize | 1、bitmap：准备压缩的bitmap。2、maxWidth：最大宽度。3、maxHeight：最大高度。4、isAdjust：是否自动调整尺寸 | 压缩图片,尺寸压缩 |
-| compressBitmapByQuality | 1、bitmap：准备压缩的bitmap。2、maxKb：图片最大保留多少 kb | 压缩图片,质量压缩 适用于图片上传 |
-| rotate | 1、bitmap：准备旋转的bitmap。2、degrees：旋转角度(90为顺时针旋转,-90为逆时针旋转) | 旋转图片 |
-| zoom | 1、bitmap：准备放大或缩小的bitmap。2、ratio：放大或缩小的倍数，大于1表示放大，小于1表示缩小 | 放大或缩小图片 |
-| printWord | 1、bitmap：需要印文字的bitmap。2、text：需要印上去的文字。3、message：字体信息 | 在图片上印字 |
-| overlap | 1、src：源图片。2、dst：准备合并绘制的图片。3、left：左边起点坐标。4、top：顶部起点坐标 | 图片重叠绘制，可以用于给图片加水印等 |
-| captcha | 1、width：图片宽度(如果小于等于0，则使用默认值：200)。2、height：图片高度(如果小于等于0，则使用默认值：80)。3、keyCode：验证码内容(如果为空，则自动生成随机内容)。4、textSize：文字大小(如果小于等于0，则使用默认值：30) | 创建图形验证码（默认 4 位数字与字母） |
+| compressBitmapBySize | 1、bitmap：准备压缩的bitmap <br/> 2、maxWidth：最大宽度 <br/> 3、maxHeight：最大高度 <br/> 4、isAdjust：是否自动调整尺寸 | 压缩图片,尺寸压缩 |
+| compressBitmapByQuality | 1、bitmap：准备压缩的bitmap <br/> 2、maxKb：图片最大保留多少 kb | 压缩图片,质量压缩 适用于图片上传 |
+| rotate | 1、bitmap：准备旋转的bitmap <br/> 2、degrees：旋转角度(90为顺时针旋转,-90为逆时针旋转) | 旋转图片 |
+| zoom | 1、bitmap：准备放大或缩小的bitmap <br/> 2、ratio：放大或缩小的倍数，大于1表示放大，小于1表示缩小 | 放大或缩小图片 |
+| printWord | 1、bitmap：需要印文字的bitmap <br/> 2、text：需要印上去的文字 <br/> 3、message：字体信息 | 在图片上印字 |
+| overlap | 1、src：源图片 <br/> 2、dst：准备合并绘制的图片 <br/> 3、left：左边起点坐标 <br/> 4、top：顶部起点坐标 | 图片重叠绘制，可以用于给图片加水印等 |
+| captcha | 1、width：图片宽度(如果小于等于0，则使用默认值：200) <br/> 2、height：图片高度(如果小于等于0，则使用默认值：80) <br/> 3、keyCode：验证码内容(如果为空，则自动生成随机内容) <br/> 4、textSize：文字大小(如果小于等于0，则使用默认值：30) | 创建图形验证码（默认 4 位数字与字母） |
 </br>
 
 4. CloudUtilsDisplayService  获取像素转换相关信息
@@ -132,17 +132,17 @@
 | deleteFile | path：文件地址 | 删除文件 |
 | read | path：文件地址 | 读文件，同步执行 |
 | readLines | path：文件地址 | 读文件，同步执行 |
-| write | 1、path：文件地址。2、data：内容。3、append：是否续写 | 写文件，同步执行 |
-| writeLines | 1、path：文件地址。2、datas：内容。3、append：是否续写 | 写文件，同步执行 |
-| write | 1、oldFile：旧位置或旧名称。2、newFile：新位置或新名称 | 写文件，同步执行 |
-| write | 1、is：文件流。2、localFile：本地文件。3、seek：偏移位置。4、callback：进度回调 | 写文件，同步执行 |
+| write | 1、path：文件地址 <br/> 2、data：内容 <br/> 3、append：是否续写 | 写文件，同步执行 |
+| writeLines | 1、path：文件地址 <br/> 2、datas：内容 <br/> 3、append：是否续写 | 写文件，同步执行 |
+| write | 1、oldFile：旧位置或旧名称 <br/> 2、newFile：新位置或新名称 | 写文件，同步执行 |
+| write | 1、is：文件流 <br/> 2、localFile：本地文件 <br/> 3、seek：偏移位置 <br/> 4、callback：进度回调 | 写文件，同步执行 |
 </br>
 
 7. CloudUtilsInstallService  应用安装相关操作
 
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
-| addInstallCallback | 1、cloudInstallCallback：安装状态回调接口。2、statusEnums：准备接收的状态类型 | 添加安装状态回调 |
+| addInstallCallback | 1、cloudInstallCallback：安装状态回调接口 <br/> 2、statusEnums：准备接收的状态类型 | 添加安装状态回调 |
 | isInstallApp | packageName：包名 | 对应包名的app是否安装 |
 | addProviderResourcePath | filePath：允许共享的安全路径 | 添加允许通过 provider 共享的文件路径 |
 | installApp | apkPath：安装包路径 | 安装应用 |
@@ -213,12 +213,12 @@
 
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
-| addReceiverListener | 1、receiverInfo：接收器信息。2、receiverListener：接收器 | 添加全局接收器并设置接收范围 |
-| addReceiverListener | 1、sendPermission：。自定义发送方需要具有的权限。2、receiverInfo：接收器信息。3、receiverListener：接收器 | 添加全局接收器并设置接收范围 |
-| addLocalReceiverListener | 1、receiverInfo：接收器信息。2、receiverListener：接收器 | 添加本地接收器并设置接收范围 |
+| addReceiverListener | 1、receiverInfo：接收器信息 <br/> 2、receiverListener：接收器 | 添加全局接收器并设置接收范围 |
+| addReceiverListener | 1、sendPermission：。自定义发送方需要具有的权限 <br/> 2、receiverInfo：接收器信息 <br/> 3、receiverListener：接收器 | 添加全局接收器并设置接收范围 |
+| addLocalReceiverListener | 1、receiverInfo：接收器信息 <br/> 2、receiverListener：接收器 | 添加本地接收器并设置接收范围 |
 | removeReceiverListener | receiverListener：接收器 | 取消接收器 |
 | sendBroadcast | intent：意图 | 发送全局广播 |
-| sendBroadcast | 1、receiverPermission：自定义接收方需要具有的权限。2、intent：意图 | 发送全局广播并对接收方权限进行校验 |
+| sendBroadcast | 1、receiverPermission：自定义接收方需要具有的权限 <br/> 2、intent：意图 | 发送全局广播并对接收方权限进行校验 |
 | sendLocalBroadcast | intent：意图 | 发送本地广播 |
 </br>
 
@@ -227,7 +227,7 @@
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | openAppSetting | packageName：包名 | 打开应用设置页面 |
-| openNotificationSetting | 1、packageName：包名。2、uid：应用的uid | 打开应用通知设置页面 |
+| openNotificationSetting | 1、packageName：包名 <br/> 2、uid：应用的uid | 打开应用通知设置页面 |
 | openCall | phoneNumber：准备拨打的电话号码 | 打电话 |
 </br>
 
