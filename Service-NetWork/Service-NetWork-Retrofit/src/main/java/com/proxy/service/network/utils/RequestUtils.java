@@ -114,10 +114,8 @@ public class RequestUtils {
         Call<String> call = null;
         if (httpMethod.equals(HttpMethod.GET)) {
             call = RetrofitManager.getInstance().getRetrofit().create(RetrofitService.class).get(url, headers, params);
-        } else if (httpMethod.equals(HttpMethod.POST) && params.size() > 0) {
-            call = RetrofitManager.getInstance().getRetrofit().create(RetrofitService.class).post(url, headers, params);
         } else if (httpMethod.equals(HttpMethod.POST)) {
-            call = RetrofitManager.getInstance().getRetrofit().create(RetrofitService.class).post(url, headers);
+            call = RetrofitManager.getInstance().getRetrofit().create(RetrofitService.class).post(url, headers, params);
         }
         return call;
     }

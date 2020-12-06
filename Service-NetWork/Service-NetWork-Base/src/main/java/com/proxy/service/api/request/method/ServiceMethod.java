@@ -130,6 +130,8 @@ public class ServiceMethod {
             this.methodAnnotations = method.getAnnotations();
             this.parameterTypes = method.getGenericParameterTypes();
             this.parameterAnnotationsArray = method.getParameterAnnotations();
+
+            this.baseUrl = BaseUrlCache.getBaseUrl();
         }
 
         public ServiceMethod build() {

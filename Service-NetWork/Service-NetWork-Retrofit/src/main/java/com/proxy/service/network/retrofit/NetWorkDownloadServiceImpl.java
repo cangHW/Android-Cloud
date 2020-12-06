@@ -214,7 +214,7 @@ public class NetWorkDownloadServiceImpl implements CloudNetWorkDownloadService {
         downloadInfo.state = CloudDownloadState.ADD;
         int id = (int) DbHelper.getInstance().insert(downloadInfo);
         if (id >= 0) {
-            info.setDownloadId((int) id);
+            info.setDownloadId(id);
             DownloadManager.getInstance().start(info);
         }
         return id;

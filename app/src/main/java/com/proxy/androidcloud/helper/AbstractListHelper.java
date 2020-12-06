@@ -51,6 +51,9 @@ public abstract class AbstractListHelper {
             private String centerButton;
             private String rightButton;
 
+            /**
+             * 设置 item ID
+             */
             public Builder setId(int id) {
                 this.id = id;
                 return this;
@@ -82,17 +85,41 @@ public abstract class AbstractListHelper {
         }
     }
 
+    /**
+     * 设置刷新回调接口
+     *
+     * @param refreshListener : 刷新回调接口
+     */
     public void setRefreshListener(RefreshListener refreshListener) {
         this.refreshListener = refreshListener;
     }
 
+    /**
+     * 刷新页面
+     */
     protected void refresh() {
         if (refreshListener != null) {
             refreshListener.onRefresh();
         }
     }
 
+    /**
+     * 创建 item 信息
+     *
+     * @return item 信息集合
+     */
     public abstract List<HelperItemInfo> createItems();
 
+    /**
+     * item 点击
+     *
+     * @param context  : 上下文
+     * @param itemInfo : item 信息
+     * @param button   : button位置
+     *                 1、{@link HelperItemInfo#BUTTON_TITLE},
+     *                 2、{@link HelperItemInfo#BUTTON_CENTER},
+     *                 3、{@link HelperItemInfo#BUTTON_LEFT},
+     *                 4、{@link HelperItemInfo#BUTTON_RIGHT}
+     */
     public abstract void onItemClick(Context context, HelperItemInfo itemInfo, int button);
 }

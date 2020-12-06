@@ -34,12 +34,12 @@ public class DownloadManager {
     private int mMaxCount = 5;
     private boolean mMultiProcessEnable = true;
 
-    private List<CloudNetWorkDownloadInfo> mInfoList = new ArrayList<>();
-    private List<CloudNetWorkDownloadInfo> mInfoCacheList = new ArrayList<>();
+    private final List<CloudNetWorkDownloadInfo> mInfoList = new ArrayList<>();
+    private final List<CloudNetWorkDownloadInfo> mInfoCacheList = new ArrayList<>();
 
-    private CloudUtilsTaskService mTaskService;
+    private final CloudUtilsTaskService mTaskService;
 
-    private DownloadClientInterfaceImpl mClientInterface;
+    private final DownloadClientInterfaceImpl mClientInterface;
     private DownloadSeverInterface mTaskProcessSeverInterface;
 
     private DownloadManager() {
@@ -151,7 +151,7 @@ public class DownloadManager {
 
     private static class DownloadClientInterfaceImpl extends DownloadClientInterface.Stub {
 
-        private WeakReference<DownloadManager> weakReference;
+        private final WeakReference<DownloadManager> weakReference;
 
         private DownloadClientInterfaceImpl(DownloadManager downloadManager) {
             weakReference = new WeakReference<>(downloadManager);

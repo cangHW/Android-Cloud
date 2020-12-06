@@ -4,6 +4,7 @@ import android.os.Build;
 
 import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.security.SecurityAesHelper;
+import com.proxy.service.api.security.SecurityType;
 import com.proxy.service.api.services.CloudUtilsSecurityService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
 import com.proxy.service.api.utils.Logger;
@@ -22,9 +23,11 @@ import java.security.MessageDigest;
  */
 @CloudApiService(serviceTag = CloudServiceTagUtils.UTILS_SECURITY)
 public class UtilsSecurityServiceImpl implements CloudUtilsSecurityService {
+
     /**
-     * md5 加密
+     * 加密
      *
+     * @param type   : 加密类型
      * @param stream : 准备加密的流
      * @return 加密后的字符串
      * @version: 1.0
@@ -33,14 +36,13 @@ public class UtilsSecurityServiceImpl implements CloudUtilsSecurityService {
      */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public String md5Encode(InputStream stream) {
+    public String encode(SecurityType type, InputStream stream) {
         try {
-            MessageDigest digest = MessageDigest.getInstance("MD5");
+            MessageDigest digest = MessageDigest.getInstance(type.getName());
             digest.reset();
             DigestInputStream digestInputStream = new DigestInputStream(stream, digest);
             byte[] buffer = new byte[8 * 1024];
-            while (digestInputStream.read(buffer) > 0) {
-            }
+            while (digestInputStream.read(buffer) > 0);
             MessageDigest messageDigest = digestInputStream.getMessageDigest();
             return StringUtils.parseByte2HexStr(messageDigest.digest()).toLowerCase();
         } catch (Throwable throwable) {
@@ -58,8 +60,9 @@ public class UtilsSecurityServiceImpl implements CloudUtilsSecurityService {
     }
 
     /**
-     * md5 加密
+     * 加密
      *
+     * @param type   : 加密类型
      * @param string : 准备加密的字符串
      * @return 加密后的字符串
      * @version: 1.0
@@ -67,9 +70,9 @@ public class UtilsSecurityServiceImpl implements CloudUtilsSecurityService {
      * @date: 2020/9/10 11:15 PM
      */
     @Override
-    public String md5Encode(String string) {
+    public String encode(SecurityType type, String string) {
         try {
-            MessageDigest digest = MessageDigest.getInstance("MD5");
+            MessageDigest digest = MessageDigest.getInstance(type.getName());
             digest.reset();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 digest.update(string.getBytes(StandardCharsets.UTF_8));

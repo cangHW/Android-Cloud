@@ -2,9 +2,10 @@ package com.proxy.service.network.service;
 
 import java.util.Map;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
@@ -34,7 +35,7 @@ public interface RetrofitService {
     Call<String> get(@Url String url, @HeaderMap Map<String, String> header, @QueryMap() Map<String, String> params);
 
     /**
-     * post 带参请求
+     * post
      *
      * @param url    : 请求地址
      * @param header : 请求header
@@ -45,27 +46,13 @@ public interface RetrofitService {
      * @date: 2020/07/24  8:52 PM
      */
     @POST()
-    @FormUrlEncoded
     Call<String> post(@Url String url, @HeaderMap Map<String, String> header, @QueryMap() Map<String, String> params);
-
-    /**
-     * post 无参请求
-     *
-     * @param url    : 请求地址
-     * @param header : 请求header
-     * @return 回调对象
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020/07/24  8:52 PM
-     */
-    @POST()
-    Call<String> post(@Url String url, @HeaderMap Map<String, String> header);
 
     /**
      * 下载任务
      *
-     * @param start : 从哪个字节开始下载
      * @param url   : 下载地址
+     * @param start : 从哪个字节开始下载
      * @return 回调对象
      * @version: 1.0
      * @author: cangHX
@@ -73,5 +60,19 @@ public interface RetrofitService {
      */
     @Streaming
     @GET
-    Call<ResponseBody> download(@Header("RANGE") String start, @Url String url);
+    Call<ResponseBody> download(@Url String url, @Header("RANGE") String start);
+
+    /**
+     * 上传任务
+     *
+     * @param body : 上传体
+     * @param url  : 上传地址
+     * @return 回调对象
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/11/16 3:49 PM
+     */
+    @POST
+    Call<ResponseBody> upload(@Url String url, @Body RequestBody body);
+
 }

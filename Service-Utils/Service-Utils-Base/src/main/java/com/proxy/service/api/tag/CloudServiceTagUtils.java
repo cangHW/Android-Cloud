@@ -73,4 +73,9 @@ public class CloudServiceTagUtils {
      */
     public static final String UTILS_RECEIVER = "utils_receiver";
 
+    /**
+     * view状态监控相关
+     */
+    public static final String UTILS_VIEW_MONITOR = "utils_view_monitor";
+
 }

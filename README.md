@@ -25,7 +25,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| 基础库 | 0.0.5 | com.proxy.service:Cloud-Api:“版本号” | api |
+| 基础库 | 0.0.6 | com.proxy.service:Cloud-Api:“版本号” | api |
 | 编译库 | 0.0.4 | com.proxy.service:Cloud-Compiler:“版本号” | annotationProcessor |
 
 
@@ -39,9 +39,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| OkHttp |  | com.proxy.service:Service-OkHttp:“版本号” | api |
-| Volley |  | com.proxy.service:Service-Volley:“版本号” | api |
-| Retrofit | 0.0.1 | com.proxy.service:Service-Retrofit:“版本号” | api |
+| Retrofit | 0.0.1 | com.proxy.service:Service-Net-Retrofit:“版本号” | api |
 
 
 ## UI 库
@@ -57,20 +55,6 @@
 | UI | 0.0.5 | com.proxy.service:Service-UI-Info:“版本号” | api |
 
 
-## 进程库
-<font size='4' color='f00' >开发中</font>
-
-[<font size='6' color='#528DFB' >进程库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Service-Process/README.md)
-
-提供多进程能力
-
-<br/>
-
-| 模块 | 最新版本号 | 地址 | 引用方式 |
-| :--: | :--: | :-- | :--: |
-| Process |  | com.proxy.service:Service-Process:“版本号” | api |
-
-
 ## 工具库
 
 [<font size='6' color='#528DFB' >工具库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Service-Utils/README.md)
@@ -81,37 +65,20 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| Utils | 0.0.4 | com.proxy.service:Service-Utils-Info:“版本号” | api |
+| Utils | 0.0.5 | com.proxy.service:Service-Utils-Info:“版本号” | api |
 
 
 ## 基本用法
 1. 首先通过 CloudSystem 对框架进行初始化
-2. 按需注册拦截器
-3. 通过 CloudSystem 获取服务
-4. 触发拦截器，执行拦截器逻辑（如果存在对应拦截器）
+2. 注册服务
+3. 获取服务
+4. 拦截器的注册以及触发
 
 ### 一、初始化
 通过 CloudSystem.init(@NonNull Context context, boolean isDebug) 进行初始化，初始化之后即可正常使用本框架
 
-### 二、获取服务
-本框架中的服务代表一个个的功能，例如：file文件处理、bitmap图片处理、数据校验、网络请求等等。具体的服务对应的 class 类型与 tag 值，请查看对应的文档
-<br/>
+### 二、注册服务
 
-而获取服务的方式有以下几种：
-
-| 方法 | 参数 | 效果 |
-| :--: | :--: | :-- |
-| CloudSystem.getService() | tag：服务对应的 tag | 通过 tag 获取单个/多个服务 |
-| CloudSystem.getServiceWithUuid() | 1、uuid：唯一ID，用于触发对应拦截器。 2、tag：服务对应的 tag | 通过 tag 获取单个/多个服务 |
-| CloudSystem.getService() | tClass：服务的 class 类型 | 通过 class 类型获取单个/多个服务 |
-| CloudSystem.getServiceWithUuid() | 1、uuid：唯一ID，用于触发对应拦截器。 2、tClass：服务的 class 类型 | 通过 class 类型获取单个/多个服务 |
-
-    例如：
-    CloudUtilsTaskService taskService = CloudSystem.getService(CloudUtilsTaskService.class);
-    或者
-    CloudUtilsTaskService taskService = CloudSystem.getService(CloudServiceTagUtils.UTILS_TASK);
-
-### 三、注册服务
 <br/>
 
 1. 注册新服务
@@ -135,8 +102,29 @@
 
 这时，我们获取服务时，即可获取到替换后的服务
 
+### 三、获取服务
+本框架中的服务代表一个个的功能，例如：file文件处理、bitmap图片处理、数据校验、网络请求等等。具体的服务对应的 class 类型与 tag 值，请查看对应的文档
+<br/>
+
+而获取服务的方式有以下几种：
+
+| 方法 | 参数 | 效果 |
+| :--: | :--: | :-- |
+| CloudSystem.getService() | tag：服务对应的 tag | 通过 tag 获取单个/多个服务 |
+| CloudSystem.getServiceWithUuid() | 1、uuid：唯一ID，用于触发对应拦截器。 2、tag：服务对应的 tag | 通过 tag 获取单个/多个服务 |
+| CloudSystem.getService() | tClass：服务的 class 类型 | 通过 class 类型获取单个/多个服务 |
+| CloudSystem.getServiceWithUuid() | 1、uuid：唯一ID，用于触发对应拦截器。 2、tClass：服务的 class 类型 | 通过 class 类型获取单个/多个服务 |
+
+    例如：
+    CloudUtilsTaskService taskService = CloudSystem.getService(CloudUtilsTaskService.class);
+    或者
+    CloudUtilsTaskService taskService = CloudSystem.getService(CloudServiceTagUtils.UTILS_TASK);
+
 ### 四、拦截器
 拦截器分为两种，全局拦截器与定向拦截器
+
+拦截器的生效时机为获取服务，框架查找到对应服务之后将服务返回给获取方之前，会先执行拦截器的方法，在拦截器内部，你可以进行替换、代理、移除等等操作。
+
 <br/>
 
 1. 全局拦截器

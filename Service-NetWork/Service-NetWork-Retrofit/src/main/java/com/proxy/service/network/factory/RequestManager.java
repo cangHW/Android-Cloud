@@ -31,12 +31,12 @@ public final class RequestManager implements NetWorkCallback {
 
     private static final Logger mLogger = Logger.create("RequestManager");
 
-    private int mRequestCount;
-    private boolean isUseCookie;
+    private final int mRequestCount;
+    private final boolean isUseCookie;
 
     private CloudNetWorkRequest mRequestBody;
-    private CloudUtilsTaskService mTaskService;
-    private CloudUtilsNetWorkService mNetWorkService;
+    private final CloudUtilsTaskService mTaskService;
+    private final CloudUtilsNetWorkService mNetWorkService;
 
     private RequestManager(Builder builder) {
         this.mRequestCount = builder.mRequestCount;

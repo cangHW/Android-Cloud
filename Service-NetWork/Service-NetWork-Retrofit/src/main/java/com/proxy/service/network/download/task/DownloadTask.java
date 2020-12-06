@@ -3,6 +3,7 @@ package com.proxy.service.network.download.task;
 import android.text.TextUtils;
 
 import com.proxy.service.api.CloudSystem;
+import com.proxy.service.api.security.SecurityType;
 import com.proxy.service.api.services.CloudUtilsFileService;
 import com.proxy.service.api.services.CloudUtilsNetWorkService;
 import com.proxy.service.api.services.CloudUtilsSecurityService;
@@ -129,7 +130,7 @@ public class DownloadTask {
         ResponseBody body = null;
         try {
             Logger.Info("下载请求开始执行");
-            Response<ResponseBody> bodyCall = RetrofitManager.getInstance().getRetrofit().create(RetrofitService.class).download("bytes=" + cacheLength + "-", downloadInfo.fileUrl).execute();
+            Response<ResponseBody> bodyCall = RetrofitManager.getInstance().getRetrofit().create(RetrofitService.class).download(downloadInfo.fileUrl, "bytes=" + cacheLength + "-").execute();
             body = bodyCall.body();
             Logger.Info("下载请求执行完成");
         } catch (Throwable throwable) {
@@ -176,7 +177,7 @@ public class DownloadTask {
                     return;
                 }
                 try {
-                    String md5 = mSecurityService.md5Encode(new FileInputStream(file));
+                    String md5 = mSecurityService.encode(SecurityType.MD5, new FileInputStream(file));
                     if (md5.equals(downloadInfo.fileMd5)) {
                         mDownloadListener.onSuccess(downloadInfo);
                     } else {
@@ -225,7 +226,7 @@ public class DownloadTask {
                     mDownloadListener.onWarning(WARNING_FILE_MD5, info);
                     return true;
                 }
-                String md5 = mSecurityService.md5Encode(new FileInputStream(localFile));
+                String md5 = mSecurityService.encode(SecurityType.MD5, new FileInputStream(localFile));
                 if (md5.equals(info.fileMd5)) {
                     return true;
                 }

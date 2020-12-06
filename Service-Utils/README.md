@@ -24,6 +24,7 @@
 | 11 | CloudUtilsShareService | CloudServiceTagUtils.UTILS_SHARE | 系统分享相关功能 |
 | 12 | CloudUtilsReceiverService | CloudServiceTagUtils.UTILS_RECEIVER | 广播接收器相关操作 |
 | 13 | CloudUtilsSystemPageService | CloudServiceTagUtils.UTILS_SYSTEM_PAGE | 跳转常用系统页面 |
+| 14 | CloudUtilsViewMonitorService | CloudServiceTagUtils.UTILS_VIEW_MONITOR | view 监控相关操作 |
 
 
 ## 二、介绍
@@ -179,9 +180,18 @@
 
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
-| md5Encode | stream：准备加密的流 | md5 加密 |
-| md5Encode | string：准备加密的字符串 | md5 加密 |
+| encode | 1、type：加密类型 <br/> 2、stream：准备加密的流 | 加密 |
+| encode | 1、type：加密类型 <br/> 2、string：准备加密的字符串 | 加密 |
 | aes |  | Aes 加密 |
+
+    加密类型包括
+1. SecurityType.MD2
+2. SecurityType.MD5
+3. SecurityType.SHA1
+4. SecurityType.SHA256
+5. SecurityType.SHA384
+6. SecurityType.SHA512
+
 
     返回对象中特有方法
 | 方法名 | 参数 | 说明 |
@@ -229,5 +239,30 @@
 | openAppSetting | packageName：包名 | 打开应用设置页面 |
 | openNotificationSetting | 1、packageName：包名 <br/> 2、uid：应用的uid | 打开应用通知设置页面 |
 | openCall | phoneNumber：准备拨打的电话号码 | 打电话 |
+</br>
+
+14. CloudUtilsViewMonitorService  view 监控相关操作
+</br>
+
+    包括：
+    1. 显示状态监控
+
+
+| 方法名 | 参数 | 说明 |
+| :-- | :-- | :-- |
+| with | view：准备监控的view | 对view发起监控 |
+
+    特有方法
+| 方法名 | 参数 | 说明 |
+| :-- | :-- | :-- |
+| createVisibleMonitor |  | 创建显示状态监控 |
+| setArea | area：有效区域比例（0—1 百分比） | 设置曝光的有效区域比例（0—1 百分比）,展示多少算一次有效曝光，默认为 0.5 |
+| setDuration | duration：曝光的有效时长 | 设置曝光的有效时长（单位：毫秒）,多久算一次有效曝光, 默认为 1000 |
+| setDelayMillis | delayMillis：曝光的检测间隔时间 | 设置曝光的检测间隔时间（单位：毫秒），时间越短, 灵敏度越高，默认为 500 |
+| setCallback | callback：监控的回调接口 | 设置监控的回调接口 |
+| start |  | 开始监控 |
+| reset |  | 还原数据，重置为原始状态 |
+| stop |  | 暂停 |
+| destroy |  | 销毁 |
 </br>
 

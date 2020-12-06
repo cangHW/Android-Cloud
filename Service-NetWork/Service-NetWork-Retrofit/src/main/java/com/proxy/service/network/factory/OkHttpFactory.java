@@ -15,7 +15,7 @@ import okhttp3.OkHttpClient;
  */
 public class OkHttpFactory {
 
-    private OkHttpClient.Builder mBuilder;
+    private final OkHttpClient.Builder mBuilder;
 
     private OkHttpFactory() {
         mBuilder = new OkHttpClient.Builder();

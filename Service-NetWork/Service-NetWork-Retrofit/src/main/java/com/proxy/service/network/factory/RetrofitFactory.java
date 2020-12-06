@@ -11,7 +11,7 @@ import retrofit2.Retrofit;
  */
 public class RetrofitFactory {
 
-    private Retrofit.Builder mBuilder;
+    private final Retrofit.Builder mBuilder;
 
     private RetrofitFactory() {
         mBuilder = new Retrofit.Builder();

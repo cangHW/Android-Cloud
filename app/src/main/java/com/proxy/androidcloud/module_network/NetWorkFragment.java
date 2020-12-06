@@ -53,6 +53,7 @@ public class NetWorkFragment extends BaseFragment implements View.OnClickListene
         view.findViewById(R.id.mock_request).setOnClickListener(this);
         view.findViewById(R.id.change_base_url_request).setOnClickListener(this);
         view.findViewById(R.id.download).setOnClickListener(this);
+        view.findViewById(R.id.upload).setOnClickListener(this);
     }
 
     @Override
@@ -72,6 +73,9 @@ public class NetWorkFragment extends BaseFragment implements View.OnClickListene
                 break;
             case R.id.download:
                 ListActivity.launch(getContext(), ListHelperType.DOWNLOAD);
+                break;
+            case R.id.upload:
+                ListActivity.launch(getContext(), ListHelperType.UPLOAD);
                 break;
             default:
         }

@@ -40,4 +40,13 @@
         android:layout_marginRight="10dp"
         android:text="下载" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/upload"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:text="上传" />
+
 </LinearLayout>

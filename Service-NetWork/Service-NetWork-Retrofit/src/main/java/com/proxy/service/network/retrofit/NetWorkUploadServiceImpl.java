@@ -1,18 +1,24 @@
-package com.proxy.service.api.services;
+package com.proxy.service.network.retrofit;
+
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.callback.upload.CloudUploadCallback;
+import com.proxy.service.api.services.CloudNetWorkUploadService;
+import com.proxy.service.api.tag.CloudServiceTagNetWork;
 import com.proxy.service.api.upload.CloudNetWorkUploadInfo;
-import com.proxy.service.base.BaseService;
+import com.proxy.service.api.utils.Logger;
 
 /**
- * 网络模块上传服务
- *
  * @author : cangHX
- * on 2020/07/19  6:09 PM
+ * on 2020/11/09  9:34 PM
  */
-public interface CloudNetWorkUploadService extends BaseService {
+@CloudApiService(serviceTag = CloudServiceTagNetWork.NET_WORK_UPLOAD)
+public class NetWorkUploadServiceImpl implements CloudNetWorkUploadService {
+
+    private CloudUploadCallback mGlobalUploadCallback;
 
     /**
      * 设置最大同时上传数量，默认为 5
@@ -24,7 +30,10 @@ public interface CloudNetWorkUploadService extends BaseService {
      * @date: 2020/11/9 9:15 PM
      */
     @NonNull
-    CloudNetWorkUploadService setGlobalMaxConcurrent(int maxCount);
+    @Override
+    public CloudNetWorkUploadService setGlobalMaxConcurrent(int maxCount) {
+        return this;
+    }
 
     /**
      * 设置是否使用多进程进行上传，默认使用
@@ -36,7 +45,10 @@ public interface CloudNetWorkUploadService extends BaseService {
      * @date: 2020/11/9 9:15 PM
      */
     @NonNull
-    CloudNetWorkUploadService setGlobalMultiProcessEnable(boolean enable);
+    @Override
+    public CloudNetWorkUploadService setGlobalMultiProcessEnable(boolean enable) {
+        return this;
+    }
 
     /**
      * 设置上传回调，
@@ -49,7 +61,11 @@ public interface CloudNetWorkUploadService extends BaseService {
      * @date: 2020/11/9 9:15 PM
      */
     @NonNull
-    CloudNetWorkUploadService setGlobalUploadCallback(@NonNull CloudUploadCallback callback);
+    @Override
+    public CloudNetWorkUploadService setGlobalUploadCallback(@NonNull CloudUploadCallback callback) {
+        this.mGlobalUploadCallback = callback;
+        return this;
+    }
 
     /**
      * 开始上传，小于 0 代表失败
@@ -60,7 +76,14 @@ public interface CloudNetWorkUploadService extends BaseService {
      * @author: cangHX
      * @date: 2020/11/9 9:15 PM
      */
-    int start(@NonNull CloudNetWorkUploadInfo info);
+    @Override
+    public int start(@NonNull CloudNetWorkUploadInfo info) {
+        if (TextUtils.isEmpty(info.getUploadUrl())) {
+            Logger.Debug("The upload missing url");
+            return -1;
+        }
+        return -1;
+    }
 
     /**
      * 暂停上传
@@ -70,7 +93,10 @@ public interface CloudNetWorkUploadService extends BaseService {
      * @author: cangHX
      * @date: 2020/11/9 9:15 PM
      */
-    void pause(int uploadId);
+    @Override
+    public void pause(int uploadId) {
+
+    }
 
     /**
      * 恢复上传
@@ -80,7 +106,10 @@ public interface CloudNetWorkUploadService extends BaseService {
      * @author: cangHX
      * @date: 2020/11/9 9:15 PM
      */
-    void continues(int uploadId);
+    @Override
+    public void continues(int uploadId) {
+
+    }
 
     /**
      * 取消上传
@@ -90,7 +119,10 @@ public interface CloudNetWorkUploadService extends BaseService {
      * @author: cangHX
      * @date: 2020/11/9 9:15 PM
      */
-    void cancel(int uploadId);
+    @Override
+    public void cancel(int uploadId) {
+
+    }
 
     /**
      * 删除上传，同时删除任务记录
@@ -100,5 +132,8 @@ public interface CloudNetWorkUploadService extends BaseService {
      * @author: cangHX
      * @date: 2020/11/9 9:15 PM
      */
-    void delete(int uploadId);
+    @Override
+    public void delete(int uploadId) {
+
+    }
 }
