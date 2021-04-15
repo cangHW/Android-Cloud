@@ -20,10 +20,16 @@ public class ReceiverInfo {
      */
     private String action;
     /**
+     * 开发者设置的 scheme
+     */
+    private String scheme;
+    /**
      * 权限
      */
     private String permission;
-
+    /**
+     * 开发者设置的 categories
+     */
     private ArrayList<String> categories;
 
 
@@ -57,6 +63,17 @@ public class ReceiverInfo {
         this.action = action;
     }
 
+    public String getScheme() {
+        if (scheme == null) {
+            scheme = "";
+        }
+        return scheme;
+    }
+
+    public void setScheme(String scheme) {
+        this.scheme = scheme;
+    }
+
     public String getPermission() {
         if (permission == null) {
             permission = "";
@@ -86,7 +103,8 @@ public class ReceiverInfo {
         boolean isPermissionSame = getPermission().equals(info.getPermission());
         boolean isTypeSame = getType().equals(info.getType());
         boolean isCategoriesSame = getCategories().size() == info.getCategories().size() && getCategories().containsAll(info.getCategories());
-        return isPermissionSame && isTypeSame && isCategoriesSame;
+        boolean isSchemeSame = getScheme().equals(info.getScheme());
+        return isPermissionSame && isTypeSame && isSchemeSame && isCategoriesSame;
     }
 
     @NonNull
@@ -95,6 +113,7 @@ public class ReceiverInfo {
         return "{" +
                 "action='" + action + '\'' +
                 ", permission='" + permission + '\'' +
+                ", scheme=" + scheme +
                 ", categories=" + categories +
                 '}';
     }

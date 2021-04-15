@@ -8,6 +8,7 @@ import android.text.TextUtils;
  * 数据错误,  20000 - 30000
  * 权限问题,  30000 - 40000
  * 网络问题,  40000 - 50000
+ * 流程问题,  50000 - 60000
  * 未知异常,  100000 -
  *
  * @author: cangHX
@@ -84,8 +85,16 @@ public enum CloudApiError {
     PERMISSION_DENIED(30001, "Please check permissions"),
 
     /******************  网络问题  *************************/
-
+    /**
+     * 没有网络
+     */
     NET_WORK_EMPTY(40000, "There is no network"),
+
+    /******************  流程问题  *************************/
+    /**
+     * activity 未启动
+     */
+    NO_RUNNING_ACTIVITY(50000, "No running activity"),
 
     /******************  未知异常  *************************/
     UNKNOWN_ERROR(100000, "Unknown error");

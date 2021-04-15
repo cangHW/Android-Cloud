@@ -32,23 +32,19 @@ public class LibraryFragment extends BaseFragment implements CloudUiLifeCallback
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.mThreadPool:
-                ListActivity.launch(getContext(), ListHelperType.THREAD_POOL);
-                break;
-            case R.id.mBitmap:
-                ListActivity.launch(getContext(), ListHelperType.BITMAP);
-                break;
-            case R.id.mInstall:
-                DetailActivity.launch(getContext(), DetailHelperType.INSTALL);
-                break;
-            case R.id.mReceiver:
-                ListActivity.launch(getContext(), ListHelperType.RECEIVER);
-                break;
-            case R.id.mApp:
-                ListActivity.launch(getContext(), ListHelperType.APP);
-                break;
-            default:
+        int id = view.getId();
+        if (id == R.id.mThreadPool) {
+            ListActivity.launch(getContext(), ListHelperType.THREAD_POOL);
+        } else if (id == R.id.mBitmap) {
+            ListActivity.launch(getContext(), ListHelperType.BITMAP);
+        } else if (id == R.id.mInstall) {
+            DetailActivity.launch(getContext(), DetailHelperType.INSTALL);
+        } else if (id == R.id.mReceiver) {
+            ListActivity.launch(getContext(), ListHelperType.RECEIVER);
+        } else if (id == R.id.mApp) {
+            ListActivity.launch(getContext(), ListHelperType.APP);
+        } else if (id == R.id.mFile) {
+            ListActivity.launch(getContext(), ListHelperType.FILE);
         }
     }
 

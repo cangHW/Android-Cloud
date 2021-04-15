@@ -44,10 +44,10 @@ public class UtilsPermissionBroadcastReceiver {
         void onReceiveWithPermission(Context context, Intent intent, String permission);
     }
 
-    private HashMap<String, PermissionBroadcastReceiver> mReceiverMapper = new HashMap<>();
-    private List<WeakReference<ReceiverListener>> mReceiverListeners = new ArrayList<>();
+    private final HashMap<String, PermissionBroadcastReceiver> mReceiverMapper = new HashMap<>();
+    private final List<WeakReference<ReceiverListener>> mReceiverListeners = new ArrayList<>();
 
-    private CloudUtilsTaskService mTaskService;
+    private final CloudUtilsTaskService mTaskService;
 
 
     private static class Factory {
@@ -88,7 +88,7 @@ public class UtilsPermissionBroadcastReceiver {
         context.registerReceiver(receiver, filter, permission, null);
     }
 
-    private ReceiverListener receiverListener = new ReceiverListener() {
+    private final ReceiverListener receiverListener = new ReceiverListener() {
         @Override
         public void onReceiveWithPermission(final Context context, final Intent intent, final String permission) {
             mTaskService.callUiThread(new Task<Object>() {
@@ -111,8 +111,8 @@ public class UtilsPermissionBroadcastReceiver {
 
     private static class PermissionBroadcastReceiver extends BroadcastReceiver {
 
-        private String mPermission;
-        private WeakReference<ReceiverListener> mWeakReference;
+        private final String mPermission;
+        private final WeakReference<ReceiverListener> mWeakReference;
 
         private PermissionBroadcastReceiver(String permission, ReceiverListener receiver) {
             this.mPermission = permission;

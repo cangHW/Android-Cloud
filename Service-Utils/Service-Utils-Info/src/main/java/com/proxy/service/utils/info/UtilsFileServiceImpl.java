@@ -49,7 +49,7 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
         }
         try {
             File parentFile = file.getParentFile();
-            if (parentFile != null) {
+            if (!parentFile.exists()) {
                 parentFile.mkdirs();
             }
             file.createNewFile();

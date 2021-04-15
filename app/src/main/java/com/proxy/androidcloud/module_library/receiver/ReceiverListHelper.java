@@ -23,6 +23,7 @@ import java.util.List;
 public class ReceiverListHelper extends AbstractListHelper implements CloudReceiverListener {
 
     private static final String ACTION_CLICK = "click";
+    private static final String CATEGORY = "category";
     private static final String PERMISSION = "com.proxy.androidcloud.receiverListHelper";
 
     private static final Logger M_LOGGER = Logger.create(ReceiverListHelper.class.getSimpleName());
@@ -100,6 +101,7 @@ public class ReceiverListHelper extends AbstractListHelper implements CloudRecei
                 receiverService.addReceiverListener(
                         CloudReceiverInfo
                                 .builder()
+                                .addCategory(CATEGORY)
                                 .setAction(ACTION_CLICK)
                                 .build(),
                         this);
@@ -127,6 +129,7 @@ public class ReceiverListHelper extends AbstractListHelper implements CloudRecei
             case 4:
                 Intent all = new Intent(ACTION_CLICK);
                 all.putExtra(DATA, "全局广播通知");
+                all.addCategory(CATEGORY);
                 receiverService.sendBroadcast(all);
                 break;
             case 5:

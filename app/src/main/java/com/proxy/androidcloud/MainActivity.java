@@ -20,14 +20,12 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity implements CloudUiEventCallback {
 
-    private static final String TAG = "ssss";
-
     public static void launch(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
     }
 
-    private List<onViewClickListener> mClickListeners = new ArrayList<>();
+    private final List<onViewClickListener> mClickListeners = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

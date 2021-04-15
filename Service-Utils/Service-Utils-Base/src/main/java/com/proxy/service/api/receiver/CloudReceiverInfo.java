@@ -12,11 +12,13 @@ public class CloudReceiverInfo {
 
     private final int id;
     private final String action;
+    private final String scheme;
     private final ArrayList<String> categories;
 
     private CloudReceiverInfo(Builder builder) {
         this.id = INTEGER.incrementAndGet();
         this.action = builder.action;
+        this.scheme = builder.scheme;
         this.categories = builder.categories;
     }
 
@@ -26,6 +28,10 @@ public class CloudReceiverInfo {
 
     public String getAction() {
         return action;
+    }
+
+    public String getScheme() {
+        return scheme;
     }
 
     public ArrayList<String> getCategories() {
@@ -38,9 +44,18 @@ public class CloudReceiverInfo {
 
     public static class Builder {
         private String action;
-        private ArrayList<String> categories = new ArrayList<>();
+        private String scheme;
+        private final ArrayList<String> categories = new ArrayList<>();
 
         private Builder() {
+        }
+
+        public Builder setScheme(String scheme) {
+            if (scheme == null) {
+                scheme = "";
+            }
+            this.scheme = scheme;
+            return this;
         }
 
         public Builder setAction(String action) {

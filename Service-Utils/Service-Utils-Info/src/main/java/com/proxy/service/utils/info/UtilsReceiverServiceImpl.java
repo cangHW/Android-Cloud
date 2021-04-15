@@ -25,6 +25,7 @@ import com.proxy.service.utils.receiver.UtilsPermissionBroadcastReceiver;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -45,7 +46,7 @@ public class UtilsReceiverServiceImpl implements CloudUtilsReceiverService, Util
     private static final SparseArray<String> ID_ACTION_MAPPER = new SparseArray<>();
     private static final SparseArray<CloudReceiverListener> ID_RECEIVER_LISTENER_MAPPER = new SparseArray<>();
 
-    private CloudUtilsTaskService mTaskService = new UtilsTaskServiceImpl();
+    private final CloudUtilsTaskService mTaskService = new UtilsTaskServiceImpl();
 
     /**
      * 添加全局接收器并设置接收范围(注意 context 泄漏问题，不用时需要移除监听)，
@@ -63,6 +64,7 @@ public class UtilsReceiverServiceImpl implements CloudUtilsReceiverService, Util
             ReceiverInfo info = new ReceiverInfo();
             info.setId(receiverInfo.getId());
             info.setAction(receiverInfo.getAction());
+            info.setScheme(receiverInfo.getScheme());
             info.setCategories(receiverInfo.getCategories());
             info.setType(TYPE_ALL);
 
@@ -72,6 +74,12 @@ public class UtilsReceiverServiceImpl implements CloudUtilsReceiverService, Util
 
             IntentFilter filter = new IntentFilter();
             filter.addAction(receiverInfo.getAction());
+            for (String category : receiverInfo.getCategories()) {
+                filter.addCategory(category);
+            }
+            if (!TextUtils.isEmpty(receiverInfo.getScheme())) {
+                filter.addDataScheme(receiverInfo.getScheme());
+            }
             UtilsBroadcastReceiver.getInstance().addIntentFilter(filter, this);
         }
     }
@@ -94,6 +102,7 @@ public class UtilsReceiverServiceImpl implements CloudUtilsReceiverService, Util
             ReceiverInfo info = new ReceiverInfo();
             info.setId(receiverInfo.getId());
             info.setAction(receiverInfo.getAction());
+            info.setScheme(receiverInfo.getScheme());
             info.setCategories(receiverInfo.getCategories());
             info.setType(TYPE_PERMISSION);
             info.setPermission(sendPermission);
@@ -103,6 +112,12 @@ public class UtilsReceiverServiceImpl implements CloudUtilsReceiverService, Util
             }
             IntentFilter filter = new IntentFilter();
             filter.addAction(receiverInfo.getAction());
+            for (String category : receiverInfo.getCategories()) {
+                filter.addCategory(category);
+            }
+            if (!TextUtils.isEmpty(receiverInfo.getScheme())) {
+                filter.addDataScheme(receiverInfo.getScheme());
+            }
             UtilsPermissionBroadcastReceiver.getInstance().addIntentFilter(sendPermission, filter, this);
         }
     }
@@ -123,6 +138,7 @@ public class UtilsReceiverServiceImpl implements CloudUtilsReceiverService, Util
             ReceiverInfo info = new ReceiverInfo();
             info.setId(receiverInfo.getId());
             info.setAction(receiverInfo.getAction());
+            info.setScheme(receiverInfo.getScheme());
             info.setCategories(receiverInfo.getCategories());
             info.setType(TYPE_LOCAL);
 
@@ -136,6 +152,12 @@ public class UtilsReceiverServiceImpl implements CloudUtilsReceiverService, Util
             }
             IntentFilter filter = new IntentFilter();
             filter.addAction(receiverInfo.getAction());
+            for (String category : receiverInfo.getCategories()) {
+                filter.addCategory(category);
+            }
+            if (!TextUtils.isEmpty(receiverInfo.getScheme())) {
+                filter.addDataScheme(receiverInfo.getScheme());
+            }
             UtilsLocalBroadcastReceiver.getInstance(context).registerReceiver(this, filter);
         }
     }
@@ -327,25 +349,32 @@ public class UtilsReceiverServiceImpl implements CloudUtilsReceiverService, Util
 
         final List<Integer> ids = new ArrayList<>();
         Set<String> categories = intent.getCategories();
-        boolean hasCategory = categories != null && categories.size() > 0;
+        if (categories == null) {
+            categories = new HashSet<>();
+        }
+        String scheme = intent.getScheme();
+        if (scheme == null) {
+            scheme = "";
+        }
+
         for (ReceiverInfo info : infoList) {
-            if (!type.equals(info.getType())) {
+            if (!info.getType().equals(type)) {
                 continue;
             }
-            if (!permission.equals(info.getPermission())) {
+            if (!info.getPermission().equals(permission)) {
                 continue;
             }
 
             List<String> list = info.getCategories();
-
-            if (list.size() == 0 || !hasCategory) {
-                ids.add(info.getId());
+            if (list.size() != categories.size() || !list.containsAll(categories)) {
                 continue;
             }
 
-            if (list.containsAll(categories)) {
-                ids.add(info.getId());
+            if (!info.getScheme().equals(scheme)) {
+                continue;
             }
+
+            ids.add(info.getId());
         }
 
         mTaskService.callUiThread(new Task<Object>() {

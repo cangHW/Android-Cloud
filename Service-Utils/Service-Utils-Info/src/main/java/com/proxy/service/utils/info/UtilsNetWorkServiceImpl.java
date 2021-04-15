@@ -53,7 +53,7 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
             return false;
         }
         UtilsPermissionServiceImpl permissionService = new UtilsPermissionServiceImpl();
-        if (!permissionService.selfPermissionGranted(Manifest.permission.ACCESS_NETWORK_STATE)) {
+        if (!permissionService.isPermissionGranted(Manifest.permission.ACCESS_NETWORK_STATE)) {
             Logger.Debug(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_NETWORK_STATE).build());
             return false;
         }
@@ -155,7 +155,7 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
             return "";
         }
         UtilsPermissionServiceImpl permissionService = new UtilsPermissionServiceImpl();
-        if (!permissionService.selfPermissionGranted(Manifest.permission.ACCESS_WIFI_STATE)) {
+        if (!permissionService.isPermissionGranted(Manifest.permission.ACCESS_WIFI_STATE)) {
             Logger.Debug(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_WIFI_STATE).build());
             return "";
         }
@@ -192,7 +192,7 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
             return -1;
         }
         UtilsPermissionServiceImpl permissionService = new UtilsPermissionServiceImpl();
-        if (!permissionService.selfPermissionGranted(Manifest.permission.ACCESS_WIFI_STATE)) {
+        if (!permissionService.isPermissionGranted(Manifest.permission.ACCESS_WIFI_STATE)) {
             Logger.Debug(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_WIFI_STATE).build());
             return -1;
         }
@@ -226,7 +226,7 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
             return "";
         }
         UtilsPermissionServiceImpl permissionService = new UtilsPermissionServiceImpl();
-        if (!permissionService.selfPermissionGranted(Manifest.permission.ACCESS_WIFI_STATE)) {
+        if (!permissionService.isPermissionGranted(Manifest.permission.ACCESS_WIFI_STATE)) {
             Logger.Debug(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_WIFI_STATE).build());
             return "";
         }
@@ -264,7 +264,7 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
             return infoList;
         }
         UtilsPermissionServiceImpl permissionService = new UtilsPermissionServiceImpl();
-        if (!permissionService.selfPermissionGranted(Manifest.permission.ACCESS_WIFI_STATE)) {
+        if (!permissionService.isPermissionGranted(Manifest.permission.ACCESS_WIFI_STATE)) {
             Logger.Debug(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_WIFI_STATE).build());
             return infoList;
         }

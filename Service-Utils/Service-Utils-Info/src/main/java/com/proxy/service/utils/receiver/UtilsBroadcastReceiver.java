@@ -43,7 +43,7 @@ public class UtilsBroadcastReceiver extends BroadcastReceiver {
     }
 
     private final List<WeakReference<ReceiverListener>> mReceiverListeners = new ArrayList<>();
-    private CloudUtilsTaskService mTaskService;
+    private final CloudUtilsTaskService mTaskService;
 
     private static class Factory {
         private static final UtilsBroadcastReceiver M_INSTANCE = new UtilsBroadcastReceiver();

@@ -45,7 +45,7 @@ public abstract class AbstractListHelper {
 
         public static class Builder {
             private int id;
-            public String title;
+            private String title;
 
             private String leftButton;
             private String centerButton;

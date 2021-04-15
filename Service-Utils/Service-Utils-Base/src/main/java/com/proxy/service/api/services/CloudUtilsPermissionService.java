@@ -1,5 +1,6 @@
 package com.proxy.service.api.services;
 
+import com.proxy.service.api.permission.IPermissionCallback;
 import com.proxy.service.base.BaseService;
 
 /**
@@ -22,14 +23,13 @@ public interface CloudUtilsPermissionService extends BaseService {
     boolean isPermissionGranted(String permission);
 
     /**
-     * 自动获取对应权限
+     * 申请对应权限
      *
-     * @param permission : 权限名称
-     * @return true 有，false 没有
+     * @return 返回请求权限处理对象
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/8/31 9:20 PM
      */
-    boolean selfPermissionGranted(String permission);
+    IPermissionCallback requestPermission();
 
 }
