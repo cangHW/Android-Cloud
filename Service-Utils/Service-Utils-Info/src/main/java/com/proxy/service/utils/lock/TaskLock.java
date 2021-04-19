@@ -18,8 +18,8 @@ public class TaskLock<RESPONSE> extends AbstractLock {
         public Throwable throwable;
     }
 
-    private AtomicBoolean isCancel = new AtomicBoolean(false);
-    private AtomicBoolean isLock = new AtomicBoolean(false);
+    private final AtomicBoolean isCancel = new AtomicBoolean(false);
+    private final AtomicBoolean isLock = new AtomicBoolean(false);
     private List<Response<RESPONSE>> responseList = new ArrayList<>();
 
     /**

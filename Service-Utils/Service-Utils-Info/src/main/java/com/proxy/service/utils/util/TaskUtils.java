@@ -101,9 +101,9 @@ public class TaskUtils {
     }
 
     private static class TaskState {
-        private AtomicBoolean isHasSharedLock = new AtomicBoolean(false);
-        private AtomicBoolean isTasksFinish = new AtomicBoolean(false);
-        private AtomicBoolean isTimeOut = new AtomicBoolean(false);
+        private final AtomicBoolean isHasSharedLock = new AtomicBoolean(false);
+        private final AtomicBoolean isTasksFinish = new AtomicBoolean(false);
+        private final AtomicBoolean isTimeOut = new AtomicBoolean(false);
     }
 
     /**
@@ -137,9 +137,8 @@ public class TaskUtils {
             ITaskFunction<Object> taskFunction = (ITaskFunction<Object>) functions[i];
             final int finalI = i;
             taskFunction.call(new TaskCallable<Object, Object>() {
-                @SuppressWarnings("ConstantConditions")
                 @Override
-                public Object then(ITask<Object>[] iTasks) throws Exception {
+                public Object then(ITask<Object>[] iTasks) {
                     synchronized (taskState) {
                         if (taskState.isTimeOut.get()) {
                             return null;

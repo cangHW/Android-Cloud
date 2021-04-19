@@ -158,6 +158,7 @@ public class PermissionCallbackImpl implements IPermissionCallback {
         }
     };
 
+    @SuppressWarnings("deprecation")
     private IPermissionFragment getIPermissionFragment(Activity context) {
         IPermissionFragment iPermissionFragment;
 

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.proxy.service.api.monitor.visible.CloudVisibleMonitorCallback;
+import com.proxy.service.api.utils.Logger;
 import com.proxy.service.utils.monitor.pool.MonitorPool;
 
 import java.lang.ref.WeakReference;
@@ -115,11 +116,13 @@ public class VisibleControl {
             }
             try {
                 monitor.checkVisibility();
-            } catch (Throwable ignored) {
+            } catch (Throwable throwable) {
+                Logger.Debug(throwable);
             }
             try {
                 monitor.mMonitorPool.post(monitor.mRunnable, monitor.mDelayMillis);
-            } catch (Throwable ignored) {
+            } catch (Throwable throwable) {
+                Logger.Debug(throwable);
             }
         }
     }

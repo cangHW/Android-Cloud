@@ -2,7 +2,6 @@ package com.proxy.service.utils.pool.thread;
 
 import com.proxy.service.utils.pool.thread.runtime.ExecutorCore;
 
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 /**

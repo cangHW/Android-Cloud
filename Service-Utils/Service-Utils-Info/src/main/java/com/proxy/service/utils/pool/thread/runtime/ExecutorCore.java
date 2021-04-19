@@ -107,7 +107,7 @@ public class ExecutorCore {
     private static class ImmediateExecutor implements Executor {
 
         private static final int MAX_DEPTH = 15;
-        private ThreadLocal<Integer> executionDepth = new ThreadLocal<>();
+        private final ThreadLocal<Integer> executionDepth = new ThreadLocal<>();
 
         /**
          * 增加深度

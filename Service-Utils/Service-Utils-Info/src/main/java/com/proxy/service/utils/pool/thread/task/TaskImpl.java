@@ -10,9 +10,9 @@ import com.proxy.service.utils.pool.thread.enums.TaskThreadEnum;
  */
 public class TaskImpl<RESPONSE> extends TaskConditionsImpl<RESPONSE> implements ITask<RESPONSE> {
 
-    private boolean isSuccess;
-    private RESPONSE mResponse;
-    private Throwable mThrowable;
+    private final boolean isSuccess;
+    private final RESPONSE mResponse;
+    private final Throwable mThrowable;
 
     public TaskImpl(boolean isSuccess, RESPONSE response, Throwable throwable, TaskThreadEnum threadEnum, TaskLock<RESPONSE> lock) {
         super(threadEnum, lock);

@@ -69,6 +69,7 @@ public class UtilsSecurityServiceImpl implements CloudUtilsSecurityService {
      * @author: cangHX
      * @date: 2020/9/10 11:15 PM
      */
+    @SuppressWarnings("CharsetObjectCanBeUsed")
     @Override
     public String encode(SecurityType type, String string) {
         try {

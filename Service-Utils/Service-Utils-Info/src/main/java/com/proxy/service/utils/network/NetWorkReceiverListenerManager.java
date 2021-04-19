@@ -25,8 +25,8 @@ public class NetWorkReceiverListenerManager implements UtilsBroadcastReceiver.Re
 
     private final List<WeakReference<CloudNetWorkCallback>> mNetWorkCallbacks = new ArrayList<>();
 
-    private CloudUtilsTaskService mTaskService;
-    private CloudUtilsNetWorkService mNetWorkService;
+    private final CloudUtilsTaskService mTaskService;
+    private final CloudUtilsNetWorkService mNetWorkService;
 
     private NetWorkReceiverListenerManager() {
         mTaskService = new UtilsTaskServiceImpl();
@@ -41,6 +41,7 @@ public class NetWorkReceiverListenerManager implements UtilsBroadcastReceiver.Re
         return Factory.INSTANCE;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public NetWorkReceiverListenerManager addNetWorkCallback(CloudNetWorkCallback netWorkCallback) {
         boolean hasSame = WeakReferenceUtils.checkValueIsSame(mNetWorkCallbacks, netWorkCallback);
         if (!hasSame) {
@@ -70,6 +71,7 @@ public class NetWorkReceiverListenerManager implements UtilsBroadcastReceiver.Re
      * @author: cangHX
      * @date: 2020-06-24 18:04
      */
+    @SuppressWarnings("deprecation")
     @Override
     public void onReceive(final Context context, final Intent intent) {
         String action = intent.getAction();

@@ -19,6 +19,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @author : cangHX
  * on 2020/09/11  11:50 PM
  */
+@SuppressWarnings("CharsetObjectCanBeUsed")
 public class AesHelperUtils implements SecurityAesHelper {
 
     private SecretKeySpec mKey;

@@ -79,7 +79,6 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
      * @date: 2020/8/28 6:15 PM
      */
     @NonNull
-    @SuppressWarnings("ConstantConditions")
     @Override
     public CloudNetWorkType getNetworkType() {
         if (!isConnected()) {

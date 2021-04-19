@@ -2,7 +2,6 @@ package com.proxy.service.utils.install;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.text.TextUtils;
 
@@ -29,7 +28,7 @@ public class InstallReceiverListenerManager implements UtilsBroadcastReceiver.Re
 
     private final HashMap<String, List<WeakReference<CloudInstallCallback>>> mCallbackMap = new HashMap<>();
 
-    private CloudUtilsTaskService mTaskService;
+    private final CloudUtilsTaskService mTaskService;
 
     private static class Factory {
         private static final InstallReceiverListenerManager M_INSTANCE = new InstallReceiverListenerManager();

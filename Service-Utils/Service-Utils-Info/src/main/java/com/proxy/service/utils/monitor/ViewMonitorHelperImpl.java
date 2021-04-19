@@ -13,7 +13,7 @@ import com.proxy.service.utils.monitor.visible.VisibleMonitorBuilderImpl;
  */
 public class ViewMonitorHelperImpl implements ViewMonitorHelper {
 
-    private View mView;
+    private final View mView;
 
     public ViewMonitorHelperImpl(View view) {
         this.mView = view;
