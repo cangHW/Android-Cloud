@@ -33,13 +33,13 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${Support_Lib_Version}"
 
     if (Boolean.parseBoolean(cloud_annotations_isFromMaven)) {
-        api "com.proxy.service:Cloud-Annotations:${cloud_annotations_version}"
+        api "${publishedGroupId}:Cloud-Annotations:${cloud_annotations_version}"
     } else {
         api project(path: ':Cloud-Annotations')
     }
 
     if (Boolean.parseBoolean(cloud_base_isFromMaven)) {
-        api "com.proxy.service:Cloud-Base:${cloud_base_version}"
+        api "${publishedGroupId}:Cloud-Base:${cloud_base_version}"
     } else {
         api project(path: ':Cloud-Base')
     }
@@ -48,13 +48,11 @@ dependencies {
 
 
 ext {
-    bintrayName = 'Cloud-Api'
-    artifact = bintrayName
+    artifact = 'Cloud-Api'
     libraryName = 'Android cloud sdk'
     libraryDescription = 'The perfect framework for Android'
     libraryVersion = cloud_api_version
 }
 
-apply from: '../install.gradle'
-apply from: '../bintray.gradle'
+apply from: '../publish.gradle'
 apply from: '../upload.gradle'

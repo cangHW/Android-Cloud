@@ -27,9 +27,9 @@
     dependencies {
         // 替换成最新版本, 需要注意的是api
         // 要与compiler匹配使用，均使用最新版可以保证兼容
-        compile 'com.proxy.service:Cloud-Api:x.x.x'
+        compile 'io.github.cangHW:Cloud-Api:x.x.x'
         //用于服务自动注册
-        annotationProcessor 'com.proxy.service:Cloud-Compiler:x.x.x'
+        annotationProcessor 'io.github.cangHW:Cloud-Compiler:x.x.x'
         ...
     }
 

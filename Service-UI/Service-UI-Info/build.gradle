@@ -46,32 +46,30 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     if (Boolean.parseBoolean(cloud_compiler_isFromMaven)) {
-        annotationProcessor "com.proxy.service:Cloud-Compiler:${cloud_compiler_version}"
+        annotationProcessor "${publishedGroupId}:Cloud-Compiler:${cloud_compiler_version}"
     } else {
         annotationProcessor project(path: ':Cloud-Compiler')
     }
 
     if (Boolean.parseBoolean(service_utils_info_isFromMaven)) {
-        implementation "com.proxy.service:Service-Utils-Info:${service_utils_info_version}"
+        implementation "${publishedGroupId}:Service-Utils-Info:${service_utils_info_version}"
     } else {
         implementation project(path: ':Service-Utils:Service-Utils-Info')
     }
 
     if (Boolean.parseBoolean(service_ui_base_isFromMaven)) {
-        api "com.proxy.service:Service-UI-Base:${service_ui_base_version}"
+        api "${publishedGroupId}:Service-UI-Base:${service_ui_base_version}"
     } else {
         api project(path: ':Service-UI:Service-UI-Base')
     }
 }
 
 ext {
-    bintrayName = 'Service-UI-Info'
-    artifact = bintrayName
+    artifact = 'Service-UI-Info'
     libraryName = 'Cloud ui module'
     libraryDescription = 'The perfect framework for Android'
     libraryVersion = service_ui_info_version
 }
 
-apply from: '../../install.gradle'
-apply from: '../../bintray.gradle'
+apply from: '../../publish.gradle'
 apply from: '../../upload.gradle'

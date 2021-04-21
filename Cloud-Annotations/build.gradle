@@ -8,13 +8,16 @@ sourceCompatibility = "7"
 targetCompatibility = "7"
 
 ext {
-    bintrayName = 'Cloud-Annotations'
-    artifact = bintrayName
+    artifact = 'Cloud-Annotations'
     libraryName = 'Android cloud sdk'
     libraryDescription = 'The perfect framework for Android'
     libraryVersion = cloud_annotations_version
 }
 
-apply from: '../install.gradle'
-apply from: '../bintray.gradle'
+apply from: '../publish.gradle'
 apply from: '../upload.gradle'
+
+
+
+
+

@@ -11,7 +11,7 @@
     
     dependencies {
         //替换成最新版本
-        api 'com.proxy.service:Service-UI-Info:x.x.x'
+        api 'io.github.cangHW:Service-UI-Info:x.x.x'
         ...
     }    
 
@@ -116,7 +116,7 @@
     
     dependencies {
         // 替换成最新版本
-        annotationProcessor 'com.proxy.service:Cloud-Compiler:x.x.x'
+        annotationProcessor 'io.github.cangHW:Cloud-Compiler:x.x.x'
         ...
     }
     

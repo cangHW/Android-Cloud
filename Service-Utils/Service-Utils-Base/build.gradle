@@ -34,20 +34,18 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${Support_Lib_Version}"
 
     if (Boolean.parseBoolean(cloud_api_isFromMaven)) {
-        api "com.proxy.service:Cloud-Api:${cloud_api_version}"
+        api "${publishedGroupId}:Cloud-Api:${cloud_api_version}"
     } else {
         api project(path: ':Cloud-Api')
     }
 }
 
 ext {
-    bintrayName = 'Service-Utils-Base'
-    artifact = bintrayName
+    artifact = 'Service-Utils-Base'
     libraryName = 'Cloud ui module'
     libraryDescription = 'The perfect framework for Android'
     libraryVersion = service_utils_base_version
 }
 
-apply from: '../../install.gradle'
-apply from: '../../bintray.gradle'
+apply from: '../../publish.gradle'
 apply from: '../../upload.gradle'

@@ -34,13 +34,13 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${Support_Lib_Version}"
 
     if (Boolean.parseBoolean(cloud_api_isFromMaven)) {
-        api "com.proxy.service:Cloud-Api:${cloud_api_version}"
+        api "${publishedGroupId}:Cloud-Api:${cloud_api_version}"
     } else {
         api project(path: ':Cloud-Api')
     }
 
     if (Boolean.parseBoolean(service_utils_info_isFromMaven)) {
-        implementation "com.proxy.service:Service-Utils-Info:${service_utils_info_version}"
+        implementation "${publishedGroupId}:Service-Utils-Info:${service_utils_info_version}"
     } else {
         implementation project(path: ':Service-Utils:Service-Utils-Info')
     }
@@ -48,13 +48,11 @@ dependencies {
 
 
 ext {
-    bintrayName = 'Service-Net-Base'
-    artifact = bintrayName
+    artifact = 'Service-Net-Base'
     libraryName = 'Cloud net module'
     libraryDescription = 'The perfect framework for Android'
     libraryVersion = service_net_base_version
 }
 
-apply from: '../../install.gradle'
-apply from: '../../bintray.gradle'
+apply from: '../../publish.gradle'
 apply from: '../../upload.gradle'

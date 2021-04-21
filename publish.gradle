@@ -1,0 +1,132 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+def EMPTY = 'unspecified'
+def NULL = null
+
+if (project.hasProperty("android")) { // Android libraries
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.source
+
+        exclude "**/R.class"
+        exclude "**/BuildConfig.class"
+    }
+} else { // Java libraries
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    Task javadoc = tasks.getByName("javadoc")
+    task javadocJar(type: Jar) {
+        classifier = 'javadoc'
+        from javadoc
+    }
+    javadocJar.dependsOn(javadoc)
+}
+
+ext["signing.keyId"] = ''
+ext["signing.password"] = ''
+ext["signing.secretKeyRingFile"] = ''
+ext["ossrhUsername"] = ''
+ext["ossrhPassword"] = ''
+
+File secretPropsFile = project.rootProject.file('local.properties')
+if (secretPropsFile.exists()) {
+    println "Found secret props file, loading props"
+    Properties p = new Properties()
+    p.load(new FileInputStream(secretPropsFile))
+    p.each { name, value ->
+        ext[name] = value
+    }
+} else {
+    println "No props file, loading env vars"
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId publishedGroupId
+            artifactId artifact
+            version libraryVersion
+
+            artifact sourcesJar
+            if (project.hasProperty("android")) {
+                artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+            } else {
+                artifact javadocJar
+                artifact("$buildDir/libs/${project.getName()}.jar")
+            }
+
+            pom {
+                if (project.hasProperty("android")) {
+                    packaging 'aar'
+                } else {
+                    packaging 'jar'
+                }
+                name = libraryName
+                description = libraryDescription
+                url = siteUrl
+                licenses {
+                    license {
+                        name = licenseName
+                        url = licenseUrl
+                    }
+                }
+                developers {
+                    developer {
+                        id = developerId
+                        name = developerName
+                        email = developerEmail
+                    }
+                }
+                scm {
+                    connection = gitUrl
+                    developerConnection = gitUrl
+                    url = siteUrl
+                }
+                withXml {
+                    def containers = [configurations.api, configurations.implementation]
+                    def dependenciesNode = asNode().appendNode('dependencies')
+                    containers.each { container ->
+                        container.dependencies.each { dependency ->
+                            if (dependency.group == NULL || dependency.group == EMPTY) {
+                                return
+                            }
+                            if (dependency.name == NULL || dependency.name == EMPTY) {
+                                return
+                            }
+                            if (dependency.version == NULL || dependency.version == EMPTY) {
+                                return
+                            }
+                            if (dependency.group.startsWith("android") || dependency.group.startsWith("androidx")) {
+                                return
+                            }
+                            println("pom 清单包含：   ${dependency.group}:${dependency.name}:${dependency.version}")
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId', dependency.group)
+                            dependencyNode.appendNode('artifactId', dependency.name)
+                            dependencyNode.appendNode('version', dependency.version)
+                            dependencyNode.appendNode('scope', container.name)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = ''
+            def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            url = libraryVersion.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            credentials {
+                username ossrhUsername
+                password ossrhPassword
+            }
+        }
+    }
+}
+signing {
+    sign publishing.publications
+}

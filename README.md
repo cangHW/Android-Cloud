@@ -25,8 +25,8 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| 基础库 | 0.0.6 | com.proxy.service:Cloud-Api:“版本号” | api |
-| 编译库 | 0.0.4 | com.proxy.service:Cloud-Compiler:“版本号” | annotationProcessor |
+| 基础库 | 1.0.0 | io.github.cangHW:Cloud-Api:“版本号” | api |
+| 编译库 | 1.0.0 | io.github.cangHW:Cloud-Compiler:“版本号” | annotationProcessor |
 
 
 ## 网络库
@@ -39,7 +39,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| Retrofit | 0.0.1 | com.proxy.service:Service-Net-Retrofit:“版本号” | api |
+| Retrofit | 0.0.1 | io.github.cangHW:Service-Net-Retrofit:“版本号” | api |
 
 
 ## UI 库
@@ -52,7 +52,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| UI | 0.0.5 | com.proxy.service:Service-UI-Info:“版本号” | api |
+| UI | 1.0.0 | io.github.cangHW:Service-UI-Info:“版本号” | api |
 
 
 ## 工具库
@@ -65,7 +65,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| Utils | 0.0.5 | com.proxy.service:Service-Utils-Info:“版本号” | api |
+| Utils | 1.0.0 | io.github.cangHW:Service-Utils-Info:“版本号” | api |
 
 
 ## 基本用法

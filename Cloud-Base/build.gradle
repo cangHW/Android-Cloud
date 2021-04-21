@@ -9,14 +9,12 @@ targetCompatibility = "7"
 
 
 ext {
-    bintrayName = 'Cloud-Base'
-    artifact = bintrayName
+    artifact = 'Cloud-Base'
     libraryName = 'Android cloud sdk'
     libraryDescription = 'The perfect framework for Android'
     libraryVersion = cloud_base_version
 }
 
-apply from: '../install.gradle'
-apply from: '../bintray.gradle'
+apply from: '../publish.gradle'
 apply from: '../upload.gradle'
 
