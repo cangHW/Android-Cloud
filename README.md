@@ -13,7 +13,7 @@
 
 <br/>
 
-目前 Android Studio 默认支持 mavenCentral，如果您使用的版本没有默认添加 mavenCentral 依赖，请在项目根目录添加以下依赖：
+目前 Android Studio 默认支持 mavenCentral，如果您使用的版本没有默认添加 mavenCentral 库，请在项目根目录的 build.gradle 中添加以下仓库：
 
     buildscript {
         repositories {
