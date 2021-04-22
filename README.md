@@ -31,13 +31,24 @@
 
 [<font size='6' color='#528DFB' >基础库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Cloud-Api/README.md)
 
-如果要定制自己的扩展能力，请关注这个基础库，例如：组件化、插件化等等
+如果要定制自己的扩展能力，请关注这两个基础库，例如：组件化、插件化等等
 
 <br/>
 
+### 功能库 
+
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.cangHW/Cloud-Api.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.cangHW%22%20AND%20a:%22Cloud-Api%22)
+
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| 基础库 | 1.0.0 | io.github.cangHW:Cloud-Api:“版本号” | api |
+| 功能库 | 1.0.0 | io.github.cangHW:Cloud-Api:“版本号” | api |
+
+### 编译库 
+
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.cangHW/Cloud-Compiler.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.cangHW%22%20AND%20a:%22Cloud-Compiler%22)
+
+| 模块 | 最新版本号 | 地址 | 引用方式 |
+| :--: | :--: | :-- | :--: |
 | 编译库 | 1.0.0 | io.github.cangHW:Cloud-Compiler:“版本号” | annotationProcessor |
 
 
@@ -56,6 +67,8 @@
 
 ## UI 库
 
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.cangHW/Service-UI-Info.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.cangHW%22%20AND%20a:%22Service-UI-Info%22)
+
 [<font size='6' color='#528DFB' >UI 库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Service-UI/README.md)
 
 提供ui开发中常用的能力
@@ -68,6 +81,8 @@
 
 
 ## 工具库
+
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.cangHW/Service-UI-Info.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.cangHW%22%20AND%20a:%22Service-UI-Info%22)
 
 [<font size='6' color='#528DFB' >工具库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Service-Utils/README.md)
 
