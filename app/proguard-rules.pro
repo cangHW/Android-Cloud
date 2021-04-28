@@ -88,7 +88,7 @@
 -keep public class * extends android.support.annotation.**
 
 
-#表示不混淆任何包含native方法的类的类名以及native方法名，这个和我们刚才验证的结果是一致
+#表示不混淆任何包含native方法的类的类名以及native方法名
 -keepclasseswithmembernames class * {
     native <methods>;
 }
@@ -101,7 +101,7 @@
     public void *(android.view.View);
 }
 
-#表示不混淆枚举中的values()和valueOf()方法，枚举我用的非常少，这个就不评论了
+#表示不混淆枚举中的values()和valueOf()方法
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
@@ -139,17 +139,18 @@
 -keep class **.R$* {
  *;
 }
-#不混淆资源类下static的
+#不混淆资源类下static的资源
 -keepclassmembers class **.R$* {
     public static <fields>;
 }
 
 
 
-# 对于带有回调函数的onXXEvent、**On*Listener的，不能被混淆
+# 对于带有回调函数的onXXEvent、**On*Listener、**On*Callback的，不能被混淆
 -keepclassmembers class * {
     void *(**On*Event);
     void *(**On*Listener);
+    void *(**On*Callback);
 }
 
 # 保留我们自定义控件（继承自View）不被混淆

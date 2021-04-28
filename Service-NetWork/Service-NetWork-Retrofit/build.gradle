@@ -38,19 +38,19 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${Support_Lib_Version}"
     implementation "com.squareup.retrofit2:retrofit:2.5.0"
 
-    if (Boolean.parseBoolean(cloud_compiler_isFromMaven)) {
+    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(cloud_compiler_isFromMaven)) {
         annotationProcessor "${publishedGroupId}:Cloud-Compiler:${cloud_compiler_version}"
     } else {
         annotationProcessor project(path: ':Cloud-Compiler')
     }
 
-    if (Boolean.parseBoolean(service_utils_info_isFromMaven)) {
+    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(service_utils_info_isFromMaven)) {
         implementation "${publishedGroupId}:Service-Utils-Info:${service_utils_info_version}"
     } else {
         implementation project(path: ':Service-Utils:Service-Utils-Info')
     }
 
-    if (Boolean.parseBoolean(service_net_base_isFromMaven)) {
+    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(service_net_base_isFromMaven)) {
         api "${publishedGroupId}:Service-Net-Base:${service_net_base_version}"
     } else {
         api project(path: ':Service-NetWork:Service-NetWork-Base')

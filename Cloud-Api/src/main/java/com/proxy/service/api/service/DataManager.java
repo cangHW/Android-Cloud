@@ -3,11 +3,16 @@ package com.proxy.service.api.service;
 import android.content.Context;
 
 import com.proxy.service.api.multidex.ClassUtils;
+import com.proxy.service.api.plugin.DataByPlugin;
 import com.proxy.service.api.service.cache.OtherCache;
 import com.proxy.service.api.service.cache.ServiceCache;
+import com.proxy.service.api.utils.Logger;
 import com.proxy.service.base.AbstractServiceCache;
 import com.proxy.service.consts.ClassConstants;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -42,6 +47,17 @@ public enum DataManager {
     private void findAllServices(Context context) {
         try {
             Set<String> stringSet = ClassUtils.getFileNameByPackageName(context, ClassConstants.PACKAGE_SERVICES_CACHE);
+            try {
+                List<String> strings = DataByPlugin.getInstance().getClasses(new ArrayList<String>());
+                if (strings.size() > 0) {
+                    stringSet.addAll(strings);
+                } else {
+                    Logger.Warning("DexFile is about to be removed, so please update the microservice architecture version as soon as possible.");
+                }
+            } catch (Throwable throwable) {
+                Logger.Debug(throwable);
+            }
+
             for (String classPath : stringSet) {
                 if (!classPath.startsWith(ClassConstants.PACKAGE_SERVICES_CACHE + "." + ClassConstants.CLASS_PREFIX)) {
                     continue;
@@ -68,7 +84,7 @@ public enum DataManager {
                 }
             }
         } catch (Throwable throwable) {
-            throwable.printStackTrace();
+            Logger.Debug(throwable);
         }
     }
 

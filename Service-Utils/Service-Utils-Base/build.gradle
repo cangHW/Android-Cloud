@@ -33,7 +33,7 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:${Support_Lib_Version}"
 
-    if (Boolean.parseBoolean(cloud_api_isFromMaven)) {
+    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(cloud_api_isFromMaven)) {
         api "${publishedGroupId}:Cloud-Api:${cloud_api_version}"
     } else {
         api project(path: ':Cloud-Api')

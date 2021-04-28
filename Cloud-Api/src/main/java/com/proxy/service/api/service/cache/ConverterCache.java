@@ -9,6 +9,8 @@ import com.proxy.service.base.BaseService;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * 转换器仓库
@@ -92,7 +94,10 @@ public class ConverterCache {
      */
     @NonNull
     public static HashSet<Class<? extends BaseService>> keySet() {
-        return new HashSet<>(CONVERTERS_MAPPER.keySet());
+        Set<Class<? extends BaseService>> set = CONVERTERS_MAPPER.keySet();
+        LinkedHashSet<Class<? extends BaseService>> hashSet = new LinkedHashSet<>(set.size(), 1);
+        hashSet.addAll(set);
+        return hashSet;
     }
 
 }

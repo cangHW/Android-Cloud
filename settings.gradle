@@ -16,6 +16,8 @@ include ':Cloud-Base'
 include ':Cloud-Api'
 include ':Cloud-Annotations'
 include ':Cloud-Compiler'
+
+include ':Cloud-Plugin'
 //rootProject.name = 'Android Cloud'
 
 

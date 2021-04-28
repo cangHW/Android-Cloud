@@ -39,13 +39,13 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:${Support_Lib_Version}"
 
-    if (Boolean.parseBoolean(cloud_compiler_isFromMaven)) {
+    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(cloud_compiler_isFromMaven)) {
         annotationProcessor "${publishedGroupId}:Cloud-Compiler:${cloud_compiler_version}"
     } else {
         annotationProcessor project(path: ':Cloud-Compiler')
     }
 
-    if (Boolean.parseBoolean(service_utils_base_isFromMaven)) {
+    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(service_utils_base_isFromMaven)) {
         api "${publishedGroupId}:Service-Utils-Base:${service_utils_base_version}"
     } else {
         api project(path: ':Service-Utils:Service-Utils-Base')

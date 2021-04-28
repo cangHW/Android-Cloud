@@ -45,19 +45,19 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${Support_Lib_Version}"
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
-    if (Boolean.parseBoolean(cloud_compiler_isFromMaven)) {
+    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(cloud_compiler_isFromMaven)) {
         annotationProcessor "${publishedGroupId}:Cloud-Compiler:${cloud_compiler_version}"
     } else {
         annotationProcessor project(path: ':Cloud-Compiler')
     }
 
-    if (Boolean.parseBoolean(service_utils_info_isFromMaven)) {
+    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(service_utils_info_isFromMaven)) {
         implementation "${publishedGroupId}:Service-Utils-Info:${service_utils_info_version}"
     } else {
         implementation project(path: ':Service-Utils:Service-Utils-Info')
     }
 
-    if (Boolean.parseBoolean(service_ui_base_isFromMaven)) {
+    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(service_ui_base_isFromMaven)) {
         api "${publishedGroupId}:Service-UI-Base:${service_ui_base_version}"
     } else {
         api project(path: ':Service-UI:Service-UI-Base')
