@@ -76,7 +76,7 @@ class ServiceTransform extends Transform {
         }
 
         try {
-            ServiceInject.inject(directory, jar, services, data, mProject)
+            ServiceInject.inject(services, data, mProject)
         } catch (Throwable throwable) {
             throwable.printStackTrace()
         }

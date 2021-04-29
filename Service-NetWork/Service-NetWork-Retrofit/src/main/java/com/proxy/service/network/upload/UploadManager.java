@@ -42,7 +42,7 @@ public class UploadManager {
     }
 
     public void ss() {
-        String path = Environment.getExternalStorageDirectory().getPath();
+        String path = "Environment.getExternalStorageDirectory().getPath()";
 
         String url = "https://graph.baidu.com/upload";
         File file = new File(path,"asd.png");
