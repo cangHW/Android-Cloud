@@ -31,9 +31,7 @@
 
 [<font size='6' color='#528DFB' >基础库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Cloud-Api/README.md)
 
-如果要定制自己的扩展能力，请关注这两个基础库，例如：组件化、插件化等等
-
-<br/>
+如果要定制自己的扩展能力，请关注这三个基础库，例如：组件化、插件化等等
 
 ### 1、功能库 
 
@@ -59,6 +57,8 @@
 | :--: | :--: | :-- | :--: |
 | 插件库 | 1.0.0 | io.github.cangHW:Cloud-Plugin:“版本号” | 项目根目录的 build.gradle 文件中，在 dependencies 节点下添加引用 |
 
+<br/>
+
 ## 二、网络库
 
 [<font size='6' color='#528DFB' >网络库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Service-NetWork/README.md)
@@ -72,6 +72,7 @@
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
 
+<br/>
 
 ## 三、UI 库
 
@@ -87,6 +88,7 @@
 | :--: | :--: | :-- | :--: |
 | UI | 1.1.0 | io.github.cangHW:Service-UI-Info:“版本号” | api |
 
+<br/>
 
 ## 四、工具库
 
@@ -102,12 +104,16 @@
 | :--: | :--: | :-- | :--: |
 | Utils | 1.1.0 | io.github.cangHW:Service-Utils-Info:“版本号” | api |
 
+<br/>
+
 ## 五、版本更新
 
 | 版本 | 说明 |
 | :--: | :--: |
 | 1.1.0 | 新增 Gradle 自动化插件用于替换DexFile(DexFile在Android高版本已被标记过时) |
 | 1.0.0 | 提供基础能力以及工具、UI两大扩展能力 |
+
+<br/>
 
 ## 六、使用方式
 1. 首先通过 CloudSystem 对框架进行初始化
@@ -241,6 +247,8 @@
     例如：
     CloudSystem.removeConverterByClass(CloudUtilsTaskService.class);
     CloudSystem.removeConverterByUuid(CloudServiceTagUtils.UTILS_TASK);
+
+<br/>
 
 ## 七、交流学习
 
