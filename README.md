@@ -41,7 +41,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| 功能库 | 1.0.0 | io.github.cangHW:Cloud-Api:“版本号” | api |
+| 功能库 | 1.1.0 | io.github.cangHW:Cloud-Api:“版本号” | api |
 
 ### 2、编译库 
 
@@ -53,7 +53,7 @@
 
 ### 3、Gradle 插件
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.cangHW/Cloud-Compiler.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.cangHW%22%20AND%20a:%22Cloud-Compiler%22)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.cangHW/Cloud-Plugin.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.cangHW%22%20AND%20a:%22Cloud-Plugin%22)
 
 | 模块 | 最新版本号 | 地址 | 引用位置 |
 | :--: | :--: | :-- | :--: |
@@ -85,7 +85,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| UI | 1.0.0 | io.github.cangHW:Service-UI-Info:“版本号” | api |
+| UI | 1.1.0 | io.github.cangHW:Service-UI-Info:“版本号” | api |
 
 
 ## 四、工具库
@@ -100,7 +100,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| Utils | 1.0.0 | io.github.cangHW:Service-Utils-Info:“版本号” | api |
+| Utils | 1.1.0 | io.github.cangHW:Service-Utils-Info:“版本号” | api |
 
 ## 五、版本更新
 

@@ -42,7 +42,7 @@ dependencies {
 
 ext {
     artifact = 'Service-Utils-Base'
-    libraryName = 'Cloud ui module'
+    libraryName = 'Cloud utils module'
     libraryDescription = 'The perfect framework for Android'
     libraryVersion = service_utils_base_version
 }
