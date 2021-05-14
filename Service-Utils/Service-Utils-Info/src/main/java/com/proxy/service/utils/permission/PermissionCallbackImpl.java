@@ -43,7 +43,7 @@ public class PermissionCallbackImpl implements IPermissionCallback {
     @Override
     public IPermissionCallback addPermission(String permission) {
         if (TextUtils.isEmpty(permission)) {
-            Logger.Debug(CloudApiError.DATA_EMPTY.setMsg("permission is not be null").build());
+            Logger.Error(CloudApiError.DATA_EMPTY.setMsg("permission is not be null").build());
             return this;
         }
         PERMISSIONS.add(permission);
@@ -158,7 +158,6 @@ public class PermissionCallbackImpl implements IPermissionCallback {
         }
     };
 
-    @SuppressWarnings("deprecation")
     private IPermissionFragment getIPermissionFragment(Activity context) {
         IPermissionFragment iPermissionFragment;
 

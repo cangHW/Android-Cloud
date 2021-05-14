@@ -1,17 +1,21 @@
 package com.proxy.service.utils.info;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.context.ContextManager;
@@ -54,7 +58,7 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
         }
         UtilsPermissionServiceImpl permissionService = new UtilsPermissionServiceImpl();
         if (!permissionService.isPermissionGranted(Manifest.permission.ACCESS_NETWORK_STATE)) {
-            Logger.Debug(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_NETWORK_STATE).build());
+            Logger.Error(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_NETWORK_STATE).build());
             return false;
         }
         try {
@@ -62,8 +66,13 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
             if (manager == null) {
                 return false;
             }
-            NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-            return networkInfo != null && networkInfo.isConnected();
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                Network network = manager.getActiveNetwork();
+                return network != null;
+            } else {
+                android.net.NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+                return networkInfo != null && networkInfo.isConnected();
+            }
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         }
@@ -84,13 +93,37 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
         if (!isConnected()) {
             return CloudNetWorkType.ERROR;
         }
-        NetworkInfo networkInfo = null;
+
         try {
             ConnectivityManager manager = (ConnectivityManager) ContextManager.getApplication().getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                Network network = manager.getActiveNetwork();
+                NetworkCapabilities networkCapabilities = manager.getNetworkCapabilities(network);
+                if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    return CloudNetWorkType.WIFI;
+                }
+                if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    return CloudNetWorkType.MOBILE;
+                }
+                return CloudNetWorkType.UNKNOWN;
+            } else {
+                return getNetworkType28(manager);
+            }
+        } catch (Throwable throwable) {
+            Logger.Debug(throwable);
+        }
+
+        return CloudNetWorkType.ERROR;
+    }
+
+    private CloudNetWorkType getNetworkType28(ConnectivityManager manager) {
+        android.net.NetworkInfo networkInfo = null;
+        try {
             networkInfo = manager.getActiveNetworkInfo();
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         }
+
         if (networkInfo == null) {
             return CloudNetWorkType.ERROR;
         }
@@ -101,7 +134,7 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
             int networkType = networkInfo.getSubtype();
             switch (networkType) {
                 case TelephonyManager.NETWORK_TYPE_UNKNOWN:
-                    return CloudNetWorkType.UNKNOWN;
+                    return CloudNetWorkType.MOBILE;
                 case TelephonyManager.NETWORK_TYPE_GSM:
                 case TelephonyManager.NETWORK_TYPE_GPRS:
                 case TelephonyManager.NETWORK_TYPE_EDGE:
@@ -130,7 +163,7 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
                     if ("WCDMA".equalsIgnoreCase(strSubTypeName) || "CDMA2000".equalsIgnoreCase(strSubTypeName)) {
                         return CloudNetWorkType.MOBILE_3G;
                     } else {
-                        return CloudNetWorkType.UNKNOWN;
+                        return CloudNetWorkType.MOBILE;
                     }
             }
         }
@@ -155,7 +188,7 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
         }
         UtilsPermissionServiceImpl permissionService = new UtilsPermissionServiceImpl();
         if (!permissionService.isPermissionGranted(Manifest.permission.ACCESS_WIFI_STATE)) {
-            Logger.Debug(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_WIFI_STATE).build());
+            Logger.Error(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_WIFI_STATE).build());
             return "";
         }
         try {
@@ -192,7 +225,7 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
         }
         UtilsPermissionServiceImpl permissionService = new UtilsPermissionServiceImpl();
         if (!permissionService.isPermissionGranted(Manifest.permission.ACCESS_WIFI_STATE)) {
-            Logger.Debug(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_WIFI_STATE).build());
+            Logger.Error(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_WIFI_STATE).build());
             return -1;
         }
         try {
@@ -226,7 +259,7 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
         }
         UtilsPermissionServiceImpl permissionService = new UtilsPermissionServiceImpl();
         if (!permissionService.isPermissionGranted(Manifest.permission.ACCESS_WIFI_STATE)) {
-            Logger.Debug(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_WIFI_STATE).build());
+            Logger.Error(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_WIFI_STATE).build());
             return "";
         }
         try {
@@ -264,7 +297,7 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
         }
         UtilsPermissionServiceImpl permissionService = new UtilsPermissionServiceImpl();
         if (!permissionService.isPermissionGranted(Manifest.permission.ACCESS_WIFI_STATE)) {
-            Logger.Debug(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_WIFI_STATE).build());
+            Logger.Error(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_WIFI_STATE).build());
             return infoList;
         }
         try {
@@ -329,9 +362,39 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
      */
     @Override
     public void addNetWorkStatusCallback(@NonNull CloudNetWorkCallback callback) {
+        Context context = ContextManager.getApplication();
+        if (context == null) {
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
+            return;
+        }
+
+        UtilsPermissionServiceImpl permissionService = new UtilsPermissionServiceImpl();
+        if (!permissionService.isPermissionGranted(Manifest.permission.ACCESS_NETWORK_STATE)) {
+            Logger.Error(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.ACCESS_NETWORK_STATE).build());
+            return;
+        }
+
         NetWorkReceiverListenerManager.getInstance().addNetWorkCallback(callback);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (addNetWorkStatusCallback21(context)) {
+                return;
+            }
+        }
+
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         UtilsBroadcastReceiver.getInstance().addIntentFilter(intentFilter, NetWorkReceiverListenerManager.getInstance());
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public boolean addNetWorkStatusCallback21(Context context) {
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (manager == null) {
+            return false;
+        }
+        NetWorkReceiverListenerManager.getInstance().setConnectivityManager(manager);
+        manager.registerDefaultNetworkCallback(NetWorkReceiverListenerManager.getInstance().getNetworkCallback());
+        return true;
     }
 
     /**

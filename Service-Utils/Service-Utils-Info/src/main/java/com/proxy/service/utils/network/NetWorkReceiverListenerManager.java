@@ -1,10 +1,18 @@
 package com.proxy.service.utils.network;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.os.Build;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.proxy.service.api.net.CloudNetWorkCallback;
+import com.proxy.service.api.net.CloudNetWorkType;
 import com.proxy.service.api.services.CloudUtilsNetWorkService;
 import com.proxy.service.api.services.CloudUtilsTaskService;
 import com.proxy.service.api.task.Task;
@@ -27,10 +35,17 @@ public class NetWorkReceiverListenerManager implements UtilsBroadcastReceiver.Re
 
     private final CloudUtilsTaskService mTaskService;
     private final CloudUtilsNetWorkService mNetWorkService;
+    private final NetworkCallback mNetworkCallback;
+    private ConnectivityManager mManager;
 
     private NetWorkReceiverListenerManager() {
         mTaskService = new UtilsTaskServiceImpl();
         mNetWorkService = new UtilsNetWorkServiceImpl();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mNetworkCallback = new NetworkCallback(this);
+        } else {
+            mNetworkCallback = null;
+        }
     }
 
     private static class Factory {
@@ -41,7 +56,14 @@ public class NetWorkReceiverListenerManager implements UtilsBroadcastReceiver.Re
         return Factory.INSTANCE;
     }
 
-    @SuppressWarnings("UnusedReturnValue")
+    public void setConnectivityManager(ConnectivityManager manager) {
+        this.mManager = manager;
+    }
+
+    public ConnectivityManager.NetworkCallback getNetworkCallback() {
+        return mNetworkCallback;
+    }
+
     public NetWorkReceiverListenerManager addNetWorkCallback(CloudNetWorkCallback netWorkCallback) {
         boolean hasSame = WeakReferenceUtils.checkValueIsSame(mNetWorkCallbacks, netWorkCallback);
         if (!hasSame) {
@@ -71,7 +93,6 @@ public class NetWorkReceiverListenerManager implements UtilsBroadcastReceiver.Re
      * @author: cangHX
      * @date: 2020-06-24 18:04
      */
-    @SuppressWarnings("deprecation")
     @Override
     public void onReceive(final Context context, final Intent intent) {
         String action = intent.getAction();
@@ -94,5 +115,67 @@ public class NetWorkReceiverListenerManager implements UtilsBroadcastReceiver.Re
                 return null;
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private static class NetworkCallback extends ConnectivityManager.NetworkCallback {
+
+        private final WeakReference<NetWorkReceiverListenerManager> weakReference;
+
+        public NetworkCallback(NetWorkReceiverListenerManager netWorkReceiverListenerManager) {
+            weakReference = new WeakReference<>(netWorkReceiverListenerManager);
+        }
+
+        @Override
+        public void onAvailable(@NonNull final Network network) {
+            super.onAvailable(network);
+            WeakReferenceUtils.checkValueIsEmpty(weakReference, new WeakReferenceUtils.Callback<NetWorkReceiverListenerManager>() {
+                @Override
+                public void onCallback(final NetWorkReceiverListenerManager netWorkReceiverListenerManager) {
+                    netWorkReceiverListenerManager.mTaskService.callUiThread(new Task<Object>() {
+                        @Override
+                        public Object call() {
+                            WeakReferenceUtils.checkValueIsEmpty(netWorkReceiverListenerManager.mNetWorkCallbacks, new WeakReferenceUtils.Callback<CloudNetWorkCallback>() {
+                                @Override
+                                public void onCallback(CloudNetWorkCallback netWorkCallback) {
+                                    NetworkCapabilities networkCapabilities = netWorkReceiverListenerManager.mManager.getNetworkCapabilities(network);
+                                    if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                                        netWorkCallback.onReceive(CloudNetWorkType.WIFI);
+                                        return;
+                                    }
+                                    if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                                        netWorkCallback.onReceive(CloudNetWorkType.MOBILE);
+                                        return;
+                                    }
+                                    netWorkCallback.onReceive(CloudNetWorkType.UNKNOWN);
+                                }
+                            });
+                            return null;
+                        }
+                    });
+                }
+            });
+        }
+
+        @Override
+        public void onLost(@NonNull Network network) {
+            WeakReferenceUtils.checkValueIsEmpty(weakReference, new WeakReferenceUtils.Callback<NetWorkReceiverListenerManager>() {
+                @Override
+                public void onCallback(final NetWorkReceiverListenerManager netWorkReceiverListenerManager) {
+                    netWorkReceiverListenerManager.mTaskService.callUiThread(new Task<Object>() {
+                        @Override
+                        public Object call() {
+                            WeakReferenceUtils.checkValueIsEmpty(netWorkReceiverListenerManager.mNetWorkCallbacks, new WeakReferenceUtils.Callback<CloudNetWorkCallback>() {
+                                @Override
+                                public void onCallback(CloudNetWorkCallback netWorkCallback) {
+                                    netWorkCallback.disConnect();
+                                }
+                            });
+                            return null;
+                        }
+                    });
+                }
+            });
+        }
     }
 }

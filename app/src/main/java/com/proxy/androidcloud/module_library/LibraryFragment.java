@@ -45,6 +45,8 @@ public class LibraryFragment extends BaseFragment implements CloudUiLifeCallback
             ListActivity.launch(getContext(), ListHelperType.APP);
         } else if (id == R.id.mFile) {
             ListActivity.launch(getContext(), ListHelperType.FILE);
+        } else if (id == R.id.mNet_Work) {
+            ListActivity.launch(getContext(), ListHelperType.NET_WORK);
         }
     }
 

@@ -1,3 +1,4 @@
+include ':Service-Event:Service-Event-Info'
 include ':app'
 
 include ':Service-UI:Service-UI-Base'
@@ -11,6 +12,8 @@ include ':Service-NetWork:Service-NetWork-Retrofit'
 
 include ':Service-Utils:Service-Utils-Base'
 include ':Service-Utils:Service-Utils-Info'
+
+include ':Service-Event:Service-Event-Base'
 
 include ':Cloud-Base'
 include ':Cloud-Api'

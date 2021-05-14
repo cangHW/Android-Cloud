@@ -57,7 +57,7 @@ public class DownloadInfoUtils {
         DownloadInfo info = null;
         CloudUtilsFileService service = CloudSystem.getService(CloudServiceTagUtils.UTILS_FILE);
         if (service == null) {
-            Logger.Debug(CloudApiError.UNKNOWN_ERROR.setMsg("Please check whether to use \"exclude\" to remove partial dependencies").build());
+            Logger.Error(CloudApiError.UNKNOWN_ERROR.setMsg("Please check whether to use \"exclude\" to remove partial dependencies").build());
             return null;
         }
         if (!downloadInfo.getFileName().equals(dbDownloadInfo.fileName)) {

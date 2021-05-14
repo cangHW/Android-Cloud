@@ -1,6 +1,5 @@
 package com.proxy.service.utils.info;
 
-import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -57,7 +56,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
             PackageInfo info = packageManager.getPackageInfo(getPackageName(), 0);
             targetSdkVersion = info.applicationInfo.targetSdkVersion;
         } catch (Throwable e) {
-            Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build(), e);
+            Logger.Error(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build(), e);
         }
         return targetSdkVersion;
     }
@@ -121,7 +120,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
             Drawable drawable = context.getApplicationInfo().loadIcon(Cache.getPackageManager(context));
             CloudUtilsBitmapService bitmapService = CloudSystem.getService(CloudServiceTagUtils.UTILS_BITMAP);
             if (bitmapService != null) {
-                bitmap = bitmapService.toBitmap(drawable);
+                bitmap = bitmapService.toBitmap(drawable, Bitmap.Config.ARGB_8888);
             }
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
@@ -153,7 +152,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
             PackageInfo info = packageManager.getPackageInfo(context.getPackageName(), 0);
             versionCode = info.versionCode;
         } catch (Throwable e) {
-            Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build(), e);
+            Logger.Error(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build(), e);
         }
         return versionCode;
     }
@@ -183,7 +182,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
             PackageInfo info = packageManager.getPackageInfo(context.getPackageName(), 0);
             versionCode = info.getLongVersionCode();
         } catch (Throwable e) {
-            Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build(), e);
+            Logger.Error(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build(), e);
         }
         return versionCode;
     }
@@ -213,7 +212,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
             PackageInfo info = packageManager.getPackageInfo(context.getPackageName(), 0);
             versionName = info.versionName;
         } catch (Throwable e) {
-            Logger.Debug(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build(), e);
+            Logger.Error(CloudApiError.PACKAGE_MANAGER_ERROR.setMsg(e).build(), e);
         }
         return versionName;
     }
@@ -259,7 +258,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
                     break;
                 }
             } catch (Throwable throwable) {
-                Logger.Debug(CloudApiError.ACTIVITY_MANAGER_ERROR.setMsg(throwable).build(), throwable);
+                Logger.Error(CloudApiError.ACTIVITY_MANAGER_ERROR.setMsg(throwable).build(), throwable);
             }
             return isInBackground;
         }
@@ -269,7 +268,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
             if (taskInfo == null || taskInfo.size() <= 0) {
                 return isInBackground;
             }
-            @SuppressLint({"NewApi", "LocalSuppress"}) ComponentName componentInfo = taskInfo.get(0).topActivity;
+            ComponentName componentInfo = taskInfo.get(0).topActivity;
             if (componentInfo == null) {
                 return isInBackground;
             }
@@ -277,7 +276,7 @@ public class UtilsAppServiceImpl implements CloudUtilsAppService {
                 isInBackground = false;
             }
         } catch (Throwable throwable) {
-            Logger.Debug(CloudApiError.ACTIVITY_MANAGER_ERROR.setMsg(throwable).build(), throwable);
+            Logger.Error(CloudApiError.ACTIVITY_MANAGER_ERROR.setMsg(throwable).build(), throwable);
         }
         return isInBackground;
     }

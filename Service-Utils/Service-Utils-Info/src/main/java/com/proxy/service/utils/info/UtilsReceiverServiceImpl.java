@@ -326,7 +326,7 @@ public class UtilsReceiverServiceImpl implements CloudUtilsReceiverService, Util
             if (info.equals(receiverInfo)) {
                 CloudReceiverListener listener = ID_RECEIVER_LISTENER_MAPPER.get(info.getId());
                 if (listener == receiverListener) {
-                    Logger.Error(CloudApiError.DATA_DUPLICATION.setAbout(" with : " + receiverInfo.toString()).build());
+                    Logger.Debug(CloudApiError.DATA_DUPLICATION.setAbout(" with : " + receiverInfo.toString()).build());
                     return true;
                 }
             }

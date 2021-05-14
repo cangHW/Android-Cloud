@@ -9,11 +9,21 @@
 
     添加依赖和配置：
     
+    1、没有使用 kotlin 的 kapt:
     dependencies {
         //替换成最新版本
         api 'io.github.cangHW:Service-UI-Info:x.x.x'
+        annotationProcessor 'io.github.cangHW:Cloud-Compiler:x.x.x'
         ...
-    }    
+    }
+    
+    2、使用了 kotlin 的 kapt:
+    dependencies {
+            //替换成最新版本
+            api 'io.github.cangHW:Service-UI-Info:x.x.x'
+            kapt 'io.github.cangHW:Cloud-Compiler:x.x.x'
+            ...
+    }
 
 ## 一、服务
 || 类名 | tag | 说明 |

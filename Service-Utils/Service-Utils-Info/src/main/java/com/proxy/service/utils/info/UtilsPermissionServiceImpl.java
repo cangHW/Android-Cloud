@@ -2,6 +2,7 @@ package com.proxy.service.utils.info;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Process;
 import android.text.TextUtils;
 
@@ -45,35 +46,36 @@ public class UtilsPermissionServiceImpl implements CloudUtilsPermissionService {
             Logger.Error(CloudApiError.INIT_EMPTY.build());
             return false;
         }
-        int pid = Process.myPid();
+
         int uid = Process.myUid();
         String packageName = context.getPackageName();
 
-        if (context.checkPermission(permission, pid, uid) == PackageManager.PERMISSION_DENIED) {
-            return false;
-        }
-
-        String op = AppOpsManagerCompat.permissionToOp(permission);
-        if (op == null) {
-            return true;
-        }
-
-        if (packageName == null) {
-            PackageManager packageManager = Cache.getPackageManager(context);
-            if (packageManager != null) {
-                String[] packageNames = packageManager.getPackagesForUid(uid);
-                if (packageNames == null || packageNames.length <= 0) {
-                    return false;
-                }
-                packageName = packageNames[0];
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            String op = AppOpsManagerCompat.permissionToOp(permission);
+            if (op == null) {
+                int pid = Process.myPid();
+                return context.checkPermission(permission, pid, uid) != PackageManager.PERMISSION_DENIED;
             }
+
+            if (packageName == null) {
+                PackageManager packageManager = Cache.getPackageManager(context);
+                if (packageManager != null) {
+                    String[] packageNames = packageManager.getPackagesForUid(uid);
+                    if (packageNames == null || packageNames.length <= 0) {
+                        return false;
+                    }
+                    packageName = packageNames[0];
+                }
+            }
+
+            if (TextUtils.isEmpty(packageName)) {
+                return false;
+            }
+            return AppOpsManagerCompat.noteProxyOpNoThrow(context, op, packageName) == AppOpsManagerCompat.MODE_ALLOWED;
         }
 
-        if (TextUtils.isEmpty(packageName)) {
-            return false;
-        }
-
-        return AppOpsManagerCompat.noteProxyOp(context, op, packageName) == AppOpsManagerCompat.MODE_ALLOWED;
+        int pid = Process.myPid();
+        return context.checkPermission(permission, pid, uid) != PackageManager.PERMISSION_DENIED;
     }
 
     /**

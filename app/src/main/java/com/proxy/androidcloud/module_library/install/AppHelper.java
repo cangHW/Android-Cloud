@@ -24,8 +24,8 @@ import java.util.List;
  */
 public class AppHelper extends AbstractListHelper implements CloudInstallCallback {
 
-    private CloudUtilsInstallService service;
-    private CloudUtilsSystemPageService pageService;
+    private final CloudUtilsInstallService service;
+    private final CloudUtilsSystemPageService pageService;
     private CloudUtilsTaskService taskService;
     private List<CloudAppInfo> appInfos = new ArrayList<>();
 

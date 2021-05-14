@@ -78,7 +78,7 @@ public final class RequestManager implements NetWorkCallback {
         mLogger.info("Request start. with : execute");
 
         if (mNetWorkService == null) {
-            Logger.Debug("Please check whether to use \"exclude\" to remove partial dependencies");
+            Logger.Error("Please check whether to use \"exclude\" to remove partial dependencies");
             return null;
         }
         if (!mNetWorkService.isConnected()) {
@@ -87,7 +87,7 @@ public final class RequestManager implements NetWorkCallback {
         }
 
         if (mTaskService == null) {
-            Logger.Debug("Please check whether to use \"exclude\" to remove partial dependencies");
+            Logger.Error("Please check whether to use \"exclude\" to remove partial dependencies");
             return null;
         }
 

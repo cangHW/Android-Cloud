@@ -2,10 +2,13 @@ package com.proxy.service.utils.permission;
 
 import android.app.Fragment;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.proxy.service.api.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +18,6 @@ import java.util.List;
  * @author : cangHX
  * on 2021/04/11  3:18 PM
  */
-@SuppressWarnings("ALL")
 public class SupportPermissionFragment extends Fragment implements IPermissionFragment {
 
     private final ArrayList<PermissionInfo> INFOS = new ArrayList<>();
@@ -66,7 +68,16 @@ public class SupportPermissionFragment extends Fragment implements IPermissionFr
             int requestCode = REQUEST_CODE.incrementAndGet();
             PERMISSION_MAPPER.put(requestCode, info);
             int size = info.deniedPermissions.size();
-            requestPermissions(info.deniedPermissions.toArray(new String[size]), requestCode);
+            if (size != 0) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(info.deniedPermissions.toArray(new String[size]), requestCode);
+                } else {
+                    Logger.Debug("The requestPermissions method is not supported in the current SDK version. SDK_INT : " + Build.VERSION.SDK_INT);
+                }
+            } else {
+                int grantedSize = info.grantedPermissions.size();
+                info.callback.onGranted(info.grantedPermissions.toArray(new String[grantedSize]));
+            }
             INFOS.remove(info);
         }
     }
@@ -90,7 +101,12 @@ public class SupportPermissionFragment extends Fragment implements IPermissionFr
             info.deniedPermissions.remove(permission);
         }
         for (String permission : info.deniedPermissions) {
-            boolean flag = shouldShowRequestPermissionRationale(permission);
+            boolean flag = true;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                flag = shouldShowRequestPermissionRationale(permission);
+            } else {
+                Logger.Debug("The shouldShowRequestPermissionRationale method is not supported in the current SDK version. SDK_INT : " + Build.VERSION.SDK_INT);
+            }
             if (flag) {
                 continue;
             }

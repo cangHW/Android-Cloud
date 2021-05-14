@@ -28,15 +28,15 @@ public class ServiceUtils {
      */
     public static boolean checkServiceInterface(@Nullable Class<?> service) {
         if (service == null) {
-            Logger.Debug(CloudApiError.DATA_EMPTY.setAbout("with : service").build());
+            Logger.Error(CloudApiError.DATA_EMPTY.setAbout("with : service").build());
             return false;
         }
         if (!service.isInterface()) {
-            Logger.Debug(CloudApiError.DATA_TYPE_ERROR.setMsg("API declarations must be interfaces. with " + service.getCanonicalName()).build());
+            Logger.Error(CloudApiError.DATA_TYPE_ERROR.setMsg("API declarations must be interfaces. with " + service.getCanonicalName()).build());
             return false;
         }
         if (service.getInterfaces().length > 0) {
-            Logger.Debug(CloudApiError.DATA_TYPE_ERROR.setMsg("API interfaces must not extend other interfaces. with " + service.getCanonicalName()).build());
+            Logger.Error(CloudApiError.DATA_TYPE_ERROR.setMsg("API interfaces must not extend other interfaces. with " + service.getCanonicalName()).build());
             return false;
         }
         return true;
@@ -92,7 +92,7 @@ public class ServiceUtils {
     public static Type getParameterUpperBound(int index, ParameterizedType parameterizedType) {
         Type[] types = parameterizedType.getActualTypeArguments();
         if (index < 0 || index >= types.length) {
-            Logger.Debug(CloudApiError.INDEX_OUT_OF_BOUNDS.setMsg("The total count : " + types.length + " and the index : " + index).build());
+            Logger.Error(CloudApiError.INDEX_OUT_OF_BOUNDS.setMsg("The total count : " + types.length + " and the index : " + index).build());
             return null;
         }
         Type type = types[index];

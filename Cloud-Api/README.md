@@ -12,6 +12,8 @@
 
 ## 一、添加依赖和配置
 
+    在对应 Module 下面的 gradle 文件中添加
+    
     android {
         defaultConfig {
             ...
@@ -24,12 +26,23 @@
         }
     }
     
+    1、没有使用 kotlin 的 kapt:
     dependencies {
         // 替换成最新版本, 需要注意的是api
         // 要与compiler匹配使用，均使用最新版可以保证兼容
         compile 'io.github.cangHW:Cloud-Api:x.x.x'
         //用于服务自动注册
         annotationProcessor 'io.github.cangHW:Cloud-Compiler:x.x.x'
+        ...
+    }
+    
+    2、使用了 kotlin 的 kapt:
+    dependencies {
+        // 替换成最新版本, 需要注意的是api
+        // 要与compiler匹配使用，均使用最新版可以保证兼容
+        compile 'io.github.cangHW:Cloud-Api:x.x.x'
+        //用于服务自动注册
+        kapt 'io.github.cangHW:Cloud-Compiler:x.x.x'
         ...
     }
 

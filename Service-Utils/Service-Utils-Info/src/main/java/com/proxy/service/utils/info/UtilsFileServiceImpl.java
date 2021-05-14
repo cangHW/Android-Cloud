@@ -10,14 +10,16 @@ import com.proxy.service.api.services.CloudUtilsFileService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
 import com.proxy.service.api.utils.Logger;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +38,6 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
      * @author: cangHX
      * @date: 2020/9/10 11:03 PM
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Nullable
     @Override
     public File createFile(String path) {
@@ -50,9 +51,15 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
         try {
             File parentFile = file.getParentFile();
             if (!parentFile.exists()) {
-                parentFile.mkdirs();
+                if (!parentFile.mkdirs()) {
+                    Logger.Error("Directory create failed. : " + path);
+                    return null;
+                }
             }
-            file.createNewFile();
+            if (!file.createNewFile()) {
+                Logger.Error("file create failed. : " + path);
+                return null;
+            }
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         }
@@ -70,7 +77,6 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
      * @author: cangHX
      * @date: 2020/9/10 11:03 PM
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public boolean deleteFile(String path) {
         if (TextUtils.isEmpty(path)) {
@@ -79,8 +85,7 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
         }
         try {
             File file = new File(path);
-            file.delete();
-            return true;
+            return file.delete();
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         }
@@ -103,27 +108,39 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
             Logger.Debug("Please check the file first");
             return "";
         }
-        StringBuilder result = new StringBuilder();
-        FileReader reader = null;
-        int length;
-        char[] buffer = new char[4 * 1024];
+        String result = "";
+        FileInputStream fileInputStream = null;
+        BufferedInputStream bufferedInputStream = null;
         try {
-            reader = new FileReader(file);
-            while ((length = reader.read(buffer)) != -1) {
-                result.append(buffer, 0, length);
+            fileInputStream = new FileInputStream(file);
+            bufferedInputStream = new BufferedInputStream(fileInputStream);
+            byte[] bytes = new byte[bufferedInputStream.available()];
+            int len;
+            while ((len = bufferedInputStream.read(bytes)) != -1) {
+                result = new String(bytes, 0, len);
             }
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         } finally {
             try {
-                if (reader != null) {
-                    reader.close();
+                if (fileInputStream != null) {
+                    fileInputStream.close();
                 }
             } catch (Throwable throwable) {
                 Logger.Debug(throwable);
             }
+            try {
+                if (bufferedInputStream != null) {
+                    bufferedInputStream.close();
+                }
+            } catch (Throwable throwable) {
+                Logger.Debug(throwable);
+            }
+            if (result == null) {
+                result = "";
+            }
         }
-        return result.toString();
+        return result;
     }
 
     /**
@@ -143,11 +160,11 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
             return new ArrayList<>();
         }
         ArrayList<String> lines = new ArrayList<>();
-        FileReader reader = null;
+        FileReader fileReader = null;
         BufferedReader bufferedReader = null;
         try {
-            reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            fileReader = new FileReader(file);
+            bufferedReader = new BufferedReader(fileReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 lines.add(line);
@@ -156,15 +173,15 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
             Logger.Debug(throwable);
         } finally {
             try {
-                if (bufferedReader != null) {
-                    bufferedReader.close();
+                if (fileReader != null) {
+                    fileReader.close();
                 }
             } catch (Throwable throwable) {
                 Logger.Debug(throwable);
             }
             try {
-                if (reader != null) {
-                    reader.close();
+                if (bufferedReader != null) {
+                    bufferedReader.close();
                 }
             } catch (Throwable throwable) {
                 Logger.Debug(throwable);
@@ -197,22 +214,32 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
         if (data == null) {
             data = "";
         }
-        FileWriter writer = null;
+        FileOutputStream fileOutputStream = null;
+        FileChannel fileChannel = null;
         try {
-            writer = new FileWriter(file, append);
-            writer.write(data);
-            writer.flush();
+            fileOutputStream = new FileOutputStream(file, append);
+            fileChannel = fileOutputStream.getChannel();
+            ByteBuffer byteBuffer = ByteBuffer.wrap(data.getBytes());
+            fileChannel.write(byteBuffer);
             return true;
         } catch (Throwable throwable) {
-            Logger.Debug(throwable);
+            throwable.printStackTrace();
         } finally {
             try {
-                if (writer != null) {
-                    writer.close();
+                if (fileChannel != null) {
+                    fileChannel.close();
                 }
             } catch (Throwable throwable) {
-                Logger.Debug(throwable);
+                throwable.printStackTrace();
             }
+            try {
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
         }
         return false;
     }
@@ -234,7 +261,7 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
         }
         StringBuilder builder = new StringBuilder();
         for (String data : datas) {
-            builder.append(data);
+            builder.append(data).append("\n");
         }
         return write(file, builder.toString(), append);
     }
@@ -279,31 +306,45 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
             Logger.Debug(throwable);
         }
 
-        FileInputStream inputStream = null;
-        FileOutputStream outputStream = null;
+        FileInputStream fileInputStream = null;
+        FileChannel fileInputChannel = null;
+        FileOutputStream fileOutputStream = null;
+        FileChannel fileOutputChannel = null;
         try {
-            inputStream = new FileInputStream(oldFile);
-            outputStream = new FileOutputStream(newFile);
+            fileInputStream = new FileInputStream(oldFile);
+            fileInputChannel = fileInputStream.getChannel();
+            fileOutputStream = new FileOutputStream(newFile);
+            fileOutputChannel = fileOutputStream.getChannel();
 
-            byte[] bytes = new byte[4 * 1024];
-            int len;
-            while ((len = inputStream.read(bytes)) != -1) {
-                outputStream.write(bytes, 0, len);
-            }
+            fileOutputChannel.transferFrom(fileInputChannel, 0, fileInputChannel.size());
             return true;
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         } finally {
             try {
-                if (inputStream != null) {
-                    inputStream.close();
+                if (fileInputStream != null) {
+                    fileInputStream.close();
                 }
             } catch (Throwable throwable) {
                 Logger.Debug(throwable);
             }
             try {
-                if (outputStream != null) {
-                    outputStream.close();
+                if (fileInputChannel != null) {
+                    fileInputChannel.close();
+                }
+            } catch (Throwable throwable) {
+                Logger.Debug(throwable);
+            }
+            try {
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+            } catch (Throwable throwable) {
+                Logger.Debug(throwable);
+            }
+            try {
+                if (fileOutputChannel != null) {
+                    fileOutputChannel.close();
                 }
             } catch (Throwable throwable) {
                 Logger.Debug(throwable);
@@ -329,6 +370,10 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
             Logger.Debug("inputStream or localFile can not be null");
             return false;
         }
+        if (localFile.isDirectory()) {
+            Logger.Debug("localFile can not be directory");
+            return false;
+        }
         if (callback == null) {
             callback = new ProgressCallback() {
                 @Override
@@ -341,15 +386,22 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
                 }
             };
         }
+
+        if (seek < 0) {
+            seek = 0;
+        }
+
+        int size = 8 * 1024;
+
         RandomAccessFile accessFile = null;
+        FileChannel fileChannel = null;
         try {
-            if (localFile.isDirectory()) {
-                Logger.Debug("localFile can not be directory");
-                return false;
-            }
             accessFile = new RandomAccessFile(localFile, "rw");
             accessFile.seek(seek);
-            byte[] b = new byte[4 * 1024];
+            fileChannel = accessFile.getChannel();
+
+            byte[] b = new byte[size];
+            ByteBuffer byteBuffer = ByteBuffer.allocate(size);
             long progress = seek;
             int len;
             while ((len = is.read(b)) != -1) {
@@ -357,7 +409,13 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
                     Logger.Debug("cancel");
                     return false;
                 }
-                accessFile.write(b, 0, len);
+                byteBuffer.put(b, 0, len);
+                byteBuffer.flip();
+
+                fileChannel.write(byteBuffer);
+
+                byteBuffer.clear();
+
                 progress += len;
                 callback.onProgress(progress);
             }
@@ -365,6 +423,13 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         } finally {
+            try {
+                if (fileChannel != null) {
+                    fileChannel.close();
+                }
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
             try {
                 if (accessFile != null) {
                     accessFile.close();

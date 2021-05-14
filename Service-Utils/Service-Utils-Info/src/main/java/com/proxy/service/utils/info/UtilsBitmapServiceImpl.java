@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -39,13 +38,14 @@ public class UtilsBitmapServiceImpl implements CloudUtilsBitmapService {
      * Drawable 转 bitmap
      *
      * @param drawable : 原始数据
+     * @param config   : config
      * @return 转换好的bitmap
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/9/17 10:19 PM
      */
     @Override
-    public Bitmap toBitmap(@NonNull Drawable drawable) {
+    public Bitmap toBitmap(@NonNull Drawable drawable, @Nullable Bitmap.Config config) {
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
             return bitmapDrawable.getBitmap();
@@ -60,9 +60,9 @@ public class UtilsBitmapServiceImpl implements CloudUtilsBitmapService {
 
         Bitmap bitmap = null;
         try {
-            int opacity = drawable.getOpacity();
-            Bitmap.Config config = opacity != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
-
+            if (config == null) {
+                config = Bitmap.Config.ARGB_8888;
+            }
             bitmap = Bitmap.createBitmap(width, height, config);
 
             Canvas canvas = new Canvas(bitmap);
@@ -79,6 +79,7 @@ public class UtilsBitmapServiceImpl implements CloudUtilsBitmapService {
      * Drawable 转 bitmap
      *
      * @param drawableId : drawable Id
+     * @param config     : config
      * @return 转换好的bitmap
      * @version: 1.0
      * @author: cangHX
@@ -86,7 +87,7 @@ public class UtilsBitmapServiceImpl implements CloudUtilsBitmapService {
      */
     @Nullable
     @Override
-    public Bitmap toBitmap(int drawableId) {
+    public Bitmap toBitmap(int drawableId, @Nullable Bitmap.Config config) {
         Context context = ContextManager.getApplication();
         if (context == null) {
             Logger.Error(CloudApiError.INIT_EMPTY.build());
@@ -110,7 +111,7 @@ public class UtilsBitmapServiceImpl implements CloudUtilsBitmapService {
             Logger.Debug("Please check the DrawableRes with : " + drawableId);
             return null;
         }
-        return toBitmap(drawable);
+        return toBitmap(drawable, config);
     }
 
     /**

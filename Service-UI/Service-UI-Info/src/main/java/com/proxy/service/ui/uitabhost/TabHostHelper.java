@@ -429,7 +429,7 @@ public class TabHostHelper implements IUiTabHostHelper<TabHostHelper>, TabCallba
             Logger.Info("Helper start to refresh");
             this.mContentHelper.refresh();
         } else {
-            Logger.Info(CloudApiError.UNKNOWN_ERROR.build());
+            Logger.Error(CloudApiError.UNKNOWN_ERROR.build());
         }
     }
 

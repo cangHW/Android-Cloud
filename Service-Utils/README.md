@@ -81,8 +81,8 @@
 
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
-| toBitmap | Drawable：准备转换成 bitmap 的 drawable 对象 | Drawable 转 bitmap |
-| toBitmap | @DrawableRes drawableId：准备转换成 bitmap 的 drawable id | Drawable 转 bitmap |
+| toBitmap | 1、Drawable：准备转换成 bitmap 的 drawable 对象 <br/> 2、Bitmap.Config bitmap相关设置 | Drawable 转 bitmap |
+| toBitmap | 1、@DrawableRes drawableId：准备转换成 bitmap 的 drawable id <br/> 2、Bitmap.Config bitmap相关设置 | Drawable 转 bitmap |
 | compressBitmapBySize | 1、bitmap：准备压缩的bitmap <br/> 2、maxWidth：最大宽度 <br/> 3、maxHeight：最大高度 <br/> 4、isAdjust：是否自动调整尺寸 | 压缩图片,尺寸压缩 |
 | compressBitmapByQuality | 1、bitmap：准备压缩的bitmap <br/> 2、maxKb：图片最大保留多少 kb | 压缩图片,质量压缩 适用于图片上传 |
 | rotate | 1、bitmap：准备旋转的bitmap <br/> 2、degrees：旋转角度(90为顺时针旋转,-90为逆时针旋转) | 旋转图片 |

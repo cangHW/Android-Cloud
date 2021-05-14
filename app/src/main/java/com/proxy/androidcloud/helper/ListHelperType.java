@@ -2,6 +2,7 @@ package com.proxy.androidcloud.helper;
 
 import com.proxy.androidcloud.module_library.file.FileHelper;
 import com.proxy.androidcloud.module_library.install.AppHelper;
+import com.proxy.androidcloud.module_library.network.NetWorkListHelper;
 import com.proxy.androidcloud.module_library.receiver.ReceiverListHelper;
 import com.proxy.androidcloud.module_library.thread.ThreadPoolListHelper;
 import com.proxy.androidcloud.module_library.bitmap.BitmapListHelper;
@@ -12,6 +13,7 @@ import com.proxy.service.api.services.CloudNetWorkUploadService;
 import com.proxy.service.api.services.CloudUtilsBitmapService;
 import com.proxy.service.api.services.CloudUtilsFileService;
 import com.proxy.service.api.services.CloudUtilsInstallService;
+import com.proxy.service.api.services.CloudUtilsNetWorkService;
 import com.proxy.service.api.services.CloudUtilsReceiverService;
 import com.proxy.service.api.services.CloudUtilsTaskService;
 
@@ -108,6 +110,21 @@ public enum ListHelperType {
         @Override
         public AbstractListHelper create() {
             return new AppHelper();
+        }
+    },
+
+    /**
+     * 网络相关
+     */
+    NET_WORK {
+        @Override
+        public String serviceName() {
+            return CloudUtilsNetWorkService.class.getSimpleName();
+        }
+
+        @Override
+        public AbstractListHelper create() {
+            return new NetWorkListHelper();
         }
     },
 

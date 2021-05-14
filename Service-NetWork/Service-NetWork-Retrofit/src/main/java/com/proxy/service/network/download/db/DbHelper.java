@@ -81,9 +81,8 @@ public class DbHelper {
         DownloadInfo downloadInfo = null;
 
         SQLiteDatabase readable = mDbManager.getReadableDatabase();
-        Cursor cursor;
         try {
-            cursor = readable.query(TableDownloadInfo.TABLE_NAME, null, selection, selectionArgs, null, null, null);
+            Cursor cursor = readable.query(TableDownloadInfo.TABLE_NAME, null, selection, selectionArgs, null, null, null);
             if (cursor != null) {
                 downloadInfo = DownloadInfo.getDownloadInfo(cursor);
                 cursor.close();

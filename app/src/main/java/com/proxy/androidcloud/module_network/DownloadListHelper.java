@@ -40,7 +40,8 @@ public class DownloadListHelper extends AbstractListHelper {
                         .setChannelName("下载")
                         .setChannelLevel(CloudNetWorkNotificationInfo.ChannelLevel.LOW)
                         .build()
-        ).setGlobalMultiProcessEnable(false);
+        ).setGlobalMultiProcessEnable(true)
+        .setGlobalNotificationEnable(false);
     }
 
     @Override

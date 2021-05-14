@@ -43,8 +43,8 @@ public class NotificationImpl implements CloudReceiverListener {
 
     private String mPackageName = "";
     private CloudNetWorkNotificationInfo mNotificationBuilder;
-    private SparseArray<NotificationCompat.Builder> mBuilderArray = new SparseArray<>();
-    private SparseArray<WeakReference<CloudNotificationCallback>> mCallbackArray = new SparseArray<>();
+    private final SparseArray<NotificationCompat.Builder> mBuilderArray = new SparseArray<>();
+    private final SparseArray<WeakReference<CloudNotificationCallback>> mCallbackArray = new SparseArray<>();
 
     private NotificationImpl() {
         Context context = ContextManager.getApplication();

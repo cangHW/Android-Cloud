@@ -15,7 +15,6 @@ import java.util.List;
  * @author : cangHX
  * on 2021/04/11  2:49 PM
  */
-@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 public class PermissionFragment extends Fragment implements IPermissionFragment {
 
     private final ArrayList<PermissionInfo> INFOS = new ArrayList<>();
@@ -66,7 +65,12 @@ public class PermissionFragment extends Fragment implements IPermissionFragment 
             int requestCode = REQUEST_CODE.incrementAndGet();
             PERMISSION_MAPPER.put(requestCode, info);
             int size = info.deniedPermissions.size();
-            requestPermissions(info.deniedPermissions.toArray(new String[size]), requestCode);
+            if (size != 0) {
+                requestPermissions(info.deniedPermissions.toArray(new String[size]), requestCode);
+            } else {
+                int grantedSize = info.grantedPermissions.size();
+                info.callback.onGranted(info.grantedPermissions.toArray(new String[grantedSize]));
+            }
             INFOS.remove(info);
         }
     }

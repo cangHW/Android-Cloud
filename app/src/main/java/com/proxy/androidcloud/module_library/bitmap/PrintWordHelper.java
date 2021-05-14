@@ -38,7 +38,7 @@ public class PrintWordHelper extends AbstractDetailHelper {
             if (bitmapService == null) {
                 return;
             }
-            Bitmap bitmap = bitmapService.toBitmap(R.drawable.enter_app_button);
+            Bitmap bitmap = bitmapService.toBitmap(R.drawable.enter_app_button, Bitmap.Config.ARGB_8888);
             if (bitmap == null) {
                 return;
             }

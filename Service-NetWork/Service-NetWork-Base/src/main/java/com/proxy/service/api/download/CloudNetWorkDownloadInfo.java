@@ -17,19 +17,19 @@ public final class CloudNetWorkDownloadInfo {
     private int downloadId = -1;
     private boolean isPause = false;
 
-    private String taskName;
+    private final String taskName;
 
-    private String fileDir;
-    private String fileCachePath;
-    private String fileName;
-    private String fileUrl;
-    private String fileMd5;
-    private long fileSize;
-    private String tag;
+    private final String fileDir;
+    private final String fileCachePath;
+    private final String fileName;
+    private final String fileUrl;
+    private final String fileMd5;
+    private final long fileSize;
+    private final String tag;
 
     private CloudDownloadCallback downloadCallback;
     private CloudNotificationCallback notificationCallback;
-    private Boolean isNotificationEnable;
+    private final Boolean isNotificationEnable;
 
     private int progress = PROGRESS_EMPTY;
 

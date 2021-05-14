@@ -23,25 +23,27 @@ public interface CloudUtilsBitmapService extends BaseService {
      * Drawable 转 bitmap
      *
      * @param drawable : drawable
+     * @param config   : config
      * @return 转换好的bitmap
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/9/17 10:19 PM
      */
     @Nullable
-    Bitmap toBitmap(@NonNull Drawable drawable);
+    Bitmap toBitmap(@NonNull Drawable drawable, @Nullable Bitmap.Config config);
 
     /**
      * Drawable 转 bitmap
      *
      * @param drawableId : drawable Id
+     * @param config     : config
      * @return 转换好的bitmap
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/9/17 10:19 PM
      */
     @Nullable
-    Bitmap toBitmap(@DrawableRes int drawableId);
+    Bitmap toBitmap(@DrawableRes int drawableId, @Nullable Bitmap.Config config);
 
     /**
      * 压缩图片,尺寸压缩

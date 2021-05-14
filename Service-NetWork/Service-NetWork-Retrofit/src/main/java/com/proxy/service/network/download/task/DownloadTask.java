@@ -38,11 +38,11 @@ public class DownloadTask {
 
     private static final String WARNING_FILE_TOTAL_LENGTH = "文件总长度未知";
     private static final String WARNING_FILE_MD5 = "缺少文件真实的 md5 值，无法校验文件是否被替换，默认为正常";
-    private static final String WARNING_FILE_TOTAL = "文件总长度未知，且本地存在对应文件，则认为已下载过";
+    private static final String WARNING_FILE_TOTAL = "文件总长度未知，且本地存在对应文件，默认为已下载过";
 
-    private CloudUtilsNetWorkService mNetWorkService;
-    private CloudUtilsFileService mFileService;
-    private CloudUtilsSecurityService mSecurityService;
+    private final CloudUtilsNetWorkService mNetWorkService;
+    private final CloudUtilsFileService mFileService;
+    private final CloudUtilsSecurityService mSecurityService;
     private DownloadListener mDownloadListener;
     private boolean isCancel = false;
 
@@ -188,6 +188,7 @@ public class DownloadTask {
                 }
                 return;
             }
+            Logger.Info("检查本地文件结束");
             mFileService.deleteFile(downloadInfo.fileCachePath);
             mDownloadListener.onFailed(ERROR_FILE, downloadInfo);
         }

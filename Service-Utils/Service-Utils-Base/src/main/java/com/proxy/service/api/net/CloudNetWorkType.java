@@ -22,6 +22,12 @@ public enum CloudNetWorkType {
     WIFI("wifi"),
 
     /**
+     * mobile
+     * 无法获取具体移动类型
+     */
+    MOBILE("mobile"),
+
+    /**
      * 2g
      */
     MOBILE_2G("2g"),
@@ -41,7 +47,7 @@ public enum CloudNetWorkType {
      */
     MOBILE_5G("5g");
 
-    private String type;
+    private final String type;
 
     CloudNetWorkType(String type) {
         this.type = type;

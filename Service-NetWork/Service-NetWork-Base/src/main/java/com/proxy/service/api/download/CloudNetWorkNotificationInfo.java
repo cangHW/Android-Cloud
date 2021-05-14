@@ -188,7 +188,7 @@ public final class CloudNetWorkNotificationInfo {
             if (largeIcon == null && largeIconResId != 0) {
                 CloudUtilsBitmapService bitmapService = CloudSystem.getService(CloudServiceTagUtils.UTILS_BITMAP);
                 if (bitmapService != null) {
-                    largeIcon = bitmapService.toBitmap(largeIconResId);
+                    largeIcon = bitmapService.toBitmap(largeIconResId, Bitmap.Config.ARGB_8888);
                 }
             }
 

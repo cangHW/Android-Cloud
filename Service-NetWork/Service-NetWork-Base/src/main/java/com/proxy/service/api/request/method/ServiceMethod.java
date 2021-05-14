@@ -248,7 +248,7 @@ public class ServiceMethod {
             }
 
             if (parameter == null) {
-                Logger.Debug(CloudApiError.DATA_EMPTY.setMsg("No CloudNetWork annotation found. with parameter : " + (position + 1)).build());
+                Logger.Error(CloudApiError.DATA_EMPTY.setMsg("No CloudNetWork annotation found. with parameter : " + (position + 1)).build());
             }
 
             return parameter;
@@ -263,7 +263,7 @@ public class ServiceMethod {
                     return new ServiceParameterHandler.CloudNetWorkFieldHandler(parameterType, (CloudNetWorkField) annotation);
                 }
             }
-            Logger.Debug(CloudApiError.DATA_ERROR.setMsg("The type of annotation is error. with parameter : " + (position + 1) + ", and annotation : " + annotation.toString()).build());
+            Logger.Error(CloudApiError.DATA_ERROR.setMsg("The type of annotation is error. with parameter : " + (position + 1) + ", and annotation : " + annotation.toString()).build());
             return null;
         }
     }

@@ -43,15 +43,15 @@ public class DownloadService extends Service {
 
     public static final String KEY = "INFO";
 
-    private SparseArray<DownloadTask> mTaskArrays = new SparseArray<>();
+    private final SparseArray<DownloadTask> mTaskArrays = new SparseArray<>();
 
     private ThreadDiedCallbackList mCallbackList;
-    private DownloadBinder mBinder = new DownloadBinder();
-    private DownloadListener mDownloadListener = new DownloadListenerImpl();
-    private List<Runnable> mRunnableList = new ArrayList<>();
+    private final DownloadBinder mBinder = new DownloadBinder();
+    private final DownloadListener mDownloadListener = new DownloadListenerImpl();
+    private final List<Runnable> mRunnableList = new ArrayList<>();
 
-    private AtomicBoolean isBind = new AtomicBoolean(false);
-    private AtomicInteger mTaskCount = new AtomicInteger(0);
+    private final AtomicBoolean isBind = new AtomicBoolean(false);
+    private final AtomicInteger mTaskCount = new AtomicInteger(0);
 
     private CloudUtilsTaskService mTaskService;
 

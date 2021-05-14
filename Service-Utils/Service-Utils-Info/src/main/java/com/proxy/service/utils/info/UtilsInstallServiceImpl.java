@@ -1,6 +1,6 @@
 package com.proxy.service.utils.info;
 
-import android.annotation.SuppressLint;
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -57,9 +57,20 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
         }
         HashMap<String, CloudInstallCallback> hashMap = new HashMap<>(statusEnums.length);
         IntentFilter intentFilter = new IntentFilter();
+        UtilsPermissionServiceImpl permissionService = new UtilsPermissionServiceImpl();
         for (CloudInstallStatusEnum statusEnum : statusEnums) {
             if (statusEnum == null) {
                 continue;
+            }
+            if (statusEnum == CloudInstallStatusEnum.PACKAGE_ADDED) {
+                if (!permissionService.isPermissionGranted(Manifest.permission.REQUEST_INSTALL_PACKAGES)) {
+                    Logger.Warning(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.REQUEST_INSTALL_PACKAGES).build());
+                }
+            }
+            if (statusEnum == CloudInstallStatusEnum.PACKAGE_REMOVED) {
+                if (!permissionService.isPermissionGranted(Manifest.permission.REQUEST_DELETE_PACKAGES)) {
+                    Logger.Warning(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.REQUEST_DELETE_PACKAGES).build());
+                }
             }
             hashMap.put(statusEnum.getValue(), cloudInstallCallback);
             intentFilter.addAction(statusEnum.getValue());
@@ -108,6 +119,7 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
     @Override
     public void addProviderResourcePath(@NonNull String filePath) {
         UtilsProvider.addSecurityPaths(filePath);
+        Logger.Info("add Security Path. : " + filePath);
     }
 
     /**
@@ -118,7 +130,6 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
      * @author: cangHX
      * @date: 2020-06-11 09:55
      */
-    @SuppressLint("WrongConstant")
     @Override
     public void installApp(@NonNull String apkPath) {
         File file = new File(apkPath);
@@ -131,6 +142,7 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
             Logger.Error(CloudApiError.INIT_EMPTY.build());
             return;
         }
+
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -154,7 +166,7 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
             return;
         }
         try {
-            if (packageManager.queryIntentActivities(intent, PackageManager.GET_ACTIVITIES).size() <= 0) {
+            if (packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).size() <= 0) {
                 Logger.Debug("install failed");
                 return;
             }
@@ -212,6 +224,11 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
             Logger.Error(CloudApiError.INIT_EMPTY.build());
             return;
         }
+        UtilsPermissionServiceImpl permissionService = new UtilsPermissionServiceImpl();
+        if (!permissionService.isPermissionGranted(Manifest.permission.REQUEST_DELETE_PACKAGES)) {
+            Logger.Error(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.REQUEST_DELETE_PACKAGES).build());
+            return;
+        }
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_DELETE);
         intent.setData(Uri.parse("package:" + packageName));
@@ -227,7 +244,6 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
      * @author: cangHX
      * @date: 2020-06-11 10:06
      */
-    @SuppressLint("NewApi")
     @NonNull
     @Override
     public List<CloudAppInfo> getAllInstallAppsInfo() {
@@ -254,8 +270,6 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
             appInfo.versionCode = packageInfo.versionCode;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 appInfo.longVersionCode = packageInfo.getLongVersionCode();
-            } else {
-                appInfo.longVersionCode = packageInfo.versionCode;
             }
             appInfo.versionName = packageInfo.versionName;
             appInfo.isInstallSd = (applicationInfo.flags & ApplicationInfo.FLAG_EXTERNAL_STORAGE) != 0;

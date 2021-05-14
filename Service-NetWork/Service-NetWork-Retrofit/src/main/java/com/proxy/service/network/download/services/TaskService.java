@@ -12,7 +12,7 @@ import com.proxy.service.network.download.listener.DownloadListener;
 import com.proxy.service.network.download.task.DownloadTask;
 import com.proxy.service.network.retrofit.DownloadClientInterface;
 
-import java.util.concurrent.atomic.AtomicInteger;
+//import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author : cangHX
@@ -20,10 +20,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class TaskService {
 
-    private CloudUtilsTaskService mTaskService;
-    private SparseArray<DownloadTask> mTaskArrays = new SparseArray<>();
+    private final CloudUtilsTaskService mTaskService;
+    private final SparseArray<DownloadTask> mTaskArrays = new SparseArray<>();
     private DownloadClientInterface.Stub mClientInterface;
-    private AtomicInteger mTaskId = new AtomicInteger(0);
+//    private AtomicInteger mTaskId = new AtomicInteger(0);
 
     private TaskService() {
         mTaskService = CloudSystem.getService(CloudServiceTagUtils.UTILS_TASK);
@@ -71,7 +71,7 @@ public class TaskService {
         }
     }
 
-    private DownloadListener mDownloadListener = new DownloadListener() {
+    private final DownloadListener mDownloadListener = new DownloadListener() {
         @Override
         public void onStart(DownloadInfo info) {
             if (mClientInterface != null) {

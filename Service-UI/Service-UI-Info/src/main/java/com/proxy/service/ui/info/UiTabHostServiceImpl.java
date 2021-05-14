@@ -290,7 +290,7 @@ public class UiTabHostServiceImpl implements CloudUiTabHostService {
         }
 
         if (list.size() == 0) {
-            Logger.Debug(CloudApiError.DATA_EMPTY.setAbout("Are you sure you added CloudUiTabHostReward annotation?").build());
+            Logger.Error(CloudApiError.DATA_EMPTY.setAbout("Are you sure you added CloudUiTabHostReward annotation?").build());
         }
 
         return list;
