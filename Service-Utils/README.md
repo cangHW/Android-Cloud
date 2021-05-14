@@ -193,16 +193,17 @@
 | aes |  | Aes 加密 |
 
     加密类型包括
-1. SecurityType.MD2
-2. SecurityType.MD5
-3. SecurityType.SHA1
-4. SecurityType.SHA256
-5. SecurityType.SHA384
-6. SecurityType.SHA512
-
+| 类型 | 说明 |
+| :-- | :-- |
+| SecurityType.MD2 | MD2 加密 |
+| SecurityType.MD5 | MD5 加密 |
+| SecurityType.SHA1 | SHA1 加密 |
+| SecurityType.SHA256 | SHA256 加密 |
+| SecurityType.SHA384 | SHA384 加密 |
+| SecurityType.SHA512 | SHA512 加密 |
+</br>
 
     返回对象中特有方法
-
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | setSecretKeySpec | key：密钥 | 设置密钥 |
