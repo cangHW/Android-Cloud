@@ -86,7 +86,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| UI | 1.1.0 | io.github.cangHW:Service-UI-Info:“版本号” | api |
+| UI | 1.1.1 | io.github.cangHW:Service-UI-Info:“版本号” | api |
 
 <br/>
 
@@ -218,7 +218,7 @@
 
 | 方法 | 参数 | 效果 |
 | :--: | :--: | :-- |
-| CloudSystem.addConverter() | 1、uuid：唯一ID，用于匹配在获取服务时传入的 uuid。 <br/> 2、tClass：服务的 class 类型。 3、converter：拦截器接口对象 | 注册完成拦截器之后，只要通过 CloudSystem 获取服务，并且 uuid 相同就会触发注册好的拦截器(获取的服务类型必须和拦截器准备拦截的类型相同) |
+| CloudSystem.addConverter() | 1、uuid：唯一ID，用于匹配在获取服务时传入的 uuid。 <br/> 2、tClass：服务的 class 类型。 <br/> 3、converter：拦截器接口对象 | 注册完成拦截器之后，只要通过 CloudSystem 获取服务，并且 uuid 相同就会触发注册好的拦截器(获取的服务类型必须和拦截器准备拦截的类型相同) |
 
     例如：
     String uuid = "自定义唯一id";
