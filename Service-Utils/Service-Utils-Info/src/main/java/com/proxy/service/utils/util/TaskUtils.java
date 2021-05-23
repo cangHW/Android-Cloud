@@ -6,9 +6,9 @@ import com.proxy.service.api.task.Task;
 import com.proxy.service.api.task.TaskCallable;
 import com.proxy.service.api.task.TaskHelper;
 import com.proxy.service.utils.lock.TaskLock;
-import com.proxy.service.utils.pool.thread.ThreadManager;
-import com.proxy.service.utils.pool.thread.enums.TaskThreadEnum;
-import com.proxy.service.utils.pool.thread.task.TaskImpl;
+import com.proxy.service.utils.thread.ThreadManager;
+import com.proxy.service.utils.thread.enums.TaskThreadEnum;
+import com.proxy.service.utils.thread.task.TaskImpl;
 
 import java.util.ArrayList;
 import java.util.List;

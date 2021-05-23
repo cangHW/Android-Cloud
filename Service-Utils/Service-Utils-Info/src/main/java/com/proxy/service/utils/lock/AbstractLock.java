@@ -2,7 +2,7 @@ package com.proxy.service.utils.lock;
 
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.utils.Logger;
-import com.proxy.service.utils.pool.thread.ThreadManager;
+import com.proxy.service.utils.thread.ThreadManager;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

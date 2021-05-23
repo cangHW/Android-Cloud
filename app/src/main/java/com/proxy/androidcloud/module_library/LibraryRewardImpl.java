@@ -101,6 +101,6 @@ public class LibraryRewardImpl extends CloudUiTabHostFragmentReward {
      */
     @Override
     public int getIndex() {
-        return 2;
+        return 1;
     }
 }

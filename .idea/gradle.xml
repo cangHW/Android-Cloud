@@ -17,15 +17,10 @@
             <option value="$PROJECT_DIR$/Cloud-Base" />
             <option value="$PROJECT_DIR$/Cloud-Compiler" />
             <option value="$PROJECT_DIR$/Cloud-Plugin" />
-            <option value="$PROJECT_DIR$/Service-Event" />
-            <option value="$PROJECT_DIR$/Service-Event/Service-Event-Base" />
-            <option value="$PROJECT_DIR$/Service-Event/Service-Event-Info" />
             <option value="$PROJECT_DIR$/Service-NetWork" />
             <option value="$PROJECT_DIR$/Service-NetWork/Service-NetWork-Base" />
             <option value="$PROJECT_DIR$/Service-NetWork/Service-NetWork-OkHttp" />
             <option value="$PROJECT_DIR$/Service-NetWork/Service-NetWork-Retrofit" />
-            <option value="$PROJECT_DIR$/Service-Process" />
-            <option value="$PROJECT_DIR$/Service-Process/Service-Process-Base" />
             <option value="$PROJECT_DIR$/Service-UI" />
             <option value="$PROJECT_DIR$/Service-UI/Service-UI-Base" />
             <option value="$PROJECT_DIR$/Service-UI/Service-UI-Info" />

@@ -96,7 +96,7 @@ public class UtilsPermissionBroadcastReceiver {
                 public Object call() {
                     WeakReferenceUtils.checkValueIsEmpty(mReceiverListeners, new WeakReferenceUtils.Callback<ReceiverListener>() {
                         @Override
-                        public void onCallback(ReceiverListener receiverListener) {
+                        public void onCallback(WeakReference<ReceiverListener> weakReference, ReceiverListener receiverListener) {
                             try {
                                 receiverListener.onReceiveWithPermission(context, intent, permission);
                             } catch (Throwable ignored) {
@@ -127,7 +127,7 @@ public class UtilsPermissionBroadcastReceiver {
             }
             WeakReferenceUtils.checkValueIsEmpty(mWeakReference, new WeakReferenceUtils.Callback<ReceiverListener>() {
                 @Override
-                public void onCallback(ReceiverListener receiverListener) {
+                public void onCallback(WeakReference<ReceiverListener> weakReference, ReceiverListener receiverListener) {
                     try {
                         receiverListener.onReceiveWithPermission(context, intent, mPermission);
                     } catch (Throwable ignored) {

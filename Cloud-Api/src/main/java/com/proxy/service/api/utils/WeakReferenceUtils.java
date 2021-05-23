@@ -21,7 +21,7 @@ public class WeakReferenceUtils {
          * @author: cangHX
          * @date: 2020/8/26 9:56 PM
          */
-        void onCallback(T t);
+        void onCallback(WeakReference<T> weakReference, T t);
     }
 
     /**
@@ -41,7 +41,7 @@ public class WeakReferenceUtils {
         if (t == null) {
             return;
         }
-        callback.onCallback(t);
+        callback.onCallback(weakReference, t);
     }
 
     /**
@@ -67,7 +67,7 @@ public class WeakReferenceUtils {
                 list.remove(weakReference);
                 return;
             }
-            callback.onCallback(t);
+            callback.onCallback(weakReference, t);
         }
     }
 

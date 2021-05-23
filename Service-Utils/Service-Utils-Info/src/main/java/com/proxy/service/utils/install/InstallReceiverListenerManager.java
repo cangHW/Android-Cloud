@@ -85,7 +85,7 @@ public class InstallReceiverListenerManager implements UtilsBroadcastReceiver.Re
         List<WeakReference<CloudInstallCallback>> list = mCallbackMap.get(action);
         WeakReferenceUtils.checkValueIsEmpty(list, new WeakReferenceUtils.Callback<CloudInstallCallback>() {
             @Override
-            public void onCallback(final CloudInstallCallback cloudInstallCallback) {
+            public void onCallback(WeakReference<CloudInstallCallback> weakReference, final CloudInstallCallback cloudInstallCallback) {
                 mTaskService.callUiThread(new Task<Object>() {
                     @Override
                     public Object call() {

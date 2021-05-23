@@ -92,7 +92,7 @@ public class UtilsBroadcastReceiver extends BroadcastReceiver {
             public Object call() {
                 WeakReferenceUtils.checkValueIsEmpty(mReceiverListeners, new WeakReferenceUtils.Callback<ReceiverListener>() {
                     @Override
-                    public void onCallback(ReceiverListener receiverListener) {
+                    public void onCallback(WeakReference<ReceiverListener> weakReference, ReceiverListener receiverListener) {
                         try {
                             receiverListener.onReceive(context, intent);
                         } catch (Throwable ignored) {

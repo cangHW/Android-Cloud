@@ -161,7 +161,7 @@ public class DownloadManager {
         public void onStart(final int downloadId) {
             WeakReferenceUtils.checkValueIsEmpty(weakReference, new WeakReferenceUtils.Callback<DownloadManager>() {
                 @Override
-                public void onCallback(final DownloadManager downloadManager) {
+                public void onCallback(WeakReference<DownloadManager> weakReference, final DownloadManager downloadManager) {
                     DownloadInfoUtils.findValueById(downloadManager.mInfoList, downloadId, new DownloadInfoUtils.CheckedCallback() {
                         @Override
                         public void onFound(final CloudNetWorkDownloadInfo info) {
@@ -199,7 +199,7 @@ public class DownloadManager {
         public void onProgress(final int downloadId, final long progress, final long total) {
             WeakReferenceUtils.checkValueIsEmpty(weakReference, new WeakReferenceUtils.Callback<DownloadManager>() {
                 @Override
-                public void onCallback(final DownloadManager downloadManager) {
+                public void onCallback(WeakReference<DownloadManager> weakReference, final DownloadManager downloadManager) {
                     DownloadInfoUtils.findValueById(downloadManager.mInfoList, downloadId, new DownloadInfoUtils.CheckedCallback() {
                         @Override
                         public void onFound(final CloudNetWorkDownloadInfo info) {
@@ -240,7 +240,7 @@ public class DownloadManager {
         public void onSuccess(final int downloadId) {
             WeakReferenceUtils.checkValueIsEmpty(weakReference, new WeakReferenceUtils.Callback<DownloadManager>() {
                 @Override
-                public void onCallback(final DownloadManager downloadManager) {
+                public void onCallback(WeakReference<DownloadManager> weakReference, final DownloadManager downloadManager) {
                     DownloadInfoUtils.findValueById(downloadManager.mInfoList, downloadId, new DownloadInfoUtils.CheckedCallback() {
                         @Override
                         public void onFound(final CloudNetWorkDownloadInfo info) {
@@ -278,7 +278,7 @@ public class DownloadManager {
         public void onWarning(final int downloadId, final String warningMsg) {
             WeakReferenceUtils.checkValueIsEmpty(weakReference, new WeakReferenceUtils.Callback<DownloadManager>() {
                 @Override
-                public void onCallback(final DownloadManager downloadManager) {
+                public void onCallback(WeakReference<DownloadManager> weakReference, final DownloadManager downloadManager) {
                     DownloadInfoUtils.findValueById(downloadManager.mInfoList, downloadId, new DownloadInfoUtils.CheckedCallback() {
                         @Override
                         public void onFound(final CloudNetWorkDownloadInfo info) {
@@ -299,7 +299,7 @@ public class DownloadManager {
         public void onFailed(final int downloadId, final String errorMsg) {
             WeakReferenceUtils.checkValueIsEmpty(weakReference, new WeakReferenceUtils.Callback<DownloadManager>() {
                 @Override
-                public void onCallback(final DownloadManager downloadManager) {
+                public void onCallback(WeakReference<DownloadManager> weakReference, final DownloadManager downloadManager) {
                     DownloadInfoUtils.findValueById(downloadManager.mInfoList, downloadId, new DownloadInfoUtils.CheckedCallback() {
                         @Override
                         public void onFound(final CloudNetWorkDownloadInfo info) {

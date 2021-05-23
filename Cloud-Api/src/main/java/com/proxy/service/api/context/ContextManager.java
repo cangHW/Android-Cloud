@@ -3,7 +3,6 @@ package com.proxy.service.api.context;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.ContextWrapper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

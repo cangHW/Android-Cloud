@@ -78,7 +78,7 @@ public class PermissionFragment extends Fragment implements IPermissionFragment 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults == null || grantResults.length == 0) {
+        if (grantResults.length == 0) {
             return;
         }
         PermissionInfo info = PERMISSION_MAPPER.get(requestCode);

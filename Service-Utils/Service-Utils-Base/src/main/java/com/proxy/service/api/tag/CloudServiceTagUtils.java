@@ -78,4 +78,13 @@ public class CloudServiceTagUtils {
      */
     public static final String UTILS_VIEW_MONITOR = "utils_view_monitor";
 
+    /**
+     * 消息发送相关
+     */
+    public static final String UTILS_EVENT = "utils_event";
+
+    /**
+     * 生命周期相关
+     */
+    public static final String UTILS_LIFECYCLE = "utils_lifecycle";
 }

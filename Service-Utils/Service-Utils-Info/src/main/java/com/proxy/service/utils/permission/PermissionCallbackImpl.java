@@ -2,7 +2,6 @@ package com.proxy.service.utils.permission;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.text.TextUtils;
 
 import androidx.fragment.app.Fragment;
@@ -161,36 +160,18 @@ public class PermissionCallbackImpl implements IPermissionCallback {
     private IPermissionFragment getIPermissionFragment(Activity context) {
         IPermissionFragment iPermissionFragment;
 
-        if (context instanceof FragmentActivity) {
-            FragmentActivity fragmentActivity = (FragmentActivity) context;
-            FragmentManager manager = fragmentActivity.getSupportFragmentManager();
-            Fragment fragment = manager.findFragmentByTag(TAG);
-            if (fragment instanceof IPermissionFragment) {
-                return (IPermissionFragment) fragment;
-            }
-            fragment = new PermissionFragment();
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.add(fragment, TAG);
-            transaction.commitNowAllowingStateLoss();
-            manager.executePendingTransactions();
-            iPermissionFragment = (IPermissionFragment) fragment;
-        } else {
-            android.app.FragmentManager manager = context.getFragmentManager();
-            android.app.Fragment fragment = manager.findFragmentByTag(TAG);
-            if (fragment instanceof IPermissionFragment) {
-                return (IPermissionFragment) fragment;
-            }
-            fragment = new SupportPermissionFragment();
-            android.app.FragmentTransaction transaction = manager.beginTransaction();
-            transaction.add(fragment, TAG);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                transaction.commitNowAllowingStateLoss();
-            } else {
-                transaction.commitAllowingStateLoss();
-            }
-            manager.executePendingTransactions();
-            iPermissionFragment = (IPermissionFragment) fragment;
+        FragmentActivity fragmentActivity = (FragmentActivity) context;
+        FragmentManager manager = fragmentActivity.getSupportFragmentManager();
+        Fragment fragment = manager.findFragmentByTag(TAG);
+        if (fragment instanceof IPermissionFragment) {
+            return (IPermissionFragment) fragment;
         }
+        fragment = new PermissionFragment();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(fragment, TAG);
+        transaction.commitNowAllowingStateLoss();
+        manager.executePendingTransactions();
+        iPermissionFragment = (IPermissionFragment) fragment;
 
         return iPermissionFragment;
     }

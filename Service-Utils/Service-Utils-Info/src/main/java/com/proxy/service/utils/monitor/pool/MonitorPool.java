@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
  */
 public class MonitorPool {
 
-    private static final HandlerThread THREAD = new HandlerThread("View-Monitor");
+    private static final HandlerThread THREAD = new HandlerThread("Cloud-View-Monitor");
 
     static {
         THREAD.start();

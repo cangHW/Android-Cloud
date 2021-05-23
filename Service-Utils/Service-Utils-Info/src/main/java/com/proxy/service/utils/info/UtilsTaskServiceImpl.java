@@ -14,10 +14,10 @@ import com.proxy.service.api.task.ITaskConditions;
 import com.proxy.service.api.task.Task;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.utils.lock.TaskLock;
-import com.proxy.service.utils.pool.thread.ThreadManager;
-import com.proxy.service.utils.pool.thread.task.TaskConditionsImpl;
-import com.proxy.service.utils.pool.thread.enums.TaskThreadEnum;
-import com.proxy.service.utils.pool.thread.task.TaskFunctionImpl;
+import com.proxy.service.utils.thread.ThreadManager;
+import com.proxy.service.utils.thread.task.TaskConditionsImpl;
+import com.proxy.service.utils.thread.enums.TaskThreadEnum;
+import com.proxy.service.utils.thread.task.TaskFunctionImpl;
 import com.proxy.service.utils.util.TaskUtils;
 
 import java.util.ArrayList;

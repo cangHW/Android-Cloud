@@ -4,8 +4,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
-
 import com.proxy.service.api.edittext.CloudTextChangedCallback;
 import com.proxy.service.api.utils.Logger;
 
@@ -21,7 +19,7 @@ public class WatcherImpl implements TextWatcher {
     private final EditText mEditText;
     private String mBeforeText;
 
-    public WatcherImpl(@NonNull EditText editText, @NonNull Set<CloudTextChangedCallback> list) {
+    public WatcherImpl(EditText editText, Set<CloudTextChangedCallback> list) {
         this.mEditText = editText;
         this.mCallbacks = list;
     }

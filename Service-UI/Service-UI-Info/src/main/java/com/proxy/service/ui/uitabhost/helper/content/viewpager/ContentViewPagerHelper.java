@@ -42,7 +42,7 @@ public class ContentViewPagerHelper extends AbstractContentHelper implements Vie
     private AdapterSettingListener mAdapterSetting;
     private int mScrollState = SCROLL_IDLE;
 
-    private CloudLifecycleListener mLifecycleListener = new CloudLifecycleListener() {
+    private final CloudLifecycleListener mLifecycleListener = new CloudLifecycleListener() {
         /**
          * 回调生命周期
          *

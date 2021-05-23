@@ -104,7 +104,7 @@ public class NetWorkReceiverListenerManager implements UtilsBroadcastReceiver.Re
             public Object call() {
                 WeakReferenceUtils.checkValueIsEmpty(mNetWorkCallbacks, new WeakReferenceUtils.Callback<CloudNetWorkCallback>() {
                     @Override
-                    public void onCallback(CloudNetWorkCallback netWorkCallback) {
+                    public void onCallback(WeakReference<CloudNetWorkCallback> weakReference, CloudNetWorkCallback netWorkCallback) {
                         if (mNetWorkService.isConnected()) {
                             netWorkCallback.onReceive(mNetWorkService.getNetworkType());
                         } else {
@@ -131,14 +131,18 @@ public class NetWorkReceiverListenerManager implements UtilsBroadcastReceiver.Re
             super.onAvailable(network);
             WeakReferenceUtils.checkValueIsEmpty(weakReference, new WeakReferenceUtils.Callback<NetWorkReceiverListenerManager>() {
                 @Override
-                public void onCallback(final NetWorkReceiverListenerManager netWorkReceiverListenerManager) {
+                public void onCallback(WeakReference<NetWorkReceiverListenerManager> weakReference, final NetWorkReceiverListenerManager netWorkReceiverListenerManager) {
                     netWorkReceiverListenerManager.mTaskService.callUiThread(new Task<Object>() {
                         @Override
                         public Object call() {
                             WeakReferenceUtils.checkValueIsEmpty(netWorkReceiverListenerManager.mNetWorkCallbacks, new WeakReferenceUtils.Callback<CloudNetWorkCallback>() {
                                 @Override
-                                public void onCallback(CloudNetWorkCallback netWorkCallback) {
+                                public void onCallback(WeakReference<CloudNetWorkCallback> weakReference, CloudNetWorkCallback netWorkCallback) {
                                     NetworkCapabilities networkCapabilities = netWorkReceiverListenerManager.mManager.getNetworkCapabilities(network);
+                                    if (networkCapabilities == null) {
+                                        netWorkCallback.onReceive(CloudNetWorkType.UNKNOWN);
+                                        return;
+                                    }
                                     if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
                                         netWorkCallback.onReceive(CloudNetWorkType.WIFI);
                                         return;
@@ -161,13 +165,13 @@ public class NetWorkReceiverListenerManager implements UtilsBroadcastReceiver.Re
         public void onLost(@NonNull Network network) {
             WeakReferenceUtils.checkValueIsEmpty(weakReference, new WeakReferenceUtils.Callback<NetWorkReceiverListenerManager>() {
                 @Override
-                public void onCallback(final NetWorkReceiverListenerManager netWorkReceiverListenerManager) {
+                public void onCallback(WeakReference<NetWorkReceiverListenerManager> weakReference, final NetWorkReceiverListenerManager netWorkReceiverListenerManager) {
                     netWorkReceiverListenerManager.mTaskService.callUiThread(new Task<Object>() {
                         @Override
                         public Object call() {
                             WeakReferenceUtils.checkValueIsEmpty(netWorkReceiverListenerManager.mNetWorkCallbacks, new WeakReferenceUtils.Callback<CloudNetWorkCallback>() {
                                 @Override
-                                public void onCallback(CloudNetWorkCallback netWorkCallback) {
+                                public void onCallback(WeakReference<CloudNetWorkCallback> weakReference, CloudNetWorkCallback netWorkCallback) {
                                     netWorkCallback.disConnect();
                                 }
                             });

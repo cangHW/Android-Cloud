@@ -143,6 +143,11 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
             return;
         }
 
+        UtilsPermissionServiceImpl permissionService = new UtilsPermissionServiceImpl();
+        if (!permissionService.isPermissionGranted(Manifest.permission.REQUEST_INSTALL_PACKAGES)) {
+            Logger.Warning(CloudApiError.PERMISSION_DENIED.setAbout(Manifest.permission.REQUEST_INSTALL_PACKAGES).build());
+        }
+
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

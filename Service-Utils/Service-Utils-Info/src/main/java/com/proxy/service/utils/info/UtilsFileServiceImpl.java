@@ -50,6 +50,9 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
         }
         try {
             File parentFile = file.getParentFile();
+            if (parentFile == null) {
+                return null;
+            }
             if (!parentFile.exists()) {
                 if (!parentFile.mkdirs()) {
                     Logger.Error("Directory create failed. : " + path);
@@ -135,9 +138,6 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
                 }
             } catch (Throwable throwable) {
                 Logger.Debug(throwable);
-            }
-            if (result == null) {
-                result = "";
             }
         }
         return result;

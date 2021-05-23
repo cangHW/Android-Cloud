@@ -8,12 +8,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.proxy.service.api.context.cache.ActivityStack;
+import com.proxy.service.api.context.lifecycle.LifecycleBean;
 import com.proxy.service.api.context.listener.CloudLifecycleListener;
+import com.proxy.service.api.error.CloudApiError;
+import com.proxy.service.api.utils.Logger;
 import com.proxy.service.api.utils.WeakReferenceUtils;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.WeakHashMap;
 
@@ -30,8 +31,7 @@ enum ActivityLifecycleCallbackManager implements Application.ActivityLifecycleCa
      */
     INSTANCE;
 
-    private static final WeakHashMap<CloudLifecycleListener, Activity> ACTIVITY_MAPPER = new WeakHashMap<>();
-    private static final HashMap<String, List<WeakReference<CloudLifecycleListener>>> LIFECYCLE_MAPPER = new HashMap<>();
+    private static final WeakHashMap<Activity, LifecycleBean> ACTIVITY_MAPPER = new WeakHashMap<>();
 
     /**
      * 注册生命周期回调，弱引用，所以调用方需要保证对象没有回收，防止接收不到回调
@@ -44,21 +44,24 @@ enum ActivityLifecycleCallbackManager implements Application.ActivityLifecycleCa
      * @date: 2020/7/15 5:11 PM
      */
     static void addLifecycleListener(Activity activity, CloudLifecycleListener lifecycleListener, LifecycleState... states) {
+        if (activity == null) {
+            Logger.Error(CloudApiError.DATA_EMPTY.setAbout("The activity cannot be empty, in the method addLifecycleListener").build());
+            return;
+        }
         if (states == null || states.length == 0) {
             return;
+        }
+        LifecycleBean lifecycle = ACTIVITY_MAPPER.get(activity);
+        if (lifecycle == null) {
+            lifecycle = new LifecycleBean();
+            ACTIVITY_MAPPER.put(activity, lifecycle);
         }
         for (LifecycleState state : states) {
             if (state == null) {
                 continue;
             }
-            List<WeakReference<CloudLifecycleListener>> list = LIFECYCLE_MAPPER.get(state.state());
-            if (list == null) {
-                list = new ArrayList<>();
-                LIFECYCLE_MAPPER.put(state.state(), list);
-            }
-            list.add(new WeakReference<>(lifecycleListener));
+            lifecycle.setLifecycleListener(state, lifecycleListener);
         }
-        ACTIVITY_MAPPER.put(lifecycleListener, activity);
     }
 
     @Override
@@ -98,20 +101,18 @@ enum ActivityLifecycleCallbackManager implements Application.ActivityLifecycleCa
     public void onActivityDestroyed(@NonNull Activity activity) {
         ActivityStack.remove(activity);
         notify(activity, LifecycleState.LIFECYCLE_DESTROY);
+        ACTIVITY_MAPPER.remove(activity);
     }
 
     private static void notify(final Activity activity, final LifecycleState state) {
-        final List<WeakReference<CloudLifecycleListener>> list = LIFECYCLE_MAPPER.get(state.state());
+        LifecycleBean lifecycleBean = ACTIVITY_MAPPER.get(activity);
+        if (lifecycleBean == null) {
+            return;
+        }
+        final List<WeakReference<CloudLifecycleListener>> list = lifecycleBean.getLifecycleListener(state);
         WeakReferenceUtils.checkValueIsEmpty(list, new WeakReferenceUtils.Callback<CloudLifecycleListener>() {
             @Override
-            public void onCallback(CloudLifecycleListener lifecycleChangedCallback) {
-                Activity activity1 = ACTIVITY_MAPPER.get(lifecycleChangedCallback);
-                if (activity1 == null) {
-                    return;
-                }
-                if (activity != activity1) {
-                    return;
-                }
+            public void onCallback(WeakReference<CloudLifecycleListener> weakReference, CloudLifecycleListener lifecycleChangedCallback) {
                 lifecycleChangedCallback.onLifecycleChanged(activity, state);
             }
         });

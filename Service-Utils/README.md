@@ -33,6 +33,8 @@
 | 12 | CloudUtilsReceiverService | CloudServiceTagUtils.UTILS_RECEIVER | 广播接收器相关操作 |
 | 13 | CloudUtilsSystemPageService | CloudServiceTagUtils.UTILS_SYSTEM_PAGE | 跳转常用系统页面 |
 | 14 | CloudUtilsViewMonitorService | CloudServiceTagUtils.UTILS_VIEW_MONITOR | view 监控相关操作 |
+| 15 | CloudUtilsEventService | CloudServiceTagUtils.UTILS_EVENT | 消息事件分发相关 |
+| 16 | CloudUtilsLifecycleService | CloudServiceTagUtils.UTILS_LIFECYCLE | 生命周期监听相关 |
 
 
 ## 二、介绍
@@ -275,4 +277,32 @@
 | stop |  | 暂停 |
 | destroy |  | 销毁 |
 </br>
+
+15. CloudUtilsEventService  消息事件分发相关
+</br>
+
+| 方法名 | 参数 | 说明 |
+| :-- | :-- | :-- |
+| bind | callback：主线程回调接口 | 绑定事件监听（弱引用） |
+| bind | callback：工作线程回调接口 | 绑定事件监听（弱引用） |
+| bind | 1、activity：上下文环境，用于提供生命周期. </br> 2、callback：主线程回调接口 | 绑定事件监听（生命周期默认与 Activity 相同），建议放在 Activity 的 onStart 或 onCreate 方法中进行绑定 |
+| bind | 1、activity：上下文环境，用于提供生命周期. </br> 2、callback：工作线程回调接口 | 绑定事件监听（生命周期默认与 Activity 相同），建议放在 Activity 的 onStart 或 onCreate 方法中进行绑定 |
+| bind | 1、fragment：上下文环境，用于提供生命周期. </br> 2、callback：主线程回调接口 | 绑定事件监听（生命周期默认与 Fragment 相同），建议放在 Fragment 的 onStart 或 onCreate 方法中进行绑定 |
+| bind | 1、fragment：上下文环境，用于提供生命周期. </br> 2、callback：工作线程回调接口 | 绑定事件监听（生命周期默认与 Fragment 相同），建议放在 Fragment 的 onStart 或 onCreate 方法中进行绑定 |
+| remove | callback：主线程回调接口 | 移除事件监听 |
+| remove | callback：工作线程回调接口 | 移除事件监听 |
+| set | object：准备透传的数据 | 同步事件，根据数据类型唤醒符合条件的全部监听 |
+| postOrSet | object：准备透传的数据 | 异步事件，根据数据类型唤醒符合条件的全部监听，回调时机--UI展示.（如果对应监听未与生命周期绑定，则会被切换为同步事件） |
+| postOrSkip | object：准备透传的数据 | 异步事件，根据数据类型唤醒符合条件的全部监听，回调时机--UI展示.（如果对应监听未与生命周期绑定，则会被跳过） |
+</br>
+
+16. CloudUtilsLifecycleService  生命周期监听相关
+</br>
+
+| 方法名 | 参数 | 说明 |
+| :-- | :-- | :-- |
+| bind | 1、activity：上下文环境. </br> 2、lifecycleListener：生命周期回调. </br> 3、lifecycleState：声明监听的生命周期 | 绑定 Activity 的生命周期 |
+| bind | 1、fragment：上下文环境. </br> 2、lifecycleListener：生命周期回调. </br> 3、lifecycleState：声明监听的生命周期 | 绑定 Fragment 的生命周期 |
+</br>
+
 

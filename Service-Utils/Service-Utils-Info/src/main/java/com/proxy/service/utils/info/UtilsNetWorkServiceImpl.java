@@ -90,6 +90,12 @@ public class UtilsNetWorkServiceImpl implements CloudUtilsNetWorkService {
     @NonNull
     @Override
     public CloudNetWorkType getNetworkType() {
+        Context context = ContextManager.getApplication();
+        if (context == null) {
+            Logger.Error(CloudApiError.INIT_EMPTY.build());
+            return CloudNetWorkType.ERROR;
+        }
+
         if (!isConnected()) {
             return CloudNetWorkType.ERROR;
         }
