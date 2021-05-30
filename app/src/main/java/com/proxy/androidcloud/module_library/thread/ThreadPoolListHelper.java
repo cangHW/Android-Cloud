@@ -182,24 +182,23 @@ public class ThreadPoolListHelper extends AbstractListHelper {
 
         Toast.makeText(context, "计时3秒", Toast.LENGTH_SHORT).show();
         service.delay(3000, TimeUnit.MILLISECONDS)
-                .mainThread()
-                .call(new TaskCallableOnce<Object, String>() {
-                    @Override
-                    public String then(ITask<Object> iTasks) throws Exception {
-                        logger.debug(System.currentTimeMillis() - time + "");
-                        Toast.makeText(context, "3秒时间到", Toast.LENGTH_SHORT).show();
-                        return "time";
-                    }
-                })
-                .workThread()
-                .call(new TaskCallableOnce<String, Integer>() {
-                    @Override
-                    public Integer then(ITask<String> iTask) throws Exception {
-                        logger.debug(iTask.getResponse());
-                        doubleClick.set(false);
-                        return null;
-                    }
-                });
+                .mainThread().call(new TaskCallableOnce<Object, String>() {
+            @Override
+            public String then(ITask<Object> iTasks) throws Exception {
+                logger.debug("3秒时间到 : " + (System.currentTimeMillis() - time) + "");
+                Toast.makeText(context, "3秒时间到", Toast.LENGTH_SHORT).show();
+                return "time";
+            }
+        }).workThread().call(new TaskCallableOnce<String, Integer>() {
+            @Override
+            public Integer then(ITask<String> iTask) throws Exception {
+                logger.debug(iTask.getResponse());
+                doubleClick.set(false);
+                return null;
+            }
+        });
+        logger.debug("结束 : " + (System.currentTimeMillis() - time) + "");
+        Toast.makeText(context, "结束", Toast.LENGTH_SHORT).show();
     }
 
     public void continueTask(Context context, int button) {
@@ -214,37 +213,35 @@ public class ThreadPoolListHelper extends AbstractListHelper {
 
         AtomicInteger count = new AtomicInteger(0);
         Toast.makeText(context, "开始循环任务", Toast.LENGTH_SHORT).show();
-        service.workThread()
-                .continueWhile(new Callable<Boolean>() {
+        service.workThread().continueWhile(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                Thread.sleep(1000);
+                return count.incrementAndGet() <= 10;
+            }
+        }, new TaskCallable<Object, String>() {
+            @Override
+            public String then(ITask<Object>[] iTasks) throws Exception {
+                service.callUiThread(new Task<Object>() {
                     @Override
-                    public Boolean call() throws Exception {
-                        Thread.sleep(1000);
-                        return count.incrementAndGet() <= 10;
-                    }
-                }, new TaskCallable<Object, String>() {
-                    @Override
-                    public String then(ITask<Object>[] iTasks) throws Exception {
-                        service.callUiThread(new Task<Object>() {
-                            @Override
-                            public Object call() throws Exception {
-                                logger.debug("timeDiff : " + count.get());
-                                Toast.makeText(context, count.get() + " 秒", Toast.LENGTH_SHORT).show();
-                                return null;
-                            }
-                        });
-                        return count.get() + "";
-                    }
-                })
-                .call(new TaskCallable<String, Object>() {
-                    @Override
-                    public Object then(ITask<String>[] iTasks) throws Exception {
-                        for (ITask<String> iTask : iTasks) {
-                            logger.debug(iTask.getResponse());
-                        }
-                        doubleClick.set(false);
+                    public Object call() throws Exception {
+                        logger.debug("timeDiff : " + count.get());
+                        Toast.makeText(context, count.get() + " 秒", Toast.LENGTH_SHORT).show();
                         return null;
                     }
                 });
+                return count.get() + "";
+            }
+        }).call(new TaskCallable<String, Object>() {
+            @Override
+            public Object then(ITask<String>[] iTasks) throws Exception {
+                for (ITask<String> iTask : iTasks) {
+                    logger.debug(iTask.getResponse());
+                }
+                doubleClick.set(false);
+                return null;
+            }
+        });
     }
 
     public void continueTask() {
@@ -329,10 +326,17 @@ public class ThreadPoolListHelper extends AbstractListHelper {
                         return "四";
                     }
                 })
-        ).workThread().call(new TaskCallable<Object, String>() {
+        ).call(new TaskCallable<Object, Object>() {
+            @Override
+            public Object then(ITask<Object>[] iTasks) throws Exception {
+                logger.debug("whenAll 所在线程");
+                return iTasks;
+            }
+        }).workThread().call(new TaskCallable<Object, String>() {
             @Override
             public String then(ITask<Object>[] iTasks) throws Exception {
-                for (ITask<Object> iTask : iTasks) {
+                ITask<Object>[] tasks = (ITask<Object>[])iTasks[0].getResponse();
+                for (ITask<Object> iTask : tasks) {
                     logger.debug((String) iTask.getResponse());
                 }
                 Thread.sleep(1000);
@@ -347,5 +351,6 @@ public class ThreadPoolListHelper extends AbstractListHelper {
                 return null;
             }
         });
+        Toast.makeText(context, "结束", Toast.LENGTH_SHORT).show();
     }
 }

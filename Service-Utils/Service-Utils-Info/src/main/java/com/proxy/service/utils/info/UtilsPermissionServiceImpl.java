@@ -71,11 +71,14 @@ public class UtilsPermissionServiceImpl implements CloudUtilsPermissionService {
             if (TextUtils.isEmpty(packageName)) {
                 return false;
             }
-            return AppOpsManagerCompat.noteProxyOpNoThrow(context, op, packageName) == AppOpsManagerCompat.MODE_ALLOWED;
+            boolean isDenied = AppOpsManagerCompat.noteProxyOpNoThrow(context, op, packageName) == AppOpsManagerCompat.MODE_IGNORED;
+            if (isDenied) {
+                return false;
+            }
         }
 
         int pid = Process.myPid();
-        return context.checkPermission(permission, pid, uid) != PackageManager.PERMISSION_DENIED;
+        return context.checkPermission(permission, pid, uid) == PackageManager.PERMISSION_GRANTED;
     }
 
     /**

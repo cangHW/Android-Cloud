@@ -1,5 +1,7 @@
 package com.proxy.service.utils.info;
 
+import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,8 @@ import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.services.CloudUtilsFileService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
 import com.proxy.service.api.utils.Logger;
+import com.proxy.service.utils.provider.UtilsProvider;
+import com.proxy.service.utils.util.ProviderUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -29,6 +33,46 @@ import java.util.List;
  */
 @CloudApiService(serviceTag = CloudServiceTagUtils.UTILS_FILE)
 public class UtilsFileServiceImpl implements CloudUtilsFileService {
+
+    /**
+     * 添加允许通过 provider 共享的文件路径，用于获取资源 Uri 等
+     * 如果不设置，默认所有路径都是安全路径，建议设置
+     *
+     * @param filePath : 允许共享的安全路径
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-19 13:30
+     */
+    @Override
+    public void addProviderResourcePath(@NonNull String filePath) {
+        UtilsProvider.addSecurityPaths(filePath);
+        Logger.Info("add Security Path. : " + filePath);
+    }
+
+    /**
+     * 获取 uri
+     *
+     * @param file : 文件流
+     * @return uri
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/27 10:18 PM
+     */
+    @Nullable
+    @Override
+    public Uri getUriForFile(@Nullable File file) {
+        if (file == null || !file.exists() || !file.isFile()) {
+            return null;
+        }
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            return Uri.fromFile(file);
+        }
+
+        String authority = ProviderUtils.getProviderAuthoritiesFromManifest(UtilsProvider.class.getName(), "proxy_service_provider");
+        return UtilsProvider.getUriForFile(authority, file);
+    }
+
     /**
      * 创建 file，自动创建相关文件夹与文件
      *

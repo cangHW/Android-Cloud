@@ -9,7 +9,9 @@ import com.proxy.service.api.utils.WeakReferenceUtils;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author : cangHX
@@ -34,6 +36,13 @@ public class FragmentLifecycleBean {
 
     public List<WeakReference<CloudFragmentLifecycleListener>> getLifecycleListener(FragmentLifecycleState state) {
         return LIFECYCLE_MAPPER.get(state);
+    }
+
+    public void remove(CloudFragmentLifecycleListener lifecycleListener) {
+        for (Map.Entry<FragmentLifecycleState, List<WeakReference<CloudFragmentLifecycleListener>>> lifecycleStateListEntry : new HashSet<>(LIFECYCLE_MAPPER.entrySet())) {
+            List<WeakReference<CloudFragmentLifecycleListener>> list = lifecycleStateListEntry.getValue();
+            WeakReferenceUtils.removeValue(list, lifecycleListener);
+        }
     }
 
 }

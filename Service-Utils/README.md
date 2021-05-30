@@ -14,8 +14,20 @@
         api 'io.github.cangHW:Service-UI-Info:x.x.x'
         ...
     }   
+    
+## 一、版本更新
 
-## 一、服务
+| 版本 | 说明 |
+| :--: | :--: |
+| 1.2.0 | 优化权限检测与provider |
+| 1.1.2 | 新增生命周期监听与event事件分发服务 |
+| 1.1.1 | 优化日志，使错误提示更加清晰 |
+| 1.1.0 | 新增 Gradle 自动化插件用于替换DexFile(DexFile在Android高版本已被标记过时) |
+| 1.0.0 | 初始版本 |
+
+<br/>
+
+## 二、服务
 
 | | 类名 | tag | 说明 |
 | :--: | :-- | :-- | :-- |
@@ -35,6 +47,7 @@
 | 14 | CloudUtilsViewMonitorService | CloudServiceTagUtils.UTILS_VIEW_MONITOR | view 监控相关操作 |
 | 15 | CloudUtilsEventService | CloudServiceTagUtils.UTILS_EVENT | 消息事件分发相关 |
 | 16 | CloudUtilsLifecycleService | CloudServiceTagUtils.UTILS_LIFECYCLE | 生命周期监听相关 |
+| 17 | CloudUtilsAlbumService | CloudServiceTagUtils.UTILS_ALBUM | 相册相关 |
 
 
 ## 二、介绍
@@ -139,6 +152,8 @@
 
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
+| addProviderResourcePath | filePath：允许共享的安全路径 | 添加允许通过 provider 共享的文件路径 |
+| getUriForFile | file：文件流 | 获取允许共享的 uri |
 | createFile | path：文件地址 | 创建 file，自动创建相关文件夹与文件 |
 | deleteFile | path：文件地址 | 删除文件 |
 | read | path：文件地址 | 读文件，同步执行 |
@@ -226,9 +241,9 @@
 
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
-| getUriForFile | file：文件流 | 获取允许共享的 uri |
-| openSystemShareTxt | info：分享文字内容 | 打开系统分享，文字 |
-| openSystemShareImg | imgPaths：图片地址集合 | 打开系统分享，图片 |
+| openSystemShareTxt | 1、info：分享文字内容. <br/> 2、title：标题 | 打开系统分享，文字 |
+| openSystemShareImg | 1、imgPath：图片地址. <br/> 2、title：标题 | 打开系统分享，图片 |
+| openSystemShareImg | 1、imgPaths：图片地址集合. <br/> 2、title：标题 | 打开系统分享，图片 |
 </br>
 
 12. CloudUtilsReceiverService  广播接收器相关操作
@@ -255,10 +270,6 @@
 
 14. CloudUtilsViewMonitorService  view 监控相关操作
 </br>
-
-    包括：
-    1. 显示状态监控
-
 
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
@@ -303,6 +314,20 @@
 | :-- | :-- | :-- |
 | bind | 1、activity：上下文环境. </br> 2、lifecycleListener：生命周期回调. </br> 3、lifecycleState：声明监听的生命周期 | 绑定 Activity 的生命周期 |
 | bind | 1、fragment：上下文环境. </br> 2、lifecycleListener：生命周期回调. </br> 3、lifecycleState：声明监听的生命周期 | 绑定 Fragment 的生命周期 |
+| remove | activity：上下文环境 | 移除 Activity 的生命周期监听 |
+| remove | lifecycleListener：生命周期回调 | 移除 Activity 的生命周期监听 |
+| remove | fragment : 上下文 | 移除 Fragment 的生命周期监听 |
+| remove | lifecycleListener：生命周期回调 | 移除 Fragment 的生命周期监听 |
+</br>
+
+17. CloudUtilsAlbumService  相册相关
+</br>
+
+| 方法名 | 参数 | 说明 |
+| :-- | :-- | :-- |
+| findPicture | 1、callback：回调接口. </br> 2、num：获取的数量, 需要大于 0. | 获取图片，按时间排序，从新到旧 |
+| findAllPicture | callback：回调接口. | 获取全部图片，按时间排序，从新到旧 |
+| findAllPictureToGroup | callback：回调接口. | 以文件夹形式获取图片，按时间排序，从新到旧 |
 </br>
 
 

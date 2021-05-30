@@ -113,6 +113,10 @@ public class PermissionCallbackImpl implements IPermissionCallback {
             Logger.Error(CloudApiError.NO_RUNNING_ACTIVITY.build());
             return;
         }
+        if (PERMISSIONS.size() == 0) {
+            Logger.Error(CloudApiError.DATA_EMPTY.setAbout("Please add permissions first.").build());
+            return;
+        }
         try {
             IPermissionFragment iPermissionFragment = getIPermissionFragment(activity);
             iPermissionFragment.addPermissionInfo(CALLBACK, PERMISSIONS);

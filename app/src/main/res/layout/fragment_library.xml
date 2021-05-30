@@ -1,91 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/mThreadPool"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:onClick="onClick"
-        android:tag="library"
-        android:text="线程池"
-        android:textColor="#000000"
-        android:textSize="20dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/mBitmap"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:onClick="onClick"
-        android:tag="library"
-        android:text="图片处理"
-        android:textColor="#000000"
-        android:textSize="20dp" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/mThreadPool"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:tag="library"
+            android:text="线程池"
+            android:textColor="#000000"
+            android:textSize="20dp" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/mInstall"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:onClick="onClick"
-        android:tag="library"
-        android:text="安装应用"
-        android:textColor="#000000"
-        android:textSize="20dp" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/mBitmap"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:tag="library"
+            android:text="图片处理"
+            android:textColor="#000000"
+            android:textSize="20dp" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/mReceiver"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:onClick="onClick"
-        android:tag="library"
-        android:text="广播"
-        android:textColor="#000000"
-        android:textSize="20dp" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/mInstall"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:tag="library"
+            android:text="安装应用"
+            android:textColor="#000000"
+            android:textSize="20dp" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/mApp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:onClick="onClick"
-        android:tag="library"
-        android:text="应用管理"
-        android:textColor="#000000"
-        android:textSize="20dp" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/mReceiver"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:tag="library"
+            android:text="广播"
+            android:textColor="#000000"
+            android:textSize="20dp" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/mFile"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:onClick="onClick"
-        android:tag="library"
-        android:text="文件读写"
-        android:textColor="#000000"
-        android:textSize="20dp" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/mApp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:tag="library"
+            android:text="应用管理"
+            android:textColor="#000000"
+            android:textSize="20dp" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/mNet_Work"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:onClick="onClick"
-        android:tag="library"
-        android:text="网络相关"
-        android:textColor="#000000"
-        android:textSize="20dp" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/mFile"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:tag="library"
+            android:text="文件读写"
+            android:textColor="#000000"
+            android:textSize="20dp" />
 
-</LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/mNet_Work"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:tag="library"
+            android:text="网络相关"
+            android:textColor="#000000"
+            android:textSize="20dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/mShare"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:tag="library"
+            android:text="分享相关"
+            android:textColor="#000000"
+            android:textSize="20dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/mLifecycle"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:tag="library"
+            android:text="生命周期相关"
+            android:textColor="#000000"
+            android:textSize="20dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/mEvent"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:tag="library"
+            android:text="Event 事件分发相关"
+            android:textColor="#000000"
+            android:textSize="20dp" />
+    </LinearLayout>
+</ScrollView>

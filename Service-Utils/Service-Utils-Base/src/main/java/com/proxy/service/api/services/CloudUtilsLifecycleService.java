@@ -42,4 +42,43 @@ public interface CloudUtilsLifecycleService extends BaseService {
      */
     void bind(Fragment fragment, CloudFragmentLifecycleListener lifecycleListener, FragmentLifecycleState... lifecycleState);
 
+    /**
+     * 移除 Activity 的生命周期监听
+     *
+     * @param activity : 上下文
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/5/20 9:29 PM
+     */
+    void remove(Activity activity);
+
+    /**
+     * 移除 Activity 的生命周期监听
+     *
+     * @param lifecycleListener : 生命周期回调
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/5/20 9:29 PM
+     */
+    void remove(CloudActivityLifecycleListener lifecycleListener);
+
+    /**
+     * 移除 Fragment 的生命周期监听
+     *
+     * @param fragment : 上下文
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/5/20 9:29 PM
+     */
+    void remove(Fragment fragment);
+
+    /**
+     * 移除 Fragment 的生命周期监听
+     *
+     * @param lifecycleListener : 生命周期回调
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/5/20 9:29 PM
+     */
+    void remove(CloudFragmentLifecycleListener lifecycleListener);
 }

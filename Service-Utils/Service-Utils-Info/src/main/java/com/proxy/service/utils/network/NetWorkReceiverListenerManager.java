@@ -1,6 +1,5 @@
 package com.proxy.service.utils.network;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;

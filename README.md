@@ -39,7 +39,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| 功能库 | 1.1.1 | io.github.cangHW:Cloud-Api:“版本号” | api |
+| 功能库 | 1.1.2 | io.github.cangHW:Cloud-Api:“版本号” | api |
 
 ### 2、编译库 
 
@@ -59,22 +59,7 @@
 
 <br/>
 
-## 二、网络库
-
-[<font size='6' color='#528DFB' >网络库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Service-NetWork/README.md)
-
-提供网络能力，可以自由选择底层实现方式
-
-<br/>
-
-暂时未同步 mavenCentral
-
-| 模块 | 最新版本号 | 地址 | 引用方式 |
-| :--: | :--: | :-- | :--: |
-
-<br/>
-
-## 三、UI 库
+## 二、UI 库
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.cangHW/Service-UI-Info.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.cangHW%22%20AND%20a:%22Service-UI-Info%22)
 
@@ -86,11 +71,11 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| UI | 1.1.2 | io.github.cangHW:Service-UI-Info:“版本号” | api |
+| UI | 1.2.0 | io.github.cangHW:Service-UI-Info:“版本号” | api |
 
 <br/>
 
-## 四、工具库
+## 三、工具库
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.cangHW/Service-UI-Info.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.cangHW%22%20AND%20a:%22Service-UI-Info%22)
 
@@ -102,20 +87,13 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| Utils | 1.1.2 | io.github.cangHW:Service-Utils-Info:“版本号” | api |
+| Utils | 1.2.0 | io.github.cangHW:Service-Utils-Info:“版本号” | api |
 
 <br/>
 
-## 五、版本更新
-
-| 版本 | 说明 |
-| :--: | :--: |
-| 1.1.0 | 新增 Gradle 自动化插件用于替换DexFile(DexFile在Android高版本已被标记过时) |
-| 1.0.0 | 提供基础能力以及工具、UI两大扩展能力 |
-
 <br/>
 
-## 六、使用方式
+## 四、使用方式
 1. 首先通过 CloudSystem 对框架进行初始化
 2. 注册服务
 3. 服务自动注册(可选，建议添加)
@@ -250,7 +228,7 @@
 
 <br/>
 
-## 七、交流学习
+## 五、交流学习
 
     QQ   :  1163478116
     微信  :  1163478116

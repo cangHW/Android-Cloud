@@ -7,6 +7,8 @@ import com.proxy.service.base.BaseService;
 import java.io.InputStream;
 
 /**
+ * 安全加密相关
+ *
  * @author : cangHX
  * on 2020/09/10  11:11 PM
  */

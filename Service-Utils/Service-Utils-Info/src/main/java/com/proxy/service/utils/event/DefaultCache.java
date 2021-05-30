@@ -5,13 +5,11 @@ import com.proxy.service.api.event.CloudMainThreadEventCallback;
 import com.proxy.service.api.event.CloudWorkThreadEventCallback;
 import com.proxy.service.api.event.Event;
 import com.proxy.service.api.utils.Logger;
-import com.proxy.service.api.utils.WeakReferenceUtils;
+import com.proxy.service.utils.event.event.EventInfo;
 import com.proxy.service.utils.thread.ThreadManager;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
@@ -23,41 +21,26 @@ public enum DefaultCache {
 
     INSTANCE;
 
-    private static final WeakHashMap<Event, HashSet<Class<?>>> CLASS_MAPPER = new WeakHashMap<>();
-    private static final HashMap<Class<?>, ArrayList<WeakReference<Event>>> EVENT_MAPPER = new HashMap<>();
+    private static final WeakHashMap<Event, EventInfo> EVENT_MAPPER = new WeakHashMap<>();
 
     public void addEventCallback(Set<Class<?>> set, Event event) {
         if (set == null || set.size() == 0) {
             Logger.Error(CloudApiError.DATA_EMPTY.setAbout(event + " : Set<Class<?>>").build());
             return;
         }
-        HashSet<Class<?>> hashSet = CLASS_MAPPER.get(event);
-        if (hashSet == null) {
-            hashSet = new HashSet<>();
-            CLASS_MAPPER.put(event, hashSet);
+        EventInfo eventInfo = EVENT_MAPPER.get(event);
+        if (eventInfo == null) {
+            eventInfo = EventInfo.create();
+            EVENT_MAPPER.put(event, eventInfo);
         }
-        hashSet.addAll(set);
-
-        for (Class<?> aClass : new HashSet<>(set)) {
-            ArrayList<WeakReference<Event>> events = EVENT_MAPPER.get(aClass);
-            if (events == null) {
-                events = new ArrayList<>();
-                EVENT_MAPPER.put(aClass, events);
-            }
-            if (WeakReferenceUtils.checkValueIsSame(events, event)) {
-                Logger.Warning(CloudApiError.DATA_DUPLICATION.setMsg("We already have an " + event + " here: CloudUtilsEventService").build());
-                continue;
-            }
-            events.add(new WeakReference<>(event));
-            refreshList(events);
-        }
+        eventInfo.addClasses(set);
     }
 
     public void send(final Object object) {
-        ArrayList<WeakReference<Event>> events = EVENT_MAPPER.get(object.getClass());
-        WeakReferenceUtils.checkValueIsEmpty(events, new WeakReferenceUtils.Callback<Event>() {
-            @Override
-            public void onCallback(WeakReference<Event> weakReference, final Event event) {
+        for (Map.Entry<Event, EventInfo> eventEventInfoEntry : new HashSet<>(EVENT_MAPPER.entrySet())) {
+            EventInfo eventInfo = eventEventInfoEntry.getValue();
+            if (eventInfo.contains(object.getClass())) {
+                final Event event = eventEventInfoEntry.getKey();
                 if (event instanceof CloudMainThreadEventCallback) {
                     ThreadManager.postMain(new Runnable() {
                         @Override
@@ -82,50 +65,13 @@ public enum DefaultCache {
                     });
                 }
             }
-        });
+        }
     }
 
     public void remove(final Event event) {
         if (event == null) {
             return;
         }
-        HashSet<Class<?>> hashSet = CLASS_MAPPER.get(event);
-        if (hashSet == null || hashSet.size() == 0) {
-            return;
-        }
-        CLASS_MAPPER.remove(event);
-        for (Class<?> aClass : new HashSet<>(hashSet)) {
-            final ArrayList<WeakReference<Event>> events = EVENT_MAPPER.get(aClass);
-            if (events == null) {
-                EVENT_MAPPER.remove(aClass);
-                continue;
-            }
-            if (events.size() == 0) {
-                continue;
-            }
-            WeakReferenceUtils.checkValueIsEmpty(events, new WeakReferenceUtils.Callback<Event>() {
-                @Override
-                public void onCallback(WeakReference<Event> weakReference, Event e) {
-                    if (e != event) {
-                        return;
-                    }
-                    events.remove(weakReference);
-                }
-            });
-        }
+        EVENT_MAPPER.remove(event);
     }
-
-    private void refreshList(ArrayList<WeakReference<Event>> events) {
-        for (WeakReference<Event> weakReference : new ArrayList<>(events)) {
-            if (weakReference == null) {
-                events.remove(null);
-                continue;
-            }
-            Event event = weakReference.get();
-            if (event == null) {
-                events.remove(weakReference);
-            }
-        }
-    }
-
 }

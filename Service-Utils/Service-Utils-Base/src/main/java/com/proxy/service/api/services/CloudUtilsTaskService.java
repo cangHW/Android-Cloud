@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import com.proxy.service.api.task.ITaskConditions;
 import com.proxy.service.api.task.ITaskFunction;
 import com.proxy.service.api.task.Task;
-import com.proxy.service.api.task.TaskCallable;
 import com.proxy.service.base.BaseService;
 
 import java.util.concurrent.Callable;
@@ -50,7 +49,7 @@ public interface CloudUtilsTaskService extends BaseService {
     ITaskFunction<Object> workThread();
 
     /**
-     * 延时
+     * 延时，工作线程执行，后续仍然为工作线程
      *
      * @param timeOut : 等待时间
      * @param unit    : 时间格式
@@ -63,7 +62,7 @@ public interface CloudUtilsTaskService extends BaseService {
     ITaskConditions<Object> delay(long timeOut, @NonNull TimeUnit unit);
 
     /**
-     * 当前置任务全部返回后继续执行
+     * 当前置任务全部返回后继续执行，当前线程执行，后续切换到工作线程
      *
      * @param functions : 前置任务
      * @return 任务对象
@@ -75,7 +74,7 @@ public interface CloudUtilsTaskService extends BaseService {
     ITaskConditions<Object> whenAll(@NonNull ITaskFunction<?>... functions);
 
     /**
-     * 当前置任务全部返回，或达到最大等待时间后继续执行
+     * 当前置任务全部返回，或达到最大等待时间后继续执行，当前线程执行，后续切换到工作线程
      *
      * @param timeOut   : 等待时间
      * @param unit      : 时间格式
@@ -89,7 +88,7 @@ public interface CloudUtilsTaskService extends BaseService {
     ITaskConditions<Object> whenAll(long timeOut, TimeUnit unit, @NonNull ITaskFunction<?>... functions);
 
     /**
-     * 当前置任务其中一个返回后继续执行
+     * 当前置任务其中一个返回后继续执行，当前线程执行，后续切换到工作线程
      *
      * @param functions : 前置任务
      * @return 任务对象
@@ -101,7 +100,7 @@ public interface CloudUtilsTaskService extends BaseService {
     ITaskConditions<Object> whenAny(@NonNull ITaskFunction<?>... functions);
 
     /**
-     * 当前置任务其中一个返回，或达到最大等待时间后继续执行
+     * 当前置任务其中一个返回，或达到最大等待时间后继续执行，当前线程执行，后续切换到工作线程
      *
      * @param timeOut   : 等待时间
      * @param unit      : 时间格式
@@ -115,7 +114,7 @@ public interface CloudUtilsTaskService extends BaseService {
     ITaskConditions<Object> whenAny(long timeOut, TimeUnit unit, @NonNull ITaskFunction<?>... functions);
 
     /**
-     * 循环执行
+     * 循环执行，当前线程执行，后续切换到工作线程
      *
      * @param callable : 回调接口，返回 true 继续执行，false 跳出循环
      * @param task     : 任务体
@@ -128,7 +127,7 @@ public interface CloudUtilsTaskService extends BaseService {
     <RESULT> ITaskConditions<RESULT> continueWhile(@NonNull Callable<Boolean> callable, @NonNull Task<RESULT> task);
 
     /**
-     * 在当前线程执行
+     * 在当前线程执行，后续切换到工作线程
      *
      * @param task : 任务体
      * @return 任务对象
@@ -140,7 +139,7 @@ public interface CloudUtilsTaskService extends BaseService {
     <RESULT> ITaskConditions<RESULT> call(@NonNull Task<RESULT> task);
 
     /**
-     * 在 ui 线程执行
+     * 在 UI 线程执行，如果不主动切换线程，后续仍然在 UI 线程
      *
      * @param task : 任务体
      * @return 任务对象
@@ -152,7 +151,7 @@ public interface CloudUtilsTaskService extends BaseService {
     <RESULT> ITaskConditions<RESULT> callUiThread(@NonNull Task<RESULT> task);
 
     /**
-     * 在工作线程执行
+     * 在工作线程执行，如果不主动切换线程，后续仍然在工作线程
      *
      * @param task : 任务体
      * @return 任务对象

@@ -24,6 +24,8 @@ import com.proxy.service.api.utils.Logger;
  */
 public class LibraryFragment extends BaseFragment implements CloudUiLifeCallback, onViewClickListener {
 
+    private static final Logger logger = Logger.create(LibraryFragment.class.getName());
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,6 +49,12 @@ public class LibraryFragment extends BaseFragment implements CloudUiLifeCallback
             ListActivity.launch(getContext(), ListHelperType.FILE);
         } else if (id == R.id.mNet_Work) {
             ListActivity.launch(getContext(), ListHelperType.NET_WORK);
+        } else if (id == R.id.mShare) {
+            ListActivity.launch(getContext(), ListHelperType.SHARE);
+        } else if (id == R.id.mLifecycle) {
+            ListActivity.launch(getContext(), ListHelperType.LIFECYCLE);
+        } else if (id == R.id.mEvent) {
+            ListActivity.launch(getContext(), ListHelperType.EVENT);
         }
     }
 
@@ -102,4 +110,5 @@ public class LibraryFragment extends BaseFragment implements CloudUiLifeCallback
     public String tag() {
         return "library";
     }
+
 }

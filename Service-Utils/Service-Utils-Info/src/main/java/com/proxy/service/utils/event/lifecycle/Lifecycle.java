@@ -2,6 +2,8 @@ package com.proxy.service.utils.event.lifecycle;
 
 import com.proxy.service.api.event.Event;
 
+import java.util.Set;
+
 /**
  * @author : cangHX
  * on 2021/05/20  8:16 PM
@@ -19,15 +21,33 @@ public interface Lifecycle {
     boolean isDestroy();
 
     /**
-     * 是否相同
+     * 销毁
      *
-     * @param event : 接口对象
-     * @return true 相同，false 不同
      * @version: 1.0
      * @author: cangHX
-     * @date: 2021/5/20 8:27 PM
+     * @date: 2021/5/20 8:16 PM
      */
-    boolean isSame(Event event);
+    void destroy();
+
+    /**
+     * 添加 Event 类型
+     *
+     * @param set : Event 类型集合
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/5/20 8:16 PM
+     */
+    void addClasses(Set<Class<?>> set);
+
+    /**
+     * 检查是否处理当前 Event 类型
+     *
+     * @param aClass : Event 类型
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/5/20 8:16 PM
+     */
+    boolean contains(Class<?> aClass);
 
     /**
      * 发送同步消息

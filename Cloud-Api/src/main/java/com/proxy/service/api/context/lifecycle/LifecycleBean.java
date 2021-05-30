@@ -9,7 +9,9 @@ import com.proxy.service.api.utils.WeakReferenceUtils;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author : cangHX
@@ -36,4 +38,10 @@ public class LifecycleBean {
         return LIFECYCLE_MAPPER.get(state);
     }
 
+    public void remove(CloudLifecycleListener lifecycleListener) {
+        for (Map.Entry<LifecycleState, List<WeakReference<CloudLifecycleListener>>> lifecycleStateListEntry : new HashSet<>(LIFECYCLE_MAPPER.entrySet())) {
+            List<WeakReference<CloudLifecycleListener>> list = lifecycleStateListEntry.getValue();
+            WeakReferenceUtils.removeValue(list, lifecycleListener);
+        }
+    }
 }

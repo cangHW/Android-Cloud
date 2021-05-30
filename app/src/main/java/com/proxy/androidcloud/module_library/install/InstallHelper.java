@@ -77,6 +77,9 @@ public class InstallHelper extends AbstractDetailHelper {
                 Toast.makeText(activity, "应用已安装", Toast.LENGTH_SHORT).show();
                 service.openApp(pkg);
             } else {
+                //设置安全路径，允许此路径下的文件进行分享
+                service.addProviderResourcePath(APK_PATH);
+                //发起安装
                 service.installApp(APK_PATH);
             }
         });

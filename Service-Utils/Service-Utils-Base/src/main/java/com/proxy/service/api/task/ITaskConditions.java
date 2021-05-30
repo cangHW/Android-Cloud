@@ -1,8 +1,5 @@
 package com.proxy.service.api.task;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
-
 /**
  * 任务功能与条件设置
  *

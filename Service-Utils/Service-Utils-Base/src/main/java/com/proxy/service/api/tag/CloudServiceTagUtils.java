@@ -87,4 +87,9 @@ public class CloudServiceTagUtils {
      * 生命周期相关
      */
     public static final String UTILS_LIFECYCLE = "utils_lifecycle";
+
+    /**
+     * 相册相关
+     */
+    public static final String UTILS_ALBUM = "utils_album";
 }

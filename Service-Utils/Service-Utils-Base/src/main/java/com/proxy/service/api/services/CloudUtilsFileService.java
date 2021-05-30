@@ -1,5 +1,7 @@
 package com.proxy.service.api.services;
 
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -10,6 +12,8 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
+ * 文件 I/O 相关
+ *
  * @author : cangHX
  * on 2020/09/08  9:15 PM
  */
@@ -28,6 +32,29 @@ public interface CloudUtilsFileService extends BaseService {
          */
         boolean isCancel();
     }
+
+    /**
+     * 添加允许通过 provider 共享的文件路径，用于获取资源 Uri 等
+     * 如果不设置，默认所有路径都是安全路径，建议设置
+     *
+     * @param filePath : 允许共享的安全路径
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020-06-19 13:30
+     */
+    void addProviderResourcePath(@NonNull String filePath);
+
+    /**
+     * 获取 uri
+     *
+     * @param file : 文件流
+     * @return uri
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/9/27 10:18 PM
+     */
+    @Nullable
+    Uri getUriForFile(@NonNull File file);
 
     /**
      * 创建 file，自动创建相关文件夹与文件

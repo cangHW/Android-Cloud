@@ -1,5 +1,6 @@
 package com.proxy.androidcloud;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.annotation.Nullable;
 
 import com.proxy.androidcloud.base.BaseActivity;
 import com.proxy.service.api.CloudSystem;
+import com.proxy.service.api.action.Action;
 import com.proxy.service.api.annotations.CloudUiCheckBoolean;
 import com.proxy.service.api.annotations.CloudUiCheckString;
 import com.proxy.service.api.annotations.CloudUiCheckStrings;
@@ -22,8 +24,10 @@ import com.proxy.service.api.impl.CloudUiCheckStringInfo;
 import com.proxy.service.api.services.CloudUiFieldCheckService;
 import com.proxy.service.api.services.CloudUtilsBitmapService;
 import com.proxy.service.api.services.CloudUtilsEditTextService;
+import com.proxy.service.api.services.CloudUtilsPermissionService;
 import com.proxy.service.api.tag.CloudServiceTagUi;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
+import com.proxy.service.api.utils.Logger;
 
 /**
  * @author: cangHX
@@ -31,6 +35,8 @@ import com.proxy.service.api.tag.CloudServiceTagUtils;
  */
 @SuppressWarnings("FieldCanBeLocal")
 public class LoginActivity extends BaseActivity implements CloudTextChangedCallback, CompoundButton.OnCheckedChangeListener {
+
+    private static final Logger logger = Logger.create(LoginActivity.class.getName());
 
     private static final String ACCOUNT = "account";
     private static final String PASSWORD = "password";
@@ -128,12 +134,13 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
 
         onClick(mCaptchaImageView);
 
+        permission();
     }
 
     /**
      * 设置默认数据
-     * */
-    private void setNormal(String captcha){
+     */
+    private void setNormal(String captcha) {
         mInputAccountView.setText("oykkk");
         mInputPasswordView.setText("1233");
         mInputCaptchaView.setText(captcha);
@@ -146,7 +153,7 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
             if (mBitmapService == null) {
                 return;
             }
-            CloudCaptchaInfo captchaInfo = mBitmapService.captcha(240, 100, "",40);
+            CloudCaptchaInfo captchaInfo = mBitmapService.captcha(240, 100, "", 40);
             mCaptchaImageView.setImageBitmap(captchaInfo.getBitmap());
             if (mFieldCheckService != null) {
                 mFieldCheckService.setConditions(3, CloudUiCheckStringInfo.builder(CAPTCHA)
@@ -198,4 +205,45 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         mProtocolReady = isChecked;
     }
+
+    /**
+     * 申请需要的权限
+     */
+    private void permission() {
+        CloudUtilsPermissionService permissionService = CloudSystem.getService(CloudUtilsPermissionService.class);
+        if (permissionService != null) {
+            permissionService.requestPermission()
+                    .addPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .addPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .onGranted(new Action<String[]>() {
+                        @Override
+                        public void onAction(String[] strings) {
+                            //成功
+                            for (String string : strings) {
+                                logger.error("onGranted : " + string);
+                            }
+                        }
+                    })
+                    .onRationale(new Action<String[]>() {
+                        @Override
+                        public void onAction(String[] strings) {
+                            //拒绝并且不再弹出
+                            for (String string : strings) {
+                                logger.error("onRationale : " + string);
+                            }
+                        }
+                    })
+                    .onDenied(new Action<String[]>() {
+                        @Override
+                        public void onAction(String[] strings) {
+                            //拒绝
+                            for (String string : strings) {
+                                logger.error("onDenied : " + string);
+                            }
+                        }
+                    })
+                    .request();
+        }
+    }
+
 }

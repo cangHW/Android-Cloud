@@ -42,7 +42,7 @@ public interface CloudUtilsInstallService extends BaseService {
     boolean isInstallApp(@NonNull String packageName);
 
     /**
-     * 添加允许通过 provider 共享的文件路径，用于调起安装等
+     * 添加允许通过 provider 共享的文件路径，用于获取资源 Uri 等
      * 如果不设置，默认所有路径都是安全路径，建议设置
      *
      * @param filePath : 允许共享的安全路径

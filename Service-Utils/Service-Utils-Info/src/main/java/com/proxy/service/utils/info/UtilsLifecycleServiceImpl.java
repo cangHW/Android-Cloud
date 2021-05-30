@@ -24,7 +24,9 @@ import com.proxy.service.utils.lifecycle.LifecycleFragment;
 import com.proxy.service.utils.lifecycle.LifecycleFragmentListener;
 
 import java.lang.ref.WeakReference;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.WeakHashMap;
 
 /**
@@ -125,6 +127,70 @@ public class UtilsLifecycleServiceImpl implements CloudUtilsLifecycleService, Cl
             transaction.commitNowAllowingStateLoss();
         } catch (Throwable throwable) {
             Logger.Error(throwable);
+        }
+    }
+
+    /**
+     * 移除 Activity 的生命周期监听
+     *
+     * @param activity : 上下文
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/5/20 9:29 PM
+     */
+    @Override
+    public void remove(Activity activity) {
+        if (activity == null) {
+            return;
+        }
+        ACTIVITY_MAPPER.remove(activity);
+    }
+
+    /**
+     * 移除 Activity 的生命周期监听
+     *
+     * @param lifecycleListener : 生命周期回调
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/5/20 9:29 PM
+     */
+    @Override
+    public void remove(CloudActivityLifecycleListener lifecycleListener) {
+        for (Map.Entry<Activity, LifecycleBean> activityLifecycleBeanEntry : new HashSet<>(ACTIVITY_MAPPER.entrySet())) {
+            LifecycleBean lifecycleBean = activityLifecycleBeanEntry.getValue();
+            lifecycleBean.remove(lifecycleListener);
+        }
+    }
+
+    /**
+     * 移除 Fragment 的生命周期监听
+     *
+     * @param fragment : 上下文
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/5/20 9:29 PM
+     */
+    @Override
+    public void remove(Fragment fragment) {
+        if (fragment == null) {
+            return;
+        }
+        FRAGMENT_MAPPER.remove(fragment);
+    }
+
+    /**
+     * 移除 Fragment 的生命周期监听
+     *
+     * @param lifecycleListener : 生命周期回调
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/5/20 9:29 PM
+     */
+    @Override
+    public void remove(CloudFragmentLifecycleListener lifecycleListener) {
+        for (Map.Entry<Fragment, FragmentLifecycleBean> fragmentLifecycleBeanEntry : new HashSet<>(FRAGMENT_MAPPER.entrySet())) {
+            FragmentLifecycleBean fragmentLifecycleBean = fragmentLifecycleBeanEntry.getValue();
+            fragmentLifecycleBean.remove(lifecycleListener);
         }
     }
 

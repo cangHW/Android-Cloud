@@ -9,6 +9,8 @@ import com.proxy.service.api.receiver.CloudReceiverListener;
 import com.proxy.service.base.BaseService;
 
 /**
+ * 广播相关
+ *
  * @author : cangHX
  * on 2020/09/28  10:52 PM
  */

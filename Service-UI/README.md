@@ -24,14 +24,24 @@
             kapt 'io.github.cangHW:Cloud-Compiler:x.x.x'
             ...
     }
+    
+## 一、版本更新
 
-## 一、服务
+| 版本 | 说明 |
+| :--: | :--: |
+| 1.2.0 | 更新新版API库 |
+| 1.1.2 | 使用最新版生命周期监听优化性能 |
+| 1.1.1 | 优化日志，使错误提示更加清晰 |
+| 1.1.0 | 新增 Gradle 自动化插件用于替换DexFile(DexFile在Android高版本已被标记过时) |
+| 1.0.0 | 初始版本 |
+
+## 二、服务
 || 类名 | tag | 说明 |
 | :--: | :-- | :-- | :-- |
 | 1 | CloudUiFieldCheckService | CloudServiceTagUi.UI_FIELD_CHECK | 主要用于数据检测 |
 | 2 | CloudUiTabHostService | CloudServiceTagUi.UI_TAB_HOST | 主要用于 tab 切换页面 |
 
-## 二、介绍
+## 三、介绍
 
 1. CloudUiFieldCheckService   主要用于数据校验
 

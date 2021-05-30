@@ -108,7 +108,7 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
     }
 
     /**
-     * 添加允许通过 provider 共享的文件路径，用于调起安装等
+     * 添加允许通过 provider 共享的文件路径，用于获取资源 Uri 等
      * 如果不设置，默认所有路径都是安全路径，建议设置
      *
      * @param filePath : 允许共享的安全路径
@@ -161,8 +161,8 @@ public class UtilsInstallServiceImpl implements CloudUtilsInstallService {
         if (isSdkVersionReady || isTargetReady) {
             uri = Uri.fromFile(file);
         } else {
-            String provider = ProviderUtils.getProviderAuthoritiesFromManifest(UtilsProvider.class.getName(), "proxy_service_provider");
-            uri = Uri.parse("content://" + provider + apkPath);
+            String authority = ProviderUtils.getProviderAuthoritiesFromManifest(UtilsProvider.class.getName(), "proxy_service_provider");
+            uri = UtilsProvider.getUriForFile(authority, file);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
         intent.setDataAndType(uri, type);

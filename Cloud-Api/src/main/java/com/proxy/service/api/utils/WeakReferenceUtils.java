@@ -101,4 +101,34 @@ public class WeakReferenceUtils {
         }
         return false;
     }
+
+    /**
+     * 移除 value
+     *
+     * @param list     : 弱引用集合
+     * @param nowValue : 用于对比的 value
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2020/8/31 3:42 PM
+     */
+    public static <T> void removeValue(List<WeakReference<T>> list, T nowValue) {
+        if (list == null) {
+            return;
+        }
+        for (WeakReference<T> weakReference : new ArrayList<>(list)) {
+            if (weakReference == null) {
+                list.remove(null);
+                continue;
+            }
+            T t = weakReference.get();
+            if (t == null) {
+                list.remove(weakReference);
+                continue;
+            }
+            if (t == nowValue) {
+                list.remove(weakReference);
+                return;
+            }
+        }
+    }
 }

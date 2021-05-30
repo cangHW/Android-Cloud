@@ -5,7 +5,6 @@ import android.app.Activity;
 import androidx.fragment.app.Fragment;
 
 import com.proxy.service.api.context.LifecycleState;
-import com.proxy.service.api.context.listener.CloudLifecycleListener;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.event.CloudMainThreadEventCallback;
 import com.proxy.service.api.event.CloudWorkThreadEventCallback;
@@ -14,9 +13,12 @@ import com.proxy.service.api.lifecycle.CloudActivityLifecycleListener;
 import com.proxy.service.api.lifecycle.CloudFragmentLifecycleListener;
 import com.proxy.service.api.lifecycle.FragmentLifecycleState;
 import com.proxy.service.api.utils.Logger;
+import com.proxy.service.utils.info.UtilsLifecycleServiceImpl;
 import com.proxy.service.utils.thread.ThreadManager;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -27,6 +29,7 @@ public class LifecycleHolder implements Lifecycle, CloudActivityLifecycleListene
 
     private Event mEvent;
     private final ArrayList<Object> mArrayList = new ArrayList<>();
+    private final HashSet<Class<?>> mHashSet = new HashSet<>();
 
     private final AtomicBoolean isResume = new AtomicBoolean(false);
     private final AtomicBoolean isDestroy = new AtomicBoolean(false);
@@ -49,20 +52,59 @@ public class LifecycleHolder implements Lifecycle, CloudActivityLifecycleListene
     }
 
     /**
-     * 是否相同
+     * 销毁
      *
-     * @param event : 接口对象
-     * @return true 相同，false 不同
      * @version: 1.0
      * @author: cangHX
-     * @date: 2021/5/20 8:27 PM
+     * @date: 2021/5/20 8:16 PM
      */
     @Override
-    public boolean isSame(Event event) {
-        if (mEvent == null) {
-            return false;
+    public void destroy() {
+        UtilsLifecycleServiceImpl service = new UtilsLifecycleServiceImpl();
+        try {
+            service.remove((CloudActivityLifecycleListener) this);
+        } catch (Throwable throwable) {
+            Logger.Debug(throwable);
         }
-        return event == mEvent;
+        try {
+            service.remove((CloudFragmentLifecycleListener) this);
+        } catch (Throwable throwable) {
+            Logger.Debug(throwable);
+        }
+    }
+
+    /**
+     * 添加 Event 类型
+     *
+     * @param set : Event 类型集合
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/5/20 8:16 PM
+     */
+    @Override
+    public void addClasses(Set<Class<?>> set) {
+        if (set == null || set.size() == 0) {
+            return;
+        }
+        mHashSet.addAll(set);
+    }
+
+    /**
+     * 检查是否处理当前 Event 类型
+     *
+     * @param aClass : Event 类型
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/5/20 8:16 PM
+     */
+    @Override
+    public boolean contains(Class<?> aClass) {
+        for (Class<?> aClass1 : new HashSet<>(mHashSet)) {
+            if (aClass1.isAssignableFrom(aClass)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
