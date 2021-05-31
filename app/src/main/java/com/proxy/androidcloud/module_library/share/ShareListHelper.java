@@ -80,6 +80,7 @@ public class ShareListHelper extends AbstractListHelper {
      *                 3、{@link HelperItemInfo#BUTTON_LEFT},
      *                 4、{@link HelperItemInfo#BUTTON_RIGHT}
      */
+    @SuppressWarnings("deprecation")
     @Override
     public void onItemClick(Context context, HelperItemInfo itemInfo, int button) {
         if (mShareService == null || mSystemPageService == null || mFileService == null) {

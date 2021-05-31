@@ -71,7 +71,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| UI | 1.2.0 | io.github.cangHW:Service-UI-Info:“版本号” | api |
+| UI | 1.2.1 | io.github.cangHW:Service-UI-Info:“版本号” | api |
 
 <br/>
 
@@ -87,7 +87,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| Utils | 1.2.0 | io.github.cangHW:Service-Utils-Info:“版本号” | api |
+| Utils | 1.2.1 | io.github.cangHW:Service-Utils-Info:“版本号” | api |
 
 <br/>
 

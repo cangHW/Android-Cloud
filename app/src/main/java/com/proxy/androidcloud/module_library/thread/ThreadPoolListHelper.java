@@ -333,6 +333,7 @@ public class ThreadPoolListHelper extends AbstractListHelper {
                 return iTasks;
             }
         }).workThread().call(new TaskCallable<Object, String>() {
+            @SuppressWarnings("unchecked")
             @Override
             public String then(ITask<Object>[] iTasks) throws Exception {
                 ITask<Object>[] tasks = (ITask<Object>[])iTasks[0].getResponse();

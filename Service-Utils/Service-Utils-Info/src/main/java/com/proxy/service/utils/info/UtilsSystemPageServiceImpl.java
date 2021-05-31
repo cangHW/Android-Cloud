@@ -3,6 +3,8 @@ package com.proxy.service.utils.info;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
@@ -37,15 +39,16 @@ public class UtilsSystemPageServiceImpl implements CloudUtilsSystemPageService {
             Logger.Error(CloudApiError.INIT_EMPTY.build());
             return;
         }
-        Intent intent = new Intent();
-        intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         if (TextUtils.isEmpty(packageName)) {
             CloudUtilsAppService service = new UtilsAppServiceImpl();
-            intent.setData(Uri.parse("package:" + service.getPackageName()));
-        } else {
-            intent.setData(Uri.parse("package:" + packageName));
+            packageName = service.getPackageName();
         }
+
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setData(Uri.parse("package:" + packageName));
         context.startActivity(intent);
     }
 
@@ -60,27 +63,31 @@ public class UtilsSystemPageServiceImpl implements CloudUtilsSystemPageService {
      */
     @Override
     public void openNotificationSetting(@Nullable String packageName, @Nullable String uid) {
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            openAppSetting(packageName);
+            return;
+        }
+
         Context context = ContextManager.getApplication();
         if (context == null) {
             Logger.Error(CloudApiError.INIT_EMPTY.build());
             return;
         }
-        Intent intent = new Intent();
-        intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
 
         CloudUtilsAppService service = new UtilsAppServiceImpl();
-
         if (TextUtils.isEmpty(packageName)) {
-            intent.putExtra("app_package", service.getPackageName());
-        } else {
-            intent.putExtra("app_package", packageName);
+            packageName = service.getPackageName();
+        }
+        if (TextUtils.isEmpty(uid)) {
+            uid = service.getUid();
         }
 
-        if (TextUtils.isEmpty(packageName)) {
-            intent.putExtra("app_uid", service.getUid());
-        } else {
-            intent.putExtra("app_uid", uid);
-        }
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+        intent.putExtra(Settings.EXTRA_APP_PACKAGE, packageName);
+        intent.putExtra("app_package", packageName);
+        intent.putExtra("app_uid", uid);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
