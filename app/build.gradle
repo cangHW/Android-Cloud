@@ -74,4 +74,10 @@ dependencies {
         implementation project(path: ':Service-NetWork:Service-NetWork-Retrofit')
     }
 
+    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(service_media_info_isFromMaven)) {
+        implementation "${publishedGroupId}:Service-Net-Retrofit:${service_media_info_version}"
+    } else {
+        implementation project(path: ':Service-Media:Service-Media-Base')
+    }
+
 }

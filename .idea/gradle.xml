@@ -17,6 +17,9 @@
             <option value="$PROJECT_DIR$/Cloud-Base" />
             <option value="$PROJECT_DIR$/Cloud-Compiler" />
             <option value="$PROJECT_DIR$/Cloud-Plugin" />
+            <option value="$PROJECT_DIR$/Service-Media" />
+            <option value="$PROJECT_DIR$/Service-Media/Service-Media-Base" />
+            <option value="$PROJECT_DIR$/Service-Media/Service-Media-Info" />
             <option value="$PROJECT_DIR$/Service-NetWork" />
             <option value="$PROJECT_DIR$/Service-NetWork/Service-NetWork-Base" />
             <option value="$PROJECT_DIR$/Service-NetWork/Service-NetWork-OkHttp" />

@@ -10,6 +10,9 @@ include ':Service-NetWork:Service-NetWork-Retrofit'
 include ':Service-Utils:Service-Utils-Base'
 include ':Service-Utils:Service-Utils-Info'
 
+include ':Service-Media:Service-Media-Base'
+include ':Service-Media:Service-Media-Info'
+
 include ':Cloud-Base'
 include ':Cloud-Api'
 include ':Cloud-Annotations'

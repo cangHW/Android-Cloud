@@ -69,9 +69,9 @@ public interface CloudUtilsFileService extends BaseService {
     File createFile(String path);
 
     /**
-     * 删除文件
+     * 删除文件或文件夹
      *
-     * @param path : 文件地址
+     * @param path : 文件或文件夹地址
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/9/10 11:03 PM
@@ -129,14 +129,15 @@ public interface CloudUtilsFileService extends BaseService {
     /**
      * 写文件，同步执行
      *
-     * @param oldFile : 旧位置或旧名称
-     * @param newFile : 新位置或新名称
+     * @param src         : 源文件(可以是文件或文件夹)
+     * @param dest        : 目标文件(可以是文件或文件夹)
+     * @param isDeleteSrc : 源文件是否删除
      * @return true 成功，false 失败
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/9/8 9:16 PM
      */
-    boolean write(File oldFile, File newFile);
+    boolean write(File src, File dest, boolean isDeleteSrc);
 
     /**
      * 写文件，同步执行
@@ -150,4 +151,17 @@ public interface CloudUtilsFileService extends BaseService {
      * @date: 2020/9/10 10:47 PM
      */
     boolean write(InputStream is, File localFile, long seek, ProgressCallback callback);
+
+    /**
+     * 压缩
+     *
+     * @param in      : 准备压缩的文件或文件夹
+     * @param outDir  : 压缩包路径
+     * @param zipName : 压缩包名称
+     * @return 是否压缩成功, true 成功，false 失败
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/6/10 9:51 PM
+     */
+    boolean zip(File in, String outDir, String zipName);
 }

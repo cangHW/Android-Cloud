@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.proxy.service.annotations.CloudApiService;
+import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsFileService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
 import com.proxy.service.api.utils.Logger;
@@ -26,6 +27,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author : cangHX
@@ -90,6 +93,7 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
         }
         File file = new File(path);
         if (file.exists()) {
+            Logger.Debug(CloudApiError.DATA_DUPLICATION.setAbout(path).build());
             return file;
         }
         try {
@@ -98,12 +102,14 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
                 return null;
             }
             if (!parentFile.exists()) {
-                if (!parentFile.mkdirs()) {
+                parentFile.mkdirs();
+                if (!parentFile.exists()) {
                     Logger.Error("Directory create failed. : " + path);
                     return null;
                 }
             }
-            if (!file.createNewFile()) {
+            file.createNewFile();
+            if (!file.exists()) {
                 Logger.Error("file create failed. : " + path);
                 return null;
             }
@@ -117,9 +123,9 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
     }
 
     /**
-     * 删除文件
+     * 删除文件或文件夹
      *
-     * @param path : 文件地址
+     * @param path : 文件或文件夹地址
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/9/10 11:03 PM
@@ -132,6 +138,17 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
         }
         try {
             File file = new File(path);
+            if (!file.exists()) {
+                return true;
+            }
+            if (file.isDirectory()) {
+                File[] files = file.listFiles();
+                if (files != null) {
+                    for (File file1 : files) {
+                        deleteFile(file1.getPath());
+                    }
+                }
+            }
             return file.delete();
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
@@ -283,7 +300,6 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
-
         }
         return false;
     }
@@ -311,43 +327,90 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
     }
 
     /**
-     * 移动文件位置与修改文件名称
+     * 写文件，同步执行
      *
-     * @param oldFile : 旧位置或旧名称
-     * @param newFile : 新位置或新名称
+     * @param src         : 源文件(可以是文件或文件夹)
+     * @param dest        : 目标文件(可以是文件或文件夹)
+     * @param isDeleteSrc : 源文件是否删除
      * @return true 成功，false 失败
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/9/8 9:16 PM
      */
     @Override
-    public boolean write(File oldFile, File newFile) {
-        if (oldFile == null || newFile == null) {
-            Logger.Debug("oldFile or newFile can not be null");
+    public boolean write(File src, File dest, boolean isDeleteSrc) {
+        if (src == null || dest == null) {
+            Logger.Debug(CloudApiError.DATA_EMPTY.setAbout("oldFile or newFile can not be null").build());
             return false;
         }
-        if (!oldFile.exists() || oldFile.isDirectory()) {
-            Logger.Debug("The target file does not exist. with : " + oldFile.getAbsolutePath());
+        if (!src.exists()) {
+            Logger.Debug(CloudApiError.DATA_EMPTY.setAbout("The target file does not exist. with : " + src.getAbsolutePath()).build());
             return false;
         }
-        if (oldFile.length() == 0) {
-            deleteFile(oldFile.getAbsolutePath());
-            File file = createFile(newFile.getAbsolutePath());
+
+        if (dest.exists() && dest.length() > 0) {
+            Logger.Debug("The destination location file already exists. with : " + dest.getAbsolutePath());
+            return false;
+        }
+
+        if (dest.isDirectory()) {
+            if (src.isDirectory()) {
+                File[] files = src.listFiles();
+                if (files == null) {
+                    Logger.Debug(CloudApiError.DATA_EMPTY.setAbout("The directory file does not empty. with : " + src.getAbsolutePath()).build());
+                    return false;
+                }
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        String name = file.getName();
+                        File newFile = new File(dest, name);
+                        write(file, newFile, isDeleteSrc);
+                    } else {
+                        writeFile(file, dest, isDeleteSrc);
+                    }
+                }
+                return true;
+            } else {
+                dest = new File(dest, src.getName());
+                return writeFile(src, dest, isDeleteSrc);
+            }
+        } else {
+            if (src.isDirectory()) {
+                Logger.Debug(CloudApiError.DATA_TYPE_ERROR.setAbout("Src is different from dest. src = " + src + " ; dest = " + dest).build());
+                return false;
+            } else {
+                return writeFile(src, dest, isDeleteSrc);
+            }
+        }
+    }
+
+    /**
+     * 写文件
+     */
+    private boolean writeFile(File src, File dest, boolean isDeleteSrc) {
+        if (src.length() == 0) {
+            if (isDeleteSrc) {
+                deleteFile(src.getAbsolutePath());
+            }
+            File file = createFile(dest.getAbsolutePath());
             return file != null;
         }
-        if (newFile.isDirectory()) {
-            newFile = new File(newFile, oldFile.getName());
-        }
-        if (newFile.exists() && newFile.length() > 0) {
-            Logger.Debug("The destination location file already exists. with : " + newFile.getAbsolutePath());
-            return false;
-        }
-        try {
-            if (oldFile.renameTo(newFile)) {
-                return true;
+
+        File parent = dest.getParentFile();
+        if (parent != null) {
+            if (!parent.exists()) {
+                parent.mkdirs();
             }
-        } catch (Throwable throwable) {
-            Logger.Debug(throwable);
+        }
+
+        if (isDeleteSrc) {
+            try {
+                if (src.renameTo(dest)) {
+                    return true;
+                }
+            } catch (Throwable throwable) {
+                Logger.Debug(throwable);
+            }
         }
 
         FileInputStream fileInputStream = null;
@@ -355,12 +418,16 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
         FileOutputStream fileOutputStream = null;
         FileChannel fileOutputChannel = null;
         try {
-            fileInputStream = new FileInputStream(oldFile);
+            fileInputStream = new FileInputStream(src);
             fileInputChannel = fileInputStream.getChannel();
-            fileOutputStream = new FileOutputStream(newFile);
+            fileOutputStream = new FileOutputStream(dest);
             fileOutputChannel = fileOutputStream.getChannel();
 
             fileOutputChannel.transferFrom(fileInputChannel, 0, fileInputChannel.size());
+
+            if (isDeleteSrc) {
+                src.delete();
+            }
             return true;
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
@@ -489,4 +556,80 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
         }
         return false;
     }
+
+    /**
+     * 压缩
+     *
+     * @param in      : 准备压缩的文件或文件夹
+     * @param outDir  : 压缩包路径
+     * @param zipName : 压缩包名称
+     * @return 是否压缩成功, true 成功，false 失败
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/6/10 9:51 PM
+     */
+    @Override
+    public boolean zip(File in, String outDir, String zipName) {
+        if (in == null) {
+            Logger.Debug(CloudApiError.DATA_EMPTY.setAbout("in can not be null").build());
+            return false;
+        }
+
+        if (TextUtils.isEmpty(outDir) || TextUtils.isEmpty(zipName)) {
+            Logger.Debug(CloudApiError.DATA_EMPTY.setAbout("outDir or zipName can not be empty").build());
+            return false;
+        }
+
+        File parent = new File(outDir);
+        if (!parent.exists()) {
+            parent.mkdirs();
+        }
+
+        ZipOutputStream outputStream = null;
+        try {
+            File file = new File(parent, zipName + ".zip");
+            outputStream = new ZipOutputStream(new FileOutputStream(file));
+            zip(in, outputStream, zipName);
+            return file.exists();
+        } catch (Throwable e) {
+            Logger.Debug(e);
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.flush();
+                    outputStream.finish();
+                }
+            } catch (Throwable throwable) {
+                Logger.Debug(throwable);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 生成压缩包
+     */
+    private void zip(File in, ZipOutputStream out, String fileName) throws Throwable {
+        if (in.isDirectory()) {
+            out.putNextEntry(new ZipEntry(fileName + File.separator));
+            File[] files = in.listFiles();
+            if (files == null) {
+                return;
+            }
+            for (File file : files) {
+                zip(file, out, fileName + File.separator + file.getName());
+            }
+        } else {
+            out.putNextEntry(new ZipEntry(fileName));
+            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(in));
+            byte[] bytes = new byte[8 * 1024];
+            int len;
+            while ((len = inputStream.read(bytes)) != -1) {
+                out.write(bytes, 0, len);
+            }
+//            out.flush();
+            inputStream.close();
+        }
+    }
+
 }
