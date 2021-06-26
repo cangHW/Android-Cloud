@@ -171,7 +171,7 @@ public class DownloadTask {
             long size = cacheFile.length();
             //最后判断文件完整性,未能成功获取文件总大小按文件完整处理
             if (size > 0 && (size == downloadInfo.fileSize || downloadInfo.fileSize <= 0)) {
-                mFileService.write(cacheFile, file);
+                mFileService.write(cacheFile, file, true);
                 if (TextUtils.isEmpty(downloadInfo.fileMd5)) {
                     mDownloadListener.onSuccess(downloadInfo);
                     return;

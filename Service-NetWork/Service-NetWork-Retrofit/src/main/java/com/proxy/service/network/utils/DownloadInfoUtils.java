@@ -62,18 +62,18 @@ public class DownloadInfoUtils {
         }
         if (!downloadInfo.getFileName().equals(dbDownloadInfo.fileName)) {
             if (!downloadInfo.getFileName().startsWith(PathUtils.CACHE_PREFIX)) {
-                service.write(new File(dbDownloadInfo.fileDir, dbDownloadInfo.fileName), new File(dbDownloadInfo.fileDir, downloadInfo.getFileName()));
+                service.write(new File(dbDownloadInfo.fileDir, dbDownloadInfo.fileName), new File(dbDownloadInfo.fileDir, downloadInfo.getFileName()), true);
                 dbDownloadInfo.fileName = downloadInfo.getFileName();
                 info = dbDownloadInfo;
             }
         }
         if (!downloadInfo.getFileDir().equals(dbDownloadInfo.fileDir)) {
-            service.write(new File(dbDownloadInfo.fileDir, dbDownloadInfo.fileName), new File(downloadInfo.getFileDir(), downloadInfo.getFileName()));
+            service.write(new File(dbDownloadInfo.fileDir, dbDownloadInfo.fileName), new File(downloadInfo.getFileDir(), downloadInfo.getFileName()), true);
             dbDownloadInfo.fileDir = downloadInfo.getFileDir();
             info = dbDownloadInfo;
         }
         if (!downloadInfo.getFileCachePath().equals(dbDownloadInfo.fileCachePath)) {
-            service.write(new File(dbDownloadInfo.fileCachePath), new File(downloadInfo.getFileCachePath()));
+            service.write(new File(dbDownloadInfo.fileCachePath), new File(downloadInfo.getFileCachePath()), true);
             dbDownloadInfo.fileCachePath = downloadInfo.getFileCachePath();
             info = dbDownloadInfo;
         }
