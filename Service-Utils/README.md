@@ -19,6 +19,7 @@
 
 | 版本 | 说明 |
 | :--: | :--: |
+| 1.2.2 | 优化性能 |
 | 1.2.0 | 优化权限检测与provider |
 | 1.1.2 | 新增生命周期监听与event事件分发服务 |
 | 1.1.1 | 优化日志，使错误提示更加清晰 |
@@ -153,7 +154,7 @@
 | 方法名 | 参数 | 说明 |
 | :-- | :-- | :-- |
 | addProviderResourcePath | filePath：允许共享的安全路径 | 添加允许通过 provider 共享的文件路径 |
-| getUriForFile | file：文件流 | 获取允许共享的 uri |
+| getUriFromFile | file：文件流 | 获取允许共享的 uri |
 | createFile | path：文件地址 | 创建 file，自动创建相关文件夹与文件 |
 | deleteFile | path：文件地址 | 删除文件 |
 | read | path：文件地址 | 读文件，同步执行 |
