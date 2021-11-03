@@ -93,7 +93,7 @@ public class PermissionFragment extends Fragment implements IPermissionFragment 
             info.grantedPermissions.add(permission);
             info.deniedPermissions.remove(permission);
         }
-        for (String permission : info.deniedPermissions) {
+        for (String permission : new ArrayList<>(info.deniedPermissions)) {
             boolean flag = shouldShowRequestPermissionRationale(permission);
             if (flag) {
                 continue;

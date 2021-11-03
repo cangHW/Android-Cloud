@@ -16,7 +16,7 @@ class ServiceTransform extends Transform {
     private Project mProject
 
     ServiceTransform(Project project) {
-        this.mProject = project;
+        this.mProject = project
     }
 
     @Override

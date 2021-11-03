@@ -212,7 +212,7 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
     private void permission() {
         CloudUtilsPermissionService permissionService = CloudSystem.getService(CloudUtilsPermissionService.class);
         if (permissionService != null) {
-            permissionService.requestPermission()
+            permissionService.create()
                     .addPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                     .addPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .onGranted(new Action<String[]>() {

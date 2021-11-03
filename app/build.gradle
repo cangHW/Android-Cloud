@@ -80,4 +80,10 @@ dependencies {
         implementation project(path: ':Service-Media:Service-Media-Base')
     }
 
+    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(service_media_base_isFromMaven)) {
+        api "${publishedGroupId}:Service-Media-Info:${service_media_base_version}"
+    } else {
+        api project(path: ':Service-Media:Service-Media-Info')
+    }
+
 }

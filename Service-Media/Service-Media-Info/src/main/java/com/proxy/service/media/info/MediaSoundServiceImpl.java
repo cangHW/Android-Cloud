@@ -54,7 +54,7 @@ public class MediaSoundServiceImpl implements CloudMediaSoundService, ListUtils.
     /**
      * 通过 tag 进行初始化 CloudMediaSoundService,
      * 如果成功, 则继承并更新上一次的设置,
-     * 如果失败, 则需要通过{@link CloudMediaSoundService#initialize(int, CloudStreamTypeEnum, Builder)}进行初始化, 成功后会绑定到当前 tag.
+     * 如果失败, 则需要通过{@link CloudMediaSoundService#initialize(int, CloudStreamTypeEnum, Builder, String)}进行初始化, 成功后会绑定到当前 tag.
      *
      * @param tag : 标示, 用于绑定设置
      * @return true 成功, false 失败
@@ -94,18 +94,21 @@ public class MediaSoundServiceImpl implements CloudMediaSoundService, ListUtils.
      * 初始化一个播放池
      *
      * @param maxStreams : 最大声音数量
-     * @param streamType : 声音类型
+     * @param streamType : 音量类型
      * @param builder    : 额外设置
+     * @param tag        : 标示, 用于绑定设置
      * @version: 1.0
      * @author: cangHX
      * @date: 2021/6/1 9:00 PM
      */
     @Override
-    public void initialize(int maxStreams, @Nullable CloudStreamTypeEnum streamType, @Nullable Builder builder) {
+    public void initialize(int maxStreams, @Nullable CloudStreamTypeEnum streamType, @Nullable Builder builder, @Nullable String tag) {
         if (!isInit.compareAndSet(false, true)) {
             Logger.Debug(CloudApiError.INIT_ONCE.setAbout("CloudMediaSoundService initialize()").build());
             return;
         }
+
+        mTag = tag;
 
         if (maxStreams <= 0) {
             maxStreams = 1;
@@ -151,7 +154,21 @@ public class MediaSoundServiceImpl implements CloudMediaSoundService, ListUtils.
         mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                //todo 判断load结束
+                List<SoundInfo> list = SOUND_INFO_MAPPER.get(mTag);
+                SoundInfo soundInfo = ListUtils.getValueWhen(list, sampleId, new ListUtils.ListComparator<SoundInfo, Integer>() {
+                    @Override
+                    public boolean comparator(SoundInfo soundInfo, Integer integer) {
+                        if (soundInfo == null) {
+                            return false;
+                        }
+                        return soundInfo.soundId == integer;
+                    }
+                });
+                if (soundInfo == null) {
+                    Logger.Error(CloudApiError.DATA_EMPTY.setAbout("SoundPool load error. sampleId : " + sampleId).build());
+                    return;
+                }
+                soundInfo.isReady = true;
             }
         });
 
@@ -165,9 +182,9 @@ public class MediaSoundServiceImpl implements CloudMediaSoundService, ListUtils.
     }
 
     /**
-     * 加载音频(最多加载 255 个音频)
+     * 加载音频(最多加载 255 个音频), 音频最大 100KB
      *
-     * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、暂停等.
+     * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、释放等.
      * @param path     : 音频地址
      * @version: 1.0
      * @author: cangHX
@@ -224,9 +241,9 @@ public class MediaSoundServiceImpl implements CloudMediaSoundService, ListUtils.
     }
 
     /**
-     * 加载音频(最多加载 255 个音频)
+     * 加载音频(最多加载 255 个音频), 音频最大 100KB
      *
-     * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、暂停等.
+     * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、释放等.
      * @param resId    : 音频资源 ID
      * @version: 1.0
      * @author: cangHX
@@ -293,9 +310,9 @@ public class MediaSoundServiceImpl implements CloudMediaSoundService, ListUtils.
     }
 
     /**
-     * 加载音频(最多加载 255 个音频)
+     * 加载音频(最多加载 255 个音频), 音频最大 100KB
      *
-     * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、暂停等.
+     * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、释放等.
      * @param afd      : 资源文件描述
      * @version: 1.0
      * @author: cangHX
@@ -341,9 +358,9 @@ public class MediaSoundServiceImpl implements CloudMediaSoundService, ListUtils.
     }
 
     /**
-     * 加载音频(最多加载 255 个音频)
+     * 加载音频(最多加载 255 个音频), 音频最大 100KB
      *
-     * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、暂停等.
+     * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、释放等.
      * @param fd       : 资源文件描述
      * @param offset   : 声音开始的偏移值
      * @param length   : 声音的长度
@@ -388,6 +405,20 @@ public class MediaSoundServiceImpl implements CloudMediaSoundService, ListUtils.
         soundInfo.soundTag = soundTag;
         soundInfo.soundId = mSoundPool.load(fd, offset, length, 1);
         mSoundInfoList.add(soundInfo);
+    }
+
+    /**
+     * 播放音频（多次播放会生成不同播放 ID）
+     *
+     * @param soundTag : 音频唯一标示
+     * @return 播放 id(大于0), 可用于暂停本次播放等操作(-1 代表播放失败)
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/7/23 9:16 PM
+     */
+    @Override
+    public int play(@NonNull String soundTag) {
+        return play(soundTag, 1.0f, 1.0f, 0, 1);
     }
 
     /**

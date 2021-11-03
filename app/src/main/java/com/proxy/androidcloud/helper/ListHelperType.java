@@ -4,6 +4,7 @@ import com.proxy.androidcloud.module_library.event.EventHelper;
 import com.proxy.androidcloud.module_library.file.FileHelper;
 import com.proxy.androidcloud.module_library.install.AppHelper;
 import com.proxy.androidcloud.module_library.lifecycle.LifecycleHelper;
+import com.proxy.androidcloud.module_library.media.SoundHelper;
 import com.proxy.androidcloud.module_library.network.NetWorkListHelper;
 import com.proxy.androidcloud.module_library.receiver.ReceiverListHelper;
 import com.proxy.androidcloud.module_library.share.ShareListHelper;
@@ -11,6 +12,7 @@ import com.proxy.androidcloud.module_library.thread.ThreadPoolListHelper;
 import com.proxy.androidcloud.module_library.bitmap.BitmapListHelper;
 import com.proxy.androidcloud.module_network.DownloadListHelper;
 import com.proxy.androidcloud.module_network.UploadListHelper;
+import com.proxy.service.api.services.CloudMediaSoundService;
 import com.proxy.service.api.services.CloudNetWorkDownloadService;
 import com.proxy.service.api.services.CloudNetWorkUploadService;
 import com.proxy.service.api.services.CloudUtilsBitmapService;
@@ -176,6 +178,21 @@ public enum ListHelperType {
         @Override
         public AbstractListHelper create() {
             return new EventHelper();
+        }
+    },
+
+    /**
+     * 音频
+     */
+    SOUND {
+        @Override
+        public String serviceName() {
+            return CloudMediaSoundService.class.getSimpleName();
+        }
+
+        @Override
+        public AbstractListHelper create() {
+            return new SoundHelper();
         }
     },
 

@@ -74,7 +74,7 @@ public class UtilsShareServiceImpl implements CloudUtilsShareService {
         Uri imgUri = null;
         try {
             CloudUtilsFileService fileService = new UtilsFileServiceImpl();
-            imgUri = fileService.getUriForFile(new File(imgPath));
+            imgUri = fileService.getUriFromFile(new File(imgPath));
         } catch (Throwable throwable) {
             Logger.Error(CloudApiError.DATA_ERROR.setAbout("the img is error on " + imgPath).build(), throwable);
         }
@@ -115,7 +115,7 @@ public class UtilsShareServiceImpl implements CloudUtilsShareService {
             CloudUtilsFileService fileService = new UtilsFileServiceImpl();
             for (String path : imgPaths) {
                 try {
-                    imageUris.add(fileService.getUriForFile(new File(path)));
+                    imageUris.add(fileService.getUriFromFile(new File(path)));
                 } catch (Throwable throwable) {
                     Logger.Error(CloudApiError.DATA_ERROR.setAbout("the img is error on " + path).build(), throwable);
                 }

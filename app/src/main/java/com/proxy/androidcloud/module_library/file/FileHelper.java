@@ -38,7 +38,7 @@ public class FileHelper extends AbstractListHelper {
 
     private void request() {
         permissionService
-                .requestPermission()
+                .create()
                 .addPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .onGranted(permissions -> {
                     for (String permission : permissions) {

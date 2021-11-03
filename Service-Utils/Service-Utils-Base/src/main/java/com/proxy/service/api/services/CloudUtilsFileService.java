@@ -54,7 +54,7 @@ public interface CloudUtilsFileService extends BaseService {
      * @date: 2020/9/27 10:18 PM
      */
     @Nullable
-    Uri getUriForFile(@NonNull File file);
+    Uri getUriFromFile(@NonNull File file);
 
     /**
      * 创建 file，自动创建相关文件夹与文件

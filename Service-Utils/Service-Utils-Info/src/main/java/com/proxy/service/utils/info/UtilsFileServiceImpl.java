@@ -63,7 +63,7 @@ public class UtilsFileServiceImpl implements CloudUtilsFileService {
      */
     @Nullable
     @Override
-    public Uri getUriForFile(@Nullable File file) {
+    public Uri getUriFromFile(@Nullable File file) {
         if (file == null || !file.exists() || !file.isFile()) {
             return null;
         }

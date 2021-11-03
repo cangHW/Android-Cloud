@@ -11,12 +11,12 @@ import androidx.core.app.AppOpsManagerCompat;
 import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
-import com.proxy.service.api.permission.IPermissionCallback;
+import com.proxy.service.api.permission.IPermissionManager;
 import com.proxy.service.api.services.CloudUtilsPermissionService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
 import com.proxy.service.api.utils.Logger;
 import com.proxy.service.utils.cache.Cache;
-import com.proxy.service.utils.permission.PermissionCallbackImpl;
+import com.proxy.service.utils.permission.PermissionManagerImpl;
 
 /**
  * @author : cangHX
@@ -82,7 +82,7 @@ public class UtilsPermissionServiceImpl implements CloudUtilsPermissionService {
     }
 
     /**
-     * 申请对应权限
+     * 创建权限处理对象
      *
      * @return 返回请求权限处理对象
      * @version: 1.0
@@ -90,7 +90,7 @@ public class UtilsPermissionServiceImpl implements CloudUtilsPermissionService {
      * @date: 2020/8/31 9:20 PM
      */
     @Override
-    public IPermissionCallback requestPermission() {
-        return new PermissionCallbackImpl();
+    public IPermissionManager create() {
+        return new PermissionManagerImpl();
     }
 }

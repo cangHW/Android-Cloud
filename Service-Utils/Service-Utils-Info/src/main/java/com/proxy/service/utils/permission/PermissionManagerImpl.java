@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.proxy.service.api.action.Action;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
-import com.proxy.service.api.permission.IPermissionCallback;
+import com.proxy.service.api.permission.IPermissionManager;
 import com.proxy.service.api.utils.Logger;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * @author : cangHX
  * on 2021/04/11  6:03 PM
  */
-public class PermissionCallbackImpl implements IPermissionCallback {
+public class PermissionManagerImpl implements IPermissionManager {
 
     private static final String TAG = "CloudPermissionFragment";
 
@@ -40,7 +40,7 @@ public class PermissionCallbackImpl implements IPermissionCallback {
      * @date: 2021/4/11 6:05 PM
      */
     @Override
-    public IPermissionCallback addPermission(String permission) {
+    public IPermissionManager addPermission(String permission) {
         if (TextUtils.isEmpty(permission)) {
             Logger.Error(CloudApiError.DATA_EMPTY.setMsg("permission is not be null").build());
             return this;
@@ -59,7 +59,7 @@ public class PermissionCallbackImpl implements IPermissionCallback {
      * @date: 2021/4/11 6:10 PM
      */
     @Override
-    public IPermissionCallback onGranted(Action<String[]> action) {
+    public IPermissionManager onGranted(Action<String[]> action) {
         this.mGrantedAction = action;
         return this;
     }
@@ -74,7 +74,7 @@ public class PermissionCallbackImpl implements IPermissionCallback {
      * @date: 2021/4/11 6:10 PM
      */
     @Override
-    public IPermissionCallback onDenied(Action<String[]> action) {
+    public IPermissionManager onDenied(Action<String[]> action) {
         this.mDeniedAction = action;
         return this;
     }
@@ -89,7 +89,7 @@ public class PermissionCallbackImpl implements IPermissionCallback {
      * @date: 2021/4/11 6:10 PM
      */
     @Override
-    public IPermissionCallback onRationale(Action<String[]> action) {
+    public IPermissionManager onRationale(Action<String[]> action) {
         this.mRationaleAction = action;
         return this;
     }

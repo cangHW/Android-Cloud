@@ -27,18 +27,50 @@ public interface CloudMediaSoundService extends BaseService {
         private CloudUsageEnum usageEnum;
         private CloudContentTypeEnum contentTypeEnum;
 
+        /**
+         * 获取音频将用于什么场景
+         *
+         * @return 音频将用于什么场景
+         * @version: 1.0
+         * @author: cangHX
+         * @date: 2021/06/01  8:22 PM
+         */
         public CloudUsageEnum getUsageEnum() {
             return usageEnum;
         }
 
+        /**
+         * 设置音频将用于什么场景
+         *
+         * @param usageEnum 音频将用于什么场景
+         * @version: 1.0
+         * @author: cangHX
+         * @date: 2021/06/01  8:22 PM
+         */
         public void setUsageEnum(CloudUsageEnum usageEnum) {
             this.usageEnum = usageEnum;
         }
 
+        /**
+         * 获取音频类型
+         *
+         * @return 音频类型
+         * @version: 1.0
+         * @author: cangHX
+         * @date: 2021/06/01  8:22 PM
+         */
         public CloudContentTypeEnum getContentTypeEnum() {
             return contentTypeEnum;
         }
 
+        /**
+         * 设置音频类型
+         *
+         * @param contentTypeEnum 音频类型
+         * @version: 1.0
+         * @author: cangHX
+         * @date: 2021/06/01  8:22 PM
+         */
         public void setContentTypeEnum(CloudContentTypeEnum contentTypeEnum) {
             this.contentTypeEnum = contentTypeEnum;
         }
@@ -47,7 +79,7 @@ public interface CloudMediaSoundService extends BaseService {
     /**
      * 通过 tag 进行初始化 CloudMediaSoundService,
      * 如果成功, 则继承并更新上一次的设置,
-     * 如果失败, 则需要通过{@link CloudMediaSoundService#initialize(int, CloudStreamTypeEnum, Builder)}进行初始化, 成功后会绑定到当前 tag.
+     * 如果失败, 则需要通过{@link CloudMediaSoundService#initialize(int, CloudStreamTypeEnum, Builder, String)}进行初始化, 成功后会绑定到当前 tag.
      *
      * @param tag : 标示, 用于绑定设置
      * @return true 成功, false 失败
@@ -61,18 +93,19 @@ public interface CloudMediaSoundService extends BaseService {
      * 初始化一个播放池, 并绑定 Tag
      *
      * @param maxStreams : 最大声音数量(1 - 32)
-     * @param streamType : 声音类型
+     * @param streamType : 音量类型
      * @param builder    : 额外设置
+     * @param tag        : 标示, 用于绑定设置
      * @version: 1.0
      * @author: cangHX
      * @date: 2021/6/1 9:00 PM
      */
-    void initialize(@IntRange(from = 1, to = 32) int maxStreams, @NonNull CloudStreamTypeEnum streamType, @Nullable Builder builder);
+    void initialize(@IntRange(from = 1, to = 32) int maxStreams, @NonNull CloudStreamTypeEnum streamType, @Nullable Builder builder, @Nullable String tag);
 
     /**
-     * 加载音频(最多加载 255 个音频)
+     * 加载音频(最多加载 255 个音频), 音频最大 100KB
      *
-     * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、暂停等.
+     * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、释放等.
      * @param path     : 音频地址
      * @version: 1.0
      * @author: cangHX
@@ -81,9 +114,9 @@ public interface CloudMediaSoundService extends BaseService {
     void load(@NonNull String soundTag, @NonNull String path);
 
     /**
-     * 加载音频(最多加载 255 个音频)
+     * 加载音频(最多加载 255 个音频), 音频最大 100KB
      *
-     * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、暂停等.
+     * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、释放等.
      * @param resId    : 音频资源 ID
      * @version: 1.0
      * @author: cangHX
@@ -92,9 +125,9 @@ public interface CloudMediaSoundService extends BaseService {
     void load(@NonNull String soundTag, @RawRes int resId);
 
     /**
-     * 加载音频(最多加载 255 个音频)
+     * 加载音频(最多加载 255 个音频), 音频最大 100KB
      *
-     * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、暂停等.
+     * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、释放等.
      * @param afd      : 资源文件描述
      * @version: 1.0
      * @author: cangHX
@@ -103,7 +136,7 @@ public interface CloudMediaSoundService extends BaseService {
     void load(@NonNull String soundTag, @NonNull AssetFileDescriptor afd);
 
     /**
-     * 加载音频(最多加载 255 个音频)
+     * 加载音频(最多加载 255 个音频), 音频最大 100KB
      *
      * @param soundTag : 音频唯一标示, 后续可以通过此标示控制音频的播放、释放等.
      * @param fd       : 资源文件描述
@@ -114,6 +147,17 @@ public interface CloudMediaSoundService extends BaseService {
      * @date: 2021/6/1 9:29 PM
      */
     void load(@NonNull String soundTag, @NonNull FileDescriptor fd, long offset, long length);
+
+    /**
+     * 播放音频（多次播放会生成不同播放 ID）
+     *
+     * @param soundTag : 音频唯一标示
+     * @return 播放 id(大于0), 可用于暂停本次播放等操作(-1 代表播放失败)
+     * @version: 1.0
+     * @author: cangHX
+     * @date: 2021/7/23 9:16 PM
+     */
+    int play(@NonNull String soundTag);
 
     /**
      * 播放音频（多次播放会生成不同播放 ID）
