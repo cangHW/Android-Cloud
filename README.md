@@ -77,7 +77,7 @@
 
 ## 三、工具库
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.cangHW/Service-UI-Info.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.cangHW%22%20AND%20a:%22Service-UI-Info%22)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.cangHW/Service-Utils-Info.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.cangHW%22%20AND%20a:%22Service-Utils-Info%22)
 
 [<font size='6' color='#528DFB' >工具库文档</font>](https://github.com/cangHW/Android-Cloud/blob/master/Service-Utils/README.md)
 
