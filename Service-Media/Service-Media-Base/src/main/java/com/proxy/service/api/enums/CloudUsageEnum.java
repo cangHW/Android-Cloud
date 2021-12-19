@@ -1,11 +1,15 @@
 package com.proxy.service.api.enums;
 
 import android.media.AudioAttributes;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 /**
  * @author : cangHX
  * on 2021/06/01  9:26 PM
  */
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public enum CloudUsageEnum {
 
     /**

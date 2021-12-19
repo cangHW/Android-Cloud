@@ -213,6 +213,7 @@ public class ThreadPoolListHelper extends AbstractListHelper {
 
         AtomicInteger count = new AtomicInteger(0);
         Toast.makeText(context, "开始循环任务", Toast.LENGTH_SHORT).show();
+        logger.debug("开始循环任务");
         service.workThread().continueWhile(new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
@@ -250,7 +251,7 @@ public class ThreadPoolListHelper extends AbstractListHelper {
         service.continueWhile(new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                Thread.sleep(200);
+                Thread.sleep(1000);
                 return count.incrementAndGet() <= 10;
             }
         }, new Task<Object>() {

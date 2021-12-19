@@ -1,5 +1,6 @@
 package com.proxy.service.media.info;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioAttributes;
@@ -101,6 +102,7 @@ public class MediaSoundServiceImpl implements CloudMediaSoundService, ListUtils.
      * @author: cangHX
      * @date: 2021/6/1 9:00 PM
      */
+    @SuppressLint("WrongConstant")
     @Override
     public void initialize(int maxStreams, @Nullable CloudStreamTypeEnum streamType, @Nullable Builder builder, @Nullable String tag) {
         if (!isInit.compareAndSet(false, true)) {
@@ -192,7 +194,6 @@ public class MediaSoundServiceImpl implements CloudMediaSoundService, ListUtils.
      */
     @Override
     public void load(@NonNull String soundTag, @NonNull String path) {
-
         if (TextUtils.isEmpty(soundTag)) {
             Logger.Error(CloudApiError.DATA_EMPTY.setAbout("CloudMediaSoundService.load(). The soundTag cannot be empty.").build());
             return;
@@ -251,7 +252,6 @@ public class MediaSoundServiceImpl implements CloudMediaSoundService, ListUtils.
      */
     @Override
     public void load(@NonNull String soundTag, @RawRes int resId) {
-
         Context context = ContextManager.getApplication();
         if (context == null) {
             Logger.Error(CloudApiError.INIT_EMPTY.build());
@@ -320,7 +320,6 @@ public class MediaSoundServiceImpl implements CloudMediaSoundService, ListUtils.
      */
     @Override
     public void load(@NonNull String soundTag, @NonNull AssetFileDescriptor afd) {
-
         if (TextUtils.isEmpty(soundTag)) {
             Logger.Error(CloudApiError.DATA_EMPTY.setAbout("CloudMediaSoundService.load(). The soundTag cannot be empty.").build());
             return;
@@ -436,7 +435,6 @@ public class MediaSoundServiceImpl implements CloudMediaSoundService, ListUtils.
      */
     @Override
     public int play(@NonNull String soundTag, float leftVolume, float rightVolume, int loop, float rate) {
-
         if (!isInit.get() && !initializeByTag(mTag)) {
             Logger.Error(CloudApiError.INIT_EMPTY.setMsg("Do you initialize CloudMediaSoundService ?").build());
             return -1;
