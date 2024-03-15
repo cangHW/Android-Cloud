@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>io.github.cangHW</groupId>
+  <artifactId>Cloud-Plugin</artifactId>
+  <versioning>
+    <latest>1.0.1-SNAPSHOT</latest>
+    <versions>
+      <version>1.0.1-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20240315073246</lastUpdated>
+  </versioning>
+</metadata>
