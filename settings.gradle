@@ -1,3 +1,28 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven {
+            name 'mavenCentral-snapshots'
+            url 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+        }
+        maven {
+            name 'repo'
+            url "file://${rootDir}/repo"
+        }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+
+
 include ':app'
 
 include ':Service-UI:Service-UI-Base'
@@ -5,7 +30,7 @@ include ':Service-UI:Service-UI-Info'
 
 include ':Service-NetWork:Service-NetWork-Base'
 include ':Service-NetWork:Service-NetWork-OkHttp'
-include ':Service-NetWork:Service-NetWork-Retrofit'
+//include ':Service-NetWork:Service-NetWork-Retrofit'
 
 include ':Service-Utils:Service-Utils-Base'
 include ':Service-Utils:Service-Utils-Info'

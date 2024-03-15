@@ -1,5 +1,7 @@
 package com.proxy.service.api.plugin;
 
+import com.proxy.service.base.AbstractServiceCache;
+
 import java.util.List;
 
 /**
@@ -16,7 +18,7 @@ public class DataByPlugin {
         return Factory.INSTANCE;
     }
 
-    public List<String> getClasses(List<String> list) {
+    public List<AbstractServiceCache> getClasses(List<AbstractServiceCache> list) {
         return list;
     }
 

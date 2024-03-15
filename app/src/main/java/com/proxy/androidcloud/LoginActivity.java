@@ -46,7 +46,7 @@ public class LoginActivity extends BaseActivity implements CloudTextChangedCallb
     @CloudUiCheckStrings({
             @CloudUiCheckString(markId = ACCOUNT, notEmpty = true, message = "请输入用户名"),
             @CloudUiCheckString(markId = ACCOUNT, notBlank = true, message = "用户名不能为空格"),
-            @CloudUiCheckString(markId = ACCOUNT, maxLength = 8, notBlank = true, stringId = R.string.long_account),
+//            @CloudUiCheckString(markId = ACCOUNT, maxLength = 8, notBlank = true, stringId = R.string.long_account),
             @CloudUiCheckString(markId = ACCOUNT, minLength = 4, notBlank = true, message = "用户名太短"),
             @CloudUiCheckString(markId = ACCOUNT, notWithRegex = "[01abc]", message = "用户名不能包含 01abc")
     })

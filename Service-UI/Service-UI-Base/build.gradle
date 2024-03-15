@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
 
 android {
+    namespace 'com.proxy.service.ui.base'
+
     compileSdkVersion Integer.parseInt(Compile_Sdk_Version)
     buildToolsVersion Build_Tools_Version
 

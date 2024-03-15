@@ -61,23 +61,17 @@ public class NetWorkFragment extends BaseFragment implements View.OnClickListene
         if (mRequestService == null) {
             return;
         }
-        switch (v.getId()) {
-            case R.id.normal_request:
-                normalRequest();
-                break;
-            case R.id.mock_request:
-                mockRequest();
-                break;
-            case R.id.change_base_url_request:
-                changeBaseUrlRequest();
-                break;
-            case R.id.download:
-                ListActivity.launch(getContext(), ListHelperType.DOWNLOAD);
-                break;
-            case R.id.upload:
-                ListActivity.launch(getContext(), ListHelperType.UPLOAD);
-                break;
-            default:
+        int id = v.getId();
+        if (id == R.id.normal_request){
+            normalRequest();
+        }else if (id == R.id.mock_request){
+            mockRequest();
+        }else if (id == R.id.change_base_url_request){
+            changeBaseUrlRequest();
+        }else if (id == R.id.download){
+            ListActivity.launch(getContext(), ListHelperType.DOWNLOAD);
+        }else if (id == R.id.upload){
+            ListActivity.launch(getContext(), ListHelperType.UPLOAD);
         }
     }
 

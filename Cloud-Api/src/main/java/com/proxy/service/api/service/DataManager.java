@@ -44,19 +44,32 @@ public enum DataManager {
      * @date: 2019/10/31 18:01
      */
     private void findAllServices(Context context) {
+        if (findAllFromCache()) {
+            return;
+        }
+        findAllFromDex(context);
+    }
+
+    private boolean findAllFromCache() {
+        try {
+            List<AbstractServiceCache> caches = DataByPlugin.getInstance().getClasses(new ArrayList<>());
+            if (caches.size() == 0) {
+                return false;
+            }
+            for (AbstractServiceCache cache : caches) {
+                addService(cache);
+            }
+            return true;
+        } catch (Throwable throwable) {
+            Logger.Debug(throwable);
+        }
+        return false;
+    }
+
+    private void findAllFromDex(Context context) {
+        Logger.Warning("DexFile is about to be removed, so please update the microservice architecture version as soon as possible.");
         try {
             Set<String> stringSet = ClassUtils.getFileNameByPackageName(context, ClassConstants.PACKAGE_SERVICES_CACHE);
-            try {
-                List<String> strings = DataByPlugin.getInstance().getClasses(new ArrayList<String>());
-                if (strings.size() > 0) {
-                    stringSet.addAll(strings);
-                } else {
-                    Logger.Warning("DexFile is about to be removed, so please update the microservice architecture version as soon as possible.");
-                }
-            } catch (Throwable throwable) {
-                Logger.Debug(throwable);
-            }
-
             for (String classPath : stringSet) {
                 if (!classPath.startsWith(ClassConstants.PACKAGE_SERVICES_CACHE + "." + ClassConstants.CLASS_PREFIX)) {
                     continue;
@@ -68,22 +81,26 @@ public enum DataManager {
                 } catch (Throwable ignored) {
                 }
 
-                if (cache == null) {
-                    continue;
-                }
-
-                try {
-                    ServiceCache.addAll(cache.getServices());
-                } catch (Throwable ignored) {
-                }
-
-                try {
-                    OtherCache.addAll(cache.getOthers());
-                } catch (Throwable ignored) {
-                }
+                addService(cache);
             }
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
+        }
+    }
+
+    private void addService(AbstractServiceCache cache) {
+        if (cache == null) {
+            return;
+        }
+
+        try {
+            ServiceCache.addAll(cache.getServices());
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            OtherCache.addAll(cache.getOthers());
+        } catch (Throwable ignored) {
         }
     }
 

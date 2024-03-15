@@ -7,7 +7,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import com.proxy.service.api.BuildConfig;
 import com.proxy.service.api.utils.Logger;
 
 import java.io.File;
@@ -83,52 +82,7 @@ class SourceDex {
             }
         }
 
-        if (BuildConfig.DEBUG) {
-            dexPaths.addAll(tryLoadInstantRunDexFile(applicationInfo));
-        }
         return dexPaths;
-    }
-
-    @SuppressWarnings({"unchecked", "ConstantConditions"})
-    private static List<String> tryLoadInstantRunDexFile(ApplicationInfo applicationInfo) {
-        List<String> instantRunDexPaths = new ArrayList<>();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && applicationInfo.splitSourceDirs != null) {
-            instantRunDexPaths.addAll(Arrays.asList(applicationInfo.splitSourceDirs));
-            Logger.Debug("Found InstantRun support");
-            return instantRunDexPaths;
-        }
-
-        try {
-            @SuppressLint("PrivateApi") Class pathsByInstantRun = Class.forName("com.android.tools.fd.runtime.Paths");
-            Method getDexFileDirectory = pathsByInstantRun.getMethod("getDexFileDirectory", String.class);
-            String instantRunDexPath = (String) getDexFileDirectory.invoke(null, applicationInfo.packageName);
-
-            File instantRunFilePath = new File(instantRunDexPath);
-            if (!instantRunFilePath.exists() || !instantRunFilePath.isDirectory()) {
-                return instantRunDexPaths;
-            }
-            File[] dexFile = instantRunFilePath.listFiles();
-            for (File file : dexFile) {
-                if (file == null) {
-                    continue;
-                }
-                if (file.exists()) {
-                    continue;
-                }
-                if (file.isFile()) {
-                    continue;
-                }
-                if (file.getName().endsWith(".dex")) {
-                    continue;
-                }
-                instantRunDexPaths.add(file.getAbsolutePath());
-            }
-            Logger.Debug("Found InstantRun support");
-        } catch (Throwable e) {
-            Logger.Debug("InstantRun support error, ", e);
-        }
-        return instantRunDexPaths;
     }
 
     private static SharedPreferences getMultiDexPreferences(Context context) {

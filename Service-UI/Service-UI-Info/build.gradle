@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
 
 android {
+    namespace 'com.proxy.service.ui.info'
+
     compileSdkVersion Integer.parseInt(Compile_Sdk_Version)
     buildToolsVersion Build_Tools_Version
 
@@ -28,10 +30,10 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
 
 }
 
