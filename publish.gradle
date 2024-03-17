@@ -3,25 +3,28 @@ apply plugin: 'signing'
 def EMPTY = 'unspecified'
 def NULL = null
 
-if (project.hasProperty("android")) { // Android libraries
-    task sourcesJar(type: Jar) {
-        classifier = 'sources'
+if (project.hasProperty("android")) {
+    // Android libraries
+    tasks.register('sourcesJar', Jar) {
+        archiveClassifier.set('sources')
         from android.sourceSets.main.java.source
 
         exclude "**/R.class"
         exclude "**/BuildConfig.class"
     }
-} else { // Java libraries
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
+} else {
+    // Java libraries
+    tasks.register('sourcesJar', Jar) {
+        dependsOn classes
+        archiveClassifier.set('sources')
         from sourceSets.main.allSource
     }
 
-    Task javadoc = tasks.getByName("javadoc")
-    task javadocJar(type: Jar) {
-        classifier = 'javadoc'
+    Task javadoc =  tasks.named("javadoc").get()
+    Task javadocJar = tasks.register('javadocJar', Jar){
+        archiveClassifier.set('javadoc')
         from javadoc
-    }
+    }.get()
     javadocJar.dependsOn(javadoc)
 }
 
@@ -124,6 +127,10 @@ publishing {
                 username ossrhUsername
                 password ossrhPassword
             }
+        }
+
+        maven {
+            url = uri('../repo')
         }
     }
 }

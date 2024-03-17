@@ -31,7 +31,7 @@ public class AppHelper extends AbstractListHelper implements CloudInstallCallbac
 
     public AppHelper() {
         service = CloudSystem.getService(CloudServiceTagUtils.UTILS_INSTALL);
-        pageService = CloudSystem.getService(CloudServiceTagUtils.UTILS_SYSTEM_PAGE);
+        pageService = CloudSystem.getService(CloudServiceTagUtils.UTILS_SYSTEM);
         taskService = CloudSystem.getService(CloudServiceTagUtils.UTILS_TASK);
         if (service == null) {
             return;

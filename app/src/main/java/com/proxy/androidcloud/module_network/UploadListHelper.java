@@ -9,7 +9,7 @@ import com.proxy.service.api.callback.upload.CloudUploadCallback;
 import com.proxy.service.api.services.CloudNetWorkUploadService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
 import com.proxy.service.api.utils.Logger;
-import com.proxy.service.network.upload.UploadManager;
+//import com.proxy.service.network.upload.UploadManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class UploadListHelper extends AbstractListHelper {
         }
         switch (itemInfo.id){
             case 0:
-                UploadManager.getInstance().ss();
+//                UploadManager.getInstance().ss();
                 break;
         }
 

@@ -3,6 +3,8 @@ plugins {
 }
 
 android {
+    namespace 'com.proxy.service.media'
+
     compileSdkVersion Integer.parseInt(Compile_Sdk_Version)
     buildToolsVersion Build_Tools_Version
 
