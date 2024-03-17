@@ -31,7 +31,7 @@ public class CloudServiceTagUtils {
     /**
      * 系统页面相关
      */
-    public static final String UTILS_SYSTEM_PAGE = "utils_system_page";
+    public static final String UTILS_SYSTEM = "utils_system";
 
     /**
      * EditText 设置相关

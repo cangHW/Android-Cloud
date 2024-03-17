@@ -8,7 +8,7 @@ import com.proxy.androidcloud.helper.AbstractListHelper;
 import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.services.CloudUtilsFileService;
 import com.proxy.service.api.services.CloudUtilsShareService;
-import com.proxy.service.api.services.CloudUtilsSystemPageService;
+import com.proxy.service.api.services.CloudUtilsSystemService;
 import com.proxy.service.api.utils.Logger;
 
 import java.io.File;
@@ -24,12 +24,12 @@ public class ShareListHelper extends AbstractListHelper {
     private static final Logger logger = Logger.create(ShareListHelper.class.getName());
 
     private final CloudUtilsShareService mShareService;
-    private final CloudUtilsSystemPageService mSystemPageService;
+    private final CloudUtilsSystemService mSystemPageService;
     private final CloudUtilsFileService mFileService;
 
     public ShareListHelper() {
         mShareService = CloudSystem.getService(CloudUtilsShareService.class);
-        mSystemPageService = CloudSystem.getService(CloudUtilsSystemPageService.class);
+        mSystemPageService = CloudSystem.getService(CloudUtilsSystemService.class);
         mFileService = CloudSystem.getService(CloudUtilsFileService.class);
     }
 

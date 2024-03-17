@@ -11,7 +11,7 @@ import com.proxy.service.api.install.CloudAppInfo;
 import com.proxy.service.api.install.CloudInstallCallback;
 import com.proxy.service.api.install.CloudInstallStatusEnum;
 import com.proxy.service.api.services.CloudUtilsInstallService;
-import com.proxy.service.api.services.CloudUtilsSystemPageService;
+import com.proxy.service.api.services.CloudUtilsSystemService;
 import com.proxy.service.api.services.CloudUtilsTaskService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
 
@@ -25,7 +25,7 @@ import java.util.List;
 public class AppHelper extends AbstractListHelper implements CloudInstallCallback {
 
     private final CloudUtilsInstallService service;
-    private final CloudUtilsSystemPageService pageService;
+    private final CloudUtilsSystemService pageService;
     private CloudUtilsTaskService taskService;
     private List<CloudAppInfo> appInfos = new ArrayList<>();
 
