@@ -1,6 +1,6 @@
 plugins {
     id("java-gradle-plugin")
-    id 'groovy'
+//    id 'groovy'
     id 'org.jetbrains.kotlin.jvm'
 }
 
