@@ -134,6 +134,14 @@ publishing {
         }
     }
 }
+
 signing {
     sign publishing.publications
 }
+
+tasks.withType(Sign).configureEach { publishTask ->
+    publishTask.dependsOn assemble
+}
+
+
+
