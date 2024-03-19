@@ -1,9 +1,7 @@
 package com.proxy.cloudplugin
 
-import com.android.build.api.artifact.ScopedArtifact
-import com.android.build.api.variant.AndroidComponentsExtension
-import com.android.build.api.variant.ScopedArtifacts
-import com.proxy.cloudplugin.task.ServiceTask
+import com.proxy.cloudplugin.gradle_7.Gradle7
+import com.proxy.cloudplugin.gradle_8.Gradle8
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -13,23 +11,30 @@ import org.gradle.api.Project
  * @desc:
  */
 class PluginImpl : Plugin<Project> {
+
+    companion object{
+        const val className = "com/proxy/service/api/plugin/DataByPlugin.class"
+        const val servicePath = "com/cloud/service/\$\$Cloud\$\$Service\$\$Cache"
+    }
+
     override fun apply(target: Project) {
-        val androidComponentsExtension =
-            target.extensions.getByType(AndroidComponentsExtension::class.java)
-        androidComponentsExtension.onVariants {
-            //注册 ServiceTask 任务
-            val taskProvider = target.tasks.register(
-                "${it.name}AndroidCloudServiceTask", ServiceTask::class.java
-            )
-            //扫描所有class
-            it.artifacts.forScope(ScopedArtifacts.Scope.ALL)
-                .use(taskProvider)
-                .toTransform(
-                    type = ScopedArtifact.CLASSES,
-                    inputJars = ServiceTask::allJars,
-                    inputDirectories = ServiceTask::allDirectories,
-                    into = ServiceTask::output
-                )
+        val version: Int
+
+        try {
+            val gradleVersion: String = target.gradle.gradleVersion
+            version = gradleVersion.split(".")[0].toInt()
+        } catch (throwable: Throwable) {
+            throwable.printStackTrace()
+            return
         }
+
+        println("gradleVersion = $version")
+
+        if (version >= 8) {
+            Gradle8.run(target)
+        } else {
+            Gradle7.run(target)
+        }
+
     }
 }

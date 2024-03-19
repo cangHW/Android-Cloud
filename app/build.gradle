@@ -1,10 +1,4 @@
 
-//if (Boolean.parseBoolean(cloud_plugin_isFromMaven)) {
-//plugins{
-//    id 'com.android.application'
-//        id 'com.cloud.service'
-//}
-//}
 apply plugin: 'com.android.application'
 
 if (Boolean.parseBoolean(cloud_plugin_isFromMaven)) {

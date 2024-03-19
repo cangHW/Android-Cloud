@@ -3,12 +3,10 @@
   <groupId>io.github.cangHW</groupId>
   <artifactId>Cloud-Plugin</artifactId>
   <versioning>
-    <latest>1.0.0</latest>
-    <release>1.0.0</release>
+    <latest>1.0.2-SNAPSHOT</latest>
     <versions>
-      <version>1.0.1-SNAPSHOT</version>
-      <version>1.0.0</version>
+      <version>1.0.2-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20240318145019</lastUpdated>
+    <lastUpdated>20240319122652</lastUpdated>
   </versioning>
 </metadata>
