@@ -22,12 +22,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:exported="false"
             android:name="com.proxy.androidcloud.MainActivity"
             android:theme="@style/NoActionBar" />
 
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/NoActionBar">
+            android:theme="@style/NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -36,9 +38,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".detail.ListActivity" />
+        <activity android:name=".detail.ListActivity"
+            android:exported="false"/>
 
-        <activity android:name=".detail.DetailActivity" />
+        <activity android:name=".detail.DetailActivity"
+            android:exported="false"/>
 
     </application>
 

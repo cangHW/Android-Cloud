@@ -52,12 +52,12 @@ public enum DataManager {
 
     private boolean findAllFromCache() {
         try {
-            List<AbstractServiceCache> caches = DataByPlugin.getInstance().getClasses(new ArrayList<>());
-            if (caches.size() == 0) {
+            List<String> classPaths = DataByPlugin.getInstance().getClasses(new ArrayList<>());
+            if (classPaths.size() == 0) {
                 return false;
             }
-            for (AbstractServiceCache cache : caches) {
-                addService(cache);
+            for (String classPath : classPaths) {
+                checkClass(classPath);
             }
             return true;
         } catch (Throwable throwable) {
@@ -71,21 +71,25 @@ public enum DataManager {
         try {
             Set<String> stringSet = ClassUtils.getFileNameByPackageName(context, ClassConstants.PACKAGE_SERVICES_CACHE);
             for (String classPath : stringSet) {
-                if (!classPath.startsWith(ClassConstants.PACKAGE_SERVICES_CACHE + "." + ClassConstants.CLASS_PREFIX)) {
-                    continue;
-                }
-
-                AbstractServiceCache cache = null;
-                try {
-                    cache = (AbstractServiceCache) Class.forName(classPath).getConstructor().newInstance();
-                } catch (Throwable ignored) {
-                }
-
-                addService(cache);
+                checkClass(classPath);
             }
         } catch (Throwable throwable) {
             Logger.Debug(throwable);
         }
+    }
+
+    private void checkClass(String classPath){
+        if (!classPath.startsWith(ClassConstants.PACKAGE_SERVICES_CACHE + "." + ClassConstants.CLASS_PREFIX)) {
+            return;
+        }
+
+        AbstractServiceCache cache = null;
+        try {
+            cache = (AbstractServiceCache) Class.forName(classPath).getConstructor().newInstance();
+        } catch (Throwable ignored) {
+        }
+
+        addService(cache);
     }
 
     private void addService(AbstractServiceCache cache) {

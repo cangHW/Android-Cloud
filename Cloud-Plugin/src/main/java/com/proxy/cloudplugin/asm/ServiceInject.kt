@@ -16,6 +16,7 @@ object ServiceInject {
         val cw = ClassWriter(cr, ClassWriter.COMPUTE_MAXS)
         val classVisitor = DataPluginClassVisitor(cw, services)
         cr.accept(classVisitor, ClassReader.EXPAND_FRAMES)
+        inputStream.close()
         return cw.toByteArray()
     }
 

@@ -5,7 +5,7 @@ import com.proxy.service.node.OtherNode;
 import com.proxy.service.node.ServiceNode;
 
 /**
- * @author: cangHX
+ * @author cangHX
  * on 2020/06/15  09:19
  */
 public class ClassConstants {
@@ -17,7 +17,7 @@ public class ClassConstants {
     /**
      * 编译器生成的辅助文件类名前缀
      */
-    public static final String CLASS_PREFIX = "$$Cloud$$Service$$Cache";
+    public static final String CLASS_PREFIX = "Cloud$$Service$$Cache$$";
 
     /**
      * 编译器生成的辅助文件父类路径

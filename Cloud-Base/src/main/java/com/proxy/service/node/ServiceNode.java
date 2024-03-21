@@ -4,7 +4,7 @@ package com.proxy.service.node;
 import com.proxy.service.base.BaseService;
 
 /**
- * @author: cangHX
+ * @author cangHX
  * on 2020/06/05  18:12
  */
 public class ServiceNode extends BaseNode {
@@ -19,6 +19,11 @@ public class ServiceNode extends BaseNode {
      */
     public final BaseService service;
 
+    /**
+     * @param isNewInstance 是否创建新对象
+     * @param service 服务对象
+     * @param serviceTag 服务标识
+     * */
     public ServiceNode(String serviceTag, boolean isNewInstance, BaseService service) {
         this.serviceTag = serviceTag;
         this.isNewInstance = isNewInstance;

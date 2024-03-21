@@ -21,7 +21,7 @@ import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 
 /**
- * @author: cangHX
+ * @author cangHX
  * on 2020/06/05  11:19
  */
 public class ServiceProcessor extends AbstractProcessor {
@@ -63,7 +63,7 @@ public class ServiceProcessor extends AbstractProcessor {
 
     @Override
     public SourceVersion getSupportedSourceVersion() {
-        return SourceVersion.RELEASE_8;
+        return SourceVersion.latestSupported();
     }
 
     @Override

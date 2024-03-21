@@ -13,13 +13,20 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 
 /**
- * @author: cangHX
+ * @author cangHX
  * on 2020/06/30  10:04
  */
 public class UiTabHostRewardHandlerImpl extends AbstractHandler {
 
     private final ArrayList<NodeOther> mOtherNodes = new ArrayList<>();
 
+    /**
+     *
+     * @return 其他节点
+     * @version 1.0
+     * @author cangHX
+     * 2024/3/21 23:26
+     */
     public ArrayList<NodeOther> getOtherNodes() {
         return mOtherNodes;
     }
@@ -28,9 +35,9 @@ public class UiTabHostRewardHandlerImpl extends AbstractHandler {
      * 当前 handler 准备执行哪些注解
      *
      * @return 返回注解类型
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-06-30 10:22
+     * @version 1.0
+     * @author cangHX
+     * 2020-06-30 10:22
      */
     @Override
     public List<String> getSupportedAnnotationTypes() {
@@ -52,9 +59,9 @@ public class UiTabHostRewardHandlerImpl extends AbstractHandler {
     /**
      * 处理器执行方法
      *
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-06-05 14:59
+     * @version 1.0
+     * @author cangHX
+     * 2020-06-05 14:59
      */
     @Override
     protected void run() {

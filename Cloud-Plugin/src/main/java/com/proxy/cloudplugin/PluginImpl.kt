@@ -14,7 +14,7 @@ class PluginImpl : Plugin<Project> {
 
     companion object{
         const val className = "com/proxy/service/api/plugin/DataByPlugin.class"
-        const val servicePath = "com/cloud/service/\$\$Cloud\$\$Service\$\$Cache"
+        const val servicePath = "com/cloud/service/Cloud\$\$Service\$\$Cache\$\$"
     }
 
     override fun apply(target: Project) {
@@ -22,13 +22,12 @@ class PluginImpl : Plugin<Project> {
 
         try {
             val gradleVersion: String = target.gradle.gradleVersion
+            println("gradleVersion = $gradleVersion")
             version = gradleVersion.split(".")[0].toInt()
         } catch (throwable: Throwable) {
             throwable.printStackTrace()
             return
         }
-
-        println("gradleVersion = $version")
 
         if (version >= 8) {
             Gradle8.run(target)

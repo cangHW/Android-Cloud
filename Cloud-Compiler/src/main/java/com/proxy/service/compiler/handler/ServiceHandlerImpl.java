@@ -23,21 +23,41 @@ import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 
 /**
- * @author: cangHX
+ * @author cangHX
  * on 2020/06/05  12:12
  */
 public class ServiceHandlerImpl extends AbstractHandler {
 
+    /**
+     * 服务节点列表
+     */
     private final ArrayList<NodeService> mServiceNodes = new ArrayList<>();
+    /**
+     * 其他服务节点列表
+     */
     private final ArrayList<NodeOther> mOtherNodes = new ArrayList<>();
-
+    /**
+     * 模块名称
+     */
     private String mModuleName;
 
+    /**
+     * 设置模块名称
+     *
+     * @param moduleName 模块名称
+     * @return 当前对象
+     */
     public ServiceHandlerImpl setModuleName(String moduleName) {
         this.mModuleName = moduleName;
         return this;
     }
 
+    /**
+     * 设置其他服务节点列表
+     *
+     * @param nodes 其他服务节点列表
+     * @return 当前对象
+     */
     public ServiceHandlerImpl setOtherList(ArrayList<NodeOther> nodes) {
         mOtherNodes.clear();
         mOtherNodes.addAll(nodes);
@@ -48,9 +68,9 @@ public class ServiceHandlerImpl extends AbstractHandler {
      * 当前 handler 准备执行哪些注解
      *
      * @return 返回注解类型
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-06-30 10:22
+     * @version 1.0
+     * @author cangHX
+     * 2020-06-30 10:22
      */
     @Override
     public List<String> getSupportedAnnotationTypes() {
@@ -60,9 +80,9 @@ public class ServiceHandlerImpl extends AbstractHandler {
     /**
      * 处理器执行方法
      *
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-06-05 14:59
+     * @version 1.0
+     * @author cangHX
+     * 2020-06-05 14:59
      */
     @Override
     protected void run() {

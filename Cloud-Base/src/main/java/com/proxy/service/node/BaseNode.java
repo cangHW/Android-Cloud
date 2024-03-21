@@ -1,7 +1,7 @@
 package com.proxy.service.node;
 
 /**
- * @author: cangHX
+ * @author cangHX
  * on 2020/06/15  09:24
  */
 public class BaseNode {
