@@ -25,19 +25,20 @@ class DataPluginMethodVisitor(
 
     override fun onMethodEnter() {
         super.onMethodEnter()
+
         services.forEach {
-            // 加载第一个方法参数 list
-            mv.visitVarInsn(Opcodes.ALOAD, 1)
-            // 创建 AbstractServiceCache 的实例
-            mv.visitTypeInsn(Opcodes.NEW, it)
-            // 复制 AbstractServiceCache 的实例以便于后面的构造函数调用
-            mv.visitInsn(Opcodes.DUP)
-            // 调用 AbstractServiceCache 的构造函数
-            mv.visitMethodInsn(Opcodes.INVOKESPECIAL, it, "<init>", "()V", false)
-            // 调用 list 的 add 方法
-            mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "add", "(Ljava/lang/Object;)Z", true)
-            // 弹出 add 方法返回的 boolean 结果
-            mv.visitInsn(Opcodes.POP)
+            mv.visitVarInsn(ALOAD, 1)
+            mv.visitLdcInsn(it)
+            mv.visitMethodInsn(
+                INVOKEINTERFACE,
+                "java/util/List",
+                "add",
+                "(Ljava/lang/Object;)Z",
+                true
+            )
+            mv.visitInsn(POP)
+
+            println("DataPlugin -> 插入：$it")
         }
     }
 

@@ -19,6 +19,11 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+    versionCatalogs {
+        create("libs") {
+            from(files("plugins/version/libs.versions.toml"))
+        }
+    }
 }
 
 
