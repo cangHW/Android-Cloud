@@ -3,11 +3,10 @@ import com.proxy.service.buildsrc.NormalConfig
 
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "com.proxy.service.api"
+    namespace="com.proxy.service.ui.base"
     compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
@@ -21,20 +20,12 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
             )
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
 }
 
 dependencies {
@@ -45,25 +36,18 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.1.0")
 
-    if (MavenConfig.Cloud_Annotations.isLoadMaven()) {
-        api(libs.cloud.annotations)
+    if (MavenConfig.Cloud_Api.isLoadMaven()) {
+        api(libs.cloud.api)
     } else {
-        api(project(mapOf("path" to ":Cloud-Annotations")))
+        api(project(mapOf("path" to ":Cloud-Api")))
     }
-
-    if (MavenConfig.Cloud_Base.isLoadMaven()) {
-        api(libs.cloud.base)
-    } else {
-        api(project(mapOf("path" to ":Cloud-Base")))
-    }
-
 }
 
-extra[NormalConfig.Group] = libs.cloud.api.get().group
-extra[NormalConfig.Artifact] = libs.cloud.api.get().name
-extra[NormalConfig.Version] = libs.cloud.api.get().version
+extra[NormalConfig.Group] = libs.service.ui.base.get().group
+extra[NormalConfig.Artifact] = libs.service.ui.base.get().name
+extra[NormalConfig.Version] = libs.service.ui.base.get().version
 extra[NormalConfig.Library_Name] = NormalConfig.Library_Name_Default
 extra[NormalConfig.Library_Description] = NormalConfig.Library_Description_Default
 
-apply(from = "../publish.gradle")
-apply(from = "../upload.gradle")
+apply(from = "../../publish.gradle")
+apply(from = "../../upload.gradle")

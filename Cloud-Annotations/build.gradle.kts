@@ -1,4 +1,4 @@
-import com.proxy.service.buildsrc.VersionConfig
+import com.proxy.service.buildsrc.NormalConfig
 
 plugins {
     id("java-library")
@@ -14,11 +14,11 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-extra[VersionConfig.Group] = libs.cloud.annotations.get().group
-extra[VersionConfig.Artifact] = libs.cloud.annotations.get().name
-extra[VersionConfig.Version] = libs.cloud.annotations.get().version
-extra[VersionConfig.Library_Name] = VersionConfig.Library_Name_Default
-extra[VersionConfig.Library_Description] = VersionConfig.Library_Description_Default
+extra[NormalConfig.Group] = libs.cloud.annotations.get().group
+extra[NormalConfig.Artifact] = libs.cloud.annotations.get().name
+extra[NormalConfig.Version] = libs.cloud.annotations.get().version
+extra[NormalConfig.Library_Name] = NormalConfig.Library_Name_Default
+extra[NormalConfig.Library_Description] = NormalConfig.Library_Description_Default
 
 apply(from = "../publish.gradle")
 apply(from = "../upload.gradle")

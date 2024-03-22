@@ -3,11 +3,10 @@ import com.proxy.service.buildsrc.NormalConfig
 
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "com.proxy.service.api"
+    namespace = "com.proxy.service.network.base"
     compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
@@ -21,20 +20,12 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
             )
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
 }
 
 dependencies {
@@ -43,27 +34,27 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
 
+    implementation("com.google.code.gson:gson:2.8.5")
     implementation("androidx.appcompat:appcompat:1.1.0")
 
-    if (MavenConfig.Cloud_Annotations.isLoadMaven()) {
-        api(libs.cloud.annotations)
+    if (MavenConfig.Cloud_Api.isLoadMaven()) {
+        api(libs.cloud.api)
     } else {
-        api(project(mapOf("path" to ":Cloud-Annotations")))
+        api(project(mapOf("path" to ":Cloud-Api")))
     }
 
-    if (MavenConfig.Cloud_Base.isLoadMaven()) {
-        api(libs.cloud.base)
+    if (MavenConfig.Service_Net_Base.isLoadMaven()) {
+        implementation(libs.service.net.base)
     } else {
-        api(project(mapOf("path" to ":Cloud-Base")))
+        api(project(mapOf("path" to ":Service-Utils:Service-Utils-Info")))
     }
-
 }
 
-extra[NormalConfig.Group] = libs.cloud.api.get().group
-extra[NormalConfig.Artifact] = libs.cloud.api.get().name
-extra[NormalConfig.Version] = libs.cloud.api.get().version
+extra[NormalConfig.Group] = libs.service.net.base.get().group
+extra[NormalConfig.Artifact] = libs.service.net.base.get().name
+extra[NormalConfig.Version] = libs.service.net.base.get().version
 extra[NormalConfig.Library_Name] = NormalConfig.Library_Name_Default
 extra[NormalConfig.Library_Description] = NormalConfig.Library_Description_Default
 
-apply(from = "../publish.gradle")
-apply(from = "../upload.gradle")
+apply(from = "../../publish.gradle")
+apply(from = "../../upload.gradle")

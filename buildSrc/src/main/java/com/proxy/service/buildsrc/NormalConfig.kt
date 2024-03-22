@@ -5,7 +5,7 @@ package com.proxy.service.buildsrc
  * @data: 2024/3/19 20:53
  * @desc:
  */
-object VersionConfig {
+object NormalConfig {
 
     const val Group = "artifact"
     const val Artifact = "artifact"

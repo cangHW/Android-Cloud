@@ -1,5 +1,5 @@
 import com.proxy.service.buildsrc.MavenConfig
-import com.proxy.service.buildsrc.VersionConfig
+import com.proxy.service.buildsrc.NormalConfig
 
 plugins {
     id("java-library")
@@ -28,11 +28,11 @@ dependencies {
 //    targetCompatibility = JavaVersion.VERSION_1_8
 //}
 
-extra[VersionConfig.Group] = libs.cloud.compiler.get().group
-extra[VersionConfig.Artifact] = libs.cloud.compiler.get().name
-extra[VersionConfig.Version] = libs.cloud.compiler.get().version
-extra[VersionConfig.Library_Name] = VersionConfig.Library_Name_Default
-extra[VersionConfig.Library_Description] = VersionConfig.Library_Description_Default
+extra[NormalConfig.Group] = libs.cloud.compiler.get().group
+extra[NormalConfig.Artifact] = libs.cloud.compiler.get().name
+extra[NormalConfig.Version] = libs.cloud.compiler.get().version
+extra[NormalConfig.Library_Name] = NormalConfig.Library_Name_Default
+extra[NormalConfig.Library_Description] = NormalConfig.Library_Description_Default
 
 apply(from = "../publish.gradle")
 apply(from = "../upload.gradle")

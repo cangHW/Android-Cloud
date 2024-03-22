@@ -4,14 +4,21 @@ import com.proxy.service.buildsrc.NormalConfig
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.proxy.service.api"
+    namespace="com.proxy.service.network.okhttp"
     compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
+
+        kapt {
+            arguments {
+                arg("CLOUD_MODULE_NAME", project.getName())
+            }
+        }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -27,14 +34,6 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
 }
 
 dependencies {
@@ -45,25 +44,21 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.1.0")
 
-    if (MavenConfig.Cloud_Annotations.isLoadMaven()) {
-        api(libs.cloud.annotations)
+    if (MavenConfig.Cloud_Compiler.isLoadMaven()) {
+        kapt(libs.cloud.compiler)
     } else {
-        api(project(mapOf("path" to ":Cloud-Annotations")))
+        kapt(project(mapOf("path" to ":Cloud-Compiler")))
     }
 
-    if (MavenConfig.Cloud_Base.isLoadMaven()) {
-        api(libs.cloud.base)
+    if (MavenConfig.Service_Utils_Info.isLoadMaven()) {
+        implementation(libs.service.utils.info)
     } else {
-        api(project(mapOf("path" to ":Cloud-Base")))
+        implementation(project(mapOf("path" to ":Service-Utils:Service-Utils-Info")))
     }
 
+    if (MavenConfig.Service_Net_Base.isLoadMaven()) {
+        api(libs.service.net.base)
+    } else {
+        api(project(mapOf("path" to ":Service-NetWork:Service-NetWork-Base")))
+    }
 }
-
-extra[NormalConfig.Group] = libs.cloud.api.get().group
-extra[NormalConfig.Artifact] = libs.cloud.api.get().name
-extra[NormalConfig.Version] = libs.cloud.api.get().version
-extra[NormalConfig.Library_Name] = NormalConfig.Library_Name_Default
-extra[NormalConfig.Library_Description] = NormalConfig.Library_Description_Default
-
-apply(from = "../publish.gradle")
-apply(from = "../upload.gradle")
