@@ -23,10 +23,10 @@ dependencies {
         implementation(project(mapOf("path" to ":Cloud-Base")))
     }
 }
-//java {
-//    sourceCompatibility = JavaVersion.VERSION_1_8
-//    targetCompatibility = JavaVersion.VERSION_1_8
-//}
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
 extra[NormalConfig.Group] = libs.cloud.compiler.get().group
 extra[NormalConfig.Artifact] = libs.cloud.compiler.get().name

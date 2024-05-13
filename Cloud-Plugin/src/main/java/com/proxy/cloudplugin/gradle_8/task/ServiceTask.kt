@@ -97,12 +97,14 @@ abstract class ServiceTask : DefaultTask() {
     private fun findService(jarEntryName: String) {
         if (jarEntryName.contains(PluginImpl.servicePath)) {
             val className = jarEntryName.split("/").last()
-            services.add(
-                "com.cloud.service." + className.substring(
-                    0,
-                    className.length - 6
-                )
+
+            val service = "com.cloud.service." + className.substring(
+                0,
+                className.length - 6
             )
+            if (!services.contains(service)) {
+                services.add(service)
+            }
         }
     }
 

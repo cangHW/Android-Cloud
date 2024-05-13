@@ -25,6 +25,26 @@ class DataPluginMethodVisitor(
 
     override fun onMethodEnter() {
         super.onMethodEnter()
+    }
+
+    override fun visitMethodInsn(
+        opcode: Int,
+        owner: String?,
+        name: String,
+        desc: String,
+        itf: Boolean
+    ) {
+        println("visitMethodInsn -> opcode ：$opcode, owner : $owner, name : $name, desc : $desc, itf : $itf")
+
+        if (opcode == Opcodes.INVOKEINTERFACE && "add" == name && "(Ljava/lang/Object;)Z" == desc) {
+            return;
+        }
+        super.visitMethodInsn(opcode, owner, name, desc, itf)
+    }
+
+    override fun onMethodExit(opcode: Int) {
+        super.onMethodExit(opcode)
+        println("onMethodExit -> opcode ：$opcode")
 
         services.forEach {
             mv.visitVarInsn(ALOAD, 1)
@@ -40,10 +60,6 @@ class DataPluginMethodVisitor(
 
             println("DataPlugin -> 插入：$it")
         }
-    }
-
-    override fun onMethodExit(opcode: Int) {
-        super.onMethodExit(opcode)
     }
 
 }

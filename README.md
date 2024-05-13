@@ -39,7 +39,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| 功能库 | 1.1.2 | io.github.cangHW:Cloud-Api:“版本号” | api |
+| 功能库 | 1.1.4 | io.github.cangHW:Cloud-Api:“版本号” | api |
 
 ### 2、编译库 
 
@@ -47,7 +47,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用方式 |
 | :--: | :--: | :-- | :--: |
-| 编译库 | 1.0.0 | io.github.cangHW:Cloud-Compiler:“版本号” | annotationProcessor |
+| 编译库 | 1.0.1 | io.github.cangHW:Cloud-Compiler:“版本号” | annotationProcessor |
 
 ### 3、Gradle 插件
 
@@ -55,7 +55,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用位置 |
 | :--: | :--: | :-- | :--: |
-| 插件库 | 1.0.0 | io.github.cangHW:Cloud-Plugin:“版本号” | 项目根目录的 build.gradle 文件中，在 dependencies 节点下添加引用 |
+| 插件库 | 1.1.2 | io.github.cangHW:Cloud-Plugin:“版本号” | 项目根目录的 build.gradle 文件中，在 dependencies 节点下添加引用 |
 
 <br/>
 

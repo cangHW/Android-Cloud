@@ -27,7 +27,7 @@ enum class MavenConfig constructor(private val isLoadMaven: Boolean) {
 
     companion object {
         //总开关，控制使用本地依赖还是远程依赖
-        private const val IsRelease = true
+        private const val IsRelease = false
     }
 
     fun isLoadMaven(): Boolean {

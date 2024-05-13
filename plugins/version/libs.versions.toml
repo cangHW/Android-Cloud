@@ -1,6 +1,6 @@
 [versions]
 compile-sdk = "33"
-min-sdk = "16"
+min-sdk = "21"
 target-sdk = "33"
 version-code = "1"
 version-name = "1.0"
@@ -10,7 +10,7 @@ cloud-base = { group = "io.github.cangHW", name = "Cloud-Base", version = "1.0.1
 cloud-annotations = { group = "io.github.cangHW", name = "Cloud-Annotations", version = "1.0.0" }
 cloud-api = { group = "io.github.cangHW", name = "Cloud-Api", version = "1.1.4" }
 cloud-compiler = { group = "io.github.cangHW", name = "Cloud-Compiler", version = "1.0.1" }
-cloud-plugin = { group = "io.github.cangHW", name = "Cloud-Plugin", version = "1.1.1" }
+cloud-plugin = { group = "io.github.cangHW", name = "Cloud-Plugin", version = "1.1.2" }
 
 service-utils-base = { group = "io.github.cangHW", name = "Service-Utils-Base", version = "1.2.1" }
 service-utils-info = { group = "io.github.cangHW", name = "Service-Utils-Info", version = "1.2.2" }
