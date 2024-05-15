@@ -2,7 +2,6 @@ package com.proxy.cloudplugin.asm
 
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
-import org.objectweb.asm.commons.AdviceAdapter
 
 /**
  * @author: cangHX
@@ -11,55 +10,28 @@ import org.objectweb.asm.commons.AdviceAdapter
  */
 class DataPluginMethodVisitor(
     methodVisitor: MethodVisitor?,
-    access: Int,
-    name: String?,
-    descriptor: String?,
     private val services: ArrayList<String>
-) : AdviceAdapter(
-    Opcodes.ASM9,
-    methodVisitor,
-    access,
-    name,
-    descriptor
-) {
+) : MethodVisitor(Opcodes.ASM9, methodVisitor) {
 
-    override fun onMethodEnter() {
-        super.onMethodEnter()
-    }
+    override fun visitInsn(opcode: Int) {
+        println("visitInsn -> opcode ：$opcode")
+        if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)) {
+            services.forEach {
+                mv.visitVarInsn(Opcodes.ALOAD, 1)
+                mv.visitLdcInsn(it)
+                mv.visitMethodInsn(
+                    Opcodes.INVOKEINTERFACE,
+                    "java/util/List",
+                    "add",
+                    "(Ljava/lang/Object;)Z",
+                    true
+                )
+                mv.visitInsn(Opcodes.POP)
 
-    override fun visitMethodInsn(
-        opcode: Int,
-        owner: String?,
-        name: String,
-        desc: String,
-        itf: Boolean
-    ) {
-        println("visitMethodInsn -> opcode ：$opcode, owner : $owner, name : $name, desc : $desc, itf : $itf")
-
-        if (opcode == Opcodes.INVOKEINTERFACE && "add" == name && "(Ljava/lang/Object;)Z" == desc) {
-            return;
+                println("DataPlugin -> 插入：$it")
+            }
         }
-        super.visitMethodInsn(opcode, owner, name, desc, itf)
-    }
-
-    override fun onMethodExit(opcode: Int) {
-        super.onMethodExit(opcode)
-        println("onMethodExit -> opcode ：$opcode")
-
-        services.forEach {
-            mv.visitVarInsn(ALOAD, 1)
-            mv.visitLdcInsn(it)
-            mv.visitMethodInsn(
-                INVOKEINTERFACE,
-                "java/util/List",
-                "add",
-                "(Ljava/lang/Object;)Z",
-                true
-            )
-            mv.visitInsn(POP)
-
-            println("DataPlugin -> 插入：$it")
-        }
+        super.visitInsn(opcode)
     }
 
 }

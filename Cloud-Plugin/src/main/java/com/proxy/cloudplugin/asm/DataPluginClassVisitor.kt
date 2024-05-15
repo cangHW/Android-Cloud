@@ -21,10 +21,10 @@ class DataPluginClassVisitor constructor(
         signature: String?,
         exceptions: Array<out String>?
     ): MethodVisitor {
-       val mv :MethodVisitor  = super.visitMethod(access, name, descriptor, signature, exceptions)
+        val mv: MethodVisitor = super.visitMethod(access, name, descriptor, signature, exceptions)
         if ("getClasses" == name && "(Ljava/util/List;)Ljava/util/List;" == descriptor) {
             println("visitMethod -> access ：$access, name : $name, descriptor : $descriptor, signature : $signature, exceptions : $exceptions")
-            return DataPluginMethodVisitor(mv,access, name, descriptor, services)
+            return DataPluginMethodVisitor(mv, services)
         }
         return mv
     }

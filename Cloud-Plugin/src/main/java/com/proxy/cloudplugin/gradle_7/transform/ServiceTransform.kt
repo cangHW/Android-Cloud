@@ -54,6 +54,8 @@ class ServiceTransform constructor(private val mProject: Project) : Transform() 
         var dataJarFile: JarInput? = null
 
         val output = transformInvocation.outputProvider
+        output.deleteAll()
+
         transformInvocation.inputs.forEach { input ->
             input.directoryInputs.forEach { dir ->
 
