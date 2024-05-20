@@ -13,6 +13,39 @@ class DataPluginMethodVisitor(
     private val services: ArrayList<String>
 ) : MethodVisitor(Opcodes.ASM9, methodVisitor) {
 
+    override fun visitCode() {
+        super.visitCode()
+        println("visitCode")
+    }
+
+    override fun visitVarInsn(opcode: Int, varIndex: Int) {
+        super.visitVarInsn(opcode, varIndex)
+        println("visitVarInsn -> opcode ：$opcode, varIndex ：$varIndex")
+    }
+
+    override fun visitLdcInsn(value: Any?) {
+        super.visitLdcInsn(value)
+        println("visitLdcInsn -> value ：$value")
+    }
+
+    override fun visitMethodInsn(
+        opcode: Int,
+        owner: String?,
+        name: String?,
+        descriptor: String?,
+        isInterface: Boolean
+    ) {
+        println(
+            "visitMethodInsn -> " +
+                    "opcode ：$opcode, " +
+                    "owner ：$owner, " +
+                    "name ：$name, " +
+                    "descriptor ：$descriptor, " +
+                    "isInterface ：$isInterface"
+        )
+//        super.visitMethodInsn(opcode, owner, name, descriptor, isInterface)
+    }
+
     override fun visitInsn(opcode: Int) {
         println("visitInsn -> opcode ：$opcode")
         if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)) {
@@ -32,6 +65,16 @@ class DataPluginMethodVisitor(
             }
         }
         super.visitInsn(opcode)
+    }
+
+    override fun visitMaxs(maxStack: Int, maxLocals: Int) {
+        super.visitMaxs(maxStack, maxLocals)
+        println("visitMaxs -> maxStack ：$maxStack, maxLocals ：$maxLocals")
+    }
+
+    override fun visitEnd() {
+        super.visitEnd()
+        println("visitEnd")
     }
 
 }

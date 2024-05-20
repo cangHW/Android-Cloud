@@ -55,7 +55,7 @@
 
 | 模块 | 最新版本号 | 地址 | 引用位置 |
 | :--: | :--: | :-- | :--: |
-| 插件库 | 1.1.3 | io.github.cangHW:Cloud-Plugin:“版本号” | 项目根目录的 build.gradle 文件中，在 dependencies 节点下添加引用 |
+| 插件库 | 1.1.3.2 | io.github.cangHW:Cloud-Plugin:“版本号” | 项目根目录的 build.gradle 文件中，在 dependencies 节点下添加引用 |
 
 <br/>
 
