@@ -8,9 +8,6 @@ import java.lang.annotation.Target;
 
 /**
  * 标示一个类为对外提供的服务实现类
- *
- * @author: cangHX
- * on 2020/06/05  11:11
  */
 @Documented
 @Target(ElementType.TYPE)
@@ -19,10 +16,6 @@ public @interface CloudApiService {
 
     /**
      * 服务的 tag
-     *
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2019/10/31 17:38
      */
     String serviceTag();
 }

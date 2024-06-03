@@ -9,8 +9,8 @@ enum class MavenConfig constructor(private val isLoadMaven: Boolean) {
 
     Cloud_Base(true),
     Cloud_Annotations(true),
-    Cloud_Api(true),
-    Cloud_Compiler(true),
+    Cloud_Api(false),
+    Cloud_Compiler(false),
     Cloud_Plugin(true),
 
     Service_Utils_Base(false),
@@ -27,7 +27,7 @@ enum class MavenConfig constructor(private val isLoadMaven: Boolean) {
 
     companion object {
         //总开关，控制使用本地依赖还是远程依赖
-        private const val IsRelease = false
+        private const val IsRelease = true
     }
 
     fun isLoadMaven(): Boolean {
