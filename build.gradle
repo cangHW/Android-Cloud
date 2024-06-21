@@ -2,76 +2,9 @@
 
 buildscript {
     dependencies {
-//        classpath 'com.android.tools.build:gradle:3.5.2'
-//        classpath "org.jetbrains.dokka:dokka-gradle-plugin:1.4.10.2"
         classpath libs.cloud.plugin
     }
 }
-
-//allprojects {
-//    repositories {
-//        google()
-//        mavenCentral()
-//        maven {
-//            name 'mavenCentral-snapshots'
-//            url 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
-//        }
-//    }
-//    /*防止-Xlint:unchecked 重新编译。错误*/
-//    gradle.projectsEvaluated {
-//        tasks.withType(JavaCompile) {
-//            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-//            // Try to turn them all off automatically
-//            options.compilerArgs << '-Xlint:none'
-//            options.compilerArgs << '-nowarn' // same as '-Xlint:none'
-//
-//            // Turn them off manually
-//            options.compilerArgs << '-Xlint:-auxiliaryclass'
-//            options.compilerArgs << '-Xlint:-cast'
-//            options.compilerArgs << '-Xlint:-classfile'
-//            options.compilerArgs << '-Xlint:-deprecation'
-//            options.compilerArgs << '-Xlint:-dep-ann'
-//            options.compilerArgs << '-Xlint:-divzero'
-//            options.compilerArgs << '-Xlint:-empty'
-//            options.compilerArgs << '-Xlint:-fallthrough'
-//            options.compilerArgs << '-Xlint:-finally'
-//            options.compilerArgs << '-Xlint:-options'
-//            options.compilerArgs << '-Xlint:-overloads'
-//            options.compilerArgs << '-Xlint:-overrides'
-//            options.compilerArgs << '-Xlint:-path'
-//            options.compilerArgs << '-Xlint:-processing'
-//            options.compilerArgs << '-Xlint:-rawtypes'
-//            options.compilerArgs << '-Xlint:-serial'
-//            options.compilerArgs << '-Xlint:-static'
-//            options.compilerArgs << '-Xlint:-try'
-//            options.compilerArgs << '-Xlint:-unchecked'
-//            options.compilerArgs << '-Xlint:-varargs'
-//        }
-//    }
-//    /*忽略java编译时的警告*/
-//    tasks.withType(JavaCompile) {
-//        configure(options) {
-//            incremental = true
-//        }
-//        options.encoding = "UTF-8"
-//    }
-//    configurations {
-//        all*.exclude group: 'com.android.support', module: 'support-compat'
-//        all*.exclude group: 'com.android.support', module: 'support-v4'
-//        all*.exclude group: 'com.android.support', module: 'support-annotations'
-//        all*.exclude group: 'com.android.support', module: 'support-fragment'
-//        all*.exclude group: 'com.android.support', module: 'support-core-utils'
-//        all*.exclude group: 'com.android.support', module: 'support-core-ui'
-//    }
-//    tasks.withType(Javadoc) {
-//        options.addStringOption('Xdoclint:none', '-quiet')
-//        options.addStringOption('encoding', 'UTF-8')
-//    }
-//}
-//
-//task clean(type: Delete) {
-//    delete rootProject.buildDir
-//}
 
 plugins {
     alias(libs.plugins.android.application) apply false

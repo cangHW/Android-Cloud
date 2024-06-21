@@ -20,12 +20,12 @@ class DataPluginMethodVisitor(
 
     override fun visitVarInsn(opcode: Int, varIndex: Int) {
         super.visitVarInsn(opcode, varIndex)
-        println("visitVarInsn -> opcode ：$opcode, varIndex ：$varIndex")
+//        println("visitVarInsn -> opcode ：$opcode, varIndex ：$varIndex")
     }
 
     override fun visitLdcInsn(value: Any?) {
         super.visitLdcInsn(value)
-        println("visitLdcInsn -> value ：$value")
+//        println("visitLdcInsn -> value ：$value")
     }
 
     override fun visitMethodInsn(
@@ -35,19 +35,19 @@ class DataPluginMethodVisitor(
         descriptor: String?,
         isInterface: Boolean
     ) {
-        println(
-            "visitMethodInsn -> " +
-                    "opcode ：$opcode, " +
-                    "owner ：$owner, " +
-                    "name ：$name, " +
-                    "descriptor ：$descriptor, " +
-                    "isInterface ：$isInterface"
-        )
+//        println(
+//            "visitMethodInsn -> " +
+//                    "opcode ：$opcode, " +
+//                    "owner ：$owner, " +
+//                    "name ：$name, " +
+//                    "descriptor ：$descriptor, " +
+//                    "isInterface ：$isInterface"
+//        )
 //        super.visitMethodInsn(opcode, owner, name, descriptor, isInterface)
     }
 
     override fun visitInsn(opcode: Int) {
-        println("visitInsn -> opcode ：$opcode")
+//        println("visitInsn -> opcode ：$opcode")
         if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)) {
             services.forEach {
                 mv.visitVarInsn(Opcodes.ALOAD, 1)
