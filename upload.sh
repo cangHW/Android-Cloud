@@ -1,6 +1,6 @@
 
 #准备上传的类库 module
-upArray=(
+upArray = (
 #  ":CloudBase"
 
 #  ":CloudAnnotations"
@@ -13,7 +13,7 @@ upArray=(
 
 )
 
-type_params="release"
+type_params = "release"
 
 for element in "${upArray[@]}"
 do
