@@ -1,0 +1,61 @@
+ext {
+    sdk = [
+            snapshot_url    : "https://s01.oss.sonatype.org/content/repositories/snapshots/",
+            release_url     : "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/",
+
+            group           : "io.github.cangHW",
+            gitUrl          : "https://github.com/cangHW/Android-Cloud.git",
+            siteUrl         : "https://github.com/cangHW/Android-Cloud",
+            licenseName     : "The Apache Software License, Version 2.0",
+            licenseUrl      : "http://www.apache.org/licenses/LICENSE-2.0.txt",
+            developerId     : "cangHX",
+            developerName   : "cangHX",
+            developerEmail  : "cwqcanghaixiao@163.com",
+
+            // 注解库
+            CloudAnnotations: [
+                    artifact          : "Cloud-Annotations",
+                    version           : "0.0.0.1",
+                    source            : true,
+                    libraryName       : "Android cloud sdk",
+                    libraryDescription: "The perfect framework for Android"
+            ],
+
+            // Api 库
+            CloudApi        : [
+                    artifact          : "Cloud-Api",
+                    version           : "0.0.0.1",
+                    source            : true,
+                    libraryName       : "Android cloud sdk",
+                    libraryDescription: "The perfect framework for Android"
+            ],
+
+            // 工具库
+            CloudBase       : [
+                    artifact          : "Cloud-Base",
+                    version           : "0.0.0.1",
+                    source            : true,
+                    libraryName       : "Android cloud sdk",
+                    libraryDescription: "The perfect framework for Android"
+            ],
+
+            // 编译库
+            CloudCompiler   : [
+                    artifact          : "Cloud-Compiler",
+                    version           : "0.0.0.1",
+                    source            : true,
+                    libraryName       : "Android cloud sdk",
+                    libraryDescription: "The perfect framework for Android"
+            ],
+
+            // 插件库
+            CloudPlugin     : [
+                    artifact          : "Cloud-Plugin",
+                    version           : "1.1.3.4",
+                    source            : true,
+                    libraryName       : "Android cloud sdk",
+                    libraryDescription: "The perfect framework for Android"
+            ]
+    ]
+}
+

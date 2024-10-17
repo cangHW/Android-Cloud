@@ -1,6 +1,3 @@
-import com.proxy.service.buildsrc.MavenConfig
-
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -16,8 +13,8 @@ android {
         applicationId = "com.chx.androidcloud"
         minSdk = libs.versions.min.sdk.get().toInt()
         targetSdk = libs.versions.target.sdk.get().toInt()
-        versionCode = libs.versions.version.code.get().toInt()
-        versionName = libs.versions.version.name.get()
+        versionCode = 1
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -43,20 +40,6 @@ android {
             )
         }
     }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-
-//    kotlin {
-//        jvmToolchain(8)
-//    }
-
 }
 
 dependencies {
@@ -69,34 +52,36 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    if (MavenConfig.Service_Utils_Info.isLoadMaven()) {
-        implementation(libs.service.utils.info)
-    } else {
+//    if (MavenConfig.Service_Utils_Info.isLoadMaven()) {
+//        implementation(libs.service.utils.info)
+//    } else {
         implementation(project(mapOf("path" to ":Service-Utils:Service-Utils-Info")))
-    }
+//    }
 
-    if (MavenConfig.Service_Ui_Info.isLoadMaven()) {
-        implementation(libs.service.ui.info)
-    } else {
+//    if (MavenConfig.Service_Ui_Info.isLoadMaven()) {
+//        implementation(libs.service.ui.info)
+//    } else {
         implementation(project(mapOf("path" to ":Service-UI:Service-UI-Info")))
-    }
+//    "kapt"(project(mapOf("path" to ":CloudCompiler")))
+//    }
 
-    if (MavenConfig.Cloud_Compiler.isLoadMaven()) {
-        kapt(libs.cloud.compiler)
-    } else {
-        kapt(project(mapOf("path" to ":Cloud-Compiler")))
-    }
+//    if (MavenConfig.Cloud_Compiler.isLoadMaven()) {
+//        kapt(libs.cloud.compiler)
+//    } else {
+    //    }
 
-    if (MavenConfig.Service_Net_Base.isLoadMaven()) {
-        implementation(libs.service.net.base)
-    } else {
+//    if (MavenConfig.Service_Net_Base.isLoadMaven()) {
+//        implementation(libs.service.net.base)
+//    } else {
         implementation(project(mapOf("path" to ":Service-NetWork:Service-NetWork-Base")))
-    }
+//    }
 
-    if (MavenConfig.Service_Media_Base.isLoadMaven()) {
-        implementation(libs.service.media.base)
-    } else {
+//    if (MavenConfig.Service_Media_Base.isLoadMaven()) {
+//        implementation(libs.service.media.base)
+//    } else {
         implementation(project(mapOf("path" to ":Service-Media:Service-Media-Base")))
-    }
+//    }
 
 }
+
+apply(from = File(project.rootDir.absolutePath, "Plugins/gradle/common.gradle").absolutePath)

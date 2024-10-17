@@ -4,24 +4,23 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="17" />
+        <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/Cloud-Annotations" />
-            <option value="$PROJECT_DIR$/Cloud-Api" />
-            <option value="$PROJECT_DIR$/Cloud-Base" />
-            <option value="$PROJECT_DIR$/Cloud-Compiler" />
-            <option value="$PROJECT_DIR$/Cloud-Plugin" />
+            <option value="$PROJECT_DIR$/CloudAnnotations" />
+            <option value="$PROJECT_DIR$/CloudApi" />
+            <option value="$PROJECT_DIR$/CloudBase" />
+            <option value="$PROJECT_DIR$/CloudCompiler" />
+            <option value="$PROJECT_DIR$/CloudPlugin" />
             <option value="$PROJECT_DIR$/Service-Media" />
             <option value="$PROJECT_DIR$/Service-Media/Service-Media-Base" />
             <option value="$PROJECT_DIR$/Service-Media/Service-Media-Info" />
             <option value="$PROJECT_DIR$/Service-NetWork" />
             <option value="$PROJECT_DIR$/Service-NetWork/Service-NetWork-Base" />
             <option value="$PROJECT_DIR$/Service-NetWork/Service-NetWork-OkHttp" />
+            <option value="$PROJECT_DIR$/Service-NetWork/Service-NetWork-Retrofit" />
             <option value="$PROJECT_DIR$/Service-UI" />
             <option value="$PROJECT_DIR$/Service-UI/Service-UI-Base" />
             <option value="$PROJECT_DIR$/Service-UI/Service-UI-Info" />

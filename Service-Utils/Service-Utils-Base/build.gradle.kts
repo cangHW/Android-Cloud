@@ -1,10 +1,11 @@
 plugins {
     id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.proxy.service.media"
-
+    namespace = "com.proxy.service.utils.base"
     compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
@@ -18,11 +19,12 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
             )
         }
     }
+
 }
 
 dependencies {
@@ -33,21 +35,19 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.1.0")
 
-//    if (MavenConfig.Cloud_Api.isLoadMaven()) {
-//        api(libs.cloud.api)
+//    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(cloud_api_isFromMaven)) {
+//        api "${publishedGroupId}:Cloud-Api:${cloud_api_version}"
 //    } else {
         api(project(mapOf("path" to ":CloudApi")))
 //    }
 }
 
-//extra[NormalConfig.Group] = libs.service.media.base.get().module.group
-//extra[NormalConfig.Artifact] = libs.service.media.base.get().module.name
-//extra[NormalConfig.Version] = libs.versions.service.media.base.version.get()
-//extra[NormalConfig.Library_Name] = NormalConfig.Library_Name_Default
-//extra[NormalConfig.Library_Description] = NormalConfig.Library_Description_Default
+//ext {
+//    artifact = 'Service-Utils-Base'
+//    libraryName = 'Cloud utils module'
+//    libraryDescription = 'The perfect framework for Android'
+//    libraryVersion = service_utils_base_version
+//}
 //
-//apply(from = "../../publish.gradle")
-//apply(from = "../../upload.gradle")
-
-
-
+//apply from: '../../publish.gradle'
+//apply from: '../../upload.gradle'

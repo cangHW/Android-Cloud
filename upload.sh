@@ -1,15 +1,15 @@
 
 #准备上传的类库 module
 upArray=(
-#  ":Cloud-Base"
+#  ":CloudBase"
 
-#  ":Cloud-Annotations"
+#  ":CloudAnnotations"
 
-  ":Cloud-Plugin"
+  ":CloudPlugin"
 
-#  ":Cloud-Api"
+#  ":CloudApi"
 
-#  ":Cloud-Compiler"
+#  ":CloudCompiler"
 
 )
 

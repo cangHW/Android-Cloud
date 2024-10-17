@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace="com.proxy.service.network.okhttp"
+    namespace = "com.proxy.service.utils.info"
     compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
@@ -25,8 +25,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
             )
         }
     }
@@ -35,7 +35,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
 }
 
 dependencies {
@@ -46,21 +45,25 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.1.0")
 
-//    if (MavenConfig.Cloud_Compiler.isLoadMaven()) {
-//        kapt(libs.cloud.compiler)
+//    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(cloud_compiler_isFromMaven)) {
+//        annotationProcessor "${publishedGroupId}:Cloud-Compiler:${cloud_compiler_version}"
 //    } else {
-//        kapt(project(mapOf("path" to ":CloudCompiler")))
+//        annotationProcessor project(path: ':CloudCompiler')
 //    }
 
-//    if (MavenConfig.Service_Utils_Info.isLoadMaven()) {
-//        implementation(libs.service.utils.info)
+//    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(service_utils_base_isFromMaven)) {
+//        api "${publishedGroupId}:Service-Utils-Base:${service_utils_base_version}"
 //    } else {
-        implementation(project(mapOf("path" to ":Service-Utils:Service-Utils-Info")))
-//    }
-
-//    if (MavenConfig.Service_Net_Base.isLoadMaven()) {
-//        api(libs.service.net.base)
-//    } else {
-        api(project(mapOf("path" to ":Service-NetWork:Service-NetWork-Base")))
+        api(project(mapOf("path" to ":Service-Utils:Service-Utils-Base")))
 //    }
 }
+
+//ext {
+//    artifact = 'Service-Utils-Info'
+//    libraryName = 'Cloud utils module'
+//    libraryDescription = 'The perfect framework for Android'
+//    libraryVersion = service_utils_info_version
+//}
+//
+//apply from: '../../publish.gradle'
+//apply from: '../../upload.gradle'

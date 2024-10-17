@@ -5,11 +5,13 @@ plugins {
 }
 
 android {
-    namespace="com.proxy.service.network.okhttp"
+    namespace = "com.proxy.service.ui.info"
+
     compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
+
 
         kapt {
             arguments {
@@ -45,22 +47,33 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
 
     implementation("androidx.appcompat:appcompat:1.1.0")
+    implementation("androidx.recyclerview:recyclerview:1.1.0")
 
-//    if (MavenConfig.Cloud_Compiler.isLoadMaven()) {
-//        kapt(libs.cloud.compiler)
+//    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(cloud_compiler_isFromMaven)) {
+//        annotationProcessor "${publishedGroupId}:Cloud-Compiler:${cloud_compiler_version}"
 //    } else {
-//        kapt(project(mapOf("path" to ":CloudCompiler")))
+//        annotationProcessor project(path: ':CloudCompiler')
 //    }
 
-//    if (MavenConfig.Service_Utils_Info.isLoadMaven()) {
-//        implementation(libs.service.utils.info)
+//    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(service_utils_info_isFromMaven)) {
+//        implementation "${publishedGroupId}:Service-Utils-Info:${service_utils_info_version}"
 //    } else {
         implementation(project(mapOf("path" to ":Service-Utils:Service-Utils-Info")))
 //    }
 
-//    if (MavenConfig.Service_Net_Base.isLoadMaven()) {
-//        api(libs.service.net.base)
+//    if (Boolean.parseBoolean(isRelease) && Boolean.parseBoolean(service_ui_base_isFromMaven)) {
+//        api "${publishedGroupId}:Service-UI-Base:${service_ui_base_version}"
 //    } else {
-        api(project(mapOf("path" to ":Service-NetWork:Service-NetWork-Base")))
+        api(project(mapOf("path" to ":Service-UI:Service-UI-Base")))
 //    }
 }
+
+//ext {
+//    artifact = 'Service-UI-Info'
+//    libraryName = 'Cloud ui module'
+//    libraryDescription = 'The perfect framework for Android'
+//    libraryVersion = service_ui_info_version
+//}
+//
+//apply from: '../../publish.gradle'
+//apply from: '../../upload.gradle'

@@ -1,6 +1,3 @@
-import com.proxy.service.buildsrc.MavenConfig
-import com.proxy.service.buildsrc.NormalConfig
-
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -53,24 +50,24 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.1.0")
 
-    if (MavenConfig.Cloud_Compiler.isLoadMaven()) {
-        kapt(libs.cloud.compiler)
-    } else {
-        kapt(project(mapOf("path" to ":Cloud-Compiler")))
-    }
+//    if (MavenConfig.Cloud_Compiler.isLoadMaven()) {
+//        kapt(libs.cloud.compiler)
+//    } else {
+//        kapt(project(mapOf("path" to ":CloudCompiler")))
+//    }
 
-    if (MavenConfig.Service_Media_Base.isLoadMaven()) {
-        api(libs.service.media.base)
-    } else {
+//    if (MavenConfig.Service_Media_Base.isLoadMaven()) {
+//        api(libs.service.media.base)
+//    } else {
         api(project(mapOf("path" to ":Service-Media:Service-Media-Base")))
-    }
+//    }
 }
 
-extra[NormalConfig.Group] = libs.service.media.info.get().module.group
-extra[NormalConfig.Artifact] = libs.service.media.info.get().module.name
-extra[NormalConfig.Version] = libs.versions.service.media.info.version.get()
-extra[NormalConfig.Library_Name] = NormalConfig.Library_Name_Default
-extra[NormalConfig.Library_Description] = NormalConfig.Library_Description_Default
-
-apply(from = "../../publish.gradle")
-apply(from = "../../upload.gradle")
+//extra[NormalConfig.Group] = libs.service.media.info.get().module.group
+//extra[NormalConfig.Artifact] = libs.service.media.info.get().module.name
+//extra[NormalConfig.Version] = libs.versions.service.media.info.version.get()
+//extra[NormalConfig.Library_Name] = NormalConfig.Library_Name_Default
+//extra[NormalConfig.Library_Description] = NormalConfig.Library_Description_Default
+//
+//apply(from = "../../publish.gradle")
+//apply(from = "../../upload.gradle")

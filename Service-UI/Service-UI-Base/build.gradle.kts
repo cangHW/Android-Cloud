@@ -1,6 +1,3 @@
-import com.proxy.service.buildsrc.MavenConfig
-import com.proxy.service.buildsrc.NormalConfig
-
 plugins {
     id("com.android.library")
 }
@@ -36,18 +33,18 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.1.0")
 
-    if (MavenConfig.Cloud_Api.isLoadMaven()) {
-        api(libs.cloud.api)
-    } else {
-        api(project(mapOf("path" to ":Cloud-Api")))
-    }
+//    if (MavenConfig.Cloud_Api.isLoadMaven()) {
+//        api(libs.cloud.api)
+//    } else {
+        api(project(mapOf("path" to ":CloudApi")))
+//    }
 }
 
-extra[NormalConfig.Group] = libs.service.ui.base.get().module.group
-extra[NormalConfig.Artifact] = libs.service.ui.base.get().module.name
-extra[NormalConfig.Version] = libs.versions.service.ui.base.version.get()
-extra[NormalConfig.Library_Name] = NormalConfig.Library_Name_Default
-extra[NormalConfig.Library_Description] = NormalConfig.Library_Description_Default
-
-apply(from = "../../publish.gradle")
-apply(from = "../../upload.gradle")
+//extra[NormalConfig.Group] = libs.service.ui.base.get().module.group
+//extra[NormalConfig.Artifact] = libs.service.ui.base.get().module.name
+//extra[NormalConfig.Version] = libs.versions.service.ui.base.version.get()
+//extra[NormalConfig.Library_Name] = NormalConfig.Library_Name_Default
+//extra[NormalConfig.Library_Description] = NormalConfig.Library_Description_Default
+//
+//apply(from = "../../publish.gradle")
+//apply(from = "../../upload.gradle")
