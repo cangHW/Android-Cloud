@@ -28,7 +28,6 @@
             <option value="$PROJECT_DIR$/Service-Utils/Service-Utils-Base" />
             <option value="$PROJECT_DIR$/Service-Utils/Service-Utils-Info" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/buildSrc" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
