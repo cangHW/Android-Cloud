@@ -52,36 +52,12 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-//    if (MavenConfig.Service_Utils_Info.isLoadMaven()) {
-//        implementation(libs.service.utils.info)
-//    } else {
-        implementation(project(mapOf("path" to ":Service-Utils:Service-Utils-Info")))
-//    }
+    implementation(project(mapOf("path" to ":Service-Utils:Service-Utils-Info")))
 
-//    if (MavenConfig.Service_Ui_Info.isLoadMaven()) {
-//        implementation(libs.service.ui.info)
-//    } else {
-        implementation(project(mapOf("path" to ":Service-UI:Service-UI-Info")))
-//    "kapt"(project(mapOf("path" to ":CloudCompiler")))
-//    }
-
-//    if (MavenConfig.Cloud_Compiler.isLoadMaven()) {
-//        kapt(libs.cloud.compiler)
-//    } else {
-    //    }
-
-//    if (MavenConfig.Service_Net_Base.isLoadMaven()) {
-//        implementation(libs.service.net.base)
-//    } else {
-        implementation(project(mapOf("path" to ":Service-NetWork:Service-NetWork-Base")))
-//    }
-
-//    if (MavenConfig.Service_Media_Base.isLoadMaven()) {
-//        implementation(libs.service.media.base)
-//    } else {
-        implementation(project(mapOf("path" to ":Service-Media:Service-Media-Base")))
-//    }
-
+    implementation(project(mapOf("path" to ":Service-UI:Service-UI-Info")))
+    kapt(libs.cloud.compiler)
+    implementation(project(mapOf("path" to ":Service-NetWork:Service-NetWork-Base")))
+    implementation(project(mapOf("path" to ":Service-Media:Service-Media-Base")))
 }
 
 apply(from = File(project.rootDir.absolutePath, "Plugins/gradle/common.gradle").absolutePath)

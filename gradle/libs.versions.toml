@@ -12,7 +12,7 @@ material = "1.10.0"
 [libraries]
 ##########################################  系统库  ############################################################################
 core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.8.0" }
-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.6.1" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.1.0" }
 
 ##########################################  开发基础库  ############################################################################
 cloud-base = { group = "io.github.cangHW", name = "Cloud-Base", version = "1.0.1.1" }
