@@ -1,6 +1,6 @@
 package com.proxy.service.api.multidex;
 
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,7 +39,7 @@ class VmMultiDex {
             isMultidexCapable = isAndroidMultiDexCapable();
         }
 
-        Logger.Debug("VM with name " + vmName + (isMultidexCapable ? " has multidex support" : " does not have multidex support"));
+        Logger.INSTANCE.d("VM with name " + vmName + (isMultidexCapable ? " has multidex support" : " does not have multidex support"));
         return isMultidexCapable;
     }
 

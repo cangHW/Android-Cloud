@@ -16,7 +16,7 @@ import com.proxy.service.api.request.method.CloudNetWorkHttpUrl;
 import com.proxy.service.api.request.method.CloudNetWorkRequest;
 import com.proxy.service.api.services.CloudNetWorkInitService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 /**
  * @author: cangHX

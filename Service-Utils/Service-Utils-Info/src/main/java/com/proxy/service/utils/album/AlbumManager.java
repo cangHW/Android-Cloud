@@ -11,7 +11,7 @@ import com.proxy.service.api.services.CloudUtilsTaskService;
 import com.proxy.service.api.task.ITask;
 import com.proxy.service.api.task.Task;
 import com.proxy.service.api.task.TaskCallableOnce;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.info.UtilsTaskServiceImpl;
 
 import java.io.File;

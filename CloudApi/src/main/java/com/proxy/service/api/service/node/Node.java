@@ -1,12 +1,9 @@
 package com.proxy.service.api.service.node;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.proxy.service.api.service.listener.Converter;
 import com.proxy.service.base.BaseService;
-
-import java.lang.ref.WeakReference;
 
 /**
  * 自定义数据格式
@@ -24,17 +21,10 @@ public final class Node {
     private final String uuid;
 
     private final Converter<? extends BaseService> converter;
-    private final WeakReference<Converter<? extends BaseService>> weakReference;
 
     Node(@NonNull String uuid, @NonNull Converter<? extends BaseService> converter) {
         this.uuid = uuid;
-        if (UUID_DEFAULT.equals(uuid)) {
-            weakReference = null;
-            this.converter = converter;
-        } else {
-            this.weakReference = new WeakReference<Converter<? extends BaseService>>(converter);
-            this.converter = null;
-        }
+        this.converter = converter;
     }
 
     @NonNull
@@ -42,11 +32,8 @@ public final class Node {
         return uuid;
     }
 
-    @Nullable
+    @NonNull
     public Converter<? extends BaseService> getConverter() {
-        if (converter != null) {
-            return converter;
-        }
-        return weakReference.get();
+        return converter;
     }
 }

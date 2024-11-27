@@ -21,7 +21,7 @@ import com.proxy.service.api.receiver.CloudReceiverListener;
 import com.proxy.service.api.services.CloudUtilsAppService;
 import com.proxy.service.api.services.CloudUtilsReceiverService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.lang.ref.WeakReference;
 

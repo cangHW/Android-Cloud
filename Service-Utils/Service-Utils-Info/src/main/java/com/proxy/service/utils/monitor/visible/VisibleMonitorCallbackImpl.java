@@ -1,7 +1,7 @@
 package com.proxy.service.utils.monitor.visible;
 
 import com.proxy.service.api.monitor.visible.CloudVisibleMonitorCallback;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 /**
  * @author : cangHX

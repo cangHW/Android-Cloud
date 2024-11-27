@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.proxy.service.api.callback.CloudUiFieldCheckErrorCallback;
 import com.proxy.service.api.error.CloudApiError;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.lang.reflect.Field;
 import java.util.regex.Pattern;

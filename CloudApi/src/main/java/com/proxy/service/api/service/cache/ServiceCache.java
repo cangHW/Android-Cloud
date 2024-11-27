@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 
 import com.proxy.service.annotations.CloudApiNewInstance;
 import com.proxy.service.annotations.CloudApiService;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.base.BaseService;
 import com.proxy.service.node.ServiceNode;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -19,39 +21,23 @@ import java.util.List;
  */
 public class ServiceCache {
 
-    /**
-     * 默认放置位置为队尾
-     */
-    private static final int INDEX_DEFAULT = -1;
+    private static final Object obj = new Object();
+
     /**
      * 服务集合类
      */
-    private static final List<ServiceNode> SERVICES = new ArrayList<>();
-
-    /**
-     * 获取数据量
-     *
-     * @return 返回数量
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-06-08 18:42
-     */
-    public static int size() {
-        return SERVICES.size();
-    }
+    private static final LinkedHashMap<ServiceNode, Object> SERVICES = new LinkedHashMap<>(0, 0.75f, true);
 
     /**
      * 注册
      *
      * @param services : 注册的服务集合
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-06-08 18:17
      */
-    public synchronized static void addAllAtFirst(@NonNull List<BaseService> services) {
-        //剔除用户传入的为null的数据
-        List<ServiceNode> list = new ArrayList<>();
-        for (BaseService service : services) {
+    public synchronized static void addAllWithBaseService(@NonNull List<BaseService> services) {
+        //剔除用户传入的为 null 的数据
+        List<BaseService> list = new ArrayList<>(services);
+        Collections.reverse(list);
+        for (BaseService service : list) {
             if (service == null) {
                 continue;
             }
@@ -59,42 +45,22 @@ public class ServiceCache {
             CloudApiService cloudApiService = tClass.getAnnotation(CloudApiService.class);
             CloudApiNewInstance cloudApiNewInstance = tClass.getAnnotation(CloudApiNewInstance.class);
             if (cloudApiService == null) {
-                Logger.Error(tClass.getSimpleName() + "缺少 CloudService 注解");
+                Logger.INSTANCE.e(tClass.getSimpleName() + "缺少 CloudService 注解");
                 continue;
             }
-            list.add(new ServiceNode(cloudApiService.serviceTag(), cloudApiNewInstance != null, service));
+            ServiceNode node = new ServiceNode(cloudApiService.serviceTag(), cloudApiNewInstance != null, service);
+            SERVICES.put(node, obj);
         }
-        add(0, list);
     }
 
     /**
      * 注册
      *
      * @param services : 注册的服务集合
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-06-08 18:17
      */
-    public synchronized static void addAll(@NonNull List<ServiceNode> services) {
-        add(INDEX_DEFAULT, services);
-    }
-
-    /**
-     * 注册（放置在数组前面）
-     *
-     * @param index    : 放置位置，{@link #INDEX_DEFAULT} 为末尾
-     * @param services : 注册的服务集合
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-06-08 18:17
-     */
-    private synchronized static void add(int index, @NonNull List<ServiceNode> services) {
-        if (index == INDEX_DEFAULT) {
-            SERVICES.addAll(services);
-            return;
-        }
-        if (size() >= index) {
-            SERVICES.addAll(index, services);
+    public synchronized static void addAllWithServiceNode(@NonNull List<ServiceNode> services) {
+        for (ServiceNode node : new ArrayList<>(services)) {
+            SERVICES.put(node, obj);
         }
     }
 
@@ -102,12 +68,19 @@ public class ServiceCache {
      * 获取
      *
      * @return 获取全部数据
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-06-08 18:21
      */
     public synchronized static List<ServiceNode> getAll() {
-        return new ArrayList<>(SERVICES);
+        ArrayList<ServiceNode> list = new ArrayList<>(SERVICES.keySet());
+        Collections.reverse(list);
+        return list;
     }
 
+    /**
+     * 更新顺序，基于 lru 策略
+     *
+     * @param node : 要更新顺序的对象
+     */
+    public synchronized static void update(ServiceNode node) {
+        SERVICES.get(node);
+    }
 }

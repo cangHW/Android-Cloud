@@ -25,7 +25,7 @@ import com.proxy.service.api.services.CloudUtilsAppService;
 import com.proxy.service.api.services.CloudUtilsFileService;
 import com.proxy.service.api.services.CloudUtilsSystemService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.util.FileUtils;
 
 import java.io.File;

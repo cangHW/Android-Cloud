@@ -2,7 +2,7 @@ package com.proxy.service.api.multidex;
 
 import android.content.Context;
 
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -60,7 +60,7 @@ public class ClassUtils {
                             }
                         }
                     } catch (Throwable throwable) {
-                        Logger.Error("Scan map file in dex files made error.", throwable);
+                        Logger.INSTANCE.e("Scan map file in dex files made error.", throwable);
                     }
 
                     if (dexfile != null) {
@@ -76,7 +76,7 @@ public class ClassUtils {
 
         downLatch.await();
 
-        Logger.Debug("Filter " + classNames.size() + " classes by packageName <" + packageName + ">");
+        Logger.INSTANCE.d("Filter " + classNames.size() + " classes by packageName <" + packageName + ">");
         return classNames;
     }
 

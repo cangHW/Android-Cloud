@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.ui.uitabhost.helper.content.viewpager.listeners.AdapterSettingListener;
 
 import java.util.ArrayList;

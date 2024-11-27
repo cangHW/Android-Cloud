@@ -5,7 +5,7 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 
 import com.proxy.service.api.edittext.CloudTextChangedCallback;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.util.Set;
 

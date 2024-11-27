@@ -16,7 +16,7 @@ import com.proxy.service.api.interfaces.IUiTabHostRewardInterface;
 import com.proxy.service.api.service.OtherManager;
 import com.proxy.service.api.services.CloudUiTabHostService;
 import com.proxy.service.api.tag.CloudServiceTagUi;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.ui.uitabhost.TabHostHelper;
 
 import java.util.ArrayList;

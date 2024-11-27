@@ -2,7 +2,6 @@ package com.proxy.service.compiler.process;
 
 import com.proxy.service.compiler.handler.ServiceHandlerImpl;
 import com.proxy.service.compiler.handler.AbstractHandler;
-import com.proxy.service.compiler.handler.UiTabHostRewardHandlerImpl;
 import com.proxy.service.consts.ClassConstants;
 
 import java.util.ArrayList;
@@ -50,9 +49,7 @@ public class ServiceProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         List<String> list = new ArrayList<>();
-
         try {
-            list.addAll(AbstractHandler.create(UiTabHostRewardHandlerImpl.class).getSupportedAnnotationTypes());
             list.addAll(AbstractHandler.create(ServiceHandlerImpl.class).getSupportedAnnotationTypes());
         } catch (Throwable throwable) {
             throwable.printStackTrace();
@@ -77,9 +74,10 @@ public class ServiceProcessor extends AbstractProcessor {
             return false;
         }
         try {
-            UiTabHostRewardHandlerImpl cloudUiTabHostRewardHandler = AbstractHandler.create(UiTabHostRewardHandlerImpl.class);
-            cloudUiTabHostRewardHandler.setRoundEnvironment(roundEnvironment).execute(mProcessingEnvironment);
-            AbstractHandler.create(ServiceHandlerImpl.class).setModuleName(mModuleName).setOtherList(cloudUiTabHostRewardHandler.getOtherNodes()).setRoundEnvironment(roundEnvironment).execute(mProcessingEnvironment);
+            AbstractHandler.create(ServiceHandlerImpl.class)
+                    .setModuleName(mModuleName)
+                    .setRoundEnvironment(roundEnvironment)
+                    .execute(mProcessingEnvironment);
         } catch (Throwable throwable) {
             mMessager.printMessage(Diagnostic.Kind.ERROR, throwable.getMessage());
         }

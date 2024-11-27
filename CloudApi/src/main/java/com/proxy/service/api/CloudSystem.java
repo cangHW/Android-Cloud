@@ -5,15 +5,14 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.proxy.service.api.context.ContextManager;
-import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.service.DataManager;
 import com.proxy.service.api.service.ServiceManager;
 import com.proxy.service.api.service.cache.ConverterCache;
 import com.proxy.service.api.service.cache.ServiceCache;
 import com.proxy.service.api.service.listener.Converter;
 import com.proxy.service.api.service.node.Node;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
+import com.proxy.service.api.log.LogInit;
 import com.proxy.service.base.BaseService;
 
 import java.util.List;
@@ -52,14 +51,12 @@ public final class CloudSystem {
      */
     public synchronized static void init(@NonNull Context context, boolean isDebug) {
         if (IS_INIT.compareAndSet(false, true)) {
+            LogInit.INSTANCE.setIsDebug(isDebug);
             DataManager.INSTANCE.registerAllServices(context);
-            ContextManager.init(context);
-            Logger.setDebug(isDebug);
         } else {
-            Logger.Debug(CloudApiError.INIT_ONCE.build());
+            Logger.INSTANCE.d("It can only be init once");
         }
     }
-
 
     /**
      * 供开发者使用，提供外部注册服务功能
@@ -70,7 +67,7 @@ public final class CloudSystem {
      * @date: 2019/10/31 18:32
      */
     public static void registerServices(@NonNull List<BaseService> services) {
-        ServiceCache.addAllAtFirst(services);
+        ServiceCache.addAllWithBaseService(services);
     }
 
     /**
@@ -102,7 +99,7 @@ public final class CloudSystem {
     @Nullable
     public static <T extends BaseService> T getServiceWithUuid(@NonNull String uuid, @NonNull String tag) {
         List<T> list = ServiceManager.INSTANCE.getService(uuid, tag, ServiceManager.TYPE_ONLY);
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             return list.get(0);
         }
         return null;
@@ -167,7 +164,7 @@ public final class CloudSystem {
     @Nullable
     public static <T extends BaseService> T getServiceWithUuid(@NonNull String uuid, @NonNull Class<T> tClass) {
         List<T> list = ServiceManager.INSTANCE.getService(uuid, tClass, ServiceManager.TYPE_ONLY);
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             return list.get(0);
         }
         return null;

@@ -10,7 +10,7 @@ import com.proxy.service.api.task.ITask;
 import com.proxy.service.api.task.TaskCallableOnce;
 import com.proxy.service.api.task.Task;
 import com.proxy.service.api.task.TaskCallable;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

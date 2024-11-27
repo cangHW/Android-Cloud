@@ -7,7 +7,7 @@ import com.proxy.service.api.security.SecurityAesHelper;
 import com.proxy.service.api.security.SecurityType;
 import com.proxy.service.api.services.CloudUtilsSecurityService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.util.AesHelperUtils;
 import com.proxy.service.utils.util.StringUtils;
 

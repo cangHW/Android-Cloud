@@ -31,20 +31,20 @@ dependencyResolutionManagement {
 
 
 
-include ':app'
+//include ':app'
 
-include ':Service-UI:Service-UI-Base'
-include ':Service-UI:Service-UI-Info'
-
-include ':Service-NetWork:Service-NetWork-Base'
-include ':Service-NetWork:Service-NetWork-OkHttp'
-include ':Service-NetWork:Service-NetWork-Retrofit'
-
-include ':Service-Utils:Service-Utils-Base'
-include ':Service-Utils:Service-Utils-Info'
-
-include ':Service-Media:Service-Media-Base'
-include ':Service-Media:Service-Media-Info'
+//include ':Service-UI:Service-UI-Base'
+//include ':Service-UI:Service-UI-Info'
+//
+//include ':Service-NetWork:Service-NetWork-Base'
+//include ':Service-NetWork:Service-NetWork-OkHttp'
+//include ':Service-NetWork:Service-NetWork-Retrofit'
+//
+//include ':Service-Utils:Service-Utils-Base'
+//include ':Service-Utils:Service-Utils-Info'
+//
+//include ':Service-Media:Service-Media-Base'
+//include ':Service-Media:Service-Media-Info'
 
 include ':CloudBase'
 include ':CloudApi'

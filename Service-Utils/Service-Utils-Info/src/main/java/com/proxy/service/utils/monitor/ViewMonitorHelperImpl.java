@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.proxy.service.api.monitor.ViewMonitorHelper;
 import com.proxy.service.api.monitor.visible.VisibleMonitorBuilder;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.monitor.visible.VisibleMonitorBuilderImpl;
 
 /**

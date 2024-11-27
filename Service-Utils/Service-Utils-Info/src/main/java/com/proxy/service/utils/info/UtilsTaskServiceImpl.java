@@ -12,7 +12,7 @@ import com.proxy.service.api.task.ITaskFunction;
 import com.proxy.service.api.task.TaskHelper;
 import com.proxy.service.api.task.ITaskConditions;
 import com.proxy.service.api.task.Task;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.lock.TaskLock;
 import com.proxy.service.utils.thread.ThreadManager;
 import com.proxy.service.utils.thread.task.TaskConditionsImpl;

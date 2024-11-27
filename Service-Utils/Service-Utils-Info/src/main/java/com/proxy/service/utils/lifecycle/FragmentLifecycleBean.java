@@ -3,8 +3,8 @@ package com.proxy.service.utils.lifecycle;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.lifecycle.CloudFragmentLifecycleListener;
 import com.proxy.service.api.lifecycle.FragmentLifecycleState;
-import com.proxy.service.api.utils.Logger;
-import com.proxy.service.api.utils.WeakReferenceUtils;
+import com.proxy.service.api.log.Logger;
+import com.proxy.service.api.log.WeakReferenceUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

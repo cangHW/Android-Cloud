@@ -17,7 +17,7 @@ import com.proxy.service.api.services.CloudUtilsReceiverService;
 import com.proxy.service.api.services.CloudUtilsTaskService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
 import com.proxy.service.api.task.Task;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.receiver.ReceiverInfo;
 import com.proxy.service.utils.receiver.UtilsBroadcastReceiver;
 import com.proxy.service.utils.receiver.UtilsLocalBroadcastReceiver;

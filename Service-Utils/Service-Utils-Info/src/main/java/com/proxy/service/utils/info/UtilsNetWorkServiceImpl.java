@@ -26,7 +26,7 @@ import com.proxy.service.api.net.CloudNetWorkCallback;
 import com.proxy.service.api.net.CloudNetWorkType;
 import com.proxy.service.api.services.CloudUtilsNetWorkService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.network.NetWorkReceiverListenerManager;
 import com.proxy.service.utils.receiver.UtilsBroadcastReceiver;
 

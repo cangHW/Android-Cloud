@@ -14,7 +14,7 @@ import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.permission.IPermissionManager;
 import com.proxy.service.api.services.CloudUtilsPermissionService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.cache.Cache;
 import com.proxy.service.utils.permission.PermissionManagerImpl;
 

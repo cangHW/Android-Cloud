@@ -8,7 +8,7 @@ import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.callback.upload.CloudUploadCallback;
 import com.proxy.service.api.services.CloudNetWorkUploadService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 //import com.proxy.service.network.upload.UploadManager;
 
 import java.io.File;

@@ -12,7 +12,7 @@ import com.proxy.service.api.download.CloudNetWorkNotificationInfo;
 import com.proxy.service.api.services.CloudNetWorkDownloadService;
 import com.proxy.service.api.services.CloudUtilsFileService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.network.download.DownloadManager;
 import com.proxy.service.network.download.db.DbHelper;
 import com.proxy.service.network.download.db.TableDownloadInfo;

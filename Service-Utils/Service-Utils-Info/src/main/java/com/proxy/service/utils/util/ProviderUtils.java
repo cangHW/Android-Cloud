@@ -8,7 +8,7 @@ import android.content.pm.ProviderInfo;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsAppService;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.cache.Cache;
 import com.proxy.service.utils.info.UtilsAppServiceImpl;
 

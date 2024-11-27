@@ -1,4 +1,4 @@
-package com.proxy.service.api.utils;
+package com.proxy.service.api.log;
 
 /**
  * @author : cangHX

@@ -11,7 +11,7 @@ import com.proxy.service.annotations.CloudApiService;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsFileService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.provider.UtilsProvider;
 import com.proxy.service.utils.util.ProviderUtils;
 

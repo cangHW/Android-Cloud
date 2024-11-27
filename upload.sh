@@ -1,19 +1,18 @@
 
 #准备上传的类库 module
-upArray = (
+upArray=(
 #  ":CloudBase"
 
 #  ":CloudAnnotations"
 
-  ":CloudPlugin"
+#  ":CloudPlugin"
 
-#  ":CloudApi"
+  ":CloudApi"
 
 #  ":CloudCompiler"
-
 )
 
-type_params = "release"
+type_params="r"
 
 for element in "${upArray[@]}"
 do
@@ -25,7 +24,7 @@ do
 done
 
 if [ "$1" = $type_params ]; then
-    echo "Release 发布版 SDK 上传结束"
+    echo "SDK 发布远程结束"
 else
-    echo "SnapShot 快照版 SDK 上传结束"
+    echo "SDK 发布本地结束"
 fi

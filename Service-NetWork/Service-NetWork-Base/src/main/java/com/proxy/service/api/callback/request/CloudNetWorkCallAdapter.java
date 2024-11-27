@@ -1,6 +1,6 @@
 package com.proxy.service.api.callback.request;
 
-import com.proxy.service.api.utils.ServiceUtils;
+import com.proxy.service.api.log.ServiceUtils;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

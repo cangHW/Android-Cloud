@@ -8,7 +8,7 @@ import com.proxy.service.api.services.CloudUtilsFileService;
 import com.proxy.service.api.services.CloudUtilsNetWorkService;
 import com.proxy.service.api.services.CloudUtilsSecurityService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.network.download.info.DownloadInfo;
 import com.proxy.service.network.download.listener.DownloadListener;
 import com.proxy.service.network.factory.RetrofitManager;

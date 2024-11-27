@@ -5,7 +5,7 @@ import android.os.Environment;
 import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.services.CloudUtilsTaskService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.network.factory.RetrofitManager;
 import com.proxy.service.network.service.RetrofitService;
 

@@ -27,7 +27,7 @@ import com.proxy.service.api.services.CloudUtilsEditTextService;
 import com.proxy.service.api.services.CloudUtilsPermissionService;
 import com.proxy.service.api.tag.CloudServiceTagUi;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 /**
  * @author: cangHX

@@ -6,7 +6,7 @@ import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.services.CloudUtilsTaskService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
 import com.proxy.service.api.task.Task;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.network.download.info.DownloadInfo;
 import com.proxy.service.network.download.listener.DownloadListener;
 import com.proxy.service.network.download.task.DownloadTask;

@@ -8,7 +8,7 @@ import com.proxy.service.api.context.LifecycleState;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.event.Event;
 import com.proxy.service.api.lifecycle.FragmentLifecycleState;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.event.lifecycle.LifecycleHolder;
 import com.proxy.service.utils.event.lifecycle.Lifecycle;
 import com.proxy.service.utils.info.UtilsLifecycleServiceImpl;

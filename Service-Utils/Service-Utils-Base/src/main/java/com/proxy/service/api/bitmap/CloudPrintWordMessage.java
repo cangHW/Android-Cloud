@@ -4,7 +4,7 @@ import android.graphics.Color;
 
 import androidx.annotation.ColorInt;
 
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 /**
  * @author : cangHX

@@ -3,7 +3,7 @@ package com.proxy.service.utils.util;
 import android.text.TextUtils;
 
 import com.proxy.service.api.error.CloudApiError;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

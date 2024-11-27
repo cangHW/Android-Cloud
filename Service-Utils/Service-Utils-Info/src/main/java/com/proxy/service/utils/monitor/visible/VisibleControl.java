@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.proxy.service.api.monitor.visible.CloudVisibleMonitorCallback;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.monitor.pool.MonitorPool;
 
 import java.lang.ref.WeakReference;

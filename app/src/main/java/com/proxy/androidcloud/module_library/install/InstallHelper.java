@@ -16,7 +16,7 @@ import com.proxy.service.api.CloudSystem;
 import com.proxy.service.api.install.CloudInstallCallback;
 import com.proxy.service.api.install.CloudInstallStatusEnum;
 import com.proxy.service.api.services.CloudUtilsInstallService;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.io.File;
 

@@ -3,10 +3,9 @@ package com.proxy.service.api.service;
 import androidx.annotation.NonNull;
 
 import com.proxy.service.api.CloudSystem;
-import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.service.cache.ConverterCache;
 import com.proxy.service.api.service.cache.ServiceCache;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.api.service.listener.Converter;
 import com.proxy.service.api.service.node.ListNode;
 import com.proxy.service.api.service.node.Node;
@@ -15,7 +14,6 @@ import com.proxy.service.node.ServiceNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -54,7 +52,7 @@ public enum ServiceManager {
     @NonNull
     public synchronized <T extends BaseService> List<T> getService(@NonNull String uuid, @NonNull String tag, @NonNull String type) {
         if (!CloudSystem.isInit()) {
-            Logger.Error(CloudApiError.INIT_EMPTY.build());
+            Logger.INSTANCE.e("Do you init CloudSystem?");
             return Collections.emptyList();
         }
         final List<ServiceNode> services = ServiceCache.getAll();
@@ -64,6 +62,7 @@ public enum ServiceManager {
                 //tag 不符合，说明不是目标对象
                 continue;
             }
+            ServiceCache.update(node);
             if (doCheck(uuid, node, list, type)) {
                 break;
             }
@@ -85,7 +84,7 @@ public enum ServiceManager {
     @NonNull
     public synchronized <T extends BaseService> List<T> getService(@NonNull String uuid, @NonNull Class<T> tClass, @NonNull String type) {
         if (!CloudSystem.isInit()) {
-            Logger.Error(CloudApiError.INIT_EMPTY.build());
+            Logger.INSTANCE.e("Do you init CloudSystem?");
             return Collections.emptyList();
         }
         final List<ServiceNode> services = ServiceCache.getAll();
@@ -95,6 +94,7 @@ public enum ServiceManager {
                 //不存在继承关系，说明不是目标对象
                 continue;
             }
+            ServiceCache.update(node);
             if (doCheck(uuid, node, list, type)) {
                 break;
             }
@@ -130,7 +130,7 @@ public enum ServiceManager {
             }
         } catch (Throwable ignored) {
         }
-        return list.size() > 0 && TYPE_ONLY.equals(type);
+        return !list.isEmpty() && TYPE_ONLY.equals(type);
     }
 
     /**
@@ -143,8 +143,8 @@ public enum ServiceManager {
      * @date: 2020/03/04 18:01
      */
     private BaseService doConverter(String uuid, BaseService service) {
-        HashSet<Class<? extends BaseService>> set = ConverterCache.keySet();
-        for (Class<? extends BaseService> tClass : set) {
+        ArrayList<Class<? extends BaseService>> list = ConverterCache.keyList();
+        for (Class<? extends BaseService> tClass : list) {
             if (!tClass.isAssignableFrom(service.getClass())) {
                 continue;
             }
@@ -163,13 +163,10 @@ public enum ServiceManager {
                 }
 
                 Converter<BaseService> converter = (Converter<BaseService>) node.getConverter();
-                if (converter == null) {
-                    listNode.remove(node);
-                    continue;
-                }
                 try {
                     service = converter.converter(service);
-                } catch (Throwable ignored) {
+                } catch (Throwable throwable) {
+                    Logger.INSTANCE.e(throwable);
                 }
             }
         }

@@ -15,7 +15,7 @@ import com.proxy.service.api.net.CloudNetWorkType;
 import com.proxy.service.api.services.CloudUtilsNetWorkService;
 import com.proxy.service.api.services.CloudUtilsTaskService;
 import com.proxy.service.api.task.Task;
-import com.proxy.service.api.utils.WeakReferenceUtils;
+import com.proxy.service.api.log.WeakReferenceUtils;
 import com.proxy.service.utils.info.UtilsNetWorkServiceImpl;
 import com.proxy.service.utils.info.UtilsTaskServiceImpl;
 import com.proxy.service.utils.receiver.UtilsBroadcastReceiver;

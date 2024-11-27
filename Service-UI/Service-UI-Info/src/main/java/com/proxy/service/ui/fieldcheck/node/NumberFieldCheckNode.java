@@ -2,7 +2,7 @@ package com.proxy.service.ui.fieldcheck.node;
 
 import com.proxy.service.api.callback.CloudUiFieldCheckErrorCallback;
 import com.proxy.service.api.error.CloudApiError;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;

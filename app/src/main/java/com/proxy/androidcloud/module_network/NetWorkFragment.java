@@ -22,7 +22,7 @@ import com.proxy.service.api.callback.response.CloudNetWorkResponse;
 import com.proxy.service.api.services.CloudNetWorkInitService;
 import com.proxy.service.api.services.CloudNetWorkRequestService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 /**
  * @author: cangHX

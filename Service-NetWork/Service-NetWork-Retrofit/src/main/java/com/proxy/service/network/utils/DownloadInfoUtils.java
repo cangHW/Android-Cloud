@@ -5,8 +5,8 @@ import com.proxy.service.api.download.CloudNetWorkDownloadInfo;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsFileService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
-import com.proxy.service.api.utils.PathUtils;
+import com.proxy.service.api.log.Logger;
+import com.proxy.service.api.log.PathUtils;
 import com.proxy.service.network.download.info.DownloadInfo;
 
 import java.io.File;

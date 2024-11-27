@@ -9,7 +9,7 @@ import com.proxy.service.api.callback.CloudUiFieldCheckErrorCallback;
 import com.proxy.service.api.interfaces.IReallyUiFieldCheck;
 import com.proxy.service.api.services.CloudUtilsTaskService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.ui.fieldcheck.node.BaseFieldCheckNode;
 
 import java.util.ArrayList;

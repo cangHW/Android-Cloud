@@ -13,7 +13,7 @@ import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsFileService;
 import com.proxy.service.api.services.CloudUtilsShareService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.io.File;
 import java.util.ArrayList;

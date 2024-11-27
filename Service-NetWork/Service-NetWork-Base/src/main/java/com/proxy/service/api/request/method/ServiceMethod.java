@@ -17,8 +17,8 @@ import com.proxy.service.api.request.annotations.CloudNetWorkUrl;
 import com.proxy.service.api.request.annotations.HttpMethod;
 import com.proxy.service.api.request.cache.BaseUrlCache;
 import com.proxy.service.api.error.CloudApiError;
-import com.proxy.service.api.utils.Logger;
-import com.proxy.service.api.utils.ServiceUtils;
+import com.proxy.service.api.log.Logger;
+import com.proxy.service.api.log.ServiceUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

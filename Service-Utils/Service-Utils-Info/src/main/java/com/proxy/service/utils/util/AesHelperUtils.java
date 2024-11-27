@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.proxy.service.api.security.SecurityAesHelper;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;

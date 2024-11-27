@@ -2,7 +2,7 @@ package com.proxy.service.api.callback.converter;
 
 import androidx.annotation.Nullable;
 
-import com.proxy.service.api.utils.ServiceUtils;
+import com.proxy.service.api.log.ServiceUtils;
 
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;

@@ -11,7 +11,7 @@ import com.proxy.service.api.callback.request.RequestCallback;
 import com.proxy.service.api.services.CloudUtilsNetWorkService;
 import com.proxy.service.api.services.CloudUtilsTaskService;
 import com.proxy.service.api.task.Task;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.network.utils.RequestUtils;
 
 import java.net.SocketTimeoutException;

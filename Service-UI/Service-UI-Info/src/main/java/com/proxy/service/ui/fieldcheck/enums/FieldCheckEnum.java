@@ -11,7 +11,7 @@ import com.proxy.service.api.annotations.CloudUiCheckString;
 import com.proxy.service.api.annotations.CloudUiCheckStrings;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.ui.fieldcheck.node.BaseFieldCheckNode;
 import com.proxy.service.ui.fieldcheck.node.BooleanFieldCheckNode;
 import com.proxy.service.ui.fieldcheck.node.NumberFieldCheckNode;

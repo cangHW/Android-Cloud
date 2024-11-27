@@ -10,7 +10,7 @@ import com.proxy.service.api.callback.request.NetWorkCallback;
 import com.proxy.service.api.callback.request.RequestCallback;
 import com.proxy.service.api.callback.response.CloudNetWorkResponse;
 import com.proxy.service.api.request.method.CloudNetWorkRequest;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.net.SocketTimeoutException;
 import java.util.concurrent.CountDownLatch;

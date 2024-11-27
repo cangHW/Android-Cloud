@@ -1,18 +1,15 @@
 package com.proxy.service.api.multidex;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.io.File;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -74,7 +71,7 @@ class SourceDex {
                 String fileName = extractedFilePrefix + secondaryNumber + EXTRACTED_SUFFIX;
                 File extractedFile = new File(dexDir, fileName);
                 if (!extractedFile.isFile()) {
-                    Logger.Error("Missing extracted secondary dex file '" + extractedFile.getPath() + "'");
+                    Logger.INSTANCE.e("Missing extracted secondary dex file '" + extractedFile.getPath() + "'");
                     dexPaths.clear();
                     return dexPaths;
                 }

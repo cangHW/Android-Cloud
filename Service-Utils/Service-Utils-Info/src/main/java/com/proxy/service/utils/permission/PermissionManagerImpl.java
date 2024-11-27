@@ -13,7 +13,7 @@ import com.proxy.service.api.action.Action;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.permission.IPermissionManager;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.util.ArrayList;
 

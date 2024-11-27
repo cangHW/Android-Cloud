@@ -12,7 +12,7 @@ import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsAlbumService;
 import com.proxy.service.api.services.CloudUtilsPermissionService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.album.AlbumManager;
 
 import java.util.ArrayList;

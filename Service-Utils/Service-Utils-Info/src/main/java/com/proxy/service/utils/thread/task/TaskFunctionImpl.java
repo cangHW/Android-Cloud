@@ -9,7 +9,7 @@ import com.proxy.service.api.task.Task;
 import com.proxy.service.api.task.TaskCallable;
 import com.proxy.service.api.task.TaskCallableOnce;
 import com.proxy.service.api.task.TaskHelper;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.lock.TaskLock;
 import com.proxy.service.utils.thread.enums.TaskThreadEnum;
 import com.proxy.service.utils.util.TaskUtils;

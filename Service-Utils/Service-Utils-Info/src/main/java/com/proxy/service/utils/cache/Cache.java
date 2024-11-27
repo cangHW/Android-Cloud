@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 
 import androidx.annotation.Nullable;
 
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.lang.ref.SoftReference;
 

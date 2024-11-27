@@ -13,7 +13,7 @@ import com.proxy.service.api.callback.CloudUiLifeCallback;
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.context.LifecycleState;
 import com.proxy.service.api.context.listener.CloudLifecycleListener;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.ui.uitabhost.helper.content.base.AbstractContentHelper;
 import com.proxy.service.ui.uitabhost.helper.content.viewpager.adapter.ContentFragmentPagerAdapter;
 import com.proxy.service.ui.uitabhost.helper.content.viewpager.listeners.AdapterSettingListener;

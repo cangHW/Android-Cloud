@@ -17,7 +17,7 @@ import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.interfaces.IRewardHelper;
 import com.proxy.service.api.interfaces.IUiTabHostHelper;
 import com.proxy.service.api.interfaces.IUiTabHostRewardInterface;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.ui.annotations.ViewGroupType;
 import com.proxy.service.ui.uitabhost.helper.base.IHelper;
 import com.proxy.service.ui.uitabhost.helper.content.base.IContentHelper;

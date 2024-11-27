@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.ui.fieldcheck.cache.FieldCheckDataCache;
 import com.proxy.service.ui.fieldcheck.enums.FieldCheckEnum;
 import com.proxy.service.ui.fieldcheck.node.BaseFieldCheckNode;

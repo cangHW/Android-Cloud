@@ -7,7 +7,7 @@ import com.proxy.service.api.callback.request.CloudNetWorkCall;
 import com.proxy.service.api.callback.response.CloudNetWorkResponse;
 import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.request.method.CloudNetWorkRequest;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.util.ArrayList;
 

@@ -13,7 +13,7 @@ import com.proxy.service.api.download.CloudNetWorkDownloadInfo;
 import com.proxy.service.api.download.CloudNetWorkNotificationInfo;
 import com.proxy.service.api.services.CloudNetWorkDownloadService;
 import com.proxy.service.api.tag.CloudServiceTagNetWork;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

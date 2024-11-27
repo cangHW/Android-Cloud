@@ -16,7 +16,7 @@ import com.proxy.androidcloud.helper.DetailHelperType;
 import com.proxy.androidcloud.helper.ListHelperType;
 import com.proxy.androidcloud.listener.onViewClickListener;
 import com.proxy.service.api.callback.CloudUiLifeCallback;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 /**
  * @author: cangHX

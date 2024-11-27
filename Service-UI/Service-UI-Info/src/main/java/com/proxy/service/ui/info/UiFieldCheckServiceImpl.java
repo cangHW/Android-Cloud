@@ -17,7 +17,7 @@ import com.proxy.service.api.impl.CloudUiCheckStringInfo;
 import com.proxy.service.api.interfaces.IReallyUiFieldCheck;
 import com.proxy.service.api.services.CloudUiFieldCheckService;
 import com.proxy.service.api.tag.CloudServiceTagUi;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.ui.fieldcheck.FieldCheckDataManager;
 import com.proxy.service.ui.fieldcheck.RealUiFieldCheckImpl;
 import com.proxy.service.ui.fieldcheck.UiFieldCheckErrorCallbackDefaultImpl;

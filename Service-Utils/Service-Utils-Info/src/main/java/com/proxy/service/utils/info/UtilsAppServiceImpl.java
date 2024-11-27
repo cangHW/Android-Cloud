@@ -20,7 +20,7 @@ import com.proxy.service.api.error.CloudApiError;
 import com.proxy.service.api.services.CloudUtilsAppService;
 import com.proxy.service.api.services.CloudUtilsBitmapService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.cache.Cache;
 
 import java.util.List;

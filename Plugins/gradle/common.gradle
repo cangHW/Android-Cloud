@@ -8,15 +8,15 @@ if (project.hasProperty("android")) {
         kotlinOptions {
             jvmTarget = '11'
         }
-        kotlin {
-            jvmToolchain(11)
-        }
+//        kotlin {
+//            jvmToolchain(11)
+//        }
     }
 }else {
-//    java {
-//        sourceCompatibility = JavaVersion.VERSION_11
-//        targetCompatibility = JavaVersion.VERSION_11
-//    }
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
 //    kotlinOptions {
 //        jvmTarget = '11'
 //    }

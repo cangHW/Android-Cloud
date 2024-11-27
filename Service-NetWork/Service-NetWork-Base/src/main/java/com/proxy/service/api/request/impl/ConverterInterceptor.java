@@ -6,7 +6,7 @@ import com.proxy.service.api.request.base.CloudNetWorkInterceptor;
 import com.proxy.service.api.callback.converter.CloudNetWorkConverter;
 import com.proxy.service.api.callback.response.CloudNetWorkResponse;
 import com.proxy.service.api.request.method.CloudNetWorkRequest;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 /**
  * 转换拦截器

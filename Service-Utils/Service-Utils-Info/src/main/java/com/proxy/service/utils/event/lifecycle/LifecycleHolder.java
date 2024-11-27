@@ -12,7 +12,7 @@ import com.proxy.service.api.event.Event;
 import com.proxy.service.api.lifecycle.CloudActivityLifecycleListener;
 import com.proxy.service.api.lifecycle.CloudFragmentLifecycleListener;
 import com.proxy.service.api.lifecycle.FragmentLifecycleState;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.info.UtilsLifecycleServiceImpl;
 import com.proxy.service.utils.thread.ThreadManager;
 

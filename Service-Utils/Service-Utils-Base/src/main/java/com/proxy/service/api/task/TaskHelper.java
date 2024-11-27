@@ -1,6 +1,6 @@
 package com.proxy.service.api.task;
 
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 
 import java.util.concurrent.FutureTask;
 

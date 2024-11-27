@@ -6,8 +6,8 @@ import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
-import com.proxy.service.api.utils.Logger;
-import com.proxy.service.api.utils.WeakReferenceUtils;
+import com.proxy.service.api.log.Logger;
+import com.proxy.service.api.log.WeakReferenceUtils;
 import com.proxy.service.media.callback.BindSurfaceCallback;
 import com.proxy.service.media.callback.SurfaceStateCallback;
 

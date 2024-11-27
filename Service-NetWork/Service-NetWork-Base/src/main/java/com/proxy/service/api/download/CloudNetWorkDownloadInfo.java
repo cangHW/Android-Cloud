@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.proxy.service.api.callback.download.CloudDownloadCallback;
 import com.proxy.service.api.callback.download.CloudNotificationCallback;
-import com.proxy.service.api.utils.PathUtils;
+import com.proxy.service.api.log.PathUtils;
 
 /**
  * @author : cangHX

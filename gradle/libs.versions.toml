@@ -1,12 +1,7 @@
 [versions]
 compile-sdk = "34"
-build-sdk = "33.0.1"
 min-sdk = "26"
 target-sdk = "34"
-junit = "4.13.2"
-junit-version = "1.1.5"
-espresso-core = "3.5.1"
-material = "1.10.0"
 
 
 [libraries]
@@ -39,10 +34,10 @@ service-media-info = { group = "io.github.cangHW", name = "Service-Media-Info", 
 
 
 [plugins]
-#android-application = { id = "com.android.application", version = "8.5.0" }
-#android-library = { id = "com.android.library", version = "8.5.0" }
-android-application = { id = "com.android.application", version = "7.3.0" }
-android-library = { id = "com.android.library", version = "7.3.0" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version = "1.9.10" }
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "1.9.10" }
+android-application = { id = "com.android.application", version = "8.5.0" }
+android-library = { id = "com.android.library", version = "8.5.0" }
+#android-application = { id = "com.android.application", version = "7.3.0" }
+#android-library = { id = "com.android.library", version = "7.3.0" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version = "1.7.10" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "1.7.10" }
 

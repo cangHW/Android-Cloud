@@ -2,7 +2,6 @@ package com.proxy.service.compiler.handler;
 
 import com.proxy.service.annotations.CloudApiNewInstance;
 import com.proxy.service.annotations.CloudApiService;
-import com.proxy.service.compiler.node.NodeOther;
 import com.proxy.service.compiler.node.NodeService;
 import com.proxy.service.consts.ClassConstants;
 import com.squareup.javapoet.ClassName;
@@ -33,10 +32,6 @@ public class ServiceHandlerImpl extends AbstractHandler {
      */
     private final ArrayList<NodeService> mServiceNodes = new ArrayList<>();
     /**
-     * 其他服务节点列表
-     */
-    private final ArrayList<NodeOther> mOtherNodes = new ArrayList<>();
-    /**
      * 模块名称
      */
     private String mModuleName;
@@ -49,18 +44,6 @@ public class ServiceHandlerImpl extends AbstractHandler {
      */
     public ServiceHandlerImpl setModuleName(String moduleName) {
         this.mModuleName = moduleName;
-        return this;
-    }
-
-    /**
-     * 设置其他服务节点列表
-     *
-     * @param nodes 其他服务节点列表
-     * @return 当前对象
-     */
-    public ServiceHandlerImpl setOtherList(ArrayList<NodeOther> nodes) {
-        mOtherNodes.clear();
-        mOtherNodes.addAll(nodes);
         return this;
     }
 
@@ -87,14 +70,13 @@ public class ServiceHandlerImpl extends AbstractHandler {
     @Override
     protected void run() {
         Set<? extends Element> elements = mRoundEnvironment.getElementsAnnotatedWith(CloudApiService.class);
-        if (elements != null && elements.size() > 0) {
+        if (elements != null && !elements.isEmpty()) {
             traverseElement(elements);
         }
 
-        boolean isServiceEmpty = mServiceNodes == null || mServiceNodes.isEmpty();
-        boolean isOtherEmpty = mOtherNodes == null || mOtherNodes.isEmpty();
+        boolean isServiceEmpty = mServiceNodes.isEmpty();
 
-        if (isServiceEmpty && isOtherEmpty) {
+        if (isServiceEmpty) {
             return;
         }
 
@@ -120,7 +102,6 @@ public class ServiceHandlerImpl extends AbstractHandler {
         TypeSpec.Builder builder = TypeSpec.classBuilder(ClassConstants.CLASS_PREFIX + mModuleName);
         builder.addModifiers(Modifier.PUBLIC).superclass(className);
         builder.addMethod(createMethodSpecGetServices());
-        builder.addMethod(createMethodSpecGetOthers());
         JavaFile.builder(ClassConstants.PACKAGE_SERVICES_CACHE, builder.build()).build().writeTo(mFiler);
     }
 
@@ -140,29 +121,6 @@ public class ServiceHandlerImpl extends AbstractHandler {
                     builder.addStatement(format, typeName, node.serviceTag, node.isNewInstance, className);
                 } catch (Throwable throwable) {
                     mMessager.printMessage(Diagnostic.Kind.ERROR, "Are you sure " + node.classPath + " inherits BaseService?");
-                }
-            }
-        }
-        builder.addStatement("return list");
-        return builder.build();
-    }
-
-    private MethodSpec createMethodSpecGetOthers() {
-        MethodSpec.Builder builder = MethodSpec.methodBuilder(ClassConstants.SUPPER_CLASS_METHOD_NAME_2);
-
-        ClassName typeName = ClassName.get(mElements.getTypeElement(ClassConstants.PARAM_OTHER_NODE_CLASS_PATH));
-        ParameterizedTypeName returnTypeName = ParameterizedTypeName.get(ClassName.get(ArrayList.class), typeName);
-        builder.addAnnotation(Override.class).addModifiers(Modifier.PUBLIC).returns(returnTypeName);
-        builder.addStatement("$T list = new $T()", returnTypeName, returnTypeName);
-        for (NodeOther node : mOtherNodes) {
-            TypeElement element = mElements.getTypeElement(node.classPath);
-            if (element != null) {
-                ClassName className = ClassName.get(element);
-                try {
-                    String format = "list.add(new $T($L,new $T()))";
-                    builder.addStatement(format, typeName, node.isNewInstance, className);
-                } catch (Throwable throwable) {
-                    mMessager.printMessage(Diagnostic.Kind.ERROR, "Are you sure " + node.classPath + " is has?");
                 }
             }
         }

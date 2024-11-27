@@ -7,9 +7,8 @@ import com.proxy.service.api.service.listener.Converter;
 import com.proxy.service.api.service.node.ListNode;
 import com.proxy.service.base.BaseService;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -36,11 +35,7 @@ public class ConverterCache {
      * @date: 2020-06-08 17:56
      */
     public synchronized static <T extends BaseService> void add(@NonNull String uuid, @NonNull Class<T> tClass, @NonNull Converter<T> converter) {
-        ListNode listNode = CONVERTERS_MAPPER.get(tClass);
-        if (listNode == null) {
-            listNode = new ListNode();
-            CONVERTERS_MAPPER.put(tClass, listNode);
-        }
+        ListNode listNode = CONVERTERS_MAPPER.computeIfAbsent(tClass, k -> new ListNode());
         listNode.add(uuid, converter);
     }
 
@@ -93,11 +88,9 @@ public class ConverterCache {
      * @date: 2020-06-08 18:01
      */
     @NonNull
-    public static HashSet<Class<? extends BaseService>> keySet() {
+    public static ArrayList<Class<? extends BaseService>> keyList() {
         Set<Class<? extends BaseService>> set = CONVERTERS_MAPPER.keySet();
-        LinkedHashSet<Class<? extends BaseService>> hashSet = new LinkedHashSet<>(set.size(), 1);
-        hashSet.addAll(set);
-        return hashSet;
+        return new ArrayList<>(set);
     }
 
 }

@@ -18,7 +18,7 @@ import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.edittext.IEditTextHelper;
 import com.proxy.service.api.services.CloudUtilsEditTextService;
 import com.proxy.service.api.tag.CloudServiceTagUtils;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.utils.edittext.EditTextHelperImpl;
 
 /**

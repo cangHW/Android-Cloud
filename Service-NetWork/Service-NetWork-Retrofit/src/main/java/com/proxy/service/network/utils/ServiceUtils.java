@@ -9,7 +9,7 @@ import android.os.IBinder;
 
 import com.proxy.service.api.context.ContextManager;
 import com.proxy.service.api.error.CloudApiError;
-import com.proxy.service.api.utils.Logger;
+import com.proxy.service.api.log.Logger;
 import com.proxy.service.network.download.info.DownloadInfo;
 import com.proxy.service.network.download.services.DownloadService;
 import com.proxy.service.network.download.services.TaskProcessService;
