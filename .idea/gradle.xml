@@ -14,20 +14,6 @@
             <option value="$PROJECT_DIR$/CloudBase" />
             <option value="$PROJECT_DIR$/CloudCompiler" />
             <option value="$PROJECT_DIR$/CloudPlugin" />
-            <option value="$PROJECT_DIR$/Service-Media" />
-            <option value="$PROJECT_DIR$/Service-Media/Service-Media-Base" />
-            <option value="$PROJECT_DIR$/Service-Media/Service-Media-Info" />
-            <option value="$PROJECT_DIR$/Service-NetWork" />
-            <option value="$PROJECT_DIR$/Service-NetWork/Service-NetWork-Base" />
-            <option value="$PROJECT_DIR$/Service-NetWork/Service-NetWork-OkHttp" />
-            <option value="$PROJECT_DIR$/Service-NetWork/Service-NetWork-Retrofit" />
-            <option value="$PROJECT_DIR$/Service-UI" />
-            <option value="$PROJECT_DIR$/Service-UI/Service-UI-Base" />
-            <option value="$PROJECT_DIR$/Service-UI/Service-UI-Info" />
-            <option value="$PROJECT_DIR$/Service-Utils" />
-            <option value="$PROJECT_DIR$/Service-Utils/Service-Utils-Base" />
-            <option value="$PROJECT_DIR$/Service-Utils/Service-Utils-Info" />
-            <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
