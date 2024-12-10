@@ -123,7 +123,7 @@ abstract class LogTree : IL {
             msg = getStackTraceString(throwable)
         }
         if (args.isNotEmpty()) {
-            msg = formatMessage(msg, args)
+            msg = formatMessage(msg, *args)
         }
         if (throwable != null) {
             msg += "\n ${getStackTraceString(throwable)}"

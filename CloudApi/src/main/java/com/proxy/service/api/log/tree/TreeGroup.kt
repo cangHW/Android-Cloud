@@ -32,13 +32,13 @@ class TreeGroup : LogTree() {
 
     override fun v(message: String, vararg args: Any) {
         forestAsArray.forEach {
-            it.v(message, args)
+            it.v(message, *args)
         }
     }
 
     override fun v(throwable: Throwable, message: String, vararg args: Any) {
         forestAsArray.forEach {
-            it.v(throwable, message, args)
+            it.v(throwable, message, *args)
         }
     }
 
@@ -50,13 +50,13 @@ class TreeGroup : LogTree() {
 
     override fun d(message: String, vararg args: Any) {
         forestAsArray.forEach {
-            it.d(message, args)
+            it.d(message, *args)
         }
     }
 
     override fun d(throwable: Throwable, message: String, vararg args: Any) {
         forestAsArray.forEach {
-            it.d(throwable, message, args)
+            it.d(throwable, message, *args)
         }
     }
 
@@ -68,13 +68,13 @@ class TreeGroup : LogTree() {
 
     override fun i(message: String, vararg args: Any) {
         forestAsArray.forEach {
-            it.i(message, args)
+            it.i(message, *args)
         }
     }
 
     override fun i(throwable: Throwable, message: String, vararg args: Any) {
         forestAsArray.forEach {
-            it.i(throwable, message, args)
+            it.i(throwable, message, *args)
         }
     }
 
@@ -86,13 +86,13 @@ class TreeGroup : LogTree() {
 
     override fun w(message: String, vararg args: Any) {
         forestAsArray.forEach {
-            it.w(message, args)
+            it.w(message, *args)
         }
     }
 
     override fun w(throwable: Throwable, message: String, vararg args: Any) {
         forestAsArray.forEach {
-            it.w(throwable, message, args)
+            it.w(throwable, message, *args)
         }
     }
 
@@ -104,13 +104,13 @@ class TreeGroup : LogTree() {
 
     override fun e(message: String, vararg args: Any) {
         forestAsArray.forEach {
-            it.e(message, args)
+            it.e(message, *args)
         }
     }
 
     override fun e(throwable: Throwable, message: String, vararg args: Any) {
         forestAsArray.forEach {
-            it.e(throwable, message, args)
+            it.e(throwable, message, *args)
         }
     }
 
@@ -122,13 +122,13 @@ class TreeGroup : LogTree() {
 
     override fun wtf(message: String, vararg args: Any) {
         forestAsArray.forEach {
-            it.wtf(message, args)
+            it.wtf(message, *args)
         }
     }
 
     override fun wtf(throwable: Throwable, message: String, vararg args: Any) {
         forestAsArray.forEach {
-            it.wtf(throwable, message, args)
+            it.wtf(throwable, message, *args)
         }
     }
 
@@ -140,13 +140,13 @@ class TreeGroup : LogTree() {
 
     override fun log(priority: Int, message: String, vararg args: Any) {
         forestAsArray.forEach {
-            it.log(priority, message, args)
+            it.log(priority, message, *args)
         }
     }
 
     override fun log(priority: Int, throwable: Throwable, message: String, vararg args: Any) {
         forestAsArray.forEach {
-            it.log(priority, throwable, message, args)
+            it.log(priority, throwable, message, *args)
         }
     }
 

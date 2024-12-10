@@ -23,12 +23,12 @@ object Logger : IL {
 
     override fun v(message: String, vararg args: Any) {
         tree.setTag(TAG)
-        tree.v(message, args)
+        tree.v(message, *args)
     }
 
     override fun v(throwable: Throwable, message: String, vararg args: Any) {
         tree.setTag(TAG)
-        tree.v(throwable, message, args)
+        tree.v(throwable, message, *args)
     }
 
     override fun d(throwable: Throwable) {
@@ -38,12 +38,12 @@ object Logger : IL {
 
     override fun d(message: String, vararg args: Any) {
         tree.setTag(TAG)
-        tree.d(message, args)
+        tree.d(message, *args)
     }
 
     override fun d(throwable: Throwable, message: String, vararg args: Any) {
         tree.setTag(TAG)
-        tree.d(throwable, message, args)
+        tree.d(throwable, message, *args)
     }
 
     override fun i(throwable: Throwable) {
@@ -53,12 +53,12 @@ object Logger : IL {
 
     override fun i(message: String, vararg args: Any) {
         tree.setTag(TAG)
-        tree.i(message, args)
+        tree.i(message, *args)
     }
 
     override fun i(throwable: Throwable, message: String, vararg args: Any) {
         tree.setTag(TAG)
-        tree.i(throwable, message, args)
+        tree.i(throwable, message, *args)
     }
 
     override fun w(throwable: Throwable) {
@@ -68,12 +68,12 @@ object Logger : IL {
 
     override fun w(message: String, vararg args: Any) {
         tree.setTag(TAG)
-        tree.w(message, args)
+        tree.w(message, *args)
     }
 
     override fun w(throwable: Throwable, message: String, vararg args: Any) {
         tree.setTag(TAG)
-        tree.w(throwable, message, args)
+        tree.w(throwable, message, *args)
     }
 
     override fun e(throwable: Throwable) {
@@ -83,22 +83,22 @@ object Logger : IL {
 
     override fun e(message: String, vararg args: Any) {
         tree.setTag(TAG)
-        tree.e(message, args)
+        tree.e(message, *args)
     }
 
     override fun e(throwable: Throwable, message: String, vararg args: Any) {
         tree.setTag(TAG)
-        tree.e(throwable, message, args)
+        tree.e(throwable, message, *args)
     }
 
     override fun wtf(message: String, vararg args: Any) {
         tree.setTag(TAG)
-        tree.wtf(message, args)
+        tree.wtf(message, *args)
     }
 
     override fun wtf(throwable: Throwable, message: String, vararg args: Any) {
         tree.setTag(TAG)
-        tree.wtf(throwable, message, args)
+        tree.wtf(throwable, message, *args)
     }
 
     override fun wtf(throwable: Throwable) {
@@ -108,12 +108,12 @@ object Logger : IL {
 
     override fun log(priority: Int, message: String, vararg args: Any) {
         tree.setTag(TAG)
-        tree.log(priority, message, args)
+        tree.log(priority, message, *args)
     }
 
     override fun log(priority: Int, throwable: Throwable, message: String, vararg args: Any) {
         tree.setTag(TAG)
-        tree.log(priority, throwable, message, args)
+        tree.log(priority, throwable, message, *args)
     }
 
     override fun log(priority: Int, throwable: Throwable) {
