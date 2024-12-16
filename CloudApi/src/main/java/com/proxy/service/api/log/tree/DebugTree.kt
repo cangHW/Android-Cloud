@@ -15,7 +15,7 @@ open class DebugTree : LogTree() {
     companion object {
         private const val MAX_LOG_LENGTH = 3000
         private const val MAX_TAG_LENGTH = 23
-        private const val CALL_STACK_INDEX = 7
+        private const val CALL_STACK_INDEX = 6
         private val ANONYMOUS_CLASS = Pattern.compile("(\\$\\d+)+$")
 
         private var printEnable: Boolean = true
