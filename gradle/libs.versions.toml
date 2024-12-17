@@ -34,10 +34,10 @@ service-media-info = { group = "io.github.cangHW", name = "Service-Media-Info", 
 
 
 [plugins]
-android-application = { id = "com.android.application", version = "8.5.0" }
-android-library = { id = "com.android.library", version = "8.5.0" }
-#android-application = { id = "com.android.application", version = "7.3.0" }
-#android-library = { id = "com.android.library", version = "7.3.0" }
+#android-application = { id = "com.android.application", version = "8.5.0" }
+#android-library = { id = "com.android.library", version = "8.5.0" }
+android-application = { id = "com.android.application", version = "7.3.0" }
+android-library = { id = "com.android.library", version = "7.3.0" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version = "1.7.10" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "1.7.10" }
 
