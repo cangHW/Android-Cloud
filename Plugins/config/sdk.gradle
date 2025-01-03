@@ -24,7 +24,7 @@ ext {
             // Api 库
             CloudApi        : [
                     artifact          : "Cloud-Api",
-                    version           : "1.1.9",
+                    version           : "1.1.10",
                     source            : true,
                     libraryName       : "Android cloud sdk",
                     libraryDescription: "The perfect framework for Android"

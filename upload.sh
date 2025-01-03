@@ -5,9 +5,9 @@ upArray=(
 
 #  ":CloudAnnotations"
 
-  ":CloudPlugin"
+#  ":CloudPlugin"
 
-#  ":CloudApi"
+  ":CloudApi"
 
 #  ":CloudCompiler"
 )

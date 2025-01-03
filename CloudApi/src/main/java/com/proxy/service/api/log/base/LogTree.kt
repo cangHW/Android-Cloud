@@ -1,8 +1,11 @@
 package com.proxy.service.api.log.base
 
 import android.util.Log
+import com.proxy.service.api.log.tree.DebugTree
+import com.proxy.service.api.log.tree.DebugTree.Companion
 import java.io.PrintWriter
 import java.io.StringWriter
+import java.util.regex.Pattern
 
 /**
  * @author: cangHX
@@ -10,6 +13,12 @@ import java.io.StringWriter
  * @desc:
  */
 abstract class LogTree : IL {
+
+    companion object {
+        private const val MAX_TAG_LENGTH = 23
+        private const val CALL_STACK_INDEX = 5
+        private val ANONYMOUS_CLASS = Pattern.compile("(\\$\\d+)+$")
+    }
 
     private val explicitTag: ThreadLocal<String> = ThreadLocal()
 
@@ -23,6 +32,26 @@ abstract class LogTree : IL {
             explicitTag.remove()
         }
         return tag
+    }
+
+    protected fun getClassName(): String {
+        val stackTrace = Throwable().stackTrace
+        check(stackTrace.size > CALL_STACK_INDEX) { "Synthetic stacktrace didn't have enough elements: are you using proguard?" }
+        return createStackElementTag(stackTrace[CALL_STACK_INDEX])
+    }
+
+    private fun createStackElementTag(element: StackTraceElement): String {
+        var tag = element.className
+        val m = ANONYMOUS_CLASS.matcher(tag)
+        if (m.find()) {
+            tag = m.replaceAll("")
+        }
+        tag = tag.substring(tag.lastIndexOf('.') + 1)
+        return if (tag.length <= MAX_TAG_LENGTH) {
+            tag
+        } else {
+            tag.substring(0, MAX_TAG_LENGTH)
+        }
     }
 
     override fun v(message: String, vararg args: Any) {
@@ -129,7 +158,7 @@ abstract class LogTree : IL {
             msg += "\n ${getStackTraceString(throwable)}"
         }
 
-        onLog(priority, getTag() ?: "", msg, throwable)
+        onLog(priority, getTag() ?: getClassName(), msg, throwable)
     }
 
     private fun formatMessage(message: String, vararg args: Any): String {

@@ -14,9 +14,6 @@ open class DebugTree : LogTree() {
 
     companion object {
         private const val MAX_LOG_LENGTH = 3000
-        private const val MAX_TAG_LENGTH = 23
-        private const val CALL_STACK_INDEX = 6
-        private val ANONYMOUS_CLASS = Pattern.compile("(\\$\\d+)+$")
 
         private var printEnable: Boolean = true
 
@@ -25,42 +22,16 @@ open class DebugTree : LogTree() {
         }
     }
 
-    private fun getClassName(): String {
-        val stackTrace = Throwable().stackTrace
-        check(stackTrace.size > CALL_STACK_INDEX) { "Synthetic stacktrace didn't have enough elements: are you using proguard?" }
-        return createStackElementTag(stackTrace[CALL_STACK_INDEX])
-    }
-
-    private fun createStackElementTag(element: StackTraceElement): String {
-        var tag = element.className
-        val m = ANONYMOUS_CLASS.matcher(tag)
-        if (m.find()) {
-            tag = m.replaceAll("")
-        }
-        tag = tag.substring(tag.lastIndexOf('.') + 1)
-        return if (tag.length <= MAX_TAG_LENGTH) {
-            tag
-        } else {
-            tag.substring(0, MAX_TAG_LENGTH)
-        }
-    }
-
     override fun onLog(priority: Int, tag: String, message: String, throwable: Throwable?) {
         if (!printEnable) {
             return
         }
 
-        val tagO = if (TextUtils.isEmpty(tag)) {
-            getClassName()
-        } else {
-            tag
-        }
-
         if (message.length < MAX_LOG_LENGTH) {
             if (priority == Log.ASSERT) {
-                Log.wtf(tagO, message)
+                Log.wtf(tag, message)
             } else {
-                Log.println(priority, tagO, message)
+                Log.println(priority, tag, message)
             }
             return
         }
@@ -76,9 +47,9 @@ open class DebugTree : LogTree() {
                 val end = newline.coerceAtMost(i + MAX_LOG_LENGTH)
                 val part = message.substring(i, end)
                 if (priority == Log.ASSERT) {
-                    Log.wtf(tagO, part)
+                    Log.wtf(tag, part)
                 } else {
-                    Log.println(priority, tagO, part)
+                    Log.println(priority, tag, part)
                 }
                 i = end
             } while (i < newline)
