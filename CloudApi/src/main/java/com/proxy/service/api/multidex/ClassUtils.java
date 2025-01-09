@@ -60,7 +60,7 @@ public class ClassUtils {
                             }
                         }
                     } catch (Throwable throwable) {
-                        Logger.INSTANCE.e("Scan map file in dex files made error.", throwable);
+                        Logger.INSTANCE.e(throwable, "Scan map file in dex files made error.");
                     }
 
                     if (dexfile != null) {
