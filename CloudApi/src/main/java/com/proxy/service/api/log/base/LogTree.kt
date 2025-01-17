@@ -150,12 +150,13 @@ abstract class LogTree : IL {
                 return
             }
             msg = getStackTraceString(throwable)
-        }
-        if (args.isNotEmpty()) {
-            msg = formatMessage(msg, *args)
-        }
-        if (throwable != null) {
-            msg += "\n ${getStackTraceString(throwable)}"
+        } else {
+            if (args.isNotEmpty()) {
+                msg = formatMessage(msg, *args)
+            }
+            if (throwable != null) {
+                msg += "\n ${getStackTraceString(throwable)}"
+            }
         }
 
         onLog(priority, getTag() ?: getClassName(), msg, throwable)
