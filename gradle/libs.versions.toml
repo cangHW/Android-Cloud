@@ -1,6 +1,6 @@
 [versions]
 compile-sdk = "34"
-min-sdk = "26"
+min-sdk = "23"
 target-sdk = "34"
 
 
