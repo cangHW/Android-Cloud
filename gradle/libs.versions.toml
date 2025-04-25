@@ -8,13 +8,14 @@ target-sdk = "34"
 ##########################################  系统库  ############################################################################
 core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.8.0" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.1.0" }
+kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version = "1.4.31" }
 
 ##########################################  开发基础库  ############################################################################
-cloud-base = { group = "io.github.cangHW", name = "Cloud-Base", version = "1.0.1.1" }
-cloud-annotations = { group = "io.github.cangHW", name = "Cloud-Annotations", version = "1.0.0.1" }
-cloud-api = { group = "io.github.cangHW", name = "Cloud-Api", version = "1.1.4.1" }
-cloud-compiler = { group = "io.github.cangHW", name = "Cloud-Compiler", version = "1.1.4.1" }
-cloud-plugin = { group = "io.github.cangHW", name = "Cloud-Plugin", version = "1.1.3.4" }
+cloud-base = { group = "io.github.cangHW", name = "Cloud-Base", version = "1.0.4" }
+cloud-annotations = { group = "io.github.cangHW", name = "Cloud-Annotations", version = "1.0.3" }
+cloud-api = { group = "io.github.cangHW", name = "Cloud-Api", version = "1.1.14" }
+cloud-compiler = { group = "io.github.cangHW", name = "Cloud-Compiler", version = "1.1.8" }
+cloud-plugin = { group = "io.github.cangHW", name = "Cloud-Plugin", version = "1.1.6" }
 
 service-utils-base = { group = "io.github.cangHW", name = "Service-Utils-Base", version = "1.2.1" }
 service-utils-info = { group = "io.github.cangHW", name = "Service-Utils-Info", version = "1.2.2" }

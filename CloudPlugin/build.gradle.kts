@@ -5,6 +5,7 @@ plugins {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(libs.kotlin)
     compileOnly("com.android.tools.build:gradle:8.3.0")
     implementation(gradleApi())
     implementation("org.ow2.asm:asm:9.6")

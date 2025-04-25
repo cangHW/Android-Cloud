@@ -15,7 +15,7 @@ ext {
             // 注解库
             CloudAnnotations: [
                     artifact          : "Cloud-Annotations",
-                    version           : "1.0.2",
+                    version           : "1.0.3",
                     source            : true,
                     libraryName       : "Android cloud sdk",
                     libraryDescription: "The perfect framework for Android"
@@ -24,7 +24,7 @@ ext {
             // Api 库
             CloudApi        : [
                     artifact          : "Cloud-Api",
-                    version           : "1.1.13",
+                    version           : "1.1.14",
                     source            : true,
                     libraryName       : "Android cloud sdk",
                     libraryDescription: "The perfect framework for Android"
@@ -33,7 +33,7 @@ ext {
             // 工具库
             CloudBase       : [
                     artifact          : "Cloud-Base",
-                    version           : "1.0.3",
+                    version           : "1.0.4",
                     source            : true,
                     libraryName       : "Android cloud sdk",
                     libraryDescription: "The perfect framework for Android"
@@ -42,7 +42,7 @@ ext {
             // 编译库
             CloudCompiler   : [
                     artifact          : "Cloud-Compiler",
-                    version           : "1.1.7",
+                    version           : "1.1.8",
                     source            : true,
                     libraryName       : "Android cloud sdk",
                     libraryDescription: "The perfect framework for Android"
@@ -51,7 +51,7 @@ ext {
             // 插件库
             CloudPlugin     : [
                     artifact          : "Cloud-Plugin",
-                    version           : "1.1.5",
+                    version           : "1.1.6",
                     source            : true,
                     libraryName       : "Android cloud sdk",
                     libraryDescription: "The perfect framework for Android"
