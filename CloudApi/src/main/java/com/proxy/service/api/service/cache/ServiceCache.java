@@ -45,7 +45,7 @@ public class ServiceCache {
             CloudApiService cloudApiService = tClass.getAnnotation(CloudApiService.class);
             CloudApiNewInstance cloudApiNewInstance = tClass.getAnnotation(CloudApiNewInstance.class);
             if (cloudApiService == null) {
-                Logger.INSTANCE.e(tClass.getSimpleName() + "缺少 CloudService 注解");
+                Logger.e(tClass.getSimpleName() + "缺少 CloudService 注解");
                 continue;
             }
             ServiceNode node = new ServiceNode(cloudApiService.serviceTag(), cloudApiNewInstance != null, service);

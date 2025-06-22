@@ -51,10 +51,10 @@ public final class CloudSystem {
      */
     public synchronized static void init(@NonNull Context context, boolean isDebug) {
         if (IS_INIT.compareAndSet(false, true)) {
-            LogInit.INSTANCE.setIsDebug(isDebug);
+            LogInit.setIsDebug(isDebug);
             DataManager.INSTANCE.registerAllServices(context);
         } else {
-            Logger.INSTANCE.d("It can only be init once");
+            Logger.d("It can only be init once");
         }
     }
 

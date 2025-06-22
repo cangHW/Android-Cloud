@@ -71,7 +71,7 @@ class SourceDex {
                 String fileName = extractedFilePrefix + secondaryNumber + EXTRACTED_SUFFIX;
                 File extractedFile = new File(dexDir, fileName);
                 if (!extractedFile.isFile()) {
-                    Logger.INSTANCE.e("Missing extracted secondary dex file '" + extractedFile.getPath() + "'");
+                    Logger.e("Missing extracted secondary dex file '" + extractedFile.getPath() + "'");
                     dexPaths.clear();
                     return dexPaths;
                 }

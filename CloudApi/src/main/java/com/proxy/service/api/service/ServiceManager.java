@@ -52,7 +52,7 @@ public enum ServiceManager {
     @NonNull
     public synchronized <T extends BaseService> List<T> getService(@NonNull String uuid, @NonNull String tag, @NonNull String type) {
         if (!CloudSystem.isInit()) {
-            Logger.INSTANCE.e("Do you init CloudSystem?");
+            Logger.e("Do you init CloudSystem?");
             return Collections.emptyList();
         }
         final List<ServiceNode> services = ServiceCache.getAll();
@@ -84,7 +84,7 @@ public enum ServiceManager {
     @NonNull
     public synchronized <T extends BaseService> List<T> getService(@NonNull String uuid, @NonNull Class<T> tClass, @NonNull String type) {
         if (!CloudSystem.isInit()) {
-            Logger.INSTANCE.e("Do you init CloudSystem?");
+            Logger.e("Do you init CloudSystem?");
             return Collections.emptyList();
         }
         final List<ServiceNode> services = ServiceCache.getAll();
@@ -166,7 +166,7 @@ public enum ServiceManager {
                 try {
                     service = converter.converter(service);
                 } catch (Throwable throwable) {
-                    Logger.INSTANCE.e(throwable);
+                    Logger.e(throwable);
                 }
             }
         }

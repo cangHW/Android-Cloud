@@ -60,7 +60,7 @@ public class ClassUtils {
                             }
                         }
                     } catch (Throwable throwable) {
-                        Logger.INSTANCE.e(throwable, "Scan map file in dex files made error.");
+                        Logger.e(throwable, "Scan map file in dex files made error.");
                     }
 
                     if (dexfile != null) {
@@ -76,7 +76,7 @@ public class ClassUtils {
 
         downLatch.await();
 
-        Logger.INSTANCE.d("Filter " + classNames.size() + " classes by packageName <" + packageName + ">");
+        Logger.d("Filter " + classNames.size() + " classes by packageName <" + packageName + ">");
         return classNames;
     }
 

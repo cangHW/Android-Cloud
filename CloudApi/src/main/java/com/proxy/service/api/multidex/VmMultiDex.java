@@ -39,7 +39,7 @@ class VmMultiDex {
             isMultidexCapable = isAndroidMultiDexCapable();
         }
 
-        Logger.INSTANCE.d("VM with name " + vmName + (isMultidexCapable ? " has multidex support" : " does not have multidex support"));
+        Logger.d("VM with name " + vmName + (isMultidexCapable ? " has multidex support" : " does not have multidex support"));
         return isMultidexCapable;
     }
 
