@@ -1,6 +1,5 @@
 package com.proxy.cloudplugin;
 
-import com.android.tools.r8.ir.optimize.S;
 import com.proxy.cloudplugin.gradle_7.Gradle7;
 import com.proxy.cloudplugin.gradle_8.Gradle8;
 
@@ -8,9 +7,8 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
 /**
- * @author: cangHX
- * @data: 2024/3/13 17:55
- * @desc:
+ * cangHX
+ * on 2024/3/13 17:55
  */
 public class PluginImpl implements Plugin<Project> {
 
@@ -29,6 +27,8 @@ public class PluginImpl implements Plugin<Project> {
             throwable.printStackTrace();
             return;
         }
+
+        System.out.println("version = " + version);
 
         if (version >= 8) {
             Gradle8.run(target);

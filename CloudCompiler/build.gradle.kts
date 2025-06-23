@@ -1,11 +1,9 @@
 plugins {
     id("java-library")
-    id("org.jetbrains.kotlin.jvm")
 }
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(libs.kotlin)
 
     implementation("com.squareup:javapoet:1.12.1")
 

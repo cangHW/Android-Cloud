@@ -116,7 +116,6 @@ public class ServiceTransform extends Transform {
         });
 
         if (dataJarFile.get() !=null){
-
             checkJar(dataJarFile.get(), (jarFile, jarEntry) -> {
                 if (jarEntry.getName().endsWith(PluginImpl.className)) {
                     try {
@@ -167,9 +166,9 @@ public class ServiceTransform extends Transform {
             JarFile jarFile = new JarFile(jarInput.getFile());
             Enumeration<JarEntry> entries = jarFile.entries();
 
-
             while (entries.hasMoreElements()) {
                 JarEntry jarEntry = entries.nextElement();
+
                 if (!jarEntry.getName().endsWith(".class")) {
                     continue;
                 }

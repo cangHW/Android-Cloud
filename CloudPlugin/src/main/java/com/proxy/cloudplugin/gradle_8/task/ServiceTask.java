@@ -17,9 +17,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
@@ -56,14 +60,18 @@ public abstract class ServiceTask extends DefaultTask {
 
         // 处理所有的目录
         for (Directory dir : getAllDirectories().get()) {
-            for (File file : dir.getAsFile().listFiles()) {
+            dir.getAsFileTree().forEach(file -> {
                 if (!file.isFile()) {
-                    continue;
+                    return;
                 }
-                findService(file.getAbsolutePath());
-                String relativePath = dir.getAsFile().toURI().relativize(file.toURI()).getPath();
-                copyFile(new FileInputStream(file), jarOutput, relativePath.replace(File.separatorChar, '/'));
-            }
+                try {
+                    findService(file.getAbsolutePath());
+                    String relativePath = dir.getAsFile().toURI().relativize(file.toURI()).getPath();
+                    copyFile(new FileInputStream(file), jarOutput, relativePath.replace(File.separatorChar, '/'));
+                }catch (Throwable throwable){
+                    throw new RuntimeException(throwable);
+                }
+            });
         }
 
         // 处理所有的 jar 文件

@@ -1,6 +1,5 @@
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -27,7 +26,6 @@ android {
 
 dependencies {
     implementation(libs.appcompat)
-    implementation(libs.kotlin)
 
     api(project(mapOf("path" to ":CloudAnnotations")))
     api(project(mapOf("path" to ":CloudBase")))

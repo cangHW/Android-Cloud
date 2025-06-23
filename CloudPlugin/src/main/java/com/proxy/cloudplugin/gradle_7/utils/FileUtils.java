@@ -188,14 +188,14 @@ public class FileUtils {
 
     private static File mkdirs(File directory) throws IOException {
         if (directory != null && !directory.mkdirs() && !directory.isDirectory()) {
-            throw new IOException("Cannot create directory '$directory'.");
+            throw new IOException("Cannot create directory '"+directory+"'.");
         }
         return directory;
     }
 
     private static void requireCanonicalPathsNotEquals(File file1, File file2) throws IOException {
         String canonicalPath = file1.getCanonicalPath();
-        if (!canonicalPath.equals(file2.getCanonicalPath())) {
+        if (canonicalPath.equals(file2.getCanonicalPath())) {
             String msg = String.format(
                     "File canonical paths are equal: '%s' (file1='%s', file2='%s')",
                     canonicalPath,
