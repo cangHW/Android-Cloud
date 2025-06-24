@@ -17,10 +17,6 @@ import javax.tools.Diagnostic;
 public abstract class AbstractHandler {
 
     /**
-     * 节点元素
-     */
-    protected RoundEnvironment mRoundEnvironment;
-    /**
      * 日志
      */
     protected Messager mMessager;
@@ -32,6 +28,10 @@ public abstract class AbstractHandler {
      * 写
      */
     protected Filer mFiler;
+    /**
+     * 模块名称
+     */
+    protected String mModuleName;
 
     /**
      * 创建处理器
@@ -46,41 +46,43 @@ public abstract class AbstractHandler {
     }
 
     /**
-     * 设置 RoundEnvironment
+     * 设置模块名称
      *
-     * @param roundEnvironment RoundEnvironment
+     * @param moduleName 模块名称
      * @return 当前对象
      */
-    public AbstractHandler setRoundEnvironment(RoundEnvironment roundEnvironment) {
-        this.mRoundEnvironment = roundEnvironment;
+    public AbstractHandler setModuleName(String moduleName) {
+        this.mModuleName = moduleName;
+        return this;
+    }
+
+    /**
+     * 设置 ProcessingEnvironment
+     *
+     * @param processingEnvironment processingEnvironment
+     * @return 当前对象
+     */
+    public AbstractHandler setRoundEnvironment(ProcessingEnvironment processingEnvironment) {
+        mFiler = processingEnvironment.getFiler();
+        mElements = processingEnvironment.getElementUtils();
+        mMessager = processingEnvironment.getMessager();
         return this;
     }
 
     /**
      * 执行
      *
-     * @param processingEnvironment processingEnvironment
+     * @param roundEnvironment roundEnvironment
      */
-    public void execute(ProcessingEnvironment processingEnvironment) {
-        mFiler = processingEnvironment.getFiler();
-        mElements = processingEnvironment.getElementUtils();
-        mMessager = processingEnvironment.getMessager();
-
-        check();
-        try {
-            run();
-        } catch (Throwable throwable) {
-            mMessager.printMessage(Diagnostic.Kind.ERROR, throwable.getMessage());
+    public void execute(RoundEnvironment roundEnvironment) {
+        if (roundEnvironment == null) {
+            mMessager.printMessage(Diagnostic.Kind.ERROR, "Did you set the \"RoundEnvironment\" on " + this.getClass().getSimpleName() + "?");
         }
 
-    }
-
-    /**
-     * 检查
-     */
-    protected void check() {
-        if (mRoundEnvironment == null) {
-            mMessager.printMessage(Diagnostic.Kind.ERROR, "Did you set the \"RoundEnvironment\" on " + this.getClass().getSimpleName() + "?");
+        try {
+            run(roundEnvironment);
+        } catch (Throwable throwable) {
+            mMessager.printMessage(Diagnostic.Kind.ERROR, throwable.getMessage());
         }
     }
 
@@ -101,5 +103,5 @@ public abstract class AbstractHandler {
      * @author cangHX
      * 2020-06-05 14:59
      */
-    protected abstract void run();
+    protected abstract void run(RoundEnvironment roundEnvironment);
 }

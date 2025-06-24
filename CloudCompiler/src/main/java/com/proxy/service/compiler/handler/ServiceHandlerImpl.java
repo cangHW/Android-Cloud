@@ -13,9 +13,11 @@ import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
@@ -30,22 +32,7 @@ public class ServiceHandlerImpl extends AbstractHandler {
     /**
      * 服务节点列表
      */
-    private final ArrayList<NodeService> mServiceNodes = new ArrayList<>();
-    /**
-     * 模块名称
-     */
-    private String mModuleName;
-
-    /**
-     * 设置模块名称
-     *
-     * @param moduleName 模块名称
-     * @return 当前对象
-     */
-    public ServiceHandlerImpl setModuleName(String moduleName) {
-        this.mModuleName = moduleName;
-        return this;
-    }
+    private final Set<NodeService> mServiceNodes = new HashSet<>();
 
     /**
      * 当前 handler 准备执行哪些注解
@@ -68,20 +55,20 @@ public class ServiceHandlerImpl extends AbstractHandler {
      * 2020-06-05 14:59
      */
     @Override
-    protected void run() {
-        Set<? extends Element> elements = mRoundEnvironment.getElementsAnnotatedWith(CloudApiService.class);
+    protected void run(RoundEnvironment roundEnvironment) {
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(CloudApiService.class);
         if (elements != null && !elements.isEmpty()) {
             traverseElement(elements);
         }
 
-        boolean isServiceEmpty = mServiceNodes.isEmpty();
-
-        if (isServiceEmpty) {
+        if (mServiceNodes.isEmpty()) {
             return;
         }
 
         try {
-            createClass();
+            if (roundEnvironment.processingOver()) {
+                createClass();
+            }
         } catch (IOException e) {
             mMessager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
         }

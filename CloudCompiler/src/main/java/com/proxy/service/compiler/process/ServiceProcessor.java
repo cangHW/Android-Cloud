@@ -27,34 +27,37 @@ public class ServiceProcessor extends AbstractProcessor {
 
     private static final String DEFAULT_NAME = "-1";
 
-    private ProcessingEnvironment mProcessingEnvironment;
     private Messager mMessager;
-    private String mModuleName;
+    private AbstractHandler serviceHandler;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
         super.init(processingEnvironment);
-        mProcessingEnvironment = processingEnvironment;
         mMessager = processingEnvironment.getMessager();
+
+        String moduleName = DEFAULT_NAME;
         Map<String, String> options = processingEnvironment.getOptions();
         if (options != null) {
-            mModuleName = options.getOrDefault(ClassConstants.CLOUD_MODULE_NAME, DEFAULT_NAME);
+            moduleName = options.getOrDefault(ClassConstants.CLOUD_MODULE_NAME, DEFAULT_NAME);
         }
-        if (DEFAULT_NAME.equals(mModuleName)) {
+        if (DEFAULT_NAME.equals(moduleName)) {
             mMessager.printMessage(Diagnostic.Kind.ERROR, "Did you set the \"CLOUD_MODULE_NAME\" on gradle?");
         }
-        mModuleName = mModuleName.replace("-", "");
+        moduleName = moduleName.replace("-", "");
+
+        try {
+            serviceHandler = AbstractHandler.create(ServiceHandlerImpl.class)
+                    .setModuleName(moduleName)
+                    .setRoundEnvironment(processingEnvironment);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         List<String> list = new ArrayList<>();
-        try {
-            list.addAll(AbstractHandler.create(ServiceHandlerImpl.class).getSupportedAnnotationTypes());
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-
+        list.addAll(serviceHandler.getSupportedAnnotationTypes());
         return new HashSet<>(list);
     }
 
@@ -70,18 +73,12 @@ public class ServiceProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-        if (set == null || set.isEmpty()) {
-            return false;
-        }
         try {
-            AbstractHandler.create(ServiceHandlerImpl.class)
-                    .setModuleName(mModuleName)
-                    .setRoundEnvironment(roundEnvironment)
-                    .execute(mProcessingEnvironment);
+            serviceHandler.execute(roundEnvironment);
         } catch (Throwable throwable) {
             mMessager.printMessage(Diagnostic.Kind.ERROR, throwable.getMessage());
         }
-        return false;
+        return true;
     }
 
 }

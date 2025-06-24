@@ -26,12 +26,35 @@ public class NodeService extends BaseNode {
 
     /**
      * 创建节点服务
-     * @param serviceTag 服务标识
+     *
+     * @param serviceTag    服务标识
      * @param isNewInstance 是否创建新对象
-     * @param classPath class 地址
+     * @param classPath     class 地址
      * @return 节点服务
-     * */
+     */
     public static NodeService create(String serviceTag, boolean isNewInstance, String classPath) {
         return new NodeService(serviceTag, isNewInstance, classPath);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof NodeService) {
+            return classPath.equals(((NodeService) o).classPath);
+        }
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return classPath.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "NodeService{" +
+                "serviceTag='" + serviceTag + '\'' +
+                ", classPath='" + classPath + '\'' +
+                ", isNewInstance=" + isNewInstance +
+                '}';
     }
 }

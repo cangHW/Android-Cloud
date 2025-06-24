@@ -5,11 +5,11 @@ upArray=(
 
 #  ":CloudAnnotations"
 
-  ":CloudPlugin"
+#  ":CloudPlugin"
 
 #  ":CloudApi"
 
-#  ":CloudCompiler"
+  ":CloudCompiler"
 )
 
 type_params="r"
