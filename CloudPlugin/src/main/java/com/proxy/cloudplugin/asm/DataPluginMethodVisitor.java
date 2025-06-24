@@ -26,8 +26,13 @@ class DataPluginMethodVisitor extends MethodVisitor {
     }
 
     @Override
+    public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
+        System.out.println("Clear the old data.");
+//        super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+    }
+
+    @Override
     public void visitInsn(int opcode) {
-//        println("visitInsn -> opcode ：$opcode")
         if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)) {
             services.forEach(it -> {
                 mv.visitVarInsn(Opcodes.ALOAD, 1);
@@ -50,7 +55,7 @@ class DataPluginMethodVisitor extends MethodVisitor {
     @Override
     public void visitMaxs(int maxStack, int maxLocals) {
         super.visitMaxs(maxStack, maxLocals);
-        System.out.println("visitMaxs -> maxStack ：$maxStack, maxLocals ：$maxLocals");
+        System.out.println("visitMaxs -> maxStack ：" + maxStack + ", maxLocals ：" + maxLocals);
     }
 
     @Override

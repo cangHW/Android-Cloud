@@ -188,7 +188,7 @@ public class FileUtils {
 
     private static File mkdirs(File directory) throws IOException {
         if (directory != null && !directory.mkdirs() && !directory.isDirectory()) {
-            throw new IOException("Cannot create directory '"+directory+"'.");
+            throw new IOException("Cannot create directory '" + directory + "'.");
         }
         return directory;
     }
@@ -244,7 +244,7 @@ public class FileUtils {
     private static File requireExists(File file, String fileParamName) {
         Objects.requireNonNull(file, fileParamName);
         if (!file.exists()) {
-            throw new IllegalArgumentException("File system element for parameter '$fileParamName' does not exist: '$file'");
+            throw new IllegalArgumentException("File system element for parameter '" + fileParamName + "' does not exist: '" + file + "'");
         }
         return file;
     }
@@ -260,7 +260,7 @@ public class FileUtils {
     private static File requireFile(File file, String name) {
         Objects.requireNonNull(file, name);
         if (!file.isFile()) {
-            throw new IllegalArgumentException("Parameter '$name' is not a file: $file");
+            throw new IllegalArgumentException("Parameter '" + name + "' is not a file: " + file);
         }
         return file;
     }
