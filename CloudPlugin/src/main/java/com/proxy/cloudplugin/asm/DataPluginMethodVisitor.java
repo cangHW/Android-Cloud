@@ -27,7 +27,6 @@ class DataPluginMethodVisitor extends MethodVisitor {
 
     @Override
     public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
-        System.out.println("Clear the old data.");
 //        super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
     }
 
