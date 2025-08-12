@@ -52,7 +52,7 @@ public enum DataManager {
     private boolean findAllFromCache() {
         try {
             List<String> classPaths = DataByPlugin.getInstance().getClasses(new ArrayList<>());
-            if (classPaths.size() == 0) {
+            if (classPaths.isEmpty()) {
                 return false;
             }
             for (String classPath : classPaths) {
@@ -60,7 +60,7 @@ public enum DataManager {
             }
             return true;
         } catch (Throwable throwable) {
-            Logger.d(throwable);
+            Logger.e(throwable);
         }
         return false;
     }
@@ -73,7 +73,7 @@ public enum DataManager {
                 checkClass(classPath);
             }
         } catch (Throwable throwable) {
-            Logger.d(throwable);
+            Logger.e(throwable);
         }
     }
 
@@ -85,7 +85,8 @@ public enum DataManager {
         AbstractServiceCache cache = null;
         try {
             cache = (AbstractServiceCache) Class.forName(classPath).getConstructor().newInstance();
-        } catch (Throwable ignored) {
+        } catch (Throwable throwable) {
+            Logger.e(throwable);
         }
 
         addService(cache);
@@ -98,7 +99,8 @@ public enum DataManager {
 
         try {
             ServiceCache.addAllWithServiceNode(cache.getServices());
-        } catch (Throwable ignored) {
+        } catch (Throwable throwable) {
+            Logger.e(throwable);
         }
     }
 

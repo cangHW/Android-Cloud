@@ -7,9 +7,9 @@ upArray=(
 
 #  ":CloudPlugin"
 
-#  ":CloudApi"
+  ":CloudApi"
 
-  ":CloudCompiler"
+#  ":CloudCompiler"
 )
 
 type_params="r"

@@ -8,4 +8,5 @@
 .externalNativeBuild
 .cxx
 .idea/*
+.idea
 Repo
