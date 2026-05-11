@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class ListNode {
 
-    private static final ArrayList<Node> nodes = new ArrayList<>();
+    private final ArrayList<Node> nodes = new ArrayList<>();
 
     /**
      * 获取数据数量
