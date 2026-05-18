@@ -6,7 +6,7 @@ import com.proxy.service.base.BaseService;
 import java.util.ArrayList;
 
 /**
- * 自定义数据结构，效果：顺序、值唯一
+ * 自定义数据结构
  *
  * @author: cangHX
  * on 2020/05/22  14:47
@@ -30,7 +30,7 @@ public class ListNode {
     /**
      * 添加数据
      *
-     * @param uuid      : 唯一id
+     * @param uuid      : id
      * @param converter : 转换器
      * @return 是否成功，true 成功，false 失败(数据重复)
      * @version: 1.0
@@ -38,9 +38,6 @@ public class ListNode {
      * @date: 2020-05-22 17:45
      */
     public synchronized <T extends BaseService> boolean add(String uuid, Converter<T> converter) {
-        if (contains(uuid)) {
-            return false;
-        }
         nodes.add(new Node(uuid, converter));
         return true;
     }
@@ -48,7 +45,7 @@ public class ListNode {
     /**
      * 移除数据
      *
-     * @param uuid : 唯一id
+     * @param uuid : id
      * @return 是否成功，true 成功，false 失败(对应数据不存在)
      * @version: 1.0
      * @author: cangHX
@@ -56,13 +53,15 @@ public class ListNode {
      */
     @SuppressWarnings("UnusedReturnValue")
     public synchronized boolean remove(String uuid) {
-        for (Node node : nodes) {
+        int count = 0;
+        ArrayList<Node> list = list();
+        for (Node node : list) {
             if (node.getUuid().equals(uuid)) {
                 nodes.remove(node);
-                return true;
+                count++;
             }
         }
-        return false;
+        return count > 0;
     }
 
     /**
@@ -87,23 +86,5 @@ public class ListNode {
      */
     public ArrayList<Node> list() {
         return new ArrayList<>(nodes);
-    }
-
-    /**
-     * 当前数据是否已存在
-     *
-     * @param uuid : 唯一ID
-     * @return 是否存在，true 存在，false 不存在
-     * @version: 1.0
-     * @author: cangHX
-     * @date: 2020-05-22 17:47
-     */
-    private boolean contains(String uuid) {
-        for (Node node : nodes) {
-            if (node.getUuid().equals(uuid)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

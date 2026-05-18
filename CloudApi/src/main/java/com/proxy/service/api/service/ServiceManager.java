@@ -41,7 +41,7 @@ public enum ServiceManager {
     /**
      * 通过 tag 值查找对应的 Service 集合
      *
-     * @param uuid : 唯一ID，主要用于转换器
+     * @param uuid : ID，主要用于转换器
      * @param tag  : 准备查找的 service 实例的 tag
      * @param type : 查找的范围类型
      * @return List<T> : 返回的数据集合
@@ -73,7 +73,7 @@ public enum ServiceManager {
     /**
      * 通过 Service 类型查找对应的 Service 集合
      *
-     * @param uuid   : 唯一ID，主要用于转换器
+     * @param uuid   : ID，主要用于转换器
      * @param tClass : 准备查找的 service 实例的 class 类型
      * @param type   : 查找的范围类型
      * @return List<T> : 返回的数据集合
@@ -105,7 +105,7 @@ public enum ServiceManager {
     /**
      * 检查当前服务是否符合要求，以及是否要提前结束查询
      *
-     * @param uuid : 唯一ID，主要用于转换器
+     * @param uuid : ID，主要用于转换器
      * @param node : 服务对象信息
      * @param type : 查找的范围类型
      * @param list : 获取到的服务集合
@@ -136,7 +136,7 @@ public enum ServiceManager {
     /**
      * 检查当前service对象是否有符合的转换器
      *
-     * @param uuid    : 唯一ID，主要用于转换器
+     * @param uuid    : ID，主要用于转换器
      * @param service : 当前对象
      * @version: 1.0
      * @author: cangHX

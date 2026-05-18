@@ -89,7 +89,7 @@ public final class CloudSystem {
      * 根据传入 tag 值，返回符合条件的 service 实例
      * service 实例在当前条件下可能存在多个，默认返回查找到的第一个
      *
-     * @param uuid : 唯一ID，主要用于转换器
+     * @param uuid : ID，主要用于转换器
      * @param tag  : 准备查找的 service 实例的 tag
      * @return T : 查找到的 service 实例
      * @version: 1.0
@@ -122,7 +122,7 @@ public final class CloudSystem {
     /**
      * 根据传入 tag 值，返回所有符合条件的 service 实例
      *
-     * @param uuid : 唯一ID，主要用于转换器
+     * @param uuid : ID，主要用于转换器
      * @param tag  : 准备查找的 service 实例的 tag
      * @return T : 查找到的所有 service 实例
      * @version: 1.0
@@ -154,7 +154,7 @@ public final class CloudSystem {
      * 根据传入 Class 类型，返回符合条件的 service 实例
      * service 实例在当前条件下可能存在多个，默认返回查找到的第一个
      *
-     * @param uuid   : 唯一ID，主要用于转换器
+     * @param uuid   : ID，主要用于转换器
      * @param tClass : 准备查找的 service 实例的 class 类型
      * @return T : 查找到的 service 实例
      * @version: 1.0
@@ -173,8 +173,8 @@ public final class CloudSystem {
     /**
      * 根据传入 Class 类型，返回所有符合条件的 service 实例
      *
-     * @param tClass : 准备查找的 service 实例的 class 类型
-     * @return List<T> : 查找到的所有 service 实例
+     * @param tClass    : 准备查找的 service 实例的 class 类型
+     * @return List<T>  : 查找到的所有 service 实例
      * @version: 1.0
      * @author: cangHX
      * @date: 2019/10/31 15:59
@@ -187,9 +187,9 @@ public final class CloudSystem {
     /**
      * 根据传入 Class 类型，返回所有符合条件的 service 实例
      *
-     * @param uuid   : 唯一ID，主要用于转换器
-     * @param tClass : 准备查找的 service 实例的 class 类型
-     * @return List<T> : 查找到的所有 service 实例
+     * @param uuid      : ID，主要用于转换器
+     * @param tClass    : 准备查找的 service 实例的 class 类型
+     * @return List<T>  : 查找到的所有 service 实例
      * @version: 1.0
      * @author: cangHX
      * @date: 2019/10/31 15:59
@@ -220,7 +220,7 @@ public final class CloudSystem {
      * 允许对CloudSystem的功能进行一定程度的扩展
      * 传入一个转换器对象，生效时机为数据返回之前
      *
-     * @param uuid      : 唯一ID
+     * @param uuid      : ID
      * @param tClass    : 当前转换器对什么类型生效
      * @param converter : 转换器对象
      * @version: 1.0
@@ -233,7 +233,7 @@ public final class CloudSystem {
 
     /**
      * 允许对CloudSystem的功能进行一定程度的扩展
-     * 根据服务类型移除对应的转换器对象
+     * 根据服务类型移除对应的全部转换器对象
      *
      * @param tClass :  服务类型
      * @version: 1.0
@@ -246,9 +246,9 @@ public final class CloudSystem {
 
     /**
      * 允许对CloudSystem的功能进行一定程度的扩展
-     * 根据唯一 ID 移除对应的转换器对象
+     * 根据 ID 移除对应的全部转换器对象
      *
-     * @param uuid : 唯一ID
+     * @param uuid : ID
      * @version: 1.0
      * @author: cangHX
      * @date: 2020/03/04 15:40

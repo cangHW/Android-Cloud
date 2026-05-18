@@ -27,7 +27,7 @@ public class ConverterCache {
     /**
      * 添加
      *
-     * @param uuid      : 唯一ID，主要用于转换器
+     * @param uuid      : ID，主要用于转换器
      * @param tClass    : 当前转换器对什么类型生效
      * @param converter : 转换器对象
      * @version: 1.0
@@ -56,7 +56,7 @@ public class ConverterCache {
     /**
      * 移除
      *
-     * @param uuid : 唯一ID，主要用于转换器
+     * @param uuid : ID，主要用于转换器
      * @version: 1.0
      * @author: cangHX
      * @date: 2020-06-08 17:57
